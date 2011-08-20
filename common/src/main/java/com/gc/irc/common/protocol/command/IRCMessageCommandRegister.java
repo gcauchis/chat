@@ -1,0 +1,48 @@
+package com.gc.irc.common.protocol.command;
+
+/**
+ * The Class IRCMessageCommandRegister.
+ */
+public class IRCMessageCommandRegister extends IRCMessageCommand {
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1658588296416782975L;
+	
+	/** The login. */
+	private String login;
+	
+	/** The password. */
+	private String password;
+	
+	/**
+	 * Instantiates a new iRC message command register.
+	 *
+	 * @param login the login
+	 * @param password the password
+	 */
+	public IRCMessageCommandRegister(String login, String password) {
+		super(-1,IRCMessageCommandType.REGISTER);
+		this.login = login;
+		this.password = password;
+	}
+	
+
+	/**
+	 * Gets the login.
+	 *
+	 * @return the login
+	 */
+	public String getLogin(){
+		return login;
+	}
+	
+	/**
+	 * Gets the password.
+	 *
+	 * @return the password
+	 */
+	public String getPassword(){
+		return password;
+	}
+	
+}
