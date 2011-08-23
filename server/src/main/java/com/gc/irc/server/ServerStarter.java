@@ -20,7 +20,7 @@ public class ServerStarter {
 	 */
 	public static void main(String[] args) {
 		BeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("spring-application-config.xml"));
-		ServerCore core = (ServerCore) beanFactory.getBean("serveurCore");
+		ServerCore core = (ServerCore) beanFactory.getBean("serverCore");
 		LOGGER.info("Init server");
 		core.initServeur();
 		LOGGER.info("Start Waiting for client");
@@ -28,5 +28,4 @@ public class ServerStarter {
 			core.waitClient();
 		}
 	}
-
 }
