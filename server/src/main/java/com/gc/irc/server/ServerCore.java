@@ -31,10 +31,10 @@ import javax.management.*;
  *
  */
 public class ServerCore {
-	private final static Logger logger = Logger.getLogger(ServerCore.class);
+	private final static Logger LOGGER = Logger.getLogger(ServerCore.class);
 	private static int nbThreadServeur = Integer.parseInt(ServerConf.getConfProperty("nbThread", "1"));
 	private static ServerSocket serverSocket = null;
-	private int port = 1973;
+	private int port = -1;
 	private List<ThreadGestionClientIRC> clientConnecter = Collections.synchronizedList(new ArrayList<ThreadGestionClientIRC>());
 	private List<ThreadServeurIRC> pullThreadServeur = Collections.synchronizedList(new ArrayList<ThreadServeurIRC>());
 	private Map<Integer, IRCUser> listUserById = Collections.synchronizedMap(new HashMap<Integer, IRCUser>());
@@ -80,18 +80,19 @@ public class ServerCore {
 	 * Initialize the server.
 	 */
 	public void initServeur(){
-		logger.info("Initialise server.");
+		LOGGER.info("Initialise server.");
+		if (port < 0) throw new IllegalArgumentException("The port should be set");
+		
 		/**
 		 * Listen the designed Port
 		 */
 		try {
 			serverSocket = new ServerSocket(port);
 		} catch (IOException e) {
-			logger.fatal("Impossible to open the socket.");
-			e.printStackTrace();
+			LOGGER.fatal("Impossible to open the socket.", e);
 			System.exit(-1);
 		}
-		logger.info("Server initialize. Listen port "+port);
+		LOGGER.info("Server initialize. Listen port "+port);
 		
 		
 		/**
@@ -148,7 +149,7 @@ public class ServerCore {
 	 */
 	public void setPort(int port) {
 		this.port = port;
-		logger.debug("Nouveau port : "+port);
+		LOGGER.debug("Nouveau port : "+port);
 	}
 
 	/**
@@ -158,15 +159,15 @@ public class ServerCore {
 	public void waitClient() {
 		Socket clientSocket = null;
 		try {
-			logger.debug("Wait for a client");
+			LOGGER.debug("Wait for a client");
 			clientSocket = serverSocket.accept();
-			logger.debug("Client "+ clientSocket.getInetAddress()+" is connected");
+			LOGGER.debug("Client "+ clientSocket.getInetAddress()+" is connected");
 		} catch (IOException e) {
-			logger.warn("Timeout or Connection error.", e);
+			LOGGER.warn("Timeout or Connection error.", e);
 			return;
 		}
 		Thread thread = new ThreadGestionClientIRC(clientSocket, this);
-		logger.debug("End Client's Thread Initialization.");
+		LOGGER.debug("End Client's Thread Initialization.");
         thread.start();
 	}
 	
@@ -175,15 +176,15 @@ public class ServerCore {
 	 * @param client New Client
 	 */
 	public void nouveauClientConnecter(ThreadGestionClientIRC client){
-		logger.debug("Add a new Connected Client : "+client.getUser().getNickName());
+		LOGGER.debug("Add a new Connected Client : "+client.getUser().getNickName());
 		synchronized (clientConnecter) {
 			synchronized (listUserById) {
 				synchronized (listThreadClientByIdUser) {
-					logger.debug("Add to clientConnecter");
+					LOGGER.debug("Add to clientConnecter");
 					clientConnecter.add(client);
-					logger.debug("Add to listThreadClientByIdUser");
+					LOGGER.debug("Add to listThreadClientByIdUser");
 					listThreadClientByIdUser.put(client.getUser().getId(),client);
-					logger.debug("Add to listUserById");
+					LOGGER.debug("Add to listUserById");
 					listUserById.put(client.getUser().getId(),client.getUser());
 				}
 			}
@@ -200,15 +201,15 @@ public class ServerCore {
 	 * @param client Deconnected Client.
 	 */
 	public void deconnectionClient(ThreadGestionClientIRC client){
-		logger.debug("Delete the deconnected Client : "+client.getUser().getNickName());
+		LOGGER.debug("Delete the deconnected Client : "+client.getUser().getNickName());
 		synchronized (clientConnecter) {
 			synchronized (listUserById) {
 				synchronized (listThreadClientByIdUser) {
-					logger.debug("Remove from list clientConnecter");
+					LOGGER.debug("Remove from list clientConnecter");
 					clientConnecter.remove(client);
-					logger.debug("Remove from listUserConnectedById");
+					LOGGER.debug("Remove from listUserConnectedById");
 					listUserById.remove(client.getUser().getId());
-					logger.debug("Remove from lisThreadClientByIdUser");
+					LOGGER.debug("Remove from lisThreadClientByIdUser");
 					listThreadClientByIdUser.remove(client.getUser().getId());
 				}	
 			}
@@ -272,7 +273,7 @@ public class ServerCore {
 		try {
 			super.finalize();
 		} catch (Throwable e) {
-			logger.warn("Problem when finalize the Server");
+			LOGGER.warn("Problem when finalize the Server");
 			e.printStackTrace();
 		}
 	}
