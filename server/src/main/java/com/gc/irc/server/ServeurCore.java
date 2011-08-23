@@ -30,8 +30,8 @@ import javax.management.*;
  * @author gcauchis
  *
  */
-public class ServeurIRC {
-	private final static Logger logger = Logger.getLogger(ServeurIRC.class);
+public class ServeurCore {
+	private final static Logger logger = Logger.getLogger(ServeurCore.class);
 	private static int nbThreadServeur = Integer.parseInt(ServerConf.getConfProperty("nbThread", "1"));
 	private static ServerSocket serverSocket = null;
 	private int port = 1973;
@@ -41,12 +41,13 @@ public class ServeurIRC {
 	private Map<Integer, ThreadGestionClientIRC> listThreadClientByIdUser = Collections.synchronizedMap(new HashMap<Integer, ThreadGestionClientIRC>());
 	
 	private static String messageAcceuil = "Welcome on our server.";
+	
 	/**
 	 * Used to change the welcoming message.
 	 * @param messageAcceuil The new message.
 	 */
 	public static void setMessageAcceuil(String messageAcceuil) {
-		ServeurIRC.messageAcceuil = messageAcceuil;
+		ServeurCore.messageAcceuil = messageAcceuil;
 	}
 	
 	/**
@@ -61,8 +62,7 @@ public class ServeurIRC {
 	 * Builder, Initialize the server.
 	 * The port is 1973.
 	 */
-	public ServeurIRC() {
-		initServeur();
+	public ServeurCore() {
 	}
 
 	/**
@@ -70,18 +70,16 @@ public class ServeurIRC {
 	 * The port is given.
 	 * @param port New port.
 	 */
-	public ServeurIRC(int port) {
+	public ServeurCore(int port) {
 		if(this.port != port){
 			setPort(port);
 		}
-		initServeur();
-		
 	}
 	
 	/**
 	 * Initialize the server.
 	 */
-	private void initServeur(){
+	public void initServeur(){
 		logger.info("Initialise server.");
 		/**
 		 * Listen the designed Port
@@ -100,42 +98,38 @@ public class ServeurIRC {
 		 * Start thread server pull. The first thread is registered as a MBean.
 		 */
 		
-		// Get the Platform MBean Server
-		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-		
-		// Construct the ObjectName for the MBean we will register
-		ObjectName name = null;
-		try {
-			name = new ObjectName("com.irc.server.thread:type=ThreadServeurIRC");
-		} catch (MalformedObjectNameException e) {
-			logger.fatal("Malformed Object Name (JMX MBean Server).");
-			e.printStackTrace();
-			System.exit(-1);
-		} catch (NullPointerException e) {
-			logger.fatal("Can not register the object ThreadServerIRC (JMX MBean Server).");
-			e.printStackTrace();
-		}
+//		// Get the Platform MBean Server
+//		MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+//		
+//		// Construct the ObjectName for the MBean we will register
+//		ObjectName name = null;
+//		try {
+//			name = new ObjectName("com.irc.server.thread:type=ThreadServeurIRC");
+//		} catch (MalformedObjectNameException e) {
+//			logger.fatal("Malformed Object Name (JMX MBean Server).");
+//			e.printStackTrace();
+//			System.exit(-1);
+//		} catch (NullPointerException e) {
+//			logger.fatal("Can not register the object ThreadServerIRC (JMX MBean Server).");
+//			e.printStackTrace();
+//		}
 		
 		//Create the Thread
 		ThreadServeurIRC threadServer = new ThreadServeurIRC(this);
 		threadServer.start();
 		
-		// Register the Hello World MBean
-		try {
-			mbs.registerMBean(threadServer, name);
-		} catch (InstanceAlreadyExistsException e) {
-			logger.fatal("Instance Already Exists (JMX MBean Server).");
-			e.printStackTrace();
-			System.exit(-1);
-		} catch (MBeanRegistrationException e) {
-			logger.fatal("Unable to register MBean (JMX MBean Server).");
-			e.printStackTrace();
-			System.exit(-1);
-		} catch (NotCompliantMBeanException e) {
-			logger.fatal("Not Compliant MBean (JMX MBean Server).");
-			e.printStackTrace();
-			System.exit(-1);
-		}
+//		try {
+//			mbs.registerMBean(threadServer, name);
+//		} catch (InstanceAlreadyExistsException e) {
+//			logger.fatal("Instance Already Exists (JMX MBean Server).", e);
+//			System.exit(-1);
+//		} catch (MBeanRegistrationException e) {
+//			logger.fatal("Unable to register MBean (JMX MBean Server).", e);
+//			System.exit(-1);
+//		} catch (NotCompliantMBeanException e) {
+//			logger.fatal("Not Compliant MBean (JMX MBean Server).", e);
+//			System.exit(-1);
+//		}
 		
 		for (int i = 1 ; i < nbThreadServeur ; i++){
 			threadServer = new ThreadServeurIRC(this);
@@ -158,38 +152,17 @@ public class ServeurIRC {
 	}
 
 	/**
-	 * Main
-	 * 
-	 * Start server.
-	 * 
-	 * Wait for new Client.
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		ServeurIRC serveur = null;
-		if( args.length>=1 ){
-			serveur = new ServeurIRC(Integer.parseInt(args[0]));
-		} else {
-			serveur = new ServeurIRC();
-		}
-		while(true){
-			serveur.attenteClient();
-		}
-	}
-	
-	/**
 	 * Wait for new client.
 	 * When a client connect to the sever stat a Thred fot him.
 	 */
-	private void attenteClient() {
+	public void attenteClient() {
 		Socket clientSocket = null;
 		try {
 			logger.debug("Wait for a client");
 			clientSocket = serverSocket.accept();
 			logger.debug("Client "+ clientSocket.getInetAddress()+" is connected");
 		} catch (IOException e) {
-			logger.warn("Timeout or Connection error.");
-			e.printStackTrace();
+			logger.warn("Timeout or Connection error.", e);
 			return;
 		}
 		Thread thread = new ThreadGestionClientIRC(clientSocket, this);

@@ -23,7 +23,7 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactsList;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeLogin;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeRegister;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeServerMessage;
-import com.gc.irc.server.ServeurIRC;
+import com.gc.irc.server.ServeurCore;
 import com.gc.irc.server.auth.IRCServerAuthentification;
 import com.gc.irc.server.exception.IRCServerException;
 import com.gc.irc.server.jms.IRCJMSPoolProducer;
@@ -47,7 +47,7 @@ public class ThreadGestionClientIRC extends Thread {
 	private ObjectInputStream inObject;
 	private ObjectOutputStream outObject;
 	
-	private ServeurIRC parent;
+	private ServeurCore parent;
 	private IRCUser user;
 	private boolean isIdentify = false;
 
@@ -56,7 +56,7 @@ public class ThreadGestionClientIRC extends Thread {
 	 * @param clientSocket Client's Socket.
 	 * @param parent Thread's Parent.
 	 */
-	public ThreadGestionClientIRC(Socket clientSocket, ServeurIRC parent) {
+	public ThreadGestionClientIRC(Socket clientSocket, ServeurCore parent) {
 		logger.info(id+" Initialisation du thread.");
 		this.clientSocket = clientSocket;
 		this.parent = parent;
@@ -246,7 +246,7 @@ public class ThreadGestionClientIRC extends Thread {
 	 */
 	private void protocoleDAuthentification() throws IRCServerException{
 		logger.debug("Start Login protocol");
-		IRCMessage messageInit = new IRCMessageNoticeServerMessage(ServeurIRC.getMessageAcceuil());
+		IRCMessage messageInit = new IRCMessageNoticeServerMessage(ServeurCore.getMessageAcceuil());
 		/**
 		 * Send welcome message
 		 */
