@@ -19,7 +19,7 @@ import com.gc.irc.common.protocol.command.IRCMessageCommandChangeStatus;
 import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
 import com.gc.irc.common.protocol.notice.IRCMessageNotice;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
-import com.gc.irc.server.ServeurCore;
+import com.gc.irc.server.ServerCore;
 import com.gc.irc.server.auth.IRCServerAuthentification;
 import com.gc.irc.server.auth.IRCUserInformations;
 import com.gc.irc.server.conf.ServerConf;
@@ -42,7 +42,7 @@ public class ThreadServeurIRC extends Thread implements IThreadServeurIRCMBean{
 	private static final Logger logger = Logger.getLogger(ThreadServeurIRC.class);
 	private Session session = JMSConnection .getSession();
 	private MessageConsumer messageConsumer = null;
-	private ServeurCore parent = null;
+	private ServerCore parent = null;
 	private static int numPassageMax = Integer.parseInt(ServerConf.getConfProperty("nbMaxPassage", "10"), 10);
 	
 	private static Integer nbMessage = 0;
@@ -51,7 +51,7 @@ public class ThreadServeurIRC extends Thread implements IThreadServeurIRCMBean{
 	 * Builder.
 	 * @param parent Parent.
 	 */
-	public ThreadServeurIRC(ServeurCore parent) {
+	public ThreadServeurIRC(ServerCore parent) {
 		this.parent = parent;
 	}
 	

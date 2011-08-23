@@ -11,7 +11,7 @@ import org.springframework.core.io.ClassPathResource;
 public class ServerStarter {
 	
 	/** The Constant LOGGER. */
-	private final static Logger LOGGER = Logger.getLogger(ServeurCore.class);
+	private final static Logger LOGGER = Logger.getLogger(ServerStarter.class);
 
 	/**
 	 * The main method.
@@ -19,14 +19,14 @@ public class ServerStarter {
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
-		LOGGER.info("Start server");
 		BeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("spring-application-config.xml"));
-		ServeurCore core = (ServeurCore) beanFactory.getBean("serveurCore");
+		ServerCore core = (ServerCore) beanFactory.getBean("serveurCore");
+		LOGGER.info("Init server");
 		core.initServeur();
+		LOGGER.info("Start Waiting for client");
 		while (true) {
-			core.attenteClient();
+			core.waitClient();
 		}
-
 	}
 
 }

@@ -30,8 +30,8 @@ import javax.management.*;
  * @author gcauchis
  *
  */
-public class ServeurCore {
-	private final static Logger logger = Logger.getLogger(ServeurCore.class);
+public class ServerCore {
+	private final static Logger logger = Logger.getLogger(ServerCore.class);
 	private static int nbThreadServeur = Integer.parseInt(ServerConf.getConfProperty("nbThread", "1"));
 	private static ServerSocket serverSocket = null;
 	private int port = 1973;
@@ -47,7 +47,7 @@ public class ServeurCore {
 	 * @param messageAcceuil The new message.
 	 */
 	public static void setMessageAcceuil(String messageAcceuil) {
-		ServeurCore.messageAcceuil = messageAcceuil;
+		ServerCore.messageAcceuil = messageAcceuil;
 	}
 	
 	/**
@@ -62,7 +62,7 @@ public class ServeurCore {
 	 * Builder, Initialize the server.
 	 * The port is 1973.
 	 */
-	public ServeurCore() {
+	public ServerCore() {
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class ServeurCore {
 	 * The port is given.
 	 * @param port New port.
 	 */
-	public ServeurCore(int port) {
+	public ServerCore(int port) {
 		if(this.port != port){
 			setPort(port);
 		}
@@ -155,7 +155,7 @@ public class ServeurCore {
 	 * Wait for new client.
 	 * When a client connect to the sever stat a Thred fot him.
 	 */
-	public void attenteClient() {
+	public void waitClient() {
 		Socket clientSocket = null;
 		try {
 			logger.debug("Wait for a client");
