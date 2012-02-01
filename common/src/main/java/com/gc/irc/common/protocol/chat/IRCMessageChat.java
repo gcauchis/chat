@@ -2,7 +2,7 @@ package com.gc.irc.common.protocol.chat;
 
 import java.util.ArrayList;
 
-import com.gc.irc.common.api.ITextAreaLine;
+import com.gc.irc.common.api.ITextElement;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.protocol.IRCMessageType;
 
@@ -17,7 +17,7 @@ public class IRCMessageChat extends IRCMessage {
 	private static final long serialVersionUID = 6599297905344621111L;
 
 	/** The lines. */
-	private ArrayList<ITextAreaLine> lines;
+	private ArrayList<ITextElement> lines;
 	
 	/** The chat message type. */
 	private IRCMessageChatType chatMessageType = IRCMessageChatType.GLOBAL;
@@ -32,7 +32,7 @@ public class IRCMessageChat extends IRCMessage {
 	 * @param lines the lines
 	 * @param textColor the text color
 	 */
-	public IRCMessageChat(int userID, ArrayList<ITextAreaLine> lines, float[] textColor){
+	public IRCMessageChat(int userID, ArrayList<ITextElement> lines, float[] textColor){
 		super(userID,IRCMessageType.CHATMESSAGE);
 		this.setLines(lines);
 		this.setTextColor(textColor);
@@ -43,7 +43,7 @@ public class IRCMessageChat extends IRCMessage {
 	 *
 	 * @param lines the new lines
 	 */
-	public void setLines(ArrayList<ITextAreaLine> lines) {
+	public void setLines(ArrayList<ITextElement> lines) {
 		this.lines = lines;
 	}
 
@@ -52,7 +52,7 @@ public class IRCMessageChat extends IRCMessage {
 	 *
 	 * @return the lines
 	 */
-	public ArrayList<ITextAreaLine> getLines() {
+	public ArrayList<ITextElement> getLines() {
 		return lines;
 	}
 

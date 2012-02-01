@@ -32,7 +32,7 @@ import javax.management.*;
  */
 public class ServerCore {
 	private final static Logger LOGGER = Logger.getLogger(ServerCore.class);
-	private static int nbThreadServeur = Integer.parseInt(ServerConf.getConfProperty("nbThread", "1"));
+	private static int nbThreadServeur = Integer.parseInt(ServerConf.getConfProperty(ServerConf.NB_CONSUMER_THREAD, "1"));
 	private static ServerSocket serverSocket = null;
 	private int port = -1;
 	private List<ThreadGestionClientIRC> clientConnecter = Collections.synchronizedList(new ArrayList<ThreadGestionClientIRC>());

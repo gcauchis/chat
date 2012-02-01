@@ -43,7 +43,7 @@ public class ThreadServeurIRC extends Thread implements IThreadServeurIRCMBean{
 	private Session session = JMSConnection .getSession();
 	private MessageConsumer messageConsumer = null;
 	private ServerCore parent = null;
-	private static int numPassageMax = Integer.parseInt(ServerConf.getConfProperty("nbMaxPassage", "10"), 10);
+	private static int numPassageMax = Integer.parseInt(ServerConf.getConfProperty(ServerConf.NB_MESSAGE_MAX_PASSAGE, "10"), 10);
 	
 	private static Integer nbMessage = 0;
 	

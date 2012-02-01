@@ -12,7 +12,7 @@ import com.gc.irc.server.conf.ServerConf;
 public class IRCJMSPoolProducer {
 	private static final Logger logger = Logger.getLogger(IRCJMSPoolProducer.class);
 	private Map<Integer, IRCJMSProducer> listPoolProducerJMS = Collections.synchronizedMap(new HashMap<Integer, IRCJMSProducer>());
-	private int poolSize = Integer.parseInt(ServerConf.getConfProperty("pullJMS", "10"), 10);
+	private int poolSize = Integer.parseInt(ServerConf.getConfProperty(ServerConf.JMS_POOL_SIZE, "10"), 10);
 	private Integer currentId = 0;
 	
 	private static IRCJMSPoolProducer instance = null;

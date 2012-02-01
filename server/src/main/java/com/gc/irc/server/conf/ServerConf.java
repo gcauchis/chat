@@ -12,6 +12,10 @@ import org.apache.log4j.Logger;
  */
 public class ServerConf {
 	
+	public static final String NB_CONSUMER_THREAD = "nbConsumerThread";
+	public static final String NB_MESSAGE_MAX_PASSAGE = "nbMessageMaxPassage";
+	public static final String JMS_POOL_SIZE = "jmsPoolSize";
+	
 	/** The properties. */
 	private static Properties properties = null;
 	
