@@ -1,4 +1,4 @@
-package com.gc.irc.server;
+package com.gc.irc.server.core;
 
 import java.io.IOException;
 import java.net.ServerSocket;

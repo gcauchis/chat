@@ -10,7 +10,6 @@ import java.io.StreamCorruptedException;
 
 import org.apache.log4j.Logger;
 
-// TODO: Auto-generated Javadoc
 /**
  * Object used to communicate between the Client and the Server.
  * 
@@ -22,7 +21,7 @@ public class IRCMessage implements Serializable {
 	private static final long serialVersionUID = -60278983013467149L;
 
 	/** The Constant logger. */
-	private static final Logger logger = Logger.getLogger(IRCMessage.class);
+	private static final Logger LOGGER = Logger.getLogger(IRCMessage.class);
 
 	/** The from id. */
 	private int fromId; // the id of the user who sends the message
@@ -91,7 +90,7 @@ public class IRCMessage implements Serializable {
 	 */
 	public void envoyerMessageObjetSocket(final ObjectOutputStream outObject)
 			throws IOException {
-		logger.debug("Send the Message.");
+		LOGGER.debug("Send the Message.");
 		outObject.writeObject(this);
 		outObject.flush();
 		outObject.reset();
@@ -120,9 +119,9 @@ public class IRCMessage implements Serializable {
 			OptionalDataException, IOException {
 		IRCMessage message = null;
 
-		logger.debug("Wait for a message in the Stream.");
+		LOGGER.debug("Wait for a message in the Stream.");
 		message = (IRCMessage) inObject.readObject();
-		logger.debug("Message receive.");
+		LOGGER.debug("Message receive.");
 
 		return message;
 	}
