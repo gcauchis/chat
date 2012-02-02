@@ -117,12 +117,24 @@ public class IRCMessage implements Serializable {
 			final ObjectInputStream inObject) throws ClassNotFoundException,
 			InvalidClassException, StreamCorruptedException,
 			OptionalDataException, IOException {
-		IRCMessage message = null;
 
 		LOGGER.debug("Wait for a message in the Stream.");
-		message = (IRCMessage) inObject.readObject();
+		final IRCMessage message = (IRCMessage) inObject.readObject();
 		LOGGER.debug("Message receive.");
 
 		return message;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		final StringBuilder builder = new StringBuilder();
+		builder.append("IRCMessage [fromId=").append(fromId).append(", type=")
+				.append(type).append("]");
+		return builder.toString();
 	}
 }

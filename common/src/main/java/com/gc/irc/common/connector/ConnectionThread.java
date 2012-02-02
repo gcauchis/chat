@@ -9,8 +9,11 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.gc.irc.common.api.IIRCMessageHandler;
+import com.gc.irc.common.api.IIRCMessageSender;
 import com.gc.irc.common.protocol.IRCMessage;
 
 /**
@@ -18,7 +21,7 @@ import com.gc.irc.common.protocol.IRCMessage;
  * objects wich are transmitted (they are defined in the com.irc.share.protocol
  * package)
  */
-public class ConnectionThread extends Thread {
+public class ConnectionThread extends Thread implements IIRCMessageSender {
 
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger
@@ -57,6 +60,12 @@ public class ConnectionThread extends Thread {
 	/** The out object. */
 	private ObjectOutputStream outObject;
 
+	/** The message handler. */
+	private IIRCMessageHandler messageHandler;
+
+	/** The initialized. */
+	private boolean initialized;
+
 	/**
 	 * Instantiates a new connection thread.
 	 * 
@@ -71,7 +80,7 @@ public class ConnectionThread extends Thread {
 		this.serverName = serverName;
 		this.port = port;
 
-		if (serverName.isEmpty()) {
+		if (StringUtils.isEmpty(serverName)) {
 			LOGGER.info("The server parameters will be : name=localhost"
 					+ " port=" + port);
 		} else {
@@ -84,7 +93,7 @@ public class ConnectionThread extends Thread {
 					+ serverName + " port : " + port);
 
 			try {
-				if (!serverName.isEmpty()) {
+				if (StringUtils.isNotEmpty(serverName)) {
 					host = InetAddress.getByName(serverName);
 				} else {
 					host = InetAddress.getLocalHost();
@@ -93,7 +102,7 @@ public class ConnectionThread extends Thread {
 				break;
 
 			} catch (final UnknownHostException e) {
-				LOGGER.error("Impossible to find the host");
+				LOGGER.error("Impossible to find the host", e);
 			}
 
 			try {
@@ -135,7 +144,7 @@ public class ConnectionThread extends Thread {
 				LOGGER.debug("Output stream opened");
 				inObject = new ObjectInputStream(socket.getInputStream());
 				LOGGER.debug("Input stream opened");
-
+				initialized = true;
 				while (true) {
 					/**
 					 * Reception du message.
@@ -167,7 +176,12 @@ public class ConnectionThread extends Thread {
 					} else {
 						LOGGER.debug("Message received : "
 								+ messageObject.getClass());
-						// TODO : IMessageHandler
+						if (messageHandler != null) {
+							messageHandler.handle(messageObject);
+						} else {
+							LOGGER.warn("No messageHandler to handle "
+									+ messageObject);
+						}
 					}
 				}
 			} catch (final IOException e) {
@@ -177,8 +191,7 @@ public class ConnectionThread extends Thread {
 					setServerDisconnection(true);
 				}
 				setAuthenticated(false);
-				LOGGER.error("The connection with the server failed "
-						+ e.getMessage());
+				LOGGER.error("The connection with the server failed", e);
 			}
 
 			try {
@@ -332,6 +345,51 @@ public class ConnectionThread extends Thread {
 	 */
 	public boolean isServerDisconnection() {
 		return serverDisconnection;
+	}
+
+	/**
+	 * Sets the message handler.
+	 * 
+	 * @param messageHandler
+	 *            the new message handler
+	 */
+	public void setMessageHandler(final IIRCMessageHandler messageHandler) {
+		this.messageHandler = messageHandler;
+	}
+
+	public void send(final IRCMessage message) {
+		try {
+			/**
+			 * Synchronize the socket.
+			 */
+			if (!socket.isOutputShutdown()) {
+				synchronized (inObject) {
+					synchronized (outObject) {
+						LOGGER.debug("Send message");
+						if (socket.isConnected()) {
+							if (!socket.isOutputShutdown()) {
+								message.envoyerMessageObjetSocket(outObject);
+							} else {
+								LOGGER.warn("Output is Shutdown !");
+							}
+						} else {
+							LOGGER.warn("Socket not connected !");
+						}
+					}
+				}
+			} else {
+				LOGGER.warn("Fail to send message. Finalize because output is shutdown.");
+				// TODO close all properly
+			}
+		} catch (final IOException e) {
+			LOGGER.warn("Fail to send the message : " + e.getMessage());
+			// TODO checj the socket
+		}
+
+	}
+
+	public boolean isInitialized() {
+		return initialized;
 	}
 
 }
