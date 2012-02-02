@@ -6,7 +6,7 @@
 	<artifactId>irc</artifactId>
 	<version>${com.gc.irc.version}</version>
 	<packaging>pom</packaging>
-	<name>common</name>
+	<name>irc</name>
 	<modules>
 		<module>common</module>
 		<module>server</module>
@@ -14,9 +14,10 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<com.gc.irc.version>0.0.1</com.gc.irc.version>
-		<com.gc.irc.common.version>0.0.1</com.gc.irc.common.version>
-		<com.gc.irc.server.version>0.0.1</com.gc.irc.server.version>
+		<com.gc.irc.global.version>0.0.1</com.gc.irc.global.version>
+		<com.gc.irc.version>${com.gc.irc.global.version}</com.gc.irc.version>
+		<com.gc.irc.common.version>${com.gc.irc.global.version}</com.gc.irc.common.version>
+		<com.gc.irc.server.version>${com.gc.irc.global.version}</com.gc.irc.server.version>
 	</properties>
 
 	<dependencyManagement>
@@ -71,6 +72,21 @@
 		</dependency>
 	</dependencies>
 
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 	<repositories>
 		<repository>
 			<id>repository.jboss.org</id>

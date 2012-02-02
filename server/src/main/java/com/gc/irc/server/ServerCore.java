@@ -1,7 +1,6 @@
 package com.gc.irc.server;
 
 import java.io.IOException;
-
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 import com.gc.irc.common.entity.IRCUser;
@@ -16,9 +16,6 @@ import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.persistance.PersiteUsers;
 import com.gc.irc.server.thread.ThreadGestionClientIRC;
 import com.gc.irc.server.thread.ThreadServeurIRC;
-
-import java.lang.management.*;
-import javax.management.*;
 
 /**
  * Main class.

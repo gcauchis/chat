@@ -13,63 +13,92 @@ import org.apache.log4j.Logger;
 
 import com.gc.irc.common.protocol.IRCMessage;
 
-
 /**
- * The thread wich connects the client to the server, and manages the serialized objects wich are transmitted (they are defined in the com.irc.share.protocol package)
- * @author Colin
- *
+ * The thread wich connects the client to the server, and manages the serialized
+ * objects wich are transmitted (they are defined in the com.irc.share.protocol
+ * package)
  */
 public class ConnectionThread extends Thread {
-	private static final Logger logger = Logger.getLogger(ConnectionThread.class);
 
+	/** The Constant LOGGER. */
+	private static final Logger LOGGER = Logger
+			.getLogger(ConnectionThread.class);
+
+	/** The connected to server. */
 	private boolean connectedToServer = false;
-	private boolean authenticated = false; // set to true when the server says that we are successfully logged in
-	private boolean waitingForAuthentication = false; // set to true when we are waiting for the server to accept our login attempt
-	private boolean manualDisconnection = false; // possibility to manually disconnect from the server
-	private boolean serverDisconnection = false; // to try to log in automatically in case of a server disconnection followed by a reconnection
-	private String serverName; //ip or name
+
+	/** The authenticated. */
+	private boolean authenticated = false;
+
+	/** The waiting for authentication. */
+	private boolean waitingForAuthentication = false;
+
+	/** The manual disconnection. */
+	private boolean manualDisconnection = false;
+
+	/** The server disconnection. */
+	private boolean serverDisconnection = false;
+
+	/** The server name. */
+	private String serverName;
+
+	/** The port. */
 	private int port;
+
+	/** The host. */
 	private InetAddress host = null;
+
+	/** The socket. */
 	private Socket socket = null;
+
+	/** The in object. */
 	private ObjectInputStream inObject;
+
+	/** The out object. */
 	private ObjectOutputStream outObject;
 
 	/**
+	 * Instantiates a new connection thread.
 	 * 
-	 * @param serverName the ip address or name of the server
-	 * If the server is on localhost, out an empty string
-	 * @param port the port of the connexion
+	 * @param serverName
+	 *            the ip address or name of the server If the server is on
+	 *            localhost, out an empty string
+	 * @param port
+	 *            the port of the connexion
 	 */
-	public ConnectionThread( String serverName, int port ){
-		
+	public ConnectionThread(final String serverName, final int port) {
+
 		this.serverName = serverName;
 		this.port = port;
-		
-		if(serverName.isEmpty()){
-			logger.info("The server parameters will be : name=localhost"+" port="+port);
+
+		if (serverName.isEmpty()) {
+			LOGGER.info("The server parameters will be : name=localhost"
+					+ " port=" + port);
+		} else {
+			LOGGER.info("The server parameters will be : name=" + serverName
+					+ " port=" + port);
 		}
-		else {
-			logger.info("The server parameters will be : name="+serverName+" port="+port);
-		}
-		
-		while(true) {
-			logger.debug("Initialisation of the connection thread. Server name/ip : "+serverName+" port : "+port);
-			
+
+		while (true) {
+			LOGGER.debug("Initialisation of the connection thread. Server name/ip : "
+					+ serverName + " port : " + port);
+
 			try {
-				if(!serverName.isEmpty())
-					host = InetAddress.getByName( serverName );
-				else
+				if (!serverName.isEmpty()) {
+					host = InetAddress.getByName(serverName);
+				} else {
 					host = InetAddress.getLocalHost();
-				
+				}
+
 				break;
-				
-			} catch (UnknownHostException e) {
-				logger.error("Impossible to find the host");
+
+			} catch (final UnknownHostException e) {
+				LOGGER.error("Impossible to find the host");
 			}
 
 			try {
 				Thread.sleep(2000);
-			} catch (InterruptedException e1) {
+			} catch (final InterruptedException e1) {
 				e1.printStackTrace();
 			}
 
@@ -78,179 +107,207 @@ public class ConnectionThread extends Thread {
 	}
 
 	/**
-	 * The thread infinite loop. Here, the client will try to connect to the server (opening a socket, and getting input and output streams).
-	 * Then, the loop will wait for new serialized objects sent by the server, and execute the corresponding actions.
+	 * The thread infinite loop. Here, the client will try to connect to the
+	 * server (opening a socket, and getting input and output streams). Then,
+	 * the loop will wait for new serialized objects sent by the server, and
+	 * execute the corresponding actions.
 	 */
 	@Override
-	public void run() {	
+	public void run() {
 
-		while(true){
+		while (true) {
 
-			logger.info("Trying to connect");
+			LOGGER.info("Trying to connect");
 
 			try {
 				socket = new Socket(host, port);
 				setConnectedToServer(true);
 				manualDisconnection = false;
-				
 
-				logger.info("Socket successfully created.  Local port : "+socket.getLocalPort());
+				LOGGER.info("Socket successfully created.  Local port : "
+						+ socket.getLocalPort());
 
 				/**
 				 * Gestion par objet
 				 */
-				logger.debug("Trying to open streams...");
+				LOGGER.debug("Trying to open streams...");
 				outObject = new ObjectOutputStream(socket.getOutputStream());
-				logger.debug("Output stream opened");
+				LOGGER.debug("Output stream opened");
 				inObject = new ObjectInputStream(socket.getInputStream());
-				logger.debug("Input stream opened");
+				LOGGER.debug("Input stream opened");
 
 				while (true) {
 					/**
 					 * Reception du message.
 					 */
-					logger.debug("Waiting for an object message");
+					LOGGER.debug("Waiting for an object message");
 					IRCMessage messageObject = null;
 					try {
-						messageObject = IRCMessage.recevoirMessageObjetSocket(inObject);
-					}
-					catch (ClassNotFoundException e) {
+						messageObject = IRCMessage
+								.recevoirMessageObjetSocket(inObject);
+					} catch (final ClassNotFoundException e) {
 						e.printStackTrace();
-						logger.error(e.getMessage());
+						LOGGER.error(e.getMessage());
+						break;
+					} catch (final StreamCorruptedException e) {
+						e.printStackTrace();
+						LOGGER.error(e.getMessage());
 						break;
 					}
-					catch (StreamCorruptedException e) {
-						e.printStackTrace();
-						logger.error(e.getMessage());
-						break;
-					}
-					
 
+					if (messageObject == null) {
+						LOGGER.error("Empty IRCMessage Object received");
 
-					logger.debug("Message received : "+messageObject.getClass());
-					if (messageObject == null){
-						logger.error("Empty IRCMessage Object received");
-						
 						try {
 							Thread.sleep(500);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
+						} catch (final InterruptedException e) {
+							LOGGER.warn(e.getMessage());
 						}
-						
-					}
-					else {
+
+					} else {
+						LOGGER.debug("Message received : "
+								+ messageObject.getClass());
 						// TODO : IMessageHandler
 					}
 				}
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				setConnectedToServer(false);
 				setWaitingForAuthentication(false);
-				if(!manualDisconnection && isAuthenticated())
+				if (!manualDisconnection && isAuthenticated()) {
 					setServerDisconnection(true);
+				}
 				setAuthenticated(false);
-				logger.error("The connection with the server failed "+e.getMessage());
+				LOGGER.error("The connection with the server failed "
+						+ e.getMessage());
 			}
 
-			
 			try {
 				Thread.sleep(3000);
-			} catch (InterruptedException e1) {
+			} catch (final InterruptedException e1) {
 				e1.printStackTrace();
-			}		
-		
+			}
+
 		}
 
 	}
 
-
-
-
-	private void setConnectedToServer(boolean connectedToServer) {
+	/**
+	 * Sets the connected to server.
+	 * 
+	 * @param connectedToServer
+	 *            the new connected to server
+	 */
+	private void setConnectedToServer(final boolean connectedToServer) {
 		this.connectedToServer = connectedToServer;
 	}
 
 	/**
-	 * Is the client currently connected on the server ? (the client may not be authenticated)
+	 * Is the client currently connected on the server ? (the client may not be
+	 * authenticated).
+	 * 
+	 * @return true, if is connected to server
 	 */
 	public boolean isConnectedToServer() {
 		return connectedToServer;
 	}
 
-
 	/**
-	 * Send and IRC Message (will transmit a serialized object to the server)
-	 * @param message the IRC message to send
+	 * Send and IRC Message (will transmit a serialized object to the server).
+	 * 
+	 * @param message
+	 *            the IRC message to send
 	 */
-	public void sendIRCMessage(IRCMessage message){
+	public void sendIRCMessage(final IRCMessage message) {
 		try {
 			synchronized (inObject) {
 				synchronized (outObject) {
 					message.envoyerMessageObjetSocket(outObject);
 				}
 			}
-			
-		}
-		catch (SocketException e) {
+
+		} catch (final SocketException e) {
 			setConnectedToServer(false);
 			setWaitingForAuthentication(false);
-			if(!manualDisconnection && isAuthenticated())
+			if (!manualDisconnection && isAuthenticated()) {
 				setServerDisconnection(true);
+			}
 			setAuthenticated(false);
-			logger.error("Socket error "+e.getMessage());
-		}
-		catch (IOException e) {
+			LOGGER.error("Socket error " + e.getMessage());
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-
-	private void setAuthenticated(boolean loggedIn) {
-		this.authenticated = loggedIn;
+	/**
+	 * Sets the authenticated.
+	 * 
+	 * @param loggedIn
+	 *            the new authenticated
+	 */
+	private void setAuthenticated(final boolean loggedIn) {
+		authenticated = loggedIn;
 	}
 
 	/**
-	 * Is the client currently authenticated on the server ?
+	 * Is the client currently authenticated on the server ?.
+	 * 
+	 * @return true, if is authenticated
 	 */
 	public boolean isAuthenticated() {
 		return authenticated;
 	}
 
-	
 	/**
-	 * disconnect the client from the server
-	 * After that the client will automatically try to reconnect
+	 * disconnect the client from the server After that the client will
+	 * automatically try to reconnect.
 	 */
 	public void disconnect() {
 		try {
 			manualDisconnection = true;
-			setServerDisconnection(false); // because it is a manual disconnection, from the client
+			setServerDisconnection(false); // because it is a manual
+											// disconnection, from the client
 			socket.close();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
-			logger.error(e.getMessage());
+			LOGGER.error(e.getMessage());
 		}
 	}
 
-	public void setWaitingForAuthentication(boolean waitingForAuthentication) {
+	/**
+	 * Sets the waiting for authentication.
+	 * 
+	 * @param waitingForAuthentication
+	 *            the new waiting for authentication
+	 */
+	public void setWaitingForAuthentication(
+			final boolean waitingForAuthentication) {
 		this.waitingForAuthentication = waitingForAuthentication;
 	}
 
+	/**
+	 * Checks if is waiting for authentication.
+	 * 
+	 * @return true, if is waiting for authentication
+	 */
 	public boolean isWaitingForAuthentication() {
 		return waitingForAuthentication;
 	}
 
 	/**
+	 * Gets the server name.
 	 * 
 	 * @return the name or ip address of the remote server
 	 */
 	public String getServerName() {
-		if(!serverName.isEmpty())
+		if (!serverName.isEmpty()) {
 			return serverName;
-		else return "localhost";
+		} else {
+			return "localhost";
+		}
 	}
-	
-	
+
 	/**
+	 * Gets the port.
 	 * 
 	 * @return the choosen port for the connexion with the server
 	 */
@@ -258,10 +315,21 @@ public class ConnectionThread extends Thread {
 		return port;
 	}
 
-	public void setServerDisconnection(boolean serverDisconnection) {
+	/**
+	 * Sets the server disconnection.
+	 * 
+	 * @param serverDisconnection
+	 *            the new server disconnection
+	 */
+	public void setServerDisconnection(final boolean serverDisconnection) {
 		this.serverDisconnection = serverDisconnection;
 	}
 
+	/**
+	 * Checks if is server disconnection.
+	 * 
+	 * @return true, if is server disconnection
+	 */
 	public boolean isServerDisconnection() {
 		return serverDisconnection;
 	}
