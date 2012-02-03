@@ -1,12 +1,16 @@
 package com.gc.irc.server.test;
 
+import java.util.Arrays;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.gc.irc.common.api.IClientMessageLine;
 import com.gc.irc.common.api.IIRCMessageSender;
+import com.gc.irc.common.api.impl.BasicClientMessage;
 import com.gc.irc.common.connector.ConnectionThread;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.protocol.chat.IRCMessageChat;
@@ -68,6 +72,6 @@ public class ServerTest {
 	}
 
 	private IRCMessage getBasicMessage() {
-		return new IRCMessageChat(0, null, null);
+		return new IRCMessageChat(0, Arrays.asList((IClientMessageLine)new BasicClientMessage("message")), null);
 	}
 }

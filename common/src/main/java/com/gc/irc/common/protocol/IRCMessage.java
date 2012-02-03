@@ -90,7 +90,7 @@ public class IRCMessage implements Serializable {
 	 */
 	public void envoyerMessageObjetSocket(final ObjectOutputStream outObject)
 			throws IOException {
-		LOGGER.debug("Send the Message.");
+		LOGGER.debug("Send the Message : " + this);
 		outObject.writeObject(this);
 		outObject.flush();
 		outObject.reset();
@@ -120,7 +120,7 @@ public class IRCMessage implements Serializable {
 
 		LOGGER.debug("Wait for a message in the Stream.");
 		final IRCMessage message = (IRCMessage) inObject.readObject();
-		LOGGER.debug("Message receive.");
+		LOGGER.debug("Message receive : " + message);
 
 		return message;
 	}

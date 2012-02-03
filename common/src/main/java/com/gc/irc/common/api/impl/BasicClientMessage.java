@@ -14,6 +14,23 @@ public class BasicClientMessage implements IClientMessageLine {
 	private String message;
 
 	/**
+	 * Instantiates a new basic client message.
+	 */
+	public BasicClientMessage() {
+		super();
+	}
+
+	/**
+	 * Instantiates a new basic client message.
+	 *
+	 * @param message the message
+	 */
+	public BasicClientMessage(String message) {
+		super();
+		this.message = message;
+	}
+
+	/**
 	 * Gets the message.
 	 *
 	 * @return the message

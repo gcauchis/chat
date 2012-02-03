@@ -1,7 +1,6 @@
 package com.gc.irc.common.protocol.chat;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 import com.gc.irc.common.api.IClientMessageLine;
 import com.gc.irc.common.protocol.IRCMessage;
@@ -18,7 +17,7 @@ public class IRCMessageChat extends IRCMessage {
 	private static final long serialVersionUID = 6599297905344621111L;
 
 	/** The lines. */
-	private ArrayList<IClientMessageLine> lines;
+	private List<IClientMessageLine> lines;
 
 	/** The chat message type. */
 	private IRCMessageChatType chatMessageType = IRCMessageChatType.GLOBAL;
@@ -37,7 +36,7 @@ public class IRCMessageChat extends IRCMessage {
 	 *            the text color
 	 */
 	public IRCMessageChat(final int userID,
-			final ArrayList<IClientMessageLine> lines, final float[] textColor) {
+			final List<IClientMessageLine> lines, final float[] textColor) {
 		super(userID, IRCMessageType.CHATMESSAGE);
 		setLines(lines);
 		setTextColor(textColor);
@@ -49,7 +48,7 @@ public class IRCMessageChat extends IRCMessage {
 	 * @param lines
 	 *            the new lines
 	 */
-	public void setLines(final ArrayList<IClientMessageLine> lines) {
+	public void setLines(final List<IClientMessageLine> lines) {
 		this.lines = lines;
 	}
 
@@ -58,7 +57,7 @@ public class IRCMessageChat extends IRCMessage {
 	 * 
 	 * @return the lines
 	 */
-	public ArrayList<IClientMessageLine> getLines() {
+	public List<IClientMessageLine> getLines() {
 		return lines;
 	}
 
