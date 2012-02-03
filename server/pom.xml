@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.gc.irc</groupId>
 	<artifactId>server</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${com.gc.irc.server.version}</version>
 	<name>server</name>
 	<url>http://maven.apache.org</url>
 
