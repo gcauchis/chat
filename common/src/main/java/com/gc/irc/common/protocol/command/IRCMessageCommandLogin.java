@@ -46,12 +46,25 @@ public class IRCMessageCommandLogin extends IRCMessageCommand {
 		return password;
 	}
 
-	@Override
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("IRCMessageCommandLogin [login=").append(login)
-				.append(", password=").append(password).append("]");
-		return builder.toString();
+	    final String TAB = " ";
+	
+	    StringBuilder retValue = new StringBuilder();
+	    
+	    retValue.append("IRCMessageCommandLogin ( ")
+	        .append(super.toString()).append(TAB)
+	        .append("login = ").append(this.login).append(TAB)
+	        .append("password = ").append(this.password).append(TAB)
+	        .append(" )");
+	    
+	    return retValue.toString();
 	}
 
 }

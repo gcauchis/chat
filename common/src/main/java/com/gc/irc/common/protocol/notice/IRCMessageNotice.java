@@ -44,11 +44,23 @@ public class IRCMessageNotice extends IRCMessage {
 		return noticeType;
 	}
 
-	@Override
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("IRCMessageNotice [noticeType=").append(noticeType)
-				.append("]");
-		return builder.toString();
+	    final String TAB = " ";
+	
+	    StringBuilder retValue = new StringBuilder();
+	    
+	    retValue.append("IRCMessageNotice ( ")
+	        .append(super.toString()).append(TAB)
+	        .append("noticeType = ").append(this.noticeType).append(TAB)
+	        .append(" )");
+	    
+	    return retValue.toString();
 	}
 }

@@ -24,14 +24,6 @@ public class IRCMessageCommand extends IRCMessage {
 		super(userId, IRCMessageType.COMMAND);
 	}
 
-	@Override
-	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("IRCMessageCommand [commandType=").append(commandType)
-				.append("]");
-		return builder.toString();
-	}
-
 	/**
 	 * Instantiates a new iRC message command.
 	 * 
@@ -53,6 +45,26 @@ public class IRCMessageCommand extends IRCMessage {
 	 */
 	public IRCMessageCommandType getCommandType() {
 		return commandType;
+	}
+
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
+	public String toString() {
+	    final String TAB = " ";
+	
+	    StringBuilder retValue = new StringBuilder();
+	    
+	    retValue.append("IRCMessageCommand ( ")
+	        .append(super.toString()).append(TAB)
+	        .append("commandType = ").append(this.commandType).append(TAB)
+	        .append(" )");
+	    
+	    return retValue.toString();
 	}
 
 }

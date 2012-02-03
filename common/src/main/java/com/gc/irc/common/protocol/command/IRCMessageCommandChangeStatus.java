@@ -36,12 +36,24 @@ public class IRCMessageCommandChangeStatus extends IRCMessageCommand {
 		return newStatus;
 	}
 
-	@Override
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("IRCMessageCommandChangeStatus [newStatus=")
-				.append(newStatus).append("]");
-		return builder.toString();
+	    final String TAB = " ";
+	
+	    StringBuilder retValue = new StringBuilder();
+	    
+	    retValue.append("IRCMessageCommandChangeStatus ( ")
+	        .append(super.toString()).append(TAB)
+	        .append("newStatus = ").append(this.newStatus).append(TAB)
+	        .append(" )");
+	    
+	    return retValue.toString();
 	}
 
 }

@@ -3,7 +3,7 @@ package com.gc.irc.common.protocol.chat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.gc.irc.common.api.ITextElement;
+import com.gc.irc.common.api.IClientMessageLine;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.protocol.IRCMessageType;
 
@@ -18,7 +18,7 @@ public class IRCMessageChat extends IRCMessage {
 	private static final long serialVersionUID = 6599297905344621111L;
 
 	/** The lines. */
-	private ArrayList<ITextElement> lines;
+	private ArrayList<IClientMessageLine> lines;
 
 	/** The chat message type. */
 	private IRCMessageChatType chatMessageType = IRCMessageChatType.GLOBAL;
@@ -37,7 +37,7 @@ public class IRCMessageChat extends IRCMessage {
 	 *            the text color
 	 */
 	public IRCMessageChat(final int userID,
-			final ArrayList<ITextElement> lines, final float[] textColor) {
+			final ArrayList<IClientMessageLine> lines, final float[] textColor) {
 		super(userID, IRCMessageType.CHATMESSAGE);
 		setLines(lines);
 		setTextColor(textColor);
@@ -49,7 +49,7 @@ public class IRCMessageChat extends IRCMessage {
 	 * @param lines
 	 *            the new lines
 	 */
-	public void setLines(final ArrayList<ITextElement> lines) {
+	public void setLines(final ArrayList<IClientMessageLine> lines) {
 		this.lines = lines;
 	}
 
@@ -58,7 +58,7 @@ public class IRCMessageChat extends IRCMessage {
 	 * 
 	 * @return the lines
 	 */
-	public ArrayList<ITextElement> getLines() {
+	public ArrayList<IClientMessageLine> getLines() {
 		return lines;
 	}
 
@@ -100,14 +100,26 @@ public class IRCMessageChat extends IRCMessage {
 		return textColor;
 	}
 
-	@Override
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("IRCMessageChat [lines=").append(lines)
-				.append(", chatMessageType=").append(chatMessageType)
-				.append(", textColor=").append(Arrays.toString(textColor))
-				.append("]");
-		return builder.toString();
+	    final String TAB = " ";
+	
+	    StringBuilder retValue = new StringBuilder();
+	    
+	    retValue.append("IRCMessageChat ( ")
+	        .append(super.toString()).append(TAB)
+	        .append("lines = ").append(this.lines).append(TAB)
+	        .append("chatMessageType = ").append(this.chatMessageType).append(TAB)
+	        .append("textColor = ").append(this.textColor).append(TAB)
+	        .append(" )");
+	    
+	    return retValue.toString();
 	}
 
 }

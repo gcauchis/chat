@@ -21,28 +21,26 @@ public class ServerTest {
 	private ConnectionThread connectionThread;
 
 	@BeforeClass
-	public static void init() {
-		System.out.println("0");
+	public static void init() throws InterruptedException {
 		starter = new ServerStarter();
 		starterThread = new Thread(starter);
 		starterThread.start();
-		System.out.println("1");
-	}
-
-	@Before
-	public void prepare() throws InterruptedException {
 		System.out.println("Wait for server to be up");
 		while (!starter.isInitialized()) {
 			Thread.sleep(500);
 		}
-		System.out.println("2");
+		System.out.println("Server up");
+	}
+
+	@Before
+	public void prepare() throws InterruptedException {
 		connectionThread = new ConnectionThread(null, 1973);
 		connectionThread.start();
-		System.out.println("3");
 		System.out.println("Wait for connectionThread to be up");
 		while (!connectionThread.isInitialized()) {
 			Thread.sleep(500);
 		}
+		System.out.println("ConnectionThread up");
 	}
 
 	@AfterClass
@@ -57,7 +55,6 @@ public class ServerTest {
 
 	@Test
 	public void basicTest() throws InterruptedException {
-		System.out.println("4");
 		for (int i = 0; i < 5; i++) {
 			System.out.println("send msg");
 			sendMessage(connectionThread, getBasicMessage());

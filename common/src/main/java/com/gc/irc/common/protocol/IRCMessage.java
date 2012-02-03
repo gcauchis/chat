@@ -125,16 +125,24 @@ public class IRCMessage implements Serializable {
 		return message;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
 	 */
-	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("IRCMessage [fromId=").append(fromId).append(", type=")
-				.append(type).append("]");
-		return builder.toString();
+	    final String TAB = " ";
+	
+	    StringBuilder retValue = new StringBuilder();
+	    
+	    retValue.append("IRCMessage ( ")
+	        .append(super.toString()).append(TAB)
+	        .append("fromId = ").append(this.fromId).append(TAB)
+	        .append("type = ").append(this.type).append(TAB)
+	        .append(" )");
+	    
+	    return retValue.toString();
 	}
 }

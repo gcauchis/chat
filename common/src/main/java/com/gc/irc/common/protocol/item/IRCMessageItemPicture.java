@@ -42,11 +42,23 @@ public class IRCMessageItemPicture extends IRCMessage {
 		return imageData.getBufferedImage();
 	}
 
-	@Override
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("IRCMessageItemPicture [imageData=").append(imageData)
-				.append("]");
-		return builder.toString();
+	    final String TAB = " ";
+	
+	    StringBuilder retValue = new StringBuilder();
+	    
+	    retValue.append("IRCMessageItemPicture ( ")
+	        .append(super.toString()).append(TAB)
+	        .append("imageData = ").append(this.imageData).append(TAB)
+	        .append(" )");
+	    
+	    return retValue.toString();
 	}
 }

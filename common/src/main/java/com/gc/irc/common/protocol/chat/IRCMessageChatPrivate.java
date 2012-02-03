@@ -2,7 +2,7 @@ package com.gc.irc.common.protocol.chat;
 
 import java.util.ArrayList;
 
-import com.gc.irc.common.api.ITextElement;
+import com.gc.irc.common.api.IClientMessageLine;
 
 /**
  * The Class IRCMessageChatPrivate.
@@ -29,7 +29,7 @@ public class IRCMessageChatPrivate extends IRCMessageChat {
 	 *            the text color
 	 */
 	public IRCMessageChatPrivate(final int userID,
-			final ArrayList<ITextElement> lines, final float[] textColor) {
+			final ArrayList<IClientMessageLine> lines, final float[] textColor) {
 		super(userID, lines, textColor);
 		setChatMessageType(IRCMessageChatType.PRIVATE);
 	}
@@ -47,7 +47,7 @@ public class IRCMessageChatPrivate extends IRCMessageChat {
 	 *            the text color
 	 */
 	public IRCMessageChatPrivate(final int userID,
-			final ArrayList<ITextElement> lines, final int toId,
+			final ArrayList<IClientMessageLine> lines, final int toId,
 			final float[] textColor) {
 		this(userID, lines, textColor);
 		this.toId = toId;
@@ -62,14 +62,6 @@ public class IRCMessageChatPrivate extends IRCMessageChat {
 		return toId;
 	}
 
-	@Override
-	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("IRCMessageChatPrivate [toId=").append(toId)
-				.append(", cptPersist=").append(cptPersist).append("]");
-		return builder.toString();
-	}
-
 	/**
 	 * Get the number of passage in the handler.
 	 * 
@@ -77,6 +69,27 @@ public class IRCMessageChatPrivate extends IRCMessageChat {
 	 */
 	public int numPassage() {
 		return cptPersist++;
+	}
+
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
+	public String toString() {
+	    final String TAB = " ";
+	
+	    StringBuilder retValue = new StringBuilder();
+	    
+	    retValue.append("IRCMessageChatPrivate ( ")
+	        .append(super.toString()).append(TAB)
+	        .append("toId = ").append(this.toId).append(TAB)
+	        .append("cptPersist = ").append(this.cptPersist).append(TAB)
+	        .append(" )");
+	    
+	    return retValue.toString();
 	}
 
 }
