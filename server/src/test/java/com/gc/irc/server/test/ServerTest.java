@@ -16,6 +16,7 @@ import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.protocol.chat.IRCMessageChat;
 import com.gc.irc.common.protocol.command.IRCMessageCommandLogin;
 import com.gc.irc.server.ServerStarter;
+import com.gc.irc.server.test.handler.LoginMessageHandler;
 
 public class ServerTest {
 
@@ -69,6 +70,7 @@ public class ServerTest {
 
 	@Test
 	public void login() throws InterruptedException {
+		connectionThread.setMessageHandler(new LoginMessageHandler());
 		final IRCMessage login = new IRCMessageCommandLogin("test", "test");
 		sendMessage(connectionThread, login);
 		Thread.sleep(1000);
