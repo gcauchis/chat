@@ -14,6 +14,7 @@ import com.gc.irc.common.api.impl.BasicClientMessage;
 import com.gc.irc.common.connector.ConnectionThread;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.protocol.chat.IRCMessageChat;
+import com.gc.irc.common.protocol.command.IRCMessageCommandLogin;
 import com.gc.irc.server.ServerStarter;
 
 public class ServerTest {
@@ -66,12 +67,21 @@ public class ServerTest {
 		}
 	}
 
+	@Test
+	public void login() throws InterruptedException {
+		final IRCMessage login = new IRCMessageCommandLogin("test", "test");
+		sendMessage(connectionThread, login);
+		Thread.sleep(1000);
+	}
+
 	private void sendMessage(final IIRCMessageSender messageSender,
 			final IRCMessage message) {
 		messageSender.send(message);
 	}
 
 	private IRCMessage getBasicMessage() {
-		return new IRCMessageChat(0, Arrays.asList((IClientMessageLine)new BasicClientMessage("message")), null);
+		return new IRCMessageChat(0,
+				Arrays.asList((IClientMessageLine) new BasicClientMessage(
+						"message")), null);
 	}
 }

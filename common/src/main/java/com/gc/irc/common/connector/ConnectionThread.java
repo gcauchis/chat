@@ -383,7 +383,7 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
 			}
 		} catch (final IOException e) {
 			LOGGER.warn("Fail to send the message : " + e.getMessage());
-			// TODO checj the socket
+			// TODO check the socket
 		}
 
 	}
