@@ -6,12 +6,12 @@
 	<bean name="propertyPlaceholder"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
-			<value>classpath:conf/servConf.properties</value>
+			<value>classpath*:conf/servConf.properties</value>
 		</property>
 	</bean>
 
 	<bean id="serverCore" class="com.gc.irc.server.core.ServerCore">
-		<property name="port" value="${server.port}" />
+		<property name="port" value="1973" />
 	</bean>
 
 </beans>
