@@ -11,6 +11,7 @@ import org.xml.sax.SAXException;
 
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
+import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.common.utils.IOUtils;
 import com.gc.irc.server.persistance.IRCGestionPicture;
 
@@ -158,15 +159,15 @@ public class IRCServerAuthentification implements AuthentificationInterface {
 		return null;
 	}
 
-	public synchronized void sendUsersPictur(ObjectOutputStream outObject) {
-		IRCMessageItemPicture messagePictur;
+	public synchronized void sendUsersPicture(ObjectOutputStream outObject) {
+		IRCMessageItemPicture messagePicture;
 		for (IRCUserInformations user : listUsers) {
 			if (user.isConnecte() && user.hasPictur()) {
 				IRCGestionPicture picturUser = IRCGestionPicture.getInstance();
-				messagePictur = picturUser.getPictureOf(user.getId());
-				if (messagePictur != null) {
+				messagePicture = picturUser.getPictureOf(user.getId());
+				if (messagePicture != null) {
 					try {
-						messagePictur.envoyerMessageObjetSocket(outObject);
+						IOStreamUtils.sendMessage(outObject, messagePicture);
 					} catch (IOException e) {
 						logger.warn("Fail to send the picture of "
 								+ user.getNickname() + " : " + e.getMessage());

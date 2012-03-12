@@ -23,6 +23,7 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactsList;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeLogin;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeRegister;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeServerMessage;
+import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.server.auth.IRCServerAuthentification;
 import com.gc.irc.server.core.ServerCore;
 import com.gc.irc.server.exception.IRCServerException;
@@ -89,7 +90,7 @@ public class ThreadGestionClientIRC extends Thread {
 			 * Wait for a Message
 			 */
 			messageClient = null;
-			messageClient = recevoirMessageObjetSocket();
+			messageClient = receiveMessage();
 			if (messageClient == null){
 				LOGGER.info(id+" Empty message. Closing Connection.");
 				break;
@@ -177,7 +178,7 @@ public class ThreadGestionClientIRC extends Thread {
 						LOGGER.debug(id+" Send message to "+user.getNickName());
 						if (clientSocket.isConnected()) {
 							if (!clientSocket.isOutputShutdown()) {
-								message.envoyerMessageObjetSocket(outObject);
+								IOStreamUtils.sendMessage(outObject, message);
 							} else {
 								LOGGER.warn(id+" Output is Shutdown !");
 							}
@@ -200,10 +201,10 @@ public class ThreadGestionClientIRC extends Thread {
 	 * Wait and Receive a message send by the client.
 	 * @return Message received.
 	 */
-	private IRCMessage recevoirMessageObjetSocket(){
+	private IRCMessage receiveMessage(){
 			try {
 				LOGGER.debug(id+" Wait for a message in the socket.");
-				return IRCMessage.recevoirMessageObjetSocket(inObject);
+				return IOStreamUtils.receiveMessage(inObject);
 			} catch (InvalidClassException e) {
 				LOGGER.warn(id+" Fail to receive a message : "+e.getMessage());
 				socketAlive();
@@ -254,7 +255,7 @@ public class ThreadGestionClientIRC extends Thread {
 			LOGGER.debug("Send Welcome Message.");
 			synchronized (inObject) {
 				synchronized (outObject) {
-					messageInit.envoyerMessageObjetSocket(outObject);
+					IOStreamUtils.sendMessage(outObject, messageInit);
 				}
 			}
 		} catch (IOException e) {
@@ -269,7 +270,7 @@ public class ThreadGestionClientIRC extends Thread {
 			 */
 			try {
 				LOGGER.debug(id+" Wait for login/Registration Message");
-				messageInit = IRCMessage.recevoirMessageObjetSocket(inObject);
+				messageInit = IOStreamUtils.receiveMessage(inObject);
 			} catch (InvalidClassException e) {
 				LOGGER.warn(id+" Fail to receive the Login/Registration Message : "+e.getMessage());
 				throw new IRCServerException(e);
@@ -333,7 +334,7 @@ public class ThreadGestionClientIRC extends Thread {
 					
 					try {
 						LOGGER.debug(id+" Send notice Login");
-						messageInit.envoyerMessageObjetSocket(outObject);
+						IOStreamUtils.sendMessage(outObject, messageInit);
 					} catch (IOException e) {
 						LOGGER.warn(id+" Fail to send notice Login : "+e.getMessage());
 						throw new IRCServerException(e);
@@ -369,7 +370,7 @@ public class ThreadGestionClientIRC extends Thread {
 						LOGGER.debug(id+" Send list connected users.");
 						synchronized (inObject) {
 							synchronized (outObject) {
-								messageInit.envoyerMessageObjetSocket(outObject);
+								IOStreamUtils.sendMessage(outObject, messageInit);
 							}
 						}
 					} catch (IOException e) {
@@ -397,7 +398,7 @@ public class ThreadGestionClientIRC extends Thread {
 					LOGGER.debug(id+" Send all users pictur");
 					synchronized (inObject) {
 						synchronized (outObject) {
-							auth.sendUsersPictur(outObject);
+							auth.sendUsersPicture(outObject);
 						}
 					}
 					
@@ -416,7 +417,7 @@ public class ThreadGestionClientIRC extends Thread {
 					try {
 						synchronized (inObject) {
 							synchronized (outObject) {
-								messageInit.envoyerMessageObjetSocket(outObject);
+								IOStreamUtils.sendMessage(outObject, messageInit);
 							}
 						}
 					} catch (IOException e) {

@@ -61,5 +61,5 @@ public interface AuthentificationInterface {
 	 * @param outObject ObjectOutputStream of the new Client.
 	 * @throws IRCServerException If error occur.
 	 */
-	public void sendUsersPictur(ObjectOutputStream outObject);
+	public void sendUsersPicture(ObjectOutputStream outObject);
 }

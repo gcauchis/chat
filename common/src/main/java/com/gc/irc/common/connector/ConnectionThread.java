@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import com.gc.irc.common.api.IIRCMessageHandler;
 import com.gc.irc.common.api.IIRCMessageSender;
 import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.utils.IOStreamUtils;
 
 /**
  * The thread wich connects the client to the server, and manages the serialized
@@ -152,8 +153,7 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
 					LOGGER.debug("Waiting for an object message");
 					IRCMessage messageObject = null;
 					try {
-						messageObject = IRCMessage
-								.recevoirMessageObjetSocket(inObject);
+						messageObject = IOStreamUtils.receiveMessage(inObject);
 					} catch (final ClassNotFoundException e) {
 						e.printStackTrace();
 						LOGGER.error(e.getMessage());
@@ -234,7 +234,7 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
 		try {
 			synchronized (inObject) {
 				synchronized (outObject) {
-					message.envoyerMessageObjetSocket(outObject);
+					IOStreamUtils.sendMessage(outObject, message);
 				}
 			}
 
@@ -368,7 +368,7 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
 						LOGGER.debug("Send message");
 						if (socket.isConnected()) {
 							if (!socket.isOutputShutdown()) {
-								message.envoyerMessageObjetSocket(outObject);
+								IOStreamUtils.sendMessage(outObject, message);
 							} else {
 								LOGGER.warn("Output is Shutdown !");
 							}

@@ -1,14 +1,6 @@
 package com.gc.irc.common.protocol;
 
-import java.io.IOException;
-import java.io.InvalidClassException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OptionalDataException;
 import java.io.Serializable;
-import java.io.StreamCorruptedException;
-
-import org.apache.log4j.Logger;
 
 /**
  * Object used to communicate between the Client and the Server.
@@ -19,9 +11,6 @@ public class IRCMessage implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -60278983013467149L;
-
-	/** The Constant logger. */
-	private static final Logger LOGGER = Logger.getLogger(IRCMessage.class);
 
 	/** The from id. */
 	private int fromId; // the id of the user who sends the message
@@ -78,51 +67,6 @@ public class IRCMessage implements Serializable {
 	 */
 	protected void setFromId(final int fromId) {
 		this.fromId = fromId;
-	}
-
-	/**
-	 * Send the message.
-	 * 
-	 * @param outObject
-	 *            Stream where is send the message
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 */
-	public void envoyerMessageObjetSocket(final ObjectOutputStream outObject)
-			throws IOException {
-		LOGGER.debug("Send the Message : " + this);
-		outObject.writeObject(this);
-		outObject.flush();
-		outObject.reset();
-	}
-
-	/**
-	 * Wait and receive a Message.
-	 * 
-	 * @param inObject
-	 *            Stream to listen.
-	 * @return Message Received message.
-	 * @throws ClassNotFoundException
-	 *             the class not found exception
-	 * @throws InvalidClassException
-	 *             the invalid class exception
-	 * @throws StreamCorruptedException
-	 *             the stream corrupted exception
-	 * @throws OptionalDataException
-	 *             the optional data exception
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 */
-	public static IRCMessage recevoirMessageObjetSocket(
-			final ObjectInputStream inObject) throws ClassNotFoundException,
-			InvalidClassException, StreamCorruptedException,
-			OptionalDataException, IOException {
-
-		LOGGER.debug("Wait for a message in the Stream.");
-		final IRCMessage message = (IRCMessage) inObject.readObject();
-		LOGGER.debug("Message receive : " + message);
-
-		return message;
 	}
 
 	/**
