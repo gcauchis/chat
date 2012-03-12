@@ -25,7 +25,7 @@ import com.gc.irc.server.test.handler.LoginMessageHandler;
 /**
  * The Class ServerTest.
  */
-public class ServerTest {
+public class ServerIT {
 
 	/** The Constant SERVER_PORT. */
 	private static final int SERVER_PORT = 1973;

@@ -11,7 +11,7 @@
 	</bean>
 
 	<bean id="serverCore" class="com.gc.irc.server.core.ServerCore">
-		<property name="port" value="1973" />
+		<property name="port" value="${server.port}" />
 	</bean>
 
 </beans>

@@ -357,6 +357,13 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
 		this.messageHandler = messageHandler;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.gc.irc.common.api.IIRCMessageSender#send(com.gc.irc.common.protocol
+	 * .IRCMessage)
+	 */
 	public void send(final IRCMessage message) {
 		try {
 			/**

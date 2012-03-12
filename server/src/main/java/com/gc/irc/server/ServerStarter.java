@@ -1,10 +1,11 @@
 package com.gc.irc.server;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
+import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.core.ServerCore;
 
 /**
@@ -32,8 +33,11 @@ public class ServerStarter implements Runnable {
 	 * Start and wait for client.
 	 */
 	public void startAndWaitForClient() {
-		final BeanFactory beanFactory = new XmlBeanFactory(
+		final XmlBeanFactory beanFactory = new XmlBeanFactory(
 				new ClassPathResource("spring-application-config.xml"));
+		final PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
+		cfg.setProperties(ServerConf.getProperties());
+		cfg.postProcessBeanFactory(beanFactory);
 		final ServerCore core = (ServerCore) beanFactory.getBean("serverCore");
 		LOGGER.info("Init server");
 		core.initServeur();
