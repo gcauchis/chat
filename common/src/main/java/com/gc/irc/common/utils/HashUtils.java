@@ -16,7 +16,7 @@ public final class HashUtils {
 			.getLogger(HashUtils.class);
 
 	/** The Constant SALT. */
-	public static final String SALT = "_SALT";
+	public static final String SALT = "_IRC_SALT";
 
 	/** The Constant ENCODING_HASH_TYPE. */
 	public static final String ENCODING_HASH_TYPE = "SHA-512";

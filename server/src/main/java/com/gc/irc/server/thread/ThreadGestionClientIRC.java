@@ -123,7 +123,7 @@ public class ThreadGestionClientIRC extends Thread {
 			 * Remove the client from server.
 			 */
 			LOGGER.debug(id+" Delete Client "+user.getNickName()+" from list");
-			parent.deconnectionClient(this);
+			parent.disconnectClient(this);
 			
 			/**
 			 * Inform all the other client.
@@ -344,7 +344,7 @@ public class ThreadGestionClientIRC extends Thread {
 					 * init env
 					 */
 					LOGGER.debug(id+" Init env");
-					parent.nouveauClientConnecter(this);
+					parent.newClientConnected(this);
 					
 					/**
 					 * Inform connected Users

@@ -172,7 +172,7 @@ public class ServerCore {
 	 * Add the login client to the Client's list.
 	 * @param client New Client
 	 */
-	public void nouveauClientConnecter(ThreadGestionClientIRC client){
+	public void newClientConnected(ThreadGestionClientIRC client){
 		LOGGER.debug("Add a new Connected Client : "+client.getUser().getNickName());
 		synchronized (clientConnecter) {
 			synchronized (listUserById) {
@@ -197,7 +197,7 @@ public class ServerCore {
 	 * Delete the deconnected Client.
 	 * @param client Deconnected Client.
 	 */
-	public void deconnectionClient(ThreadGestionClientIRC client){
+	public void disconnectClient(ThreadGestionClientIRC client){
 		LOGGER.debug("Delete the deconnected Client : "+client.getUser().getNickName());
 		synchronized (clientConnecter) {
 			synchronized (listUserById) {
