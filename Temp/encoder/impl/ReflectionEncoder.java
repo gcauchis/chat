@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.Map.Entry;
+import java.util.concurrent.Semaphore;
 
 import javolution.util.FastList;
 import javolution.util.FastSet;
@@ -37,6 +39,9 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
 
     /** The LOGGER of ReflectionEncoder. */
     private static final transient Logger LOGGER = LoggerFactory.getLogger(ReflectionEncoder.class);
+
+    /** The Constant DEFAULT_MAX_DEEP. */
+    private static final int DEFAULT_MAX_DEEP = 40;
 
     /** The Constant WRAPPER_TYPES. */
     @SuppressWarnings("unchecked")
@@ -63,7 +68,7 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     private List < IObjectEncoder > objectEncoders = new FastList < IObjectEncoder >();
 
     /** The encoded objects. */
-    private Set < Object > encodedObjects = new FastSet < Object >();
+    private Set < Object > encodedObjects = Collections.synchronizedSet(new FastSet < Object >());
 
     /** The encode all string. */
     private boolean encodeAllString = false;
@@ -71,6 +76,15 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /** The class black list. */
     @SuppressWarnings("unchecked")
     private Set < Class > classBlackList = new FastSet < Class >();
+
+    /** The lock. */
+    private Semaphore lock = new Semaphore(1);
+
+    /** The max deep. */
+    private int maxDeep = DEFAULT_MAX_DEEP;
+
+    /** The deep. */
+    private int deep = 0;
 
     /**
      * Instantiates a new reflection stringEncoder.
@@ -162,15 +176,40 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
      */
     @SuppressWarnings("unchecked")
     private boolean isNotAnEncodableClass(Class clazz) {
-        return NOT_ENCODABLE_TYPES.contains(clazz) || !isEncodableField(clazz) || classBlackList.contains(clazz);
+        return NOT_ENCODABLE_TYPES.contains(clazz) || !isEncodableField(clazz) || isInBlackList(clazz);
+    }
+
+    /**
+     * Checks if is in black list.
+     * 
+     * @param clazz the clazz
+     * @return true, if is in black list
+     */
+    @SuppressWarnings("unchecked")
+    private boolean isInBlackList(Class clazz) {
+        while (!clazz.equals(Object.class)) {
+            if (classBlackList.contains(clazz)) {
+                return true;
+            }
+            clazz = clazz.getSuperclass();
+        }
+        return false;
+
     }
 
     /* (non-Javadoc)
      * @see com.acp.vision.encoder.IReflectionEncoder#encodeByReflection(java.lang.Object)
      */
     public final synchronized void encodeByReflection(final Object value) {
+        try {
+            lock.acquire();
+        } catch (InterruptedException e) {
+            getLog().error("fail to acquire lock");
+            return;
+        }
         reset();
         internalEncodeByReflection(value);
+        lock.release();
     }
 
     /**
@@ -180,6 +219,11 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
      */
     @SuppressWarnings("unchecked")
     private void internalEncodeByReflection(final Object value) {
+        deep++;
+        if (deep > maxDeep) {
+            deep--;
+            return;
+        }
         if (value != null) {
             Class clazz = value.getClass();
             if (isNotAnEncodableClass(clazz) || encodedObjects.contains(value)) {
@@ -210,6 +254,7 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
                 }
             }
         }
+        deep--;
     }
 
     /**
@@ -284,6 +329,7 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     private void encodeMap(final Map < ?, Object > value) {
         for (Entry < ?, Object > entry : value.entrySet()) {
             if (entry.getValue() != null) {
+                getLog().debug("Encode map enty {}", entry.getKey());
                 if (String.class.equals(entry.getValue().getClass()) && isAllStringEncoded()) {
                     entry.setValue(encodeString((String) entry.getValue()));
                 } else {
@@ -331,6 +377,27 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
      * Reset.
      */
     private void reset() {
-        encodedObjects = new FastSet < Object >();
+        encodedObjects.clear();
+        deep = 0;
     }
+
+    /**
+     * Gets the max deep.
+     * 
+     * @return the max deep
+     */
+    public int getMaxDeep() {
+        return maxDeep;
+    }
+
+    /**
+     * Sets the max deep. Must be > 5.
+     * 
+     * @param maxDeep the new max deep
+     */
+    @Override
+    public void setMaxDeep(int maxDeep) {
+        this.maxDeep = maxDeep > 5 ? maxDeep : DEFAULT_MAX_DEEP;
+    }
+
 }
