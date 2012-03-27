@@ -20,42 +20,16 @@ import com.gc.irc.common.protocol.chat.IRCMessageChat;
 import com.gc.irc.common.protocol.command.IRCMessageCommandLogin;
 import com.gc.irc.common.protocol.command.IRCMessageCommandRegister;
 import com.gc.irc.server.ServerStarter;
+import com.gc.irc.server.api.AbstractServerIT;
 import com.gc.irc.server.test.handler.LoginMessageHandler;
 
 /**
  * The Class ServerTest.
  */
-public class ServerIT {
-
-	/** The Constant SERVER_PORT. */
-	private static final int SERVER_PORT = 1973;
-
-	/** The starter thread. */
-	private static Thread starterThread;
-
-	/** The starter. */
-	private static ServerStarter starter;
+public class ServerIT extends AbstractServerIT{
 
 	/** The connection thread. */
 	private ConnectionThread connectionThread;
-
-	/**
-	 * Inits the.
-	 * 
-	 * @throws InterruptedException
-	 *             the interrupted exception
-	 */
-	@BeforeClass
-	public static void init() throws InterruptedException {
-		starter = new ServerStarter();
-		starterThread = new Thread(starter);
-		starterThread.start();
-		System.out.println("Wait for server to be up");
-		while (!starter.isInitialized()) {
-			Thread.sleep(500);
-		}
-		System.out.println("Server up");
-	}
 
 	/**
 	 * Prepare.
@@ -65,21 +39,7 @@ public class ServerIT {
 	 */
 	@Before
 	public void prepare() throws InterruptedException {
-		connectionThread = new ConnectionThread(null, SERVER_PORT);
-		connectionThread.start();
-		System.out.println("Wait for connectionThread to be up");
-		while (!connectionThread.isInitialized()) {
-			Thread.sleep(500);
-		}
-		System.out.println("ConnectionThread up");
-	}
-
-	/**
-	 * Clean all.
-	 */
-	@AfterClass
-	public static void cleanAll() {
-		starterThread.interrupt();
+		connectionThread = getConnectionToServer();
 	}
 
 	/**
@@ -132,19 +92,6 @@ public class ServerIT {
 		}
 		assertTrue(messageHandler.isLoginValidated());
 		assertNotNull(messageHandler.getLogin());
-	}
-
-	/**
-	 * Send message.
-	 * 
-	 * @param messageSender
-	 *            the message sender
-	 * @param message
-	 *            the message
-	 */
-	private void sendMessage(final IIRCMessageSender messageSender,
-			final IRCMessage message) {
-		messageSender.send(message);
 	}
 
 	/**
