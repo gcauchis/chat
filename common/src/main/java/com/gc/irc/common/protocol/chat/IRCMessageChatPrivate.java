@@ -29,8 +29,8 @@ public class IRCMessageChatPrivate extends IRCMessageChat {
 	 *            the text color
 	 */
 	public IRCMessageChatPrivate(final int userID,
-			final ArrayList<IClientMessageLine> lines, final float[] textColor) {
-		super(userID, lines, textColor);
+			final ArrayList<IClientMessageLine> lines) {
+		super(userID, lines);
 		setChatMessageType(IRCMessageChatType.PRIVATE);
 	}
 
@@ -47,9 +47,8 @@ public class IRCMessageChatPrivate extends IRCMessageChat {
 	 *            the text color
 	 */
 	public IRCMessageChatPrivate(final int userID,
-			final ArrayList<IClientMessageLine> lines, final int toId,
-			final float[] textColor) {
-		this(userID, lines, textColor);
+			final ArrayList<IClientMessageLine> lines, final int toId) {
+		this(userID, lines);
 		this.toId = toId;
 	}
 

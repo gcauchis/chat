@@ -155,6 +155,6 @@ public class ServerIT {
 	private IRCMessage getBasicMessage() {
 		return new IRCMessageChat(0,
 				Arrays.asList((IClientMessageLine) new BasicClientMessage(
-						"message")), null);
+						"message")));
 	}
 }

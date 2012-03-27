@@ -22,9 +22,6 @@ public class IRCMessageChat extends IRCMessage {
 	/** The chat message type. */
 	private IRCMessageChatType chatMessageType = IRCMessageChatType.GLOBAL;
 
-	/** The text color. */
-	private float[] textColor; // the RGB components of the text color
-
 	/**
 	 * Instantiates a new iRC message chat.
 	 * 
@@ -36,10 +33,9 @@ public class IRCMessageChat extends IRCMessage {
 	 *            the text color
 	 */
 	public IRCMessageChat(final int userID,
-			final List<IClientMessageLine> lines, final float[] textColor) {
+			final List<IClientMessageLine> lines) {
 		super(userID, IRCMessageType.CHATMESSAGE);
 		setLines(lines);
-		setTextColor(textColor);
 	}
 
 	/**
@@ -81,25 +77,6 @@ public class IRCMessageChat extends IRCMessage {
 	}
 
 	/**
-	 * Sets the text color.
-	 * 
-	 * @param textColor
-	 *            the new text color
-	 */
-	public void setTextColor(final float[] textColor) {
-		this.textColor = textColor;
-	}
-
-	/**
-	 * Gets the text color.
-	 * 
-	 * @return the text color
-	 */
-	public float[] getTextColor() {
-		return textColor;
-	}
-
-	/**
 	 * Constructs a <code>String</code> with all attributes
 	 * in name = value format.
 	 *
@@ -115,7 +92,6 @@ public class IRCMessageChat extends IRCMessage {
 	        .append(super.toString()).append(TAB)
 	        .append("lines = ").append(this.lines).append(TAB)
 	        .append("chatMessageType = ").append(this.chatMessageType).append(TAB)
-	        .append("textColor = ").append(this.textColor).append(TAB)
 	        .append(" )");
 	    
 	    return retValue.toString();
