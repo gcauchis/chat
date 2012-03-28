@@ -10,6 +10,7 @@ import com.gc.irc.common.api.IIRCMessageSender;
 import com.gc.irc.common.connector.ConnectionThread;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.command.IRCMessageCommand;
 import com.gc.irc.common.protocol.command.IRCMessageCommandLogin;
 import com.gc.irc.common.protocol.command.IRCMessageCommandRegister;
 import com.gc.irc.server.ServerStarter;
@@ -77,34 +78,60 @@ public abstract class AbstractServerIT {
 	 * @param connectionThread the connection thread
 	 * @param login the login
 	 * @param password the password
+	 * @return the iRC user
 	 * @throws InterruptedException the interrupted exception
 	 */
-	protected IRCUser loginAndRegister(ConnectionThread connectionThread, String login, String password) throws InterruptedException {
+	protected IRCUser login(ConnectionThread connectionThread, String login, String password) throws InterruptedException {
+		return sendCommandMessageForLogin(connectionThread, new IRCMessageCommandLogin(login, password));
+	}
+	
+	/**
+	 * Register.
+	 *
+	 * @param connectionThread the connection thread
+	 * @param login the login
+	 * @param password the password
+	 * @return the iRC user
+	 * @throws InterruptedException the interrupted exception
+	 */
+	protected IRCUser register(ConnectionThread connectionThread, String login, String password) throws InterruptedException {
+		return sendCommandMessageForLogin(connectionThread, new IRCMessageCommandRegister(login,password));
+	}
+	
+	/**
+	 * Send command message for login.
+	 *
+	 * @param connectionThread the connection thread
+	 * @param messageCommand the message command
+	 * @return the iRC user
+	 * @throws InterruptedException the interrupted exception
+	 */
+	private IRCUser sendCommandMessageForLogin(ConnectionThread connectionThread, IRCMessageCommand messageCommand) throws InterruptedException {
 		final LoginMessageHandler messageHandler = new LoginMessageHandler();
 		connectionThread.setMessageHandler(messageHandler);
 		messageHandler.reset();
-		final IRCMessage loginMessage = new IRCMessageCommandLogin(login, password);
-		sendMessage(connectionThread, loginMessage);
+		sendMessage(connectionThread, messageCommand);
 		while (!messageHandler.isMessageRecieved()) {
 			Thread.sleep(300);
 		}
-		if (!messageHandler.isLoginValidated()) {
-			messageHandler.reset();
-			final IRCMessage register = new IRCMessageCommandRegister(login,password);
-			sendMessage(connectionThread, register);
-			while (!messageHandler.isMessageRecieved()) {
-				Thread.sleep(300);
-			}
-//			messageHandler.reset();
-//			sendMessage(connectionThread, loginMessage);
-//			while (!messageHandler.isMessageRecieved()) {
-//				Thread.sleep(300);
-//			}
-		}
-		assertTrue(messageHandler.isLoginValidated());
-		assertNotNull(messageHandler.getLogin());
 		connectionThread.setMessageHandler(null);
 		return messageHandler.getLogin();
+	}
+	
+	/**
+	 * Login.
+	 *
+	 * @param connectionThread the connection thread
+	 * @param login the login
+	 * @param password the password
+	 * @throws InterruptedException the interrupted exception
+	 */
+	protected IRCUser loginAndRegister(ConnectionThread connectionThread, String login, String password) throws InterruptedException {
+		IRCUser user = login(connectionThread, login, password);
+		if (user == null) {
+			user = register(connectionThread, login, password);
+		}
+		return user;
 	}
 	
 	/**

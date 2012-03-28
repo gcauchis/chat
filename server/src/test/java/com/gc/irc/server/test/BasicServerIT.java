@@ -59,13 +59,42 @@ public class BasicServerIT extends AbstractServerIT{
 	}
 
 	/**
-	 * Login.
-	 * 
-	 * @throws InterruptedException
-	 *             the interrupted exception
+	 * Login0.
+	 *
+	 * @throws InterruptedException the interrupted exception
 	 */
 	@Test
-	public void login() throws InterruptedException {
+	public void login0() throws InterruptedException {
+		assertNotNull(loginAndRegister(connectionThread, "test", "test"));
+	}
+	
+	/**
+	 * Login1.
+	 *
+	 * @throws InterruptedException the interrupted exception
+	 */
+	@Test
+	public void login1() throws InterruptedException {
+		assertNotNull(loginAndRegister(connectionThread, "test1", "test"));
+	}
+	
+	/**
+	 * Login2.
+	 *
+	 * @throws InterruptedException the interrupted exception
+	 */
+	@Test
+	public void login2() throws InterruptedException {
+		assertNotNull(loginAndRegister(connectionThread, "test2", "test"));
+	}
+	
+	/**
+	 * Login rand.
+	 *
+	 * @throws InterruptedException the interrupted exception
+	 */
+	@Test
+	public void loginRand() throws InterruptedException {
 		assertNotNull(loginAndRegister(connectionThread, "TestUser" + Math.round(Math.random() * System.currentTimeMillis()),
 				"TestPassword" + Math.round(Math.random() * System.currentTimeMillis())));
 	}
