@@ -191,17 +191,11 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
 					setServerDisconnection(true);
 				}
 				setAuthenticated(false);
-				LOGGER.error("The connection with the server failed", e);
+				if (!manualDisconnection) {
+					LOGGER.error("The connection with the server lost", e);
+				}
 			}
-
-			try {
-				Thread.sleep(3000);
-			} catch (final InterruptedException e1) {
-				e1.printStackTrace();
-			}
-
 		}
-
 	}
 
 	/**
