@@ -76,8 +76,10 @@ public class TwoUserBasicTestIT extends AbstractServerIT {
         final SimpleMessageHandler messageHandlerUser2 = new SimpleMessageHandler();
         connectionUser2.setMessageHandler(messageHandlerUser2);
         user1SendToGlobalWith2Listening("FisrtMessage", messageHandlerUser2);
-
+        user2SendToGlobalWith1Listening("SecondMessage", messageHandlerUser1);
         user1SendToGlobalWith2Listening("ThirdMessage", messageHandlerUser2);
+        user2SendToGlobalWith1Listening("FourthMessage", messageHandlerUser1);
+        user2SendToGlobalWith1Listening("FiftMessage", messageHandlerUser1);
     }
 
     /**
@@ -94,6 +96,34 @@ public class TwoUserBasicTestIT extends AbstractServerIT {
         sendMessageToGlobal(user1, connectionUser1, messageStr, messageHandlerUser2);
     }
 
+    /**
+     * User2 send to global with1 listening.
+     * 
+     * @param messageStr
+     *            the message str
+     * @param messageHandlerUser1
+     *            the message handler user1
+     * @throws InterruptedException
+     *             the interrupted exception
+     */
+    private void user2SendToGlobalWith1Listening(final String messageStr, final SimpleMessageHandler messageHandlerUser1) throws InterruptedException {
+        sendMessageToGlobal(user2, connectionUser2, messageStr, messageHandlerUser1);
+    }
+
+    /**
+     * Send message to global.
+     * 
+     * @param userA
+     *            the user a
+     * @param connectionThreadA
+     *            the connection thread a
+     * @param messageStr
+     *            the message str
+     * @param messageHandlerUserB
+     *            the message handler user b
+     * @throws InterruptedException
+     *             the interrupted exception
+     */
     private void sendMessageToGlobal(final IRCUser userA, final ConnectionThread connectionThreadA, final String messageStr,
             final SimpleMessageHandler messageHandlerUserB) throws InterruptedException {
         final IRCMessage currentSendedMessage = buildSimpleMessage(userA, messageStr);
