@@ -1,12 +1,19 @@
 package com.gc.irc.server.api;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 import com.gc.irc.common.api.IIRCMessageSender;
 import com.gc.irc.common.connector.ConnectionThread;
+import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.command.IRCMessageCommandLogin;
+import com.gc.irc.common.protocol.command.IRCMessageCommandRegister;
 import com.gc.irc.server.ServerStarter;
+import com.gc.irc.server.test.handler.LoginMessageHandler;
 
 /**
  * The Class AbstractServerIT.
@@ -62,6 +69,37 @@ public abstract class AbstractServerIT {
 		}
 		System.out.println("ConnectionThread up");
 		return connectionThread;
+	}
+	
+	/**
+	 * Login.
+	 *
+	 * @param connectionThread the connection thread
+	 * @param login the login
+	 * @param password the password
+	 * @throws InterruptedException the interrupted exception
+	 */
+	protected IRCUser login(ConnectionThread connectionThread, String login, String password) throws InterruptedException {
+		final LoginMessageHandler messageHandler = new LoginMessageHandler();
+		connectionThread.setMessageHandler(messageHandler);
+		messageHandler.reset();
+		final IRCMessage loginMessage = new IRCMessageCommandLogin(login, password);
+		sendMessage(connectionThread, loginMessage);
+		while (!messageHandler.isMessageRecieved()) {
+			Thread.sleep(300);
+		}
+		if (!messageHandler.isLoginValidated()) {
+			messageHandler.reset();
+			final IRCMessage register = new IRCMessageCommandRegister(login,password);
+			sendMessage(connectionThread, register);
+			while (!messageHandler.isMessageRecieved()) {
+				Thread.sleep(300);
+			}
+		}
+		assertTrue(messageHandler.isLoginValidated());
+		assertNotNull(messageHandler.getLogin());
+		connectionThread.setMessageHandler(null);
+		return messageHandler.getLogin();
 	}
 	
 	/**
