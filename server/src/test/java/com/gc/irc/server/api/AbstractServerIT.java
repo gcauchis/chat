@@ -1,8 +1,5 @@
 package com.gc.irc.server.api;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -14,6 +11,7 @@ import com.gc.irc.common.protocol.command.IRCMessageCommand;
 import com.gc.irc.common.protocol.command.IRCMessageCommandLogin;
 import com.gc.irc.common.protocol.command.IRCMessageCommandRegister;
 import com.gc.irc.server.ServerStarter;
+import com.gc.irc.server.test.handler.AbstractMessageHandler;
 import com.gc.irc.server.test.handler.LoginMessageHandler;
 
 /**
@@ -36,15 +34,17 @@ public abstract class AbstractServerIT {
 	 *             the interrupted exception
 	 */
 	@BeforeClass
-	public static void init() throws InterruptedException {
-		starter = new ServerStarter();
-		starterThread = new Thread(starter);
-		starterThread.start();
-		System.out.println("Wait for server to be up");
-		while (!starter.isInitialized()) {
-			Thread.sleep(500);
+	public static synchronized void lauchServer() throws InterruptedException {
+		if (starter == null) {
+			starter = new ServerStarter();
+			starterThread = new Thread(starter);
+			starterThread.start();
+			System.out.println("Wait for server to be up");
+			while (!starter.isInitialized()) {
+				Thread.sleep(500);
+			}
+			System.out.println("Server up");
 		}
-		System.out.println("Server up");
 	}
 	
 	/**
@@ -111,11 +111,22 @@ public abstract class AbstractServerIT {
 		connectionThread.setMessageHandler(messageHandler);
 		messageHandler.reset();
 		sendMessage(connectionThread, messageCommand);
+		waitForMessageInHandler(messageHandler);
+		connectionThread.setMessageHandler(null);
+		return messageHandler.getLogin();
+	}
+
+	/**
+	 * Wait for message in handler.
+	 *
+	 * @param messageHandler the message handler
+	 * @throws InterruptedException the interrupted exception
+	 */
+	protected void waitForMessageInHandler( final AbstractMessageHandler messageHandler)
+			throws InterruptedException {
 		while (!messageHandler.isMessageRecieved()) {
 			Thread.sleep(300);
 		}
-		connectionThread.setMessageHandler(null);
-		return messageHandler.getLogin();
 	}
 	
 	/**
