@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.gc.irc.common.api.IClientMessageLine;
-import com.gc.irc.common.api.impl.BasicClientMessage;
+import com.gc.irc.common.api.impl.BasicClientMessageLine;
 import com.gc.irc.common.connector.ConnectionThread;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.protocol.chat.IRCMessageChat;
@@ -106,7 +106,7 @@ public class BasicServerIT extends AbstractServerIT{
 	 */
 	private IRCMessage getBasicMessage() {
 		return new IRCMessageChat(0,
-				Arrays.asList((IClientMessageLine) new BasicClientMessage(
+				Arrays.asList((IClientMessageLine) new BasicClientMessageLine(
 						"message")));
 	}
 }

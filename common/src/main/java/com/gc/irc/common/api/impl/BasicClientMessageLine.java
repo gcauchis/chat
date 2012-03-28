@@ -5,7 +5,7 @@ import com.gc.irc.common.api.IClientMessageLine;
 /**
  * The Class BasicClientMessage.
  */
-public class BasicClientMessage implements IClientMessageLine {
+public class BasicClientMessageLine implements IClientMessageLine {
 	
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6741145004079482180L;
@@ -16,7 +16,7 @@ public class BasicClientMessage implements IClientMessageLine {
 	/**
 	 * Instantiates a new basic client message.
 	 */
-	public BasicClientMessage() {
+	public BasicClientMessageLine() {
 		super();
 	}
 
@@ -25,7 +25,7 @@ public class BasicClientMessage implements IClientMessageLine {
 	 *
 	 * @param message the message
 	 */
-	public BasicClientMessage(String message) {
+	public BasicClientMessageLine(String message) {
 		super();
 		this.message = message;
 	}
