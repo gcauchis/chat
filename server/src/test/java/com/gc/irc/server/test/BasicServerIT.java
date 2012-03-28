@@ -39,6 +39,7 @@ public class BasicServerIT extends AbstractServerIT{
 	 */
 	@After
 	public void clean() {
+		connectionThread.disconnect();
 		connectionThread.interrupt();
 	}
 
@@ -65,7 +66,8 @@ public class BasicServerIT extends AbstractServerIT{
 	 */
 	@Test
 	public void login() throws InterruptedException {
-		assertNotNull(login(connectionThread, "test", "test"));
+		assertNotNull(loginAndRegister(connectionThread, "TestUser" + Math.round(Math.random() * System.currentTimeMillis()),
+				"TestPassword" + Math.round(Math.random() * System.currentTimeMillis())));
 	}
 
 	/**

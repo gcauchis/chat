@@ -79,7 +79,7 @@ public abstract class AbstractServerIT {
 	 * @param password the password
 	 * @throws InterruptedException the interrupted exception
 	 */
-	protected IRCUser login(ConnectionThread connectionThread, String login, String password) throws InterruptedException {
+	protected IRCUser loginAndRegister(ConnectionThread connectionThread, String login, String password) throws InterruptedException {
 		final LoginMessageHandler messageHandler = new LoginMessageHandler();
 		connectionThread.setMessageHandler(messageHandler);
 		messageHandler.reset();
@@ -95,6 +95,11 @@ public abstract class AbstractServerIT {
 			while (!messageHandler.isMessageRecieved()) {
 				Thread.sleep(300);
 			}
+//			messageHandler.reset();
+//			sendMessage(connectionThread, loginMessage);
+//			while (!messageHandler.isMessageRecieved()) {
+//				Thread.sleep(300);
+//			}
 		}
 		assertTrue(messageHandler.isLoginValidated());
 		assertNotNull(messageHandler.getLogin());

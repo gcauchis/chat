@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes" ?>
 
-<IRCUsers lastId="1">
+<IRCUsers lastId="11">
 	<IRCUserInfo id="1" nickname="test" login="test" password="test" hasPicture="false" />
+	<IRCUserInfo id="2" nickname="test2" login="test2" password="test" hasPicture="false" />
+	<IRCUserInfo id="3" nickname="test3" login="test3" password="test" hasPicture="false" />
+	<IRCUserInfo id="4" nickname="test4" login="test4" password="test" hasPicture="false" />
+	<IRCUserInfo id="5" nickname="TestUser1" login="TestUser1" password="TestPassword1" hasPicture="false" />
+	<IRCUserInfo id="6" nickname="TestUser542369317270" login="TestUser542369317270" password="TestPassword112674106278" hasPicture="false" />
+	<IRCUserInfo id="7" nickname="TestUser1271039015148" login="TestUser1271039015148" password="TestPassword408199935839" hasPicture="false" />
+	<IRCUserInfo id="8" nickname="TestUser480892461545" login="TestUser480892461545" password="TestPassword88956775788" hasPicture="false" />
+	<IRCUserInfo id="9" nickname="TestUser440905484556" login="TestUser440905484556" password="TestPassword106774290933" hasPicture="false" />
+	<IRCUserInfo id="10" nickname="TestUser1161677764768" login="TestUser1161677764768" password="TestPassword652742097533" hasPicture="false" />
+	<IRCUserInfo id="11" nickname="TestUser7048958780" login="TestUser7048958780" password="TestPassword1260474956500" hasPicture="false" />
 </IRCUsers>
 

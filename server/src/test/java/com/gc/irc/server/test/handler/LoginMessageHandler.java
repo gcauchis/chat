@@ -6,6 +6,7 @@ import com.gc.irc.common.api.IIRCMessageHandler;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeLogin;
+import com.gc.irc.common.protocol.notice.IRCMessageNoticeRegister;
 
 /**
  * The Class LoginMessageHandler.
@@ -39,6 +40,12 @@ public class LoginMessageHandler implements IIRCMessageHandler {
 			if (login != null) {
 				loginValidated = true;
 				LOGGER.info("USER : " + login.toStringXML(""));
+			}
+		} else if (message instanceof IRCMessageNoticeRegister) {
+			login = ((IRCMessageNoticeRegister) message).getUser();
+			if (login != null) {
+				loginValidated = true;
+				LOGGER.info("REGISTER USER : " + login.toStringXML(""));
 			}
 		}
 		messageRecieved = true;
