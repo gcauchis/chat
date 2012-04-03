@@ -6,8 +6,6 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -51,7 +49,7 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /** The Constant NOT_ENCODABLE_TYPES. */
     @SuppressWarnings("unchecked")
     private static final Set < Class > NOT_ENCODABLE_TYPES = new HashSet < Class >(Arrays.asList(Object.class, String.class, java.util.Date.class, java.sql.Date.class,
-            Calendar.class, Locale.class, TimeZone.class, GregorianCalendar.class));
+            Calendar.class, Locale.class, TimeZone.class));
 
     /* (non-Javadoc)
      * @see com.acp.vision.service.ILoggable#getLog()
@@ -68,7 +66,7 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     private List < IObjectEncoder > objectEncoders = new FastList < IObjectEncoder >();
 
     /** The encoded objects. */
-    private Set < Object > encodedObjects = Collections.synchronizedSet(new FastSet < Object >());
+    private Set < Object > encodedObjects = new FastSet < Object >();
 
     /** The encode all string. */
     private boolean encodeAllString = false;
@@ -176,25 +174,25 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
      */
     @SuppressWarnings("unchecked")
     private boolean isNotAnEncodableClass(Class clazz) {
-        return NOT_ENCODABLE_TYPES.contains(clazz) || !isEncodableField(clazz) || isInBlackList(clazz);
+        return isInClassCollection(clazz, NOT_ENCODABLE_TYPES) || !isEncodableField(clazz) || isInClassCollection(clazz, classBlackList);
     }
 
     /**
-     * Checks if is in black list.
+     * Checks if is in class collection.
      * 
      * @param clazz the clazz
-     * @return true, if is in black list
+     * @param classes the classes
+     * @return true, if is in class collection
      */
     @SuppressWarnings("unchecked")
-    private boolean isInBlackList(Class clazz) {
+    private boolean isInClassCollection(Class clazz, Collection < Class > classes) {
         while (!clazz.equals(Object.class)) {
-            if (classBlackList.contains(clazz)) {
+            if (classes.contains(clazz)) {
                 return true;
             }
             clazz = clazz.getSuperclass();
         }
         return false;
-
     }
 
     /* (non-Javadoc)
@@ -227,6 +225,7 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
         if (value != null) {
             Class clazz = value.getClass();
             if (isNotAnEncodableClass(clazz) || encodedObjects.contains(value)) {
+                deep--;
                 return;
             }
             encodedObjects.add(value);
