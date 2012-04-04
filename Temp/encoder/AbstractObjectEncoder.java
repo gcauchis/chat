@@ -14,9 +14,9 @@ import com.acp.common.crypto.exception.EncoderException;
 public abstract class AbstractObjectEncoder < OBJ > implements IObjectEncoder {
 
     /**
-     * Gets the agg class.
+     * Gets the obj class.
      * 
-     * @return the agg class
+     * @return the obj class
      */
     @SuppressWarnings("unchecked")
     private Class < OBJ > getGenericObjectClass() {
@@ -24,19 +24,11 @@ public abstract class AbstractObjectEncoder < OBJ > implements IObjectEncoder {
         return (Class < OBJ >) parameterizedType.getActualTypeArguments()[0];
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.acp.common.crypto.api.IObjectEncoder#encryptClass(java.lang.Class)
-     */
     @Override
     public final boolean encodeClass(Class < ? > clazz) {
         return getGenericObjectClass().equals(clazz);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.acp.common.crypto.api.IObjectEncoder#encryptObject(java.lang.Object, com.acp.common.crypto.api.IStringEncoder)
-     */
     @SuppressWarnings("unchecked")
     @Override
     public final Object encodeObject(final Object value, final IStringEncoder stringEncoder) throws EncoderException {
@@ -53,7 +45,7 @@ public abstract class AbstractObjectEncoder < OBJ > implements IObjectEncoder {
     /**
      * Internal encode object.
      * 
-     * @param agg the agg
+     * @param obj the obj
      * @param stringEncoder the string encoder
      * @return the oBJ
      */
