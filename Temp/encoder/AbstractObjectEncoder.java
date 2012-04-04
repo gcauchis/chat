@@ -19,7 +19,7 @@ public abstract class AbstractObjectEncoder < OBJ > implements IObjectEncoder {
      * @return the agg class
      */
     @SuppressWarnings("unchecked")
-    private Class < OBJ > getObjectClass() {
+    private Class < OBJ > getGenericObjectClass() {
         final ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
         return (Class < OBJ >) parameterizedType.getActualTypeArguments()[0];
     }
@@ -30,7 +30,7 @@ public abstract class AbstractObjectEncoder < OBJ > implements IObjectEncoder {
      */
     @Override
     public final boolean encodeClass(Class < ? > clazz) {
-        return getObjectClass().equals(clazz);
+        return getGenericObjectClass().equals(clazz);
     }
 
     /*

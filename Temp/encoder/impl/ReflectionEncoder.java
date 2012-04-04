@@ -1,5 +1,6 @@
 package com.acp.vision.encoder.impl;
 
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -49,7 +50,11 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /** The Constant NOT_ENCODABLE_TYPES. */
     @SuppressWarnings("unchecked")
     private static final Set < Class > NOT_ENCODABLE_TYPES = new HashSet < Class >(Arrays.asList(Object.class, String.class, java.util.Date.class, java.sql.Date.class,
-            Calendar.class, Locale.class, TimeZone.class));
+            Calendar.class, Locale.class, TimeZone.class, org.apache.log4j.Logger.class, AccessibleObject.class));
+
+    /** The Constant NOT_ENCODABLE_INTERFACES. */
+    @SuppressWarnings("unchecked")
+    private static final Set < Class > NOT_ENCODABLE_INTERFACES = new HashSet < Class >(Arrays.asList(Logger.class));
 
     /* (non-Javadoc)
      * @see com.acp.vision.service.ILoggable#getLog()
@@ -74,6 +79,10 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /** The class black list. */
     @SuppressWarnings("unchecked")
     private Set < Class > classBlackList = new FastSet < Class >();
+
+    /** The interfaces black list. */
+    @SuppressWarnings("unchecked")
+    private Set < Class > interfacesBlackList = new FastSet < Class >();
 
     /** The lock. */
     private Semaphore lock = new Semaphore(1);
@@ -143,6 +152,15 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
         classBlackList.addAll(list);
     }
 
+    /*
+     * (non-Javadoc)
+     * @see com.acp.vision.encoder.IReflectionEncoder#addInterfacesToBlackList(java.util.Collection)
+     */
+    @SuppressWarnings("unchecked")
+    public final void addInterfacesToBlackList(Collection < Class > list) {
+        interfacesBlackList.addAll(list);
+    }
+
     /* (non-Javadoc)
      * @see com.acp.vision.encoder.IReflectionEncoder#encodeString(java.lang.String)
      */
@@ -174,7 +192,8 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
      */
     @SuppressWarnings("unchecked")
     private boolean isNotAnEncodableClass(Class clazz) {
-        return isInClassCollection(clazz, NOT_ENCODABLE_TYPES) || !isEncodableField(clazz) || isInClassCollection(clazz, classBlackList);
+        return isInClassCollection(clazz, NOT_ENCODABLE_TYPES) || !isEncodableField(clazz) || isInClassCollection(clazz, classBlackList)
+                || isInClassCollection(clazz.getInterfaces(), NOT_ENCODABLE_INTERFACES) || isInClassCollection(clazz.getInterfaces(), interfacesBlackList);
     }
 
     /**
@@ -186,13 +205,31 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
      */
     @SuppressWarnings("unchecked")
     private boolean isInClassCollection(Class clazz, Collection < Class > classes) {
-        while (!clazz.equals(Object.class)) {
+        while (clazz != null && !clazz.equals(Object.class)) {
             if (classes.contains(clazz)) {
                 return true;
             }
             clazz = clazz.getSuperclass();
         }
         return false;
+    }
+
+    /**
+     * Checks if is in class collection.
+     * 
+     * @param classesTab the classes tab
+     * @param classes the classes
+     * @return true, if is in class collection
+     */
+    @SuppressWarnings("unchecked")
+    private boolean isInClassCollection(Class[] classesTab, Collection < Class > classes) {
+        for (Class clazz : classesTab) {
+            if (clazz != null && isInClassCollection(clazz, classes)) {
+                return true;
+            }
+        }
+        return false;
+
     }
 
     /* (non-Javadoc)

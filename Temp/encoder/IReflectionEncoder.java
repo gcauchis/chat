@@ -13,6 +13,14 @@ public interface IReflectionEncoder {
     void addToBlackList(Collection < Class > list);
 
     /**
+     * Adds the interfaces to black list.
+     * 
+     * @param list the list
+     */
+    @SuppressWarnings("unchecked")
+    void addInterfacesToBlackList(Collection < Class > list);
+
+    /**
      * Encode the given string using the given stringEncoder.
      * 
      * @param value the value
@@ -26,5 +34,12 @@ public interface IReflectionEncoder {
      * @param value the value
      */
     void encodeByReflection(final Object value);
+
+    /**
+     * Sets the max deep.
+     * 
+     * @param maxDeep the new max deep
+     */
+    void setMaxDeep(int maxDeep);
 
 }
