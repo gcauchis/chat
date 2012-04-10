@@ -86,7 +86,7 @@ public class IRCServerAuthentification implements AuthentificationInterface {
      * 
      * @return The unique instance of the Class.
      */
-    public synchronized static IRCServerAuthentification getInstance() {
+    public static synchronized IRCServerAuthentification getInstance() {
         if (instance == null) {
             instance = new IRCServerAuthentification();
         }

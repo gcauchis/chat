@@ -1,11 +1,8 @@
 package com.gc.irc.server.thread;
 
 import java.io.IOException;
-import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OptionalDataException;
-import java.io.StreamCorruptedException;
 import java.net.Socket;
 
 import org.slf4j.Logger;
@@ -243,15 +240,6 @@ public class ThreadGestionClientIRC extends Thread {
             LOGGER.debug(id + " Wait for a message in the socket.");
             message = IOStreamUtils.receiveMessage(inObject);
             checkMessage(message);
-        } catch (final InvalidClassException e) {
-            LOGGER.warn(id + " Fail to receive a message : " + e.getMessage());
-            socketAlive();
-        } catch (final StreamCorruptedException e) {
-            LOGGER.warn(id + " Fail to receive a message : " + e.getMessage());
-            socketAlive();
-        } catch (final OptionalDataException e) {
-            LOGGER.warn(id + " Fail to receive a message : " + e.getMessage());
-            socketAlive();
         } catch (final ClassNotFoundException e) {
             LOGGER.warn(id + " Fail to receive a message : " + e.getMessage());
             socketAlive();
@@ -327,15 +315,6 @@ public class ThreadGestionClientIRC extends Thread {
             try {
                 LOGGER.debug(id + " Wait for login/Registration Message");
                 messageInit = IOStreamUtils.receiveMessage(inObject);
-            } catch (final InvalidClassException e) {
-                LOGGER.warn(id + " Fail to receive the Login/Registration Message : " + e.getMessage());
-                throw new IRCServerException(e);
-            } catch (final StreamCorruptedException e) {
-                LOGGER.warn(id + " Fail to receive the Login/Registration Message : " + e.getMessage());
-                throw new IRCServerException(e);
-            } catch (final OptionalDataException e) {
-                LOGGER.warn(id + " Fail to receive the Login/Registration Message : " + e.getMessage());
-                throw new IRCServerException(e);
             } catch (final ClassNotFoundException e) {
                 LOGGER.warn(id + " Fail to receive the Login/Registration Message : " + e.getMessage());
                 throw new IRCServerException(e);

@@ -144,7 +144,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * com.acp.vision.encoder.IReflectionEncoder#addToBlackList(java.util.Collection
      * )
      */
-    public final void addToBlackList(@SuppressWarnings("rawtypes") final Collection<Class> list) {
+    public void addToBlackList(@SuppressWarnings("rawtypes") final Collection<Class> list) {
         classBlackList.addAll(list);
     }
 
@@ -155,7 +155,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * com.acp.vision.encoder.IReflectionEncoder#addInterfacesToBlackList(java
      * .util.Collection)
      */
-    public final void addInterfacesToBlackList(@SuppressWarnings("rawtypes") final Collection<Class> list) {
+    public void addInterfacesToBlackList(@SuppressWarnings("rawtypes") final Collection<Class> list) {
         interfacesBlackList.addAll(list);
     }
 
@@ -165,7 +165,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * @see
      * com.acp.vision.encoder.IReflectionEncoder#encodeString(java.lang.String)
      */
-    public final String encodeString(final String value) {
+    public String encodeString(final String value) {
         if (value != null) {
             if (encodedString.contains(value)) {
                 return value;
@@ -247,7 +247,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * com.acp.vision.encoder.IReflectionEncoder#encodeByReflection(java.lang
      * .Object)
      */
-    public final synchronized void encodeByReflection(final Object value) {
+    public synchronized void encodeByReflection(final Object value) {
         try {
             lock.acquire();
         } catch (final InterruptedException e) {
