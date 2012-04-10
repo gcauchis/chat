@@ -1,10 +1,11 @@
-package com.acp.common.crypto.exception;
+package com.gc.irc.common.exception.utils;
+
+import com.gc.irc.common.exception.IRCException;
 
 /**
  * The Class EncoderException.
  */
-public class EncoderException
-        extends Exception {
+public class EncoderException extends IRCException {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 7985190218244364512L;
@@ -19,28 +20,32 @@ public class EncoderException
     /**
      * Instantiates a new encryption exception.
      * 
-     * @param message the message
-     * @param cause the cause
+     * @param message
+     *            the message
+     * @param cause
+     *            the cause
      */
-    public EncoderException(String message, Throwable cause) {
+    public EncoderException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
     /**
      * Instantiates a new encryption exception.
      * 
-     * @param message the message
+     * @param message
+     *            the message
      */
-    public EncoderException(String message) {
+    public EncoderException(final String message) {
         super(message);
     }
 
     /**
      * Instantiates a new encryption exception.
      * 
-     * @param cause the cause
+     * @param cause
+     *            the cause
      */
-    public EncoderException(Throwable cause) {
+    public EncoderException(final Throwable cause) {
         super(cause);
     }
 

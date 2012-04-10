@@ -1,4 +1,4 @@
-package com.acp.vision.encoder.impl;
+package com.gc.irc.common.utils.encoder.imp;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
@@ -11,9 +11,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TimeZone;
-import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
 
 import javolution.util.FastList;
@@ -22,19 +22,15 @@ import javolution.util.FastSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.acp.common.crypto.api.IObjectEncoder;
-import com.acp.common.crypto.api.IStringEncoder;
-import com.acp.common.crypto.exception.EncoderException;
-import com.acp.vision.encoder.IReflectionEncoder;
-import com.acp.vision.service.ILoggable;
+import com.gc.irc.common.exception.utils.EncoderException;
+import com.gc.irc.common.utils.encoder.IObjectEncoder;
+import com.gc.irc.common.utils.encoder.IReflectionEncoder;
+import com.gc.irc.common.utils.encoder.IStringEncoder;
 
 /**
  * The Class ReflectionEncoder.
  */
-public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
-    
-    /** The Constant serialVersionUID. */
-    private static final long serialVersionUID = -5755924805672846428L;
+public final class ReflectionEncoder implements IReflectionEncoder {
 
     /** The LOGGER of ReflectionEncoder. */
     private static final transient Logger LOGGER = LoggerFactory.getLogger(ReflectionEncoder.class);
@@ -43,23 +39,24 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     public static final int DEFAULT_MAX_DEEP = 40;
 
     /** The Constant WRAPPER_TYPES. */
-    @SuppressWarnings("unchecked")
-    private static final Set < Class > WRAPPER_TYPES = new HashSet < Class >(Arrays.asList(Boolean.class, Character.class, Byte.class, Short.class, Integer.class,
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private static final Set<Class> WRAPPER_TYPES = new HashSet<Class>(Arrays.asList(Boolean.class, Character.class, Byte.class, Short.class, Integer.class,
             Long.class, Float.class, Double.class, Void.class, BigDecimal.class, BigInteger.class));
 
     /** The Constant NOT_ENCODABLE_TYPES. */
-    @SuppressWarnings("unchecked")
-    private static final Set < Class > NOT_ENCODABLE_TYPES = new HashSet < Class >(Arrays.asList(Object.class, String.class, java.util.Date.class, java.sql.Date.class,
-            Calendar.class, Locale.class, TimeZone.class, org.apache.log4j.Logger.class, AccessibleObject.class));
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private static final Set<Class> NOT_ENCODABLE_TYPES = new HashSet<Class>(Arrays.asList(Object.class, String.class, java.util.Date.class,
+            java.sql.Date.class, Calendar.class, Locale.class, TimeZone.class, org.apache.log4j.Logger.class, AccessibleObject.class));
 
     /** The Constant NOT_ENCODABLE_INTERFACES. */
-    @SuppressWarnings("unchecked")
-    private static final Set < Class > NOT_ENCODABLE_INTERFACES = new HashSet < Class >(Arrays.asList(Logger.class));
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private static final Set<Class> NOT_ENCODABLE_INTERFACES = new HashSet<Class>(Arrays.asList(Logger.class));
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.acp.vision.service.ILoggable#getLog()
      */
-    @Override
     public Logger getLog() {
         return LOGGER;
     }
@@ -68,24 +65,24 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     private IStringEncoder stringEncoder;
 
     /** The object encoders. */
-    private List < IObjectEncoder > objectEncoders = new FastList < IObjectEncoder >();
+    private List<IObjectEncoder> objectEncoders = new FastList<IObjectEncoder>();
 
     /** The encoded objects. */
-    private Set < Object > encodedObjects = new FastSet < Object >();
+    private Set<Object> encodedObjects = new FastSet<Object>();
 
     /** The encoded string. */
-    private Set < String > encodedString = new FastSet < String >();
+    private Set<String> encodedString = new FastSet<String>();
 
     /** The encode all string. */
     private boolean encodeAllString = false;
 
     /** The class black list. */
-    @SuppressWarnings("unchecked")
-    private Set < Class > classBlackList = new FastSet < Class >();
+    @SuppressWarnings("rawtypes")
+    private Set<Class> classBlackList = new FastSet<Class>();
 
     /** The interfaces black list. */
-    @SuppressWarnings("unchecked")
-    private Set < Class > interfacesBlackList = new FastSet < Class >();
+    @SuppressWarnings("rawtypes")
+    private Set<Class> interfacesBlackList = new FastSet<Class>();
 
     /** The lock. */
     private Semaphore lock = new Semaphore(1);
@@ -99,11 +96,12 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /**
      * Instantiates a new reflection stringEncoder.
      * 
-     * @param encoder the encoder
+     * @param encoder
+     *            the encoder
      */
-    public ReflectionEncoder(IStringEncoder encoder) {
+    public ReflectionEncoder(final IStringEncoder encoder) {
         super();
-        this.stringEncoder = encoder;
+        stringEncoder = encoder;
         if (encoder instanceof IObjectEncoder) {
             encodeAllString = true;
             objectEncoders.add((IObjectEncoder) encoder);
@@ -113,10 +111,12 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /**
      * Instantiates a new reflection encoder.
      * 
-     * @param stringEncoder the string encoder
-     * @param objectEncoders the object encoders
+     * @param stringEncoder
+     *            the string encoder
+     * @param objectEncoders
+     *            the object encoders
      */
-    public ReflectionEncoder(IStringEncoder stringEncoder, List < IObjectEncoder > objectEncoders) {
+    public ReflectionEncoder(final IStringEncoder stringEncoder, final List<IObjectEncoder> objectEncoders) {
         this(stringEncoder);
         this.objectEncoders.addAll(objectEncoders);
     }
@@ -124,42 +124,53 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /**
      * Instantiates a new reflection encoder.
      * 
-     * @param stringEncoder the string encoder
-     * @param objectEncoders the object encoders
-     * @param blackList the black list
+     * @param stringEncoder
+     *            the string encoder
+     * @param objectEncoders
+     *            the object encoders
+     * @param blackList
+     *            the black list
      */
-    @SuppressWarnings("unchecked")
-    public ReflectionEncoder(IStringEncoder stringEncoder, List < IObjectEncoder > objectEncoders, Collection < Class > blackList) {
+    public ReflectionEncoder(final IStringEncoder stringEncoder, final List<IObjectEncoder> objectEncoders,
+            @SuppressWarnings("rawtypes") final Collection<Class> blackList) {
         this(stringEncoder, objectEncoders);
         addToBlackList(blackList);
     }
 
-    /* (non-Javadoc)
-     * @see com.acp.vision.encoder.IReflectionEncoder#addToBlackList(java.util.Collection)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.acp.vision.encoder.IReflectionEncoder#addToBlackList(java.util.Collection
+     * )
      */
-    @SuppressWarnings("unchecked")
-    public final void addToBlackList(Collection < Class > list) {
+    public final void addToBlackList(@SuppressWarnings("rawtypes") final Collection<Class> list) {
         classBlackList.addAll(list);
     }
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.encoder.IReflectionEncoder#addInterfacesToBlackList(java.util.Collection)
+     * 
+     * @see
+     * com.acp.vision.encoder.IReflectionEncoder#addInterfacesToBlackList(java
+     * .util.Collection)
      */
-    @SuppressWarnings("unchecked")
-    public final void addInterfacesToBlackList(Collection < Class > list) {
+    public final void addInterfacesToBlackList(@SuppressWarnings("rawtypes") final Collection<Class> list) {
         interfacesBlackList.addAll(list);
     }
 
-    /* (non-Javadoc)
-     * @see com.acp.vision.encoder.IReflectionEncoder#encodeString(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.acp.vision.encoder.IReflectionEncoder#encodeString(java.lang.String)
      */
-    public final String encodeString(String value) {
+    public final String encodeString(final String value) {
         if (value != null) {
             if (encodedString.contains(value)) {
                 return value;
             }
-            String result = stringEncoder.encode(value);
+            final String result = stringEncoder.encode(value);
             encodedString.add(result);
             return result;
         }
@@ -173,8 +184,7 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
      *            the clazz
      * @return true, if is encodable
      */
-    @SuppressWarnings("unchecked")
-    private static boolean isEncodableField(Class clazz) {
+    private static boolean isEncodableField(@SuppressWarnings("rawtypes") final Class clazz) {
         return !(WRAPPER_TYPES.contains(clazz) || clazz.isEnum());
     }
 
@@ -185,8 +195,7 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
      *            the clazz
      * @return true, if is not an encodable type
      */
-    @SuppressWarnings("unchecked")
-    private boolean isNotAnEncodableClass(Class clazz) {
+    private boolean isNotAnEncodableClass(@SuppressWarnings("rawtypes") final Class clazz) {
         return isInClassCollection(clazz, NOT_ENCODABLE_TYPES) || !isEncodableField(clazz) || isInClassCollection(clazz, classBlackList)
                 || isInClassCollection(clazz.getInterfaces(), NOT_ENCODABLE_INTERFACES) || isInClassCollection(clazz.getInterfaces(), interfacesBlackList);
     }
@@ -194,12 +203,14 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /**
      * Checks if is in class collection.
      * 
-     * @param clazz the clazz
-     * @param classes the classes
+     * @param clazz
+     *            the clazz
+     * @param classes
+     *            the classes
      * @return true, if is in class collection
      */
-    @SuppressWarnings("unchecked")
-    private boolean isInClassCollection(Class clazz, Collection < Class > classes) {
+    @SuppressWarnings("rawtypes")
+    private boolean isInClassCollection(Class clazz, final Collection<Class> classes) {
         while (clazz != null && !clazz.equals(Object.class)) {
             if (classes.contains(clazz)) {
                 return true;
@@ -212,13 +223,15 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /**
      * Checks if is in class collection.
      * 
-     * @param classesTab the classes tab
-     * @param classes the classes
+     * @param classesTab
+     *            the classes tab
+     * @param classes
+     *            the classes
      * @return true, if is in class collection
      */
-    @SuppressWarnings("unchecked")
-    private boolean isInClassCollection(Class[] classesTab, Collection < Class > classes) {
-        for (Class clazz : classesTab) {
+    @SuppressWarnings("rawtypes")
+    private boolean isInClassCollection(final Class[] classesTab, final Collection<Class> classes) {
+        for (final Class clazz : classesTab) {
             if (clazz != null && isInClassCollection(clazz, classes)) {
                 return true;
             }
@@ -227,13 +240,17 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
 
     }
 
-    /* (non-Javadoc)
-     * @see com.acp.vision.encoder.IReflectionEncoder#encodeByReflection(java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.acp.vision.encoder.IReflectionEncoder#encodeByReflection(java.lang
+     * .Object)
      */
     public final synchronized void encodeByReflection(final Object value) {
         try {
             lock.acquire();
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             getLog().error("fail to acquire lock");
             return;
         }
@@ -245,9 +262,10 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /**
      * Internal encode by reflection.
      * 
-     * @param value the value
+     * @param value
+     *            the value
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private void internalEncodeByReflection(final Object value) {
         deep++;
         if (deep > maxDeep) {
@@ -255,25 +273,25 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
             return;
         }
         if (value != null) {
-            Class clazz = value.getClass();
+            final Class clazz = value.getClass();
             if (isNotAnEncodableClass(clazz) || encodedObjects.contains(value)) {
                 deep--;
                 return;
             }
             encodedObjects.add(value);
             getLog().debug("Encode class ({}).", clazz.getName());
-            if (value instanceof Collection < ? >) {
-                encodeCollection((Collection < ? >) value);
-            } else if (value instanceof Map < ?, ? >) {
-                encodeMap((Map < ?, Object >) value);
+            if (value instanceof Collection<?>) {
+                encodeCollection((Collection<?>) value);
+            } else if (value instanceof Map<?, ?>) {
+                encodeMap((Map<?, Object>) value);
             } else if (clazz.isArray() && value instanceof Object[]) {
                 encodeArray((Object[]) value);
             } else {
-                IObjectEncoder objectEncoder = getEncoder(clazz);
+                final IObjectEncoder objectEncoder = getEncoder(clazz);
                 if (objectEncoder != null) {
                     try {
                         objectEncoder.encodeObject(value, stringEncoder);
-                    } catch (EncoderException e) {
+                    } catch (final EncoderException e) {
                         getLog().warn("Error while Encoding value.", e);
                     }
                 }
@@ -286,17 +304,19 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /**
      * Encode class fields.
      * 
-     * @param clazz the clazz
-     * @param value the value
+     * @param clazz
+     *            the clazz
+     * @param value
+     *            the value
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     private void encodeClassFields(final Object value) {
         if (value != null) {
             Class clazz = value.getClass();
             while (clazz != null && !clazz.equals(Object.class)) {
-                Field[] fields = clazz.getDeclaredFields();
-                for (Field field : fields) {
-                    String[] logParam = { field.getName(), field.getGenericType().toString() };
+                final Field[] fields = clazz.getDeclaredFields();
+                for (final Field field : fields) {
+                    final String[] logParam = { field.getName(), field.getGenericType().toString() };
                     getLog().debug("Encode field {} ({})", logParam);
                     field.setAccessible(true);
                     try {
@@ -305,7 +325,7 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
                         } else if (isEncodableField(clazz)) {
                             internalEncodeByReflection(field.get(value));
                         }
-                    } catch (IllegalAccessException e) {
+                    } catch (final IllegalAccessException e) {
                         getLog().debug("Innaccessible field {} ({})", logParam);
                     }
                 }
@@ -317,12 +337,13 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /**
      * Gets the stringEncoder.
      * 
-     * @param clazz the clazz
+     * @param clazz
+     *            the clazz
      * @return the stringEncoder
      */
-    private IObjectEncoder getEncoder(Class < ? > clazz) {
+    private IObjectEncoder getEncoder(final Class<?> clazz) {
         IObjectEncoder result = null;
-        searchEncoder: for (IObjectEncoder objectEncoder : objectEncoders) {
+        searchEncoder: for (final IObjectEncoder objectEncoder : objectEncoders) {
             if (objectEncoder.encodeClass(clazz)) {
                 result = objectEncoder;
                 break searchEncoder;
@@ -337,7 +358,8 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /**
      * Encode array.
      * 
-     * @param values the values
+     * @param values
+     *            the values
      */
     private void encodeArray(final Object[] values) {
         for (int i = 0; i < values.length; i++) {
@@ -354,10 +376,11 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /**
      * Encode map.
      * 
-     * @param value the value
+     * @param value
+     *            the value
      */
-    private void encodeMap(final Map < ?, Object > value) {
-        for (Entry < ?, Object > entry : value.entrySet()) {
+    private void encodeMap(final Map<?, Object> value) {
+        for (final Entry<?, Object> entry : value.entrySet()) {
             if (entry.getValue() != null) {
                 getLog().debug("Encode map enty {}", entry.getKey());
                 if (String.class.equals(entry.getValue().getClass()) && isAllStringEncoded()) {
@@ -372,13 +395,14 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /**
      * Encode collection.
      * 
-     * @param value the value
+     * @param value
+     *            the value
      */
     @SuppressWarnings("unchecked")
-    private void encodeCollection(final Collection < ? > value) {
-        List < Object > elementsToRemove = new FastList < Object >();
-        List < Object > elementsModified = new FastList < Object >();
-        for (Object obj : value) {
+    private void encodeCollection(final Collection<?> value) {
+        final List<Object> elementsToRemove = new FastList<Object>();
+        final List<Object> elementsModified = new FastList<Object>();
+        for (final Object obj : value) {
             if (obj != null) {
                 if (String.class.equals(obj.getClass()) && isAllStringEncoded()) {
                     elementsToRemove.add(obj);
@@ -389,8 +413,8 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
             }
         }
         if (elementsToRemove.size() > 0) {
-            ((Collection < ? >) value).removeAll(elementsToRemove);
-            ((Collection < Object >) value).addAll((Collection < Object >) elementsModified);
+            ((Collection<?>) value).removeAll(elementsToRemove);
+            ((Collection<Object>) value).addAll(elementsModified);
         }
     }
 
@@ -424,10 +448,10 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     /**
      * Sets the max deep. Must be > 5.
      * 
-     * @param maxDeep the new max deep
+     * @param maxDeep
+     *            the new max deep
      */
-    @Override
-    public void setMaxDeep(int maxDeep) {
+    public void setMaxDeep(final int maxDeep) {
         this.maxDeep = maxDeep > 5 ? maxDeep : DEFAULT_MAX_DEEP;
     }
 

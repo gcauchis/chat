@@ -1,17 +1,18 @@
-package com.acp.vision.encoder;
+package com.gc.irc.common.utils.encoder.abs;
 
 import java.lang.reflect.ParameterizedType;
 
-import com.acp.common.crypto.api.IObjectEncoder;
-import com.acp.common.crypto.api.IStringEncoder;
-import com.acp.common.crypto.exception.EncoderException;
+import com.gc.irc.common.exception.utils.EncoderException;
+import com.gc.irc.common.utils.encoder.IObjectEncoder;
+import com.gc.irc.common.utils.encoder.IStringEncoder;
 
 /**
  * The Class AbstractObjectEncoder.
  * 
- * @param <OBJ> the generic type
+ * @param <OBJ>
+ *            the generic type
  */
-public abstract class AbstractObjectEncoder < OBJ > implements IObjectEncoder {
+public abstract class AbstractObjectEncoder<OBJ> implements IObjectEncoder {
 
     /**
      * Gets the agg class.
@@ -19,9 +20,9 @@ public abstract class AbstractObjectEncoder < OBJ > implements IObjectEncoder {
      * @return the agg class
      */
     @SuppressWarnings("unchecked")
-    private Class < OBJ > getGenericObjectClass() {
+    private Class<OBJ> getGenericObjectClass() {
         final ParameterizedType parameterizedType = (ParameterizedType) retreiveDirectSubClass().getGenericSuperclass();
-        return (Class < OBJ >) parameterizedType.getActualTypeArguments()[0];
+        return (Class<OBJ>) parameterizedType.getActualTypeArguments()[0];
     }
 
     /**
@@ -29,7 +30,7 @@ public abstract class AbstractObjectEncoder < OBJ > implements IObjectEncoder {
      * 
      * @return the class
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     private Class retreiveDirectSubClass() {
         Class clazz = getClass();
         while (clazz.getSuperclass() != AbstractObjectEncoder.class) {
@@ -40,19 +41,22 @@ public abstract class AbstractObjectEncoder < OBJ > implements IObjectEncoder {
 
     /*
      * (non-Javadoc)
-     * @see com.acp.common.crypto.api.IObjectEncoder#encryptClass(java.lang.Class)
+     * 
+     * @see
+     * com.acp.common.crypto.api.IObjectEncoder#encryptClass(java.lang.Class)
      */
-    @Override
-    public final boolean encodeClass(Class < ? > clazz) {
+    public final boolean encodeClass(final Class<?> clazz) {
         return getGenericObjectClass().equals(clazz);
     }
 
     /*
      * (non-Javadoc)
-     * @see com.acp.common.crypto.api.IObjectEncoder#encryptObject(java.lang.Object, com.acp.common.crypto.api.IStringEncoder)
+     * 
+     * @see
+     * com.acp.common.crypto.api.IObjectEncoder#encryptObject(java.lang.Object,
+     * com.acp.common.crypto.api.IStringEncoder)
      */
     @SuppressWarnings("unchecked")
-    @Override
     public final Object encodeObject(final Object value, final IStringEncoder stringEncoder) throws EncoderException {
         if (value == null) {
             return null;
@@ -67,8 +71,10 @@ public abstract class AbstractObjectEncoder < OBJ > implements IObjectEncoder {
     /**
      * Internal encode object.
      * 
-     * @param agg the agg
-     * @param stringEncoder the string encoder
+     * @param agg
+     *            the agg
+     * @param stringEncoder
+     *            the string encoder
      * @return the oBJ
      */
     protected abstract OBJ internalEncodeObject(final OBJ obj, final IStringEncoder stringEncoder) throws EncoderException;
