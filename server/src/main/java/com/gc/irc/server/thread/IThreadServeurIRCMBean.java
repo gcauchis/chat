@@ -10,21 +10,21 @@ public interface IThreadServeurIRCMBean {
      * 
      * @return the nb user
      */
-    public int getNbUser();
+    int getNbUser();
 
     /**
      * Gets the nb messages.
      * 
      * @return the nb messages
      */
-    public int getNbMessages();
+    int getNbMessages();
 
     /**
      * Gets the user list.
      * 
      * @return the user list
      */
-    public String getUserList();
+    String getUserList();
 
     /**
      * Kick user.
@@ -33,6 +33,6 @@ public interface IThreadServeurIRCMBean {
      *            the user id
      * @return the string
      */
-    public String kickUser(int userID);
+    String kickUser(int userID);
 
 }

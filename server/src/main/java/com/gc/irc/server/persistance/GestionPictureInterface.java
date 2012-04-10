@@ -19,7 +19,7 @@ public interface GestionPictureInterface {
      *            New Image
      * @return True if the Picture is Save successfully
      */
-    public boolean newPicture(int idUser, IRCMessageItemPicture image);
+    boolean newPicture(int idUser, IRCMessageItemPicture image);
 
     /**
      * Get the Picture of the Designed User.
@@ -28,6 +28,6 @@ public interface GestionPictureInterface {
      *            Id of the User
      * @return The Picture of the user.
      */
-    public IRCMessageItemPicture getPictureOf(int idUser);
+    IRCMessageItemPicture getPictureOf(int idUser);
 
 }

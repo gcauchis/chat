@@ -23,7 +23,7 @@ public interface AuthentificationInterface {
      *            User's NickName
      * @return If user add true, else false.
      */
-    public boolean addUser(String login, String password, String nickname);
+    boolean addUser(String login, String password, String nickname);
 
     /**
      * Test if new login is free.
@@ -32,7 +32,7 @@ public interface AuthentificationInterface {
      *            Login to add.
      * @return True if login already exist, else false.
      */
-    public boolean userLoginExist(String login);
+    boolean userLoginExist(String login);
 
     /**
      * Log an user.
@@ -43,7 +43,7 @@ public interface AuthentificationInterface {
      *            User's Password.
      * @return The user if login succeed. Null if login fail.
      */
-    public IRCUser logUser(String login, String password);
+    IRCUser logUser(String login, String password);
 
     /**
      * Change the Nickname of the User.
@@ -53,7 +53,7 @@ public interface AuthentificationInterface {
      * @param nickname
      *            New NickName
      */
-    public void changeNickUser(int id, String nickname);
+    void changeNickUser(int id, String nickname);
 
     /**
      * Change the Password of the User.
@@ -63,7 +63,7 @@ public interface AuthentificationInterface {
      * @param password
      *            New Password.
      */
-    public void changePasswordUser(int id, String password);
+    void changePasswordUser(int id, String password);
 
     /**
      * Get the designed User.
@@ -72,7 +72,7 @@ public interface AuthentificationInterface {
      *            User's id.
      * @return The User if exist. Else null.
      */
-    public IRCUserInformations getUser(int id);
+    IRCUserInformations getUser(int id);
 
     /**
      * Send in the ObjectOutputStream the Picture of all the connected Users.
@@ -80,5 +80,5 @@ public interface AuthentificationInterface {
      * @param outObject
      *            ObjectOutputStream of the new Client.
      */
-    public void sendUsersPicture(ObjectOutputStream outObject);
+    void sendUsersPicture(ObjectOutputStream outObject);
 }
