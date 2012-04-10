@@ -8,7 +8,8 @@ import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
 import java.net.Socket;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.entity.UserStatus;
@@ -38,22 +39,42 @@ import com.gc.irc.server.persistance.IRCGestionPicture;
  * 
  */
 public class ThreadGestionClientIRC extends Thread {
+
+    /** The nb thread. */
     private static int nbThread = 0;
 
+    /**
+     * Gets the nb thread.
+     * 
+     * @return the nb thread
+     */
     protected static int getNbThread() {
         nbThread++;
         return nbThread;
     }
 
+    /** The id. */
     private int id = getNbThread();
-    private static final Logger LOGGER = Logger.getLogger(ThreadGestionClientIRC.class);
+
+    /** The Constant LOGGER. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ThreadGestionClientIRC.class);
+
+    /** The client socket. */
     private Socket clientSocket;
 
+    /** The in object. */
     private ObjectInputStream inObject;
+
+    /** The out object. */
     private ObjectOutputStream outObject;
 
+    /** The parent. */
     private ServerCore parent;
+
+    /** The user. */
     private IRCUser user;
+
+    /** The is identify. */
     private boolean isIdentify = false;
 
     /**
@@ -81,6 +102,11 @@ public class ThreadGestionClientIRC extends Thread {
         LOGGER.debug(id + " end init");
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Thread#run()
+     */
     @Override
     public void run() {
         LOGGER.info(id + " Start Thread.");
@@ -249,10 +275,10 @@ public class ThreadGestionClientIRC extends Thread {
     }
 
     /**
-     * Send a message in the JMS Queue
+     * Send a message in the JMS Queue.
      * 
-     * @param message
-     *            Message to Send.
+     * @param objectMessage
+     *            the object message
      */
     private void postMessageObjectInJMS(final IRCMessage objectMessage) {
         LOGGER.debug(id + " Send a message in JMS Queue.");
@@ -271,6 +297,9 @@ public class ThreadGestionClientIRC extends Thread {
 
     /**
      * Identification protocol.
+     * 
+     * @throws IRCServerException
+     *             the iRC server exception
      */
     private void protocoleDAuthentification() throws IRCServerException {
         LOGGER.debug("Start Login protocol");
@@ -470,7 +499,7 @@ public class ThreadGestionClientIRC extends Thread {
         LOGGER.info(id + " Test if the socket have no problem.");
         if (clientSocket.isClosed() || clientSocket.isInputShutdown() || clientSocket.isOutputShutdown() || !clientSocket.isBound()
                 || !clientSocket.isConnected()) {
-            LOGGER.fatal(id + " A problem find on the Socket. Closing Connection");
+            LOGGER.error(id + " A problem find on the Socket. Closing Connection");
             finalizeClass();
         }
     }

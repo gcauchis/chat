@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes" ?>
 
 <listeUsers>
-	<IRCUser id="21" nickname="TwoUserBasicTestITUser1Login" status="OFFLINE" hasPictur="false" />
+	<IRCUser id="21" nickname="TwoUserBasicTestITUser1Login" status="ONLINE" hasPictur="false" />
 </listeUsers>
 

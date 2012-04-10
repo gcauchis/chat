@@ -5,79 +5,99 @@ import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.gc.irc.common.protocol.IRCMessage;
 
-
-
 /**
  * Contain a JMSProducer to send a message in the JMS Queue.
+ * 
  * @author gcauchis
- *
+ * 
  */
 public class IRCJMSProducer {
-	private static int nbThread = 0;
-	protected static int getNbThread() {
-		nbThread++;
-		return nbThread;
-	}
-	private int id = getNbThread();
-	private static final Logger logger = Logger.getLogger(IRCJMSProducer.class);
-	private static Session session = JMSConnection.getSession();
-	private MessageProducer messageProducer = null;
-	
-	public IRCJMSProducer() {
-		try {
-			logger.info(id+" Create the JMS producer");
-			messageProducer = session.createProducer(JMSConnection.getQueue());
-		} catch (JMSException e) {
-			logger.fatal(id+" Fail to create the JMS Producer");
-			e.printStackTrace();
-			
-		}
-	}
-	
-	/**
-	 * Send a message in the JMS Queue
-	 * @param message Message to Send.
-	 */
-	public void postMessageObjectInJMS(IRCMessage objectMessage){
-		logger.debug(id+" Send a message in JMS Queue.");
-		ObjectMessage message = null;
-		/**
-		 * Create the Message
-		 */
-		try {
-			logger.debug(id+" Create JMS Message");
-			message = session.createObjectMessage();
-		} catch (JMSException e) {
-			logger.warn(id+" Fail to create the message.");
-			e.printStackTrace();
-		}
-		
-		/**
-		 * Write the Message
-		 */
-		try {
-			logger.debug(id+" Write the Message");
-			message.setObject(objectMessage);
-		} catch (JMSException e) {
-			logger.warn(id+" Fail to Write the message");
-			e.printStackTrace();
-		}
-		
-		/**
-		 * Post the message.
-		 */
-		try {
-			logger.debug(id+" Post Message in JMS");
-			messageProducer.send(message);
-		} catch (JMSException e) {
-			logger.warn(id+" Fail to post the message : "+e.getMessage());
-			e.printStackTrace();
-		}
-	}
-	
-	
+
+    /** The nb thread. */
+    private static int nbThread = 0;
+
+    /**
+     * Gets the nb thread.
+     * 
+     * @return the nb thread
+     */
+    protected static int getNbThread() {
+        nbThread++;
+        return nbThread;
+    }
+
+    /** The id. */
+    private int id = getNbThread();
+
+    /** The Constant LOGGER. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(IRCJMSProducer.class);
+
+    /** The session. */
+    private static Session session = JMSConnection.getSession();
+
+    /** The message producer. */
+    private MessageProducer messageProducer = null;
+
+    /**
+     * Instantiates a new iRCJMS producer.
+     */
+    public IRCJMSProducer() {
+        try {
+            LOGGER.info(id + " Create the JMS producer");
+            messageProducer = session.createProducer(JMSConnection.getQueue());
+        } catch (final JMSException e) {
+            LOGGER.error(id + " Fail to create the JMS Producer");
+            e.printStackTrace();
+
+        }
+    }
+
+    /**
+     * Send a message in the JMS Queue.
+     * 
+     * @param objectMessage
+     *            the object message
+     */
+    public void postMessageObjectInJMS(final IRCMessage objectMessage) {
+        LOGGER.debug(id + " Send a message in JMS Queue.");
+        ObjectMessage message = null;
+        /**
+         * Create the Message
+         */
+        try {
+            LOGGER.debug(id + " Create JMS Message");
+            message = session.createObjectMessage();
+        } catch (final JMSException e) {
+            LOGGER.warn(id + " Fail to create the message.");
+            e.printStackTrace();
+        }
+
+        /**
+         * Write the Message
+         */
+        try {
+            LOGGER.debug(id + " Write the Message");
+            message.setObject(objectMessage);
+        } catch (final JMSException e) {
+            LOGGER.warn(id + " Fail to Write the message");
+            e.printStackTrace();
+        }
+
+        /**
+         * Post the message.
+         */
+        try {
+            LOGGER.debug(id + " Post Message in JMS");
+            messageProducer.send(message);
+        } catch (final JMSException e) {
+            LOGGER.warn(id + " Fail to post the message : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 }
