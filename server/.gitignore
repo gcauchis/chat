@@ -3,3 +3,5 @@
 /.project
 /.springBeans
 /.classpath
+/auth.xml
+/listUser.xml
