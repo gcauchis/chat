@@ -14,21 +14,43 @@ import com.acp.common.crypto.exception.EncoderException;
 public abstract class AbstractObjectEncoder < OBJ > implements IObjectEncoder {
 
     /**
-     * Gets the obj class.
+     * Gets the agg class.
      * 
-     * @return the obj class
+     * @return the agg class
      */
     @SuppressWarnings("unchecked")
     private Class < OBJ > getGenericObjectClass() {
-        final ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
+        final ParameterizedType parameterizedType = (ParameterizedType) retreiveDirectSubClass().getGenericSuperclass();
         return (Class < OBJ >) parameterizedType.getActualTypeArguments()[0];
     }
 
+    /**
+     * Retreive direct sub class.
+     * 
+     * @return the class
+     */
+    @SuppressWarnings("unchecked")
+    private Class retreiveDirectSubClass() {
+        Class clazz = getClass();
+        while (clazz.getSuperclass() != AbstractObjectEncoder.class) {
+            clazz = clazz.getSuperclass();
+        }
+        return clazz;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.acp.common.crypto.api.IObjectEncoder#encryptClass(java.lang.Class)
+     */
     @Override
     public final boolean encodeClass(Class < ? > clazz) {
         return getGenericObjectClass().equals(clazz);
     }
 
+    /*
+     * (non-Javadoc)
+     * @see com.acp.common.crypto.api.IObjectEncoder#encryptObject(java.lang.Object, com.acp.common.crypto.api.IStringEncoder)
+     */
     @SuppressWarnings("unchecked")
     @Override
     public final Object encodeObject(final Object value, final IStringEncoder stringEncoder) throws EncoderException {
@@ -45,10 +67,10 @@ public abstract class AbstractObjectEncoder < OBJ > implements IObjectEncoder {
     /**
      * Internal encode object.
      * 
-     * @param obj the obj
+     * @param agg the agg
      * @param stringEncoder the string encoder
      * @return the oBJ
      */
-    protected abstract OBJ internalEncodeObject(final OBJ obj, final IStringEncoder stringEncoder);
+    protected abstract OBJ internalEncodeObject(final OBJ obj, final IStringEncoder stringEncoder) throws EncoderException;
 
 }

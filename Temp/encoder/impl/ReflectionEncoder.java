@@ -40,7 +40,7 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
     private static final transient Logger LOGGER = LoggerFactory.getLogger(ReflectionEncoder.class);
 
     /** The Constant DEFAULT_MAX_DEEP. */
-    private static final int DEFAULT_MAX_DEEP = 40;
+    public static final int DEFAULT_MAX_DEEP = 40;
 
     /** The Constant WRAPPER_TYPES. */
     @SuppressWarnings("unchecked")
@@ -72,6 +72,9 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
 
     /** The encoded objects. */
     private Set < Object > encodedObjects = new FastSet < Object >();
+
+    /** The encoded string. */
+    private Set < String > encodedString = new FastSet < String >();
 
     /** The encode all string. */
     private boolean encodeAllString = false;
@@ -122,25 +125,12 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
      * Instantiates a new reflection encoder.
      * 
      * @param stringEncoder the string encoder
-     * @param blackList the black list
-     */
-    @SuppressWarnings("unchecked")
-    public ReflectionEncoder(IStringEncoder stringEncoder, Collection < Class > blackList) {
-        this(stringEncoder);
-        addToBlackList(blackList);
-    }
-
-    /**
-     * Instantiates a new reflection encoder.
-     * 
-     * @param stringEncoder the string encoder
      * @param objectEncoders the object encoders
      * @param blackList the black list
      */
     @SuppressWarnings("unchecked")
     public ReflectionEncoder(IStringEncoder stringEncoder, List < IObjectEncoder > objectEncoders, Collection < Class > blackList) {
-        this(stringEncoder);
-        this.objectEncoders.addAll(objectEncoders);
+        this(stringEncoder, objectEncoders);
         addToBlackList(blackList);
     }
 
@@ -166,7 +156,12 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
      */
     public final String encodeString(String value) {
         if (value != null) {
-            return stringEncoder.encode(value);
+            if (encodedString.contains(value)) {
+                return value;
+            }
+            String result = stringEncoder.encode(value);
+            encodedString.add(result);
+            return result;
         }
         return null;
     }
@@ -271,10 +266,8 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
                 encodeCollection((Collection < ? >) value);
             } else if (value instanceof Map < ?, ? >) {
                 encodeMap((Map < ?, Object >) value);
-            } else if (clazz.isArray()) {
-                if (value instanceof Object[]) {
-                    encodeArray((Object[]) value);
-                }
+            } else if (clazz.isArray() && value instanceof Object[]) {
+                encodeArray((Object[]) value);
             } else {
                 IObjectEncoder objectEncoder = getEncoder(clazz);
                 if (objectEncoder != null) {
@@ -284,10 +277,7 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
                         getLog().warn("Error while Encoding value.", e);
                     }
                 }
-                while (!clazz.equals(Object.class)) {
-                    encodeClassFields(clazz, value);
-                    clazz = clazz.getSuperclass();
-                }
+                encodeClassFields(value);
             }
         }
         deep--;
@@ -300,22 +290,26 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
      * @param value the value
      */
     @SuppressWarnings("unchecked")
-    private void encodeClassFields(Class clazz, final Object value) {
+    private void encodeClassFields(final Object value) {
         if (value != null) {
-            Field[] fields = clazz.getDeclaredFields();
-            for (Field field : fields) {
-                String[] logParam = { field.getName(), field.getGenericType().toString() };
-                getLog().debug("Encode field {} ({})", logParam);
-                field.setAccessible(true);
-                try {
-                    if (String.class.equals(field.getGenericType()) && isAllStringEncoded()) {
-                        field.set(value, encodeString((String) field.get(value)));
-                    } else if (isEncodableField(clazz)) {
-                        internalEncodeByReflection(field.get(value));
+            Class clazz = value.getClass();
+            while (clazz != null && !clazz.equals(Object.class)) {
+                Field[] fields = clazz.getDeclaredFields();
+                for (Field field : fields) {
+                    String[] logParam = { field.getName(), field.getGenericType().toString() };
+                    getLog().debug("Encode field {} ({})", logParam);
+                    field.setAccessible(true);
+                    try {
+                        if (String.class.equals(field.getGenericType()) && isAllStringEncoded()) {
+                            field.set(value, encodeString((String) field.get(value)));
+                        } else if (isEncodableField(clazz)) {
+                            internalEncodeByReflection(field.get(value));
+                        }
+                    } catch (IllegalAccessException e) {
+                        getLog().debug("Innaccessible field {} ({})", logParam);
                     }
-                } catch (IllegalAccessException e) {
-                    getLog().debug("Innaccessible field {} ({})", logParam);
                 }
+                clazz = clazz.getSuperclass();
             }
         }
     }
@@ -413,6 +407,7 @@ public final class ReflectionEncoder implements ILoggable, IReflectionEncoder {
      * Reset.
      */
     private void reset() {
+        encodedString.clear();
         encodedObjects.clear();
         deep = 0;
     }
