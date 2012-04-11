@@ -51,9 +51,7 @@ public class IRCJMSProducer {
             LOGGER.info(id + " Create the JMS producer");
             messageProducer = session.createProducer(JMSConnection.getQueue());
         } catch (final JMSException e) {
-            LOGGER.error(id + " Fail to create the JMS Producer");
-            e.printStackTrace();
-
+            LOGGER.error(id + " Fail to create the JMS Producer", e);
         }
     }
 
@@ -73,8 +71,7 @@ public class IRCJMSProducer {
             LOGGER.debug(id + " Create JMS Message");
             message = session.createObjectMessage();
         } catch (final JMSException e) {
-            LOGGER.warn(id + " Fail to create the message.");
-            e.printStackTrace();
+            LOGGER.warn(id + " Fail to create the message.", e);
         }
 
         /**
@@ -84,8 +81,7 @@ public class IRCJMSProducer {
             LOGGER.debug(id + " Write the Message");
             message.setObject(objectMessage);
         } catch (final JMSException e) {
-            LOGGER.warn(id + " Fail to Write the message");
-            e.printStackTrace();
+            LOGGER.warn(id + " Fail to Write the message", e);
         }
 
         /**
@@ -95,8 +91,7 @@ public class IRCJMSProducer {
             LOGGER.debug(id + " Post Message in JMS");
             messageProducer.send(message);
         } catch (final JMSException e) {
-            LOGGER.warn(id + " Fail to post the message : " + e.getMessage());
-            e.printStackTrace();
+            LOGGER.warn(id + " Fail to post the message : ", e);
         }
     }
 

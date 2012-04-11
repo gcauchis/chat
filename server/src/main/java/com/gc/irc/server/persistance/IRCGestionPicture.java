@@ -16,7 +16,7 @@ import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
  * @author gcauchis
  * 
  */
-public class IRCGestionPicture implements GestionPictureInterface {
+public class IRCGestionPicture implements IGestionPicture {
 
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(IRCGestionPicture.class);
@@ -37,17 +37,16 @@ public class IRCGestionPicture implements GestionPictureInterface {
      * com.gc.irc.server.persistance.GestionPictureInterface#getPictureOf(int)
      */
     public synchronized IRCMessageItemPicture getPictureOf(final int idUser) {
-        LOGGER.debug("Get pictur of " + idUser);
+        getLog().debug("Get pictur of " + idUser);
         IRCMessageItemPicture image = null;
         try {
             final FileInputStream fichier = new FileInputStream(idUser + ".ser");
             final ObjectInputStream ois = new ObjectInputStream(fichier);
             image = (IRCMessageItemPicture) ois.readObject();
         } catch (final java.io.IOException e) {
-            LOGGER.warn("Fail to read pictur : " + e.getMessage() + "\n" + e.getStackTrace().toString());
-            e.printStackTrace();
+            getLog().warn("Fail to read pictur:", e);
         } catch (final ClassNotFoundException e) {
-            e.printStackTrace();
+            getLog().warn("Fail to read object:", e);
         }
         return image;
     }
@@ -60,7 +59,7 @@ public class IRCGestionPicture implements GestionPictureInterface {
      * com.gc.irc.common.protocol.item.IRCMessageItemPicture)
      */
     public synchronized boolean newPicture(final int idUser, final IRCMessageItemPicture image) {
-        LOGGER.debug("Add pictur");
+        getLog().debug("Add pictur");
         try {
             final FileOutputStream fichier = new FileOutputStream(idUser + ".ser");
             final ObjectOutputStream oos = new ObjectOutputStream(fichier);
@@ -68,10 +67,13 @@ public class IRCGestionPicture implements GestionPictureInterface {
             oos.flush();
             oos.close();
         } catch (final java.io.IOException e) {
-            LOGGER.warn("Fail to write pictur : " + e.getMessage() + "\n" + e.getStackTrace().toString());
-            e.printStackTrace();
+            getLog().warn("Fail to write pictur:", e);
             return false;
         }
         return true;
+    }
+
+    public Logger getLog() {
+        return LOGGER;
     }
 }

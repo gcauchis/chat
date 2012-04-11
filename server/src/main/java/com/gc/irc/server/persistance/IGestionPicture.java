@@ -1,5 +1,6 @@
 package com.gc.irc.server.persistance;
 
+import com.gc.irc.common.api.ILoggable;
 import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
 
 /**
@@ -8,7 +9,7 @@ import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
  * @author gcauchis
  * 
  */
-public interface GestionPictureInterface {
+public interface IGestionPicture extends ILoggable {
 
     /**
      * Add a picture for a designed User.

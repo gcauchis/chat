@@ -67,14 +67,11 @@ public class IRCServerAuthentification implements AuthentificationInterface {
         try {
             new UserImformationScanner(pathFichier);
         } catch (final ParserConfigurationException e) {
-            LOGGER.warn("Fail to parse xml.");
-            e.printStackTrace();
+            LOGGER.warn("Fail to parse xml.", e);
         } catch (final SAXException e) {
-            LOGGER.warn("Fail to parse xml.");
-            e.printStackTrace();
+            LOGGER.warn("Fail to parse xml.", e);
         } catch (final IOException e) {
-            LOGGER.warn("Fail to read xml file." + e.getMessage());
-            LOGGER.info("If file didn't exist yet, don't worry with this error");
+            LOGGER.warn("Fail to read xml file. If file didn't exist yet, don't worry with this error", e);
         }
         setLastId(UserImformationScanner.getLastId());
         listUsers = UserImformationScanner.getListUserInfomation();
@@ -148,7 +145,7 @@ public class IRCServerAuthentification implements AuthentificationInterface {
      */
     public void saveModification() {
         synchronized (listUsers) {
-            IOUtils.ecritFichier(pathFichier, generateXML());
+            IOUtils.writeFile(pathFichier, generateXML());
         }
     }
 
@@ -234,8 +231,7 @@ public class IRCServerAuthentification implements AuthentificationInterface {
                     try {
                         IOStreamUtils.sendMessage(outObject, messagePicture);
                     } catch (final IOException e) {
-                        LOGGER.warn("Fail to send the picture of " + user.getNickname() + " : " + e.getMessage());
-                        e.printStackTrace();
+                        LOGGER.warn("Fail to send the picture of " + user.getNickname() + " : ", e);
                     }
                 } else {
                     LOGGER.warn("Fail to open the picture of " + user.getNickname());

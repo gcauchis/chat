@@ -12,6 +12,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gc.irc.common.api.ILoggable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.persistance.PersiteUsers;
@@ -28,7 +29,7 @@ import com.gc.irc.server.thread.ThreadServeurIRC;
  * @author gcauchis
  * 
  */
-public class ServerCore {
+public class ServerCore implements ILoggable {
 
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(ServerCore.class);
@@ -98,7 +99,7 @@ public class ServerCore {
      * Initialize the server.
      */
     public void initServeur() {
-        LOGGER.info("Initialise server.");
+        getLog().info("Initialise server.");
         if (port < 0) {
             throw new IllegalArgumentException("The port should be set");
         }
@@ -109,10 +110,10 @@ public class ServerCore {
         try {
             serverSocket = new ServerSocket(port);
         } catch (final IOException e) {
-            LOGGER.error("Impossible to open the socket.", e);
+            getLog().error("Impossible to open the socket.", e);
             System.exit(-1);
         }
-        LOGGER.info("Server initialize. Listen port " + port);
+        getLog().info("Server initialize. Listen port " + port);
 
         /**
          * Start thread server pull. The first thread is registered as a MBean.
@@ -126,11 +127,11 @@ public class ServerCore {
         // try {
         // name = new ObjectName("com.irc.server.thread:type=ThreadServeurIRC");
         // } catch (MalformedObjectNameException e) {
-        // logger.fatal("Malformed Object Name (JMX MBean Server).");
+        // getLog().fatal("Malformed Object Name (JMX MBean Server).");
         // e.printStackTrace();
         // System.exit(-1);
         // } catch (NullPointerException e) {
-        // logger.fatal("Can not register the object ThreadServerIRC (JMX MBean Server).");
+        // getLog().fatal("Can not register the object ThreadServerIRC (JMX MBean Server).");
         // e.printStackTrace();
         // }
 
@@ -141,13 +142,13 @@ public class ServerCore {
         // try {
         // mbs.registerMBean(threadServer, name);
         // } catch (InstanceAlreadyExistsException e) {
-        // logger.fatal("Instance Already Exists (JMX MBean Server).", e);
+        // getLog().fatal("Instance Already Exists (JMX MBean Server).", e);
         // System.exit(-1);
         // } catch (MBeanRegistrationException e) {
-        // logger.fatal("Unable to register MBean (JMX MBean Server).", e);
+        // getLog().fatal("Unable to register MBean (JMX MBean Server).", e);
         // System.exit(-1);
         // } catch (NotCompliantMBeanException e) {
-        // logger.fatal("Not Compliant MBean (JMX MBean Server).", e);
+        // getLog().fatal("Not Compliant MBean (JMX MBean Server).", e);
         // System.exit(-1);
         // }
 
@@ -169,7 +170,7 @@ public class ServerCore {
      */
     public void setPort(final int port) {
         this.port = port;
-        LOGGER.debug("Nouveau port : " + port);
+        getLog().debug("Nouveau port : " + port);
     }
 
     /**
@@ -179,15 +180,15 @@ public class ServerCore {
     public void waitClient() {
         Socket clientSocket = null;
         try {
-            LOGGER.debug("Wait for a client");
+            getLog().debug("Wait for a client");
             clientSocket = serverSocket.accept();
-            LOGGER.debug("Client " + clientSocket.getInetAddress() + " is connected");
+            getLog().debug("Client " + clientSocket.getInetAddress() + " is connected");
         } catch (final IOException e) {
-            LOGGER.warn("Timeout or Connection error.", e);
+            getLog().warn("Timeout or Connection error.", e);
             return;
         }
         final Thread thread = new ThreadGestionClientIRC(clientSocket, this);
-        LOGGER.debug("End Client's Thread Initialization.");
+        getLog().debug("End Client's Thread Initialization.");
         thread.start();
     }
 
@@ -198,15 +199,15 @@ public class ServerCore {
      *            New Client
      */
     public void newClientConnected(final ThreadGestionClientIRC client) {
-        LOGGER.debug("Add a new Connected Client : " + client.getUser().getNickName());
+        getLog().debug("Add a new Connected Client : " + client.getUser().getNickName());
         synchronized (clientConnecter) {
             synchronized (listUserById) {
                 synchronized (listThreadClientByIdUser) {
-                    LOGGER.debug("Add to clientConnecter");
+                    getLog().debug("Add to clientConnecter");
                     clientConnecter.add(client);
-                    LOGGER.debug("Add to listThreadClientByIdUser");
+                    getLog().debug("Add to listThreadClientByIdUser");
                     listThreadClientByIdUser.put(client.getUser().getId(), client);
-                    LOGGER.debug("Add to listUserById");
+                    getLog().debug("Add to listUserById");
                     listUserById.put(client.getUser().getId(), client.getUser());
                 }
             }
@@ -225,15 +226,15 @@ public class ServerCore {
      *            Deconnected Client.
      */
     public void disconnectClient(final ThreadGestionClientIRC client) {
-        LOGGER.debug("Delete the deconnected Client : " + client.getUser().getNickName());
+        getLog().debug("Delete the deconnected Client : " + client.getUser().getNickName());
         synchronized (clientConnecter) {
             synchronized (listUserById) {
                 synchronized (listThreadClientByIdUser) {
-                    LOGGER.debug("Remove from list clientConnecter");
+                    getLog().debug("Remove from list clientConnecter");
                     clientConnecter.remove(client);
-                    LOGGER.debug("Remove from listUserConnectedById");
+                    getLog().debug("Remove from listUserConnectedById");
                     listUserById.remove(client.getUser().getId());
-                    LOGGER.debug("Remove from lisThreadClientByIdUser");
+                    getLog().debug("Remove from lisThreadClientByIdUser");
                     listThreadClientByIdUser.remove(client.getUser().getId());
                 }
             }
@@ -303,9 +304,18 @@ public class ServerCore {
         try {
             super.finalize();
         } catch (final Throwable e) {
-            LOGGER.warn("Problem when finalize the Server");
+            getLog().warn("Problem when finalize the Server");
             e.printStackTrace();
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gc.irc.common.api.ILoggable#getLog()
+     */
+    public Logger getLog() {
+        return LOGGER;
     }
 
 }

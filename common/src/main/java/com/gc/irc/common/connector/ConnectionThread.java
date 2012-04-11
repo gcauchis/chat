@@ -81,13 +81,13 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
         this.port = port;
 
         if (StringUtils.isEmpty(serverName)) {
-            LOGGER.info("The server parameters will be : name=localhost" + " port=" + port);
+            getLog().info("The server parameters will be : name=localhost" + " port=" + port);
         } else {
-            LOGGER.info("The server parameters will be : name=" + serverName + " port=" + port);
+            getLog().info("The server parameters will be : name=" + serverName + " port=" + port);
         }
 
         while (true) {
-            LOGGER.debug("Initialisation of the connection thread. Server name/ip : " + serverName + " port : " + port);
+            getLog().debug("Initialisation of the connection thread. Server name/ip : " + serverName + " port : " + port);
 
             try {
                 if (StringUtils.isNotEmpty(serverName)) {
@@ -99,13 +99,13 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
                 break;
 
             } catch (final UnknownHostException e) {
-                LOGGER.error("Impossible to find the host", e);
+                getLog().error("Impossible to find the host", e);
             }
 
             try {
-                Thread.sleep(2000);
-            } catch (final InterruptedException e1) {
-                e1.printStackTrace();
+                Thread.sleep(200);
+            } catch (final InterruptedException e) {
+                getLog().error("sleep interuption", e);
             }
 
         }
@@ -123,52 +123,52 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
 
         while (true) {
 
-            LOGGER.info("Trying to connect");
+            getLog().info("Trying to connect");
 
             try {
                 socket = new Socket(host, port);
                 setConnectedToServer(true);
                 manualDisconnection = false;
 
-                LOGGER.info("Socket successfully created.  Local port : " + socket.getLocalPort());
+                getLog().info("Socket successfully created.  Local port : " + socket.getLocalPort());
 
                 /**
                  * Gestion par objet
                  */
-                LOGGER.debug("Trying to open streams...");
+                getLog().debug("Trying to open streams...");
                 outObject = new ObjectOutputStream(socket.getOutputStream());
-                LOGGER.debug("Output stream opened");
+                getLog().debug("Output stream opened");
                 inObject = new ObjectInputStream(socket.getInputStream());
-                LOGGER.debug("Input stream opened");
+                getLog().debug("Input stream opened");
                 initialized = true;
                 while (true) {
                     /**
                      * Reception du message.
                      */
-                    LOGGER.debug("Waiting for an object message");
+                    getLog().debug("Waiting for an object message");
                     IRCMessage messageObject = null;
                     try {
                         messageObject = IOStreamUtils.receiveMessage(inObject);
                     } catch (final ClassNotFoundException e) {
-                        LOGGER.error("Fail to retreive object class from stream.", e);
+                        getLog().error("Fail to retreive object class from stream.", e);
                         break;
                     }
 
                     if (messageObject == null) {
-                        LOGGER.error("Empty IRCMessage Object received");
+                        getLog().error("Empty IRCMessage Object received");
 
                         try {
                             Thread.sleep(500);
                         } catch (final InterruptedException e) {
-                            LOGGER.warn(e.getMessage());
+                            getLog().warn(e.getMessage());
                         }
 
                     } else {
-                        LOGGER.debug("Message received : " + messageObject.getClass());
+                        getLog().debug("Message received : " + messageObject.getClass());
                         if (messageHandler != null) {
                             messageHandler.handle(messageObject);
                         } else {
-                            LOGGER.warn("No messageHandler to handle " + messageObject);
+                            getLog().warn("No messageHandler to handle " + messageObject);
                         }
                     }
                 }
@@ -180,7 +180,7 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
                 }
                 setAuthenticated(false);
                 if (!manualDisconnection) {
-                    LOGGER.error("The connection with the server lost", e);
+                    getLog().error("The connection with the server lost", e);
                 }
             }
         }
@@ -227,9 +227,9 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
                 setServerDisconnection(true);
             }
             setAuthenticated(false);
-            LOGGER.error("Socket error " + e.getMessage());
+            getLog().error("Socket error ", e);
         } catch (final IOException e) {
-            e.printStackTrace();
+            getLog().error("IO error ", e);
         }
     }
 
@@ -263,8 +263,7 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
                                            // disconnection, from the client
             socket.close();
         } catch (final IOException e) {
-            e.printStackTrace();
-            LOGGER.error(e.getMessage());
+            getLog().error("IO error", e);
         }
     }
 
@@ -353,24 +352,24 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
             if (!socket.isOutputShutdown()) {
                 synchronized (inObject) {
                     synchronized (outObject) {
-                        LOGGER.debug("Send message");
+                        getLog().debug("Send message");
                         if (socket.isConnected()) {
                             if (!socket.isOutputShutdown()) {
                                 IOStreamUtils.sendMessage(outObject, message);
                             } else {
-                                LOGGER.warn("Output is Shutdown !");
+                                getLog().warn("Output is Shutdown !");
                             }
                         } else {
-                            LOGGER.warn("Socket not connected !");
+                            getLog().warn("Socket not connected !");
                         }
                     }
                 }
             } else {
-                LOGGER.warn("Fail to send message. Finalize because output is shutdown.");
+                getLog().warn("Fail to send message. Finalize because output is shutdown.");
                 // TODO close all properly
             }
         } catch (final IOException e) {
-            LOGGER.warn("Fail to send the message : " + e.getMessage());
+            getLog().warn("Fail to send the message : " + e.getMessage());
             // TODO check the socket
         }
 

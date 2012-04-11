@@ -45,7 +45,7 @@ public class PersiteUsers extends Thread {
     @Override
     public void run() {
         if (listUsers != null && listUsers.size() > 0) {
-            IOUtils.ecritFichier("listUser.xml", generateXML());
+            IOUtils.writeFile("listUser.xml", generateXML());
         }
     }
 
