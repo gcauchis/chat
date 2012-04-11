@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gc.irc</groupId>
 	<artifactId>irc</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>irc</name>
 	<modules>
@@ -14,7 +14,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<com.gc.irc.global.version>0.0.1</com.gc.irc.global.version>
+		<com.gc.irc.global.version>0.0.2-SNAPSHOT</com.gc.irc.global.version>
 		<com.gc.irc.version>${com.gc.irc.global.version}</com.gc.irc.version>
 		<com.gc.irc.common.version>${com.gc.irc.global.version}</com.gc.irc.common.version>
 		<com.gc.irc.server.version>${com.gc.irc.global.version}</com.gc.irc.server.version>
