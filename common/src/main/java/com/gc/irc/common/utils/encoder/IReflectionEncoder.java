@@ -2,7 +2,9 @@ package com.gc.irc.common.utils.encoder;
 
 import java.util.Collection;
 
-public interface IReflectionEncoder {
+import com.gc.irc.common.api.ILoggable;
+
+public interface IReflectionEncoder extends ILoggable {
 
     /**
      * Add a list of class who cannot be encoded. If a class provoke a stack

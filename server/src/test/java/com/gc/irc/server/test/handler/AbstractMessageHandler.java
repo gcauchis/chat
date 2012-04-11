@@ -1,8 +1,9 @@
 package com.gc.irc.server.test.handler;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.gc.irc.common.api.IIRCMessageHandler;
+import com.gc.irc.common.message.api.IIRCMessageHandler;
 import com.gc.irc.common.protocol.IRCMessage;
 
 /**
@@ -10,57 +11,70 @@ import com.gc.irc.common.protocol.IRCMessage;
  */
 public abstract class AbstractMessageHandler implements IIRCMessageHandler {
 
-	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger
-			.getLogger(AbstractMessageHandler.class);
-	/** The message recieved. */
-	boolean messageRecieved = false;
+    /** The Constant LOGGER. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractMessageHandler.class);
 
-	/**
-	 * Instantiates a new abstract message handler.
-	 */
-	public AbstractMessageHandler() {
-		super();
-	}
+    /** The message recieved. */
+    boolean messageRecieved = false;
 
-	/* (non-Javadoc)
-	 * @see com.gc.irc.common.api.IIRCMessageHandler#handle(com.gc.irc.common.protocol.IRCMessage)
-	 */
-	public void handle(final IRCMessage message) {
-		LOGGER.info("Message recived: " + message);
-		handleInternal(message);
-		messageRecieved = true;
-	}
+    /**
+     * Instantiates a new abstract message handler.
+     */
+    public AbstractMessageHandler() {
+        super();
+    }
 
-	/**
-	 * Handle internal.
-	 * 
-	 * @param message
-	 *            the message
-	 */
-	protected abstract void handleInternal(final IRCMessage message);
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.gc.irc.common.api.IIRCMessageHandler#handle(com.gc.irc.common.protocol
+     * .IRCMessage)
+     */
+    public void handle(final IRCMessage message) {
+        LOGGER.info("Message recived: " + message);
+        handleInternal(message);
+        messageRecieved = true;
+    }
 
-	/**
-	 * Checks if is message recieved.
-	 * 
-	 * @return true, if is message recieved
-	 */
-	public boolean isMessageRecieved() {
-		return messageRecieved;
-	}
+    /**
+     * Handle internal.
+     * 
+     * @param message
+     *            the message
+     */
+    protected abstract void handleInternal(final IRCMessage message);
 
-	/**
-	 * Reset.
-	 */
-	public void reset() {
-		LOGGER.info("Reset");
-		messageRecieved = false;
-		resetInsernal();
-	}
+    /**
+     * Checks if is message recieved.
+     * 
+     * @return true, if is message recieved
+     */
+    public boolean isMessageRecieved() {
+        return messageRecieved;
+    }
 
-	/**
-	 * Reset insernal.
-	 */
-	protected abstract void resetInsernal();
+    /**
+     * Reset.
+     */
+    public void reset() {
+        LOGGER.info("Reset");
+        messageRecieved = false;
+        resetInsernal();
+    }
+
+    /**
+     * Reset insernal.
+     */
+    protected abstract void resetInsernal();
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gc.irc.common.api.ILoggable#getLog()
+     */
+    public Logger getLog() {
+        return LOGGER;
+    }
 
 }

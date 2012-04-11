@@ -3,9 +3,9 @@ package com.gc.irc.server.api;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-import com.gc.irc.common.api.IIRCMessageSender;
 import com.gc.irc.common.connector.ConnectionThread;
 import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.message.api.IIRCMessageSender;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.protocol.command.IRCMessageCommand;
 import com.gc.irc.common.protocol.command.IRCMessageCommandLogin;

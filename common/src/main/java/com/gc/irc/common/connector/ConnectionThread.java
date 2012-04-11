@@ -9,10 +9,11 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.gc.irc.common.api.IIRCMessageHandler;
-import com.gc.irc.common.api.IIRCMessageSender;
+import com.gc.irc.common.message.api.IIRCMessageHandler;
+import com.gc.irc.common.message.api.IIRCMessageSender;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
 
@@ -24,7 +25,7 @@ import com.gc.irc.common.utils.IOStreamUtils;
 public class ConnectionThread extends Thread implements IIRCMessageSender {
 
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = Logger.getLogger(ConnectionThread.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionThread.class);
 
     /** The connected to server. */
     private boolean connectedToServer = false;
@@ -377,6 +378,10 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
 
     public boolean isInitialized() {
         return initialized;
+    }
+
+    public Logger getLog() {
+        return LOGGER;
     }
 
 }

@@ -10,10 +10,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gc.irc.common.api.IClientMessageLine;
-import com.gc.irc.common.api.impl.BasicClientMessageLine;
 import com.gc.irc.common.connector.ConnectionThread;
 import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.message.api.IClientMessageLine;
+import com.gc.irc.common.message.impl.BasicClientMessageLine;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.protocol.chat.IRCMessageChat;
 import com.gc.irc.server.api.AbstractServerIT;

@@ -1,11 +1,12 @@
 package com.gc.irc.common.utils.encoder;
 
+import com.gc.irc.common.api.ILoggable;
 import com.gc.irc.common.exception.utils.EncoderException;
 
 /**
  * The Interface IObjectEncoder.
  */
-public interface IObjectEncoder {
+public interface IObjectEncoder extends ILoggable {
 
     /**
      * Check if the class is encodable by the current Encoder

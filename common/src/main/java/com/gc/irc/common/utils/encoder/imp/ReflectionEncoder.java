@@ -55,7 +55,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
     /*
      * (non-Javadoc)
      * 
-     * @see com.acp.vision.service.ILoggable#getLog()
+     * @see com.gc.irc.common.api.ILoggable#getLog()
      */
     public Logger getLog() {
         return LOGGER;
