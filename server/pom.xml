@@ -6,11 +6,11 @@
 	<parent>
 		<artifactId>irc</artifactId>
 		<groupId>com.gc.irc</groupId>
-		<version>${com.gc.irc.version}</version>
+		<version>0.0.1</version>
 	</parent>
 	<groupId>com.gc.irc</groupId>
 	<artifactId>server</artifactId>
-	<version>${com.gc.irc.server.version}</version>
+	<version>0.0.1</version>
 	<name>server</name>
 	<url>http://maven.apache.org</url>
 	
@@ -69,6 +69,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.2</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -107,8 +108,6 @@
 		<dependency>
 			<groupId>com.gc.irc</groupId>
 			<artifactId>common</artifactId>
-			<version>${com.gc.irc.common.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
@@ -125,14 +124,11 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>2.0.6</version>
 			<type>pom</type>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<artifactId>xbean-spring</artifactId>
 			<groupId>org.apache.xbean</groupId>
-			<version>3.7</version>
 		</dependency>
 	</dependencies>
 	
