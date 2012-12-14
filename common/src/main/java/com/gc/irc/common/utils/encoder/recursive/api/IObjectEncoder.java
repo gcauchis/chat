@@ -1,4 +1,4 @@
-package com.gc.irc.common.utils.encoder;
+package com.gc.irc.common.utils.encoder.recursive.api;
 
 import com.gc.irc.common.api.ILoggable;
 import com.gc.irc.common.exception.utils.EncoderException;

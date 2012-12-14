@@ -1,4 +1,4 @@
-package com.acp.vision.utils;
+package com.gc.irc.common.utils.encoder.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
@@ -18,13 +18,17 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class CryptoUtils.
  * 
- * @author g.migliorini
  */
 public class CryptoUtils {
+
+    /** The Constant LOGGER. */
+    private static final transient Logger LOGGER = LoggerFactory.getLogger(CryptoUtils.class);
 
     /** The dcipher. */
     private static Cipher dcipher;
@@ -36,13 +40,10 @@ public class CryptoUtils {
     private static final int iterationCount = 19;
 
     /** The Constant keypass. */
-    private static final String keypass = "HpSAcp01Vision/";
+    private static final String keypass = "GCiv01Azerty/";
 
     /** The Constant salt. */
     private static final byte[] salt = { (byte) 0xA9, (byte) 0x9B, (byte) 0xC8, (byte) 0x32, (byte) 0x56, (byte) 0x34, (byte) 0xE3, (byte) 0x03 };
-
-    /** The Constant serialVersionUID. */
-    private static final long serialVersionUID = 1L;
 
     /**
      * {@inheritDoc}
@@ -65,15 +66,15 @@ public class CryptoUtils {
             dcipher.init(Cipher.DECRYPT_MODE, key, paramSpec);
 
         } catch (final InvalidAlgorithmParameterException e) {
-            System.out.println("EXCEPTION: InvalidAlgorithmParameterException");
+            LOGGER.error("EXCEPTION: InvalidAlgorithmParameterException");
         } catch (final InvalidKeySpecException e) {
-            System.out.println("EXCEPTION: InvalidKeySpecException");
+            LOGGER.error("EXCEPTION: InvalidKeySpecException");
         } catch (final NoSuchPaddingException e) {
-            System.out.println("EXCEPTION: NoSuchPaddingException");
+            LOGGER.error("EXCEPTION: NoSuchPaddingException");
         } catch (final NoSuchAlgorithmException e) {
-            System.out.println("EXCEPTION: NoSuchAlgorithmException");
+            LOGGER.error("EXCEPTION: NoSuchAlgorithmException");
         } catch (final InvalidKeyException e) {
-            System.out.println("EXCEPTION: InvalidKeyException");
+            LOGGER.error("EXCEPTION: InvalidKeyException");
         }
 
         try {
@@ -109,15 +110,15 @@ public class CryptoUtils {
             dcipher.init(Cipher.DECRYPT_MODE, key, paramSpec);
 
         } catch (final InvalidAlgorithmParameterException e) {
-            System.out.println("EXCEPTION: InvalidAlgorithmParameterException");
+            LOGGER.error("EXCEPTION: InvalidAlgorithmParameterException");
         } catch (final InvalidKeySpecException e) {
-            System.out.println("EXCEPTION: InvalidKeySpecException");
+            LOGGER.error("EXCEPTION: InvalidKeySpecException");
         } catch (final NoSuchPaddingException e) {
-            System.out.println("EXCEPTION: NoSuchPaddingException");
+            LOGGER.error("EXCEPTION: NoSuchPaddingException");
         } catch (final NoSuchAlgorithmException e) {
-            System.out.println("EXCEPTION: NoSuchAlgorithmException");
+            LOGGER.error("EXCEPTION: NoSuchAlgorithmException");
         } catch (final InvalidKeyException e) {
-            System.out.println("EXCEPTION: InvalidKeyException");
+            LOGGER.error("EXCEPTION: InvalidKeyException");
         }
 
         try {

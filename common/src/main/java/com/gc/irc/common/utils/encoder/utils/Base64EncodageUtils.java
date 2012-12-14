@@ -1,4 +1,4 @@
-package com.acp.acs.common.security.utils;
+package com.gc.irc.common.utils.encoder.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
@@ -164,11 +164,12 @@ public final class Base64EncodageUtils {
             decompresser.end();
 
             resultValue = new String(result, 0, resultLength, "UTF-8");
-        } catch (UnsupportedEncodingException | DataFormatException e) {
+        } catch (final UnsupportedEncodingException e) {
+            LOGGER.warn("fail to decodeBase64AndDecompress: {}", e.getMessage());
+        } catch (final DataFormatException e) {
             LOGGER.warn("fail to decodeBase64AndDecompress: {}", e.getMessage());
         }
         return resultValue;
 
     }
-
 }

@@ -1,4 +1,4 @@
-package com.gc.irc.common.utils.encoder;
+package com.gc.irc.common.utils.encoder.recursive.api;
 
 import java.util.Collection;
 

@@ -1,6 +1,6 @@
-package com.acp.acs.common.security.utils;
+package com.gc.irc.common.utils.encoder.utils;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The Class HexaEncodageUtils.
@@ -21,7 +21,7 @@ public final class HexaEncodageUtils {
      *            an Hexadecimal encoded String
      * @return a decoded byte array
      */
-    public static byte[] hexStringToByteArray(String s) {
+    public static byte[] hexStringToByteArray(final String s) {
         if (StringUtils.isEmpty(s)) {
             return new byte[0];
         }

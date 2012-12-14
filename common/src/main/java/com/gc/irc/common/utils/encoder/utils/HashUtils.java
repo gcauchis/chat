@@ -1,4 +1,4 @@
-package com.acp.acs.common.utils;
+package com.gc.irc.common.utils.encoder.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -13,16 +13,16 @@ import org.slf4j.LoggerFactory;
 public final class HashUtils {
 
     /** The LOGGER of HashUtils. */
-    private static final transient Logger LOGGER             = LoggerFactory.getLogger(HashUtils.class);
+    private static final transient Logger LOGGER = LoggerFactory.getLogger(HashUtils.class);
 
     /** The Constant SALT. */
-    public static final String            SALT               = "ACS_SALT";
+    public static final String SALT = "GC_SALT";
 
     /** The Constant ENCODING_HASH_TYPE. */
-    public static final String            ENCODING_HASH_TYPE = "SHA-512";
+    public static final String ENCODING_HASH_TYPE = "SHA-512";
 
     /** The Constant CHARSET_NAME. */
-    public static final String            CHARSET_NAME       = "UTF-8";
+    public static final String CHARSET_NAME = "UTF-8";
 
     /**
      * Instantiates a new hash utils.
@@ -43,7 +43,9 @@ public final class HashUtils {
             final MessageDigest md = MessageDigest.getInstance(ENCODING_HASH_TYPE);
             final byte[] data = md.digest(String.valueOf(input + SALT).getBytes(CHARSET_NAME));
             return toHexString(data);
-        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
+        } catch (final UnsupportedEncodingException e) {
+            LOGGER.error("Error Hashing SHA-512", e);
+        } catch (final NoSuchAlgorithmException e) {
             LOGGER.error("Error Hashing SHA-512", e);
         }
         return null;
@@ -70,27 +72,27 @@ public final class HashUtils {
 
         return sb.toString();
     }
-    
-    
+
     /**
      * Hex to bytes.
-     *
-     * @param encoded the encoded
+     * 
+     * @param encoded
+     *            the encoded
      * @return the byte[]
      */
     public static byte[] hexToBytes(final String encoded) {
-		if ((encoded.length() % 2) != 0)
-			throw new IllegalArgumentException(
-					"Input string must contain an even number of characters");
+        if ((encoded.length() % 2) != 0) {
+            throw new IllegalArgumentException("Input string must contain an even number of characters");
+        }
 
-		final byte result[] = new byte[encoded.length() / 2];
-		final char enc[] = encoded.toCharArray();
-		for (int i = 0; i < enc.length; i += 2) {
-			StringBuilder curr = new StringBuilder(2);
-			curr.append(enc[i]).append(enc[i + 1]);
-			result[i / 2] = (byte) Integer.parseInt(curr.toString(), 16);
-		}
-		return result;
-	}
+        final byte result[] = new byte[encoded.length() / 2];
+        final char enc[] = encoded.toCharArray();
+        for (int i = 0; i < enc.length; i += 2) {
+            final StringBuilder curr = new StringBuilder(2);
+            curr.append(enc[i]).append(enc[i + 1]);
+            result[i / 2] = (byte) Integer.parseInt(curr.toString(), 16);
+        }
+        return result;
+    }
 
 }

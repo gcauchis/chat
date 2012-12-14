@@ -1,9 +1,9 @@
-package com.acp.acs.common.impl;
+package com.gc.irc.common.abs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.acp.acs.common.api.ILoggable;
+import com.gc.irc.common.api.ILoggable;
 
 /**
  * The Class AbstractLoggable.
@@ -14,7 +14,7 @@ public abstract class AbstractLoggable implements ILoggable {
     private static final long serialVersionUID = -1350185363531913931L;
 
     /** The log. */
-    private Logger            log              = null;
+    private Logger log = null;
 
     /**
      * {@inheritDoc}

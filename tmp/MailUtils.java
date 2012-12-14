@@ -15,7 +15,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
- * @author a.bachkira
  * The Class MailUtils.
  */
 public final class MailUtils {
