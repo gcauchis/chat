@@ -14,7 +14,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<com.gc.irc.global.version>0.0.2-SNAPSHOT</com.gc.irc.global.version>
+		<com.gc.irc.global.version>${project.version}</com.gc.irc.global.version>
 		<com.gc.irc.version>${com.gc.irc.global.version}</com.gc.irc.version>
 		<com.gc.irc.common.version>${com.gc.irc.global.version}</com.gc.irc.common.version>
 		<com.gc.irc.server.version>${com.gc.irc.global.version}</com.gc.irc.server.version>
