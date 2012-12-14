@@ -1,7 +1,19 @@
-package com.acp.acs.common.utils;
+package com.gc.irc.common.utils;
 
+/**
+ * The Class XorString.
+ */
 public class XorString {
 
+    /**
+     * Xor hex.
+     * 
+     * @param a
+     *            the a
+     * @param b
+     *            the b
+     * @return the string
+     */
     public static String xorHex(final String a, final String b) {
         final char[] chars = new char[a.length()];
         for (int i = 0; i < chars.length; i++) {
@@ -10,6 +22,13 @@ public class XorString {
         return new String(chars);
     }
 
+    /**
+     * From hex.
+     * 
+     * @param c
+     *            the c
+     * @return the int
+     */
     private static int fromHex(final char c) {
         if (c >= '0' && c <= '9') {
             return c - '0';
@@ -23,6 +42,13 @@ public class XorString {
         throw new IllegalArgumentException();
     }
 
+    /**
+     * To hex.
+     * 
+     * @param nybble
+     *            the nybble
+     * @return the char
+     */
     private static char toHex(final int nybble) {
         if (nybble < 0 || nybble > 15) {
             throw new IllegalArgumentException();

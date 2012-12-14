@@ -1,4 +1,4 @@
-package com.acp.acs.common.utils;
+package com.gc.irc.common.utils;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -12,16 +12,15 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.acp.acs.common.exception.XMLException;
+import com.gc.irc.common.exception.utils.XMLException;
 
 /**
  * The Class XMLUtils.
@@ -124,7 +123,7 @@ public final class XMLUtils {
         try {
             final TransformerFactory transformerFactory = TransformerFactory.newInstance();
             transformer = transformerFactory.newTransformer();
-        } catch (TransformerConfigurationException | TransformerFactoryConfigurationError e) {
+        } catch (final TransformerConfigurationException e) {
             throw new XMLException(e);
         }
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -154,7 +153,11 @@ public final class XMLUtils {
             final DocumentBuilder db = dbf.newDocumentBuilder();
             final InputSource is = new InputSource(new StringReader(xml));
             return db.parse(is);
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (final ParserConfigurationException e) {
+            throw new XMLException("Fail to Parse xml", e);
+        } catch (final SAXException e) {
+            throw new XMLException("Fail to Parse xml", e);
+        } catch (final IOException e) {
             throw new XMLException("Fail to Parse xml", e);
         }
     }
