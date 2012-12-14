@@ -10,126 +10,15 @@
 	</parent>
 	<groupId>com.gc.irc</groupId>
 	<artifactId>server</artifactId>
+	<packaging>pom</packaging>
 	<version>0.0.2-SNAPSHOT</version>
 	<name>server</name>
 	<url>http://maven.apache.org</url>
 	
-	<properties>
-        <delivery.jar.name>${project.artifactId}-${project.version}</delivery.jar.name>
-    </properties>
-    
-    <build>
-        <finalName>${delivery.jar.name}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>false</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.4.3</version>
-                <executions>
-                    <execution>
-                        <id>copy-conf</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/conf
-                            </outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/src/ext/conf</directory>
-                                    <includes>
-                                        <include>*.properties</include>
-                                    </includes>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-				<version>2.3.2</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.gc.irc.server.ServerStarter</mainClass>
-                        </manifest>
-                        <manifestEntries>
-                            <Class-Path>.</Class-Path>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.3</version>
-                <executions>
-                    <execution>
-                        <id>distro-assembly</id>
-                        <goals>
-                            <goal>assembly</goal>
-                        </goals>
-                        <phase>install</phase>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>src/assemble/delivery.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
-	<dependencies>
-		<dependency>
-			<groupId>com.gc.irc</groupId>
-			<artifactId>common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>apache-activemq</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.jms</groupId>
-			<artifactId>jms</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.wapmx.native</groupId>
-			<artifactId>mx-native-loader</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<type>pom</type>
-		</dependency>
-		<dependency>
-			<artifactId>xbean-spring</artifactId>
-			<groupId>org.apache.xbean</groupId>
-		</dependency>
-	</dependencies>
+	<modules>
+		<module>server-core</module>
+	</modules>
+	
+	
 	
 </project>
