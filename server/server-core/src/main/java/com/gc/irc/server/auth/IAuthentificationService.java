@@ -10,7 +10,7 @@ import com.gc.irc.common.entity.IRCUser;
  * @author gcauchis
  * 
  */
-public interface AuthentificationInterface {
+public interface IAuthentificationService {
 
     /**
      * Add a new user.

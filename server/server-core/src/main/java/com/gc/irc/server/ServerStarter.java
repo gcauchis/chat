@@ -1,21 +1,17 @@
 package com.gc.irc.server;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
+import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.core.ServerCore;
 
 /**
  * The Class ServerStarter.
  */
-public class ServerStarter implements Runnable {
-
-    /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServerStarter.class);
+public class ServerStarter extends AbstractLoggable implements Runnable {
 
     /** The initialized. */
     private boolean initialized = false;
@@ -40,10 +36,10 @@ public class ServerStarter implements Runnable {
         cfg.setProperties(ServerConf.getProperties());
         cfg.postProcessBeanFactory(beanFactory);
         final ServerCore core = (ServerCore) beanFactory.getBean("serverCore");
-        LOGGER.info("Init server");
+        getLog().info("Init server");
         core.initServeur();
         initialized = true;
-        LOGGER.info("Start Waiting for client");
+        getLog().info("Start Waiting for client");
         while (true) {
             core.waitClient();
         }
@@ -54,6 +50,7 @@ public class ServerStarter implements Runnable {
      * 
      * @see java.lang.Runnable#run()
      */
+    @Override
     public void run() {
         startAndWaitForClient();
     }

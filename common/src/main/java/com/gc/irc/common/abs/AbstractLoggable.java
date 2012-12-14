@@ -10,9 +10,6 @@ import com.gc.irc.common.api.ILoggable;
  */
 public abstract class AbstractLoggable implements ILoggable {
 
-    /** The Constant serialVersionUID. */
-    private static final long serialVersionUID = -1350185363531913931L;
-
     /** The log. */
     private Logger log = null;
 

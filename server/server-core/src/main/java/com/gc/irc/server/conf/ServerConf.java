@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,7 +95,7 @@ public class ServerConf {
      * @return the property
      */
     public static String getProperty(final String key, final String defaultValue) {
-        LOGGER.debug("Search " + key + " (default value : " + defaultValue + ")");
+        LOGGER.debug("Search " + key + (StringUtils.isBlank(defaultValue) ? "" : " (default value : " + defaultValue + ")"));
         final String result = getProperties().getProperty(key, defaultValue);
         return result == null ? null : result.trim();
     }

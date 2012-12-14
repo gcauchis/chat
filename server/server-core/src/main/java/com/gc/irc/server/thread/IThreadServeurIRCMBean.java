@@ -1,5 +1,6 @@
 package com.gc.irc.server.thread;
 
+
 /**
  * The Interface ThreadServeurIRCMBean.
  */

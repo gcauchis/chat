@@ -5,9 +5,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
 
 /**
@@ -16,10 +14,7 @@ import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
  * @author gcauchis
  * 
  */
-public class IRCGestionPicture implements IGestionPicture {
-
-    /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(IRCGestionPicture.class);
+public class IRCGestionPicture extends AbstractLoggable implements IGestionPicture {
 
     /**
      * Gets the single instance of IRCGestionPicture.
@@ -36,6 +31,7 @@ public class IRCGestionPicture implements IGestionPicture {
      * @see
      * com.gc.irc.server.persistance.GestionPictureInterface#getPictureOf(int)
      */
+    @Override
     public synchronized IRCMessageItemPicture getPictureOf(final int idUser) {
         getLog().debug("Get pictur of " + idUser);
         IRCMessageItemPicture image = null;
@@ -58,6 +54,7 @@ public class IRCGestionPicture implements IGestionPicture {
      * com.gc.irc.server.persistance.GestionPictureInterface#newPicture(int,
      * com.gc.irc.common.protocol.item.IRCMessageItemPicture)
      */
+    @Override
     public synchronized boolean newPicture(final int idUser, final IRCMessageItemPicture image) {
         getLog().debug("Add pictur");
         try {
@@ -71,9 +68,5 @@ public class IRCGestionPicture implements IGestionPicture {
             return false;
         }
         return true;
-    }
-
-    public Logger getLog() {
-        return LOGGER;
     }
 }

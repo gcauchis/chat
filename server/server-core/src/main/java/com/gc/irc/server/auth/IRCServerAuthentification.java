@@ -6,10 +6,9 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
+import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
 import com.gc.irc.common.utils.IOStreamUtils;
@@ -22,10 +21,7 @@ import com.gc.irc.server.persistance.IRCGestionPicture;
  * @author gcauchis
  * 
  */
-public class IRCServerAuthentification implements AuthentificationInterface {
-
-    /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(IRCServerAuthentification.class);
+public class IRCServerAuthentification extends AbstractLoggable implements IAuthentificationService {
 
     /** The instance. */
     private static IRCServerAuthentification instance;
@@ -63,19 +59,19 @@ public class IRCServerAuthentification implements AuthentificationInterface {
      * Read the Users data.
      */
     private IRCServerAuthentification() {
-        LOGGER.debug("Read the Users data.");
+        getLog().debug("Read the Users data.");
         try {
             new UserImformationScanner(pathFichier);
         } catch (final ParserConfigurationException e) {
-            LOGGER.warn("Fail to parse xml.", e);
+            getLog().warn("Fail to parse xml.", e);
         } catch (final SAXException e) {
-            LOGGER.warn("Fail to parse xml.", e);
+            getLog().warn("Fail to parse xml.", e);
         } catch (final IOException e) {
-            LOGGER.warn("Fail to read xml file. If file didn't exist yet, don't worry with this error", e);
+            getLog().warn("Fail to read xml file. If file didn't exist yet, don't worry with this error", e);
         }
         setLastId(UserImformationScanner.getLastId());
         listUsers = UserImformationScanner.getListUserInfomation();
-        LOGGER.debug("End init auth.");
+        getLog().debug("End init auth.");
     }
 
     /**
@@ -97,9 +93,10 @@ public class IRCServerAuthentification implements AuthentificationInterface {
      * com.gc.irc.server.auth.AuthentificationInterface#addUser(java.lang.String
      * , java.lang.String, java.lang.String)
      */
+    @Override
     public boolean addUser(final String login, final String password, final String nickname) {
         if (userLoginExist(login)) {
-            LOGGER.info("Login already exist");
+            getLog().info("Login already exist");
             return false;
         }
         listUsers.add(new IRCUserInformations(getNewId(), nickname, login, password));
@@ -114,6 +111,7 @@ public class IRCServerAuthentification implements AuthentificationInterface {
      * com.gc.irc.server.auth.AuthentificationInterface#userLoginExist(java.
      * lang.String)
      */
+    @Override
     public boolean userLoginExist(final String login) {
         for (final IRCUserInformations user : listUsers) {
             if (user.loginEquals(login)) {
@@ -156,6 +154,7 @@ public class IRCServerAuthentification implements AuthentificationInterface {
      * com.gc.irc.server.auth.AuthentificationInterface#logUser(java.lang.String
      * , java.lang.String)
      */
+    @Override
     public IRCUser logUser(final String login, final String password) {
 
         for (final IRCUserInformations user : listUsers) {
@@ -175,6 +174,7 @@ public class IRCServerAuthentification implements AuthentificationInterface {
      * @see com.gc.irc.server.auth.AuthentificationInterface#changeNickUser(int,
      * java.lang.String)
      */
+    @Override
     public void changeNickUser(final int id, final String nickname) {
         for (final IRCUserInformations user : listUsers) {
             if (user.getId() == id) {
@@ -191,6 +191,7 @@ public class IRCServerAuthentification implements AuthentificationInterface {
      * com.gc.irc.server.auth.AuthentificationInterface#changePasswordUser(int,
      * java.lang.String)
      */
+    @Override
     public void changePasswordUser(final int id, final String password) {
         for (final IRCUserInformations user : listUsers) {
             if (user.getId() == id) {
@@ -205,6 +206,7 @@ public class IRCServerAuthentification implements AuthentificationInterface {
      * 
      * @see com.gc.irc.server.auth.AuthentificationInterface#getUser(int)
      */
+    @Override
     public IRCUserInformations getUser(final int id) {
         for (final IRCUserInformations user : listUsers) {
             if (user.getId() == id) {
@@ -221,6 +223,7 @@ public class IRCServerAuthentification implements AuthentificationInterface {
      * com.gc.irc.server.auth.AuthentificationInterface#sendUsersPicture(java
      * .io.ObjectOutputStream)
      */
+    @Override
     public synchronized void sendUsersPicture(final ObjectOutputStream outObject) {
         IRCMessageItemPicture messagePicture;
         for (final IRCUserInformations user : listUsers) {
@@ -231,10 +234,10 @@ public class IRCServerAuthentification implements AuthentificationInterface {
                     try {
                         IOStreamUtils.sendMessage(outObject, messagePicture);
                     } catch (final IOException e) {
-                        LOGGER.warn("Fail to send the picture of " + user.getNickname() + " : ", e);
+                        getLog().warn("Fail to send the picture of " + user.getNickname() + " : ", e);
                     }
                 } else {
-                    LOGGER.warn("Fail to open the picture of " + user.getNickname());
+                    getLog().warn("Fail to open the picture of " + user.getNickname());
                 }
             }
         }

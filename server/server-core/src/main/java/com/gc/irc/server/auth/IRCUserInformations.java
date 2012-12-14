@@ -1,8 +1,6 @@
 package com.gc.irc.server.auth;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.entity.IRCUser;
 
 /**
@@ -11,10 +9,7 @@ import com.gc.irc.common.entity.IRCUser;
  * @author gcauchis
  * 
  */
-public class IRCUserInformations {
-
-    /** The Constant logger. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(IRCUserInformations.class);
+public class IRCUserInformations extends AbstractLoggable {
 
     /** The id. */
     private int id;
@@ -51,7 +46,7 @@ public class IRCUserInformations {
         this.login = login;
         this.nickname = nickname;
         this.password = password;
-        LOGGER.info("New users " + id + ": login : " + login);
+        getLog().info("New users " + id + ": login : " + login);
     }
 
     /**
@@ -116,7 +111,7 @@ public class IRCUserInformations {
      *            the new login
      */
     public void setLogin(final String login) {
-        LOGGER.debug("Change login " + this.login + " to " + login);
+        getLog().debug("Change login " + this.login + " to " + login);
         this.login = login;
         IRCServerAuthentification.getInstance().saveModification();
     }
@@ -128,7 +123,7 @@ public class IRCUserInformations {
      *            the new nickname
      */
     public void setNickname(final String nickname) {
-        LOGGER.debug("Change nickname " + this.nickname + " to " + nickname);
+        getLog().debug("Change nickname " + this.nickname + " to " + nickname);
         this.nickname = nickname;
         if (user != null) {
             user.setNickName(nickname);
@@ -143,7 +138,7 @@ public class IRCUserInformations {
      *            the new password
      */
     public void setPassword(final String password) {
-        LOGGER.debug("Change password " + this.password + " to " + password);
+        getLog().debug("Change password " + this.password + " to " + password);
         this.password = password;
         IRCServerAuthentification.getInstance().saveModification();
     }
@@ -213,7 +208,7 @@ public class IRCUserInformations {
      *            the new checks for picture
      */
     public void setHasPicture(final boolean havePicture) {
-        LOGGER.debug("Change havePicture " + hasPictur + " to " + havePicture);
+        getLog().debug("Change havePicture " + hasPictur + " to " + havePicture);
         hasPictur = havePicture;
         if (user != null) {
             user.setHasPictur(havePicture);
@@ -234,7 +229,7 @@ public class IRCUserInformations {
      * Deconnected.
      */
     public void deconnected() {
-        LOGGER.debug(nickname + " is disconnected.");
+        getLog().debug(nickname + " is disconnected.");
         user = null;
 
     }

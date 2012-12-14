@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * @author gcauchis
  * 
  */
-public class JMSConnection {
+public final class JMSConnection {
 
     /** The Constant logger. */
     private static final Logger LOGGER = LoggerFactory.getLogger(JMSConnection.class);
@@ -71,6 +71,13 @@ public class JMSConnection {
             LOGGER.error("Fail to create the Queue JMS", e);
             System.exit(-1);
         }
+    }
+
+    /**
+     * Instantiates a new jMS connection.
+     */
+    private JMSConnection() {
+        super();
     }
 
     /**

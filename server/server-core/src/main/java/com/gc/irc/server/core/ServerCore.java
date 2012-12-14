@@ -9,10 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.gc.irc.common.api.ILoggable;
+import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.persistance.PersiteUsers;
@@ -29,10 +26,7 @@ import com.gc.irc.server.thread.ThreadServeurIRC;
  * @author gcauchis
  * 
  */
-public class ServerCore implements ILoggable {
-
-    /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServerCore.class);
+public class ServerCore extends AbstractLoggable {
 
     /** The nb thread serveur. */
     private static int nbThreadServeur = Integer.parseInt(ServerConf.getConfProperty(ServerConf.NB_CONSUMER_THREAD, "1"));
@@ -307,15 +301,6 @@ public class ServerCore implements ILoggable {
             getLog().warn("Problem when finalize the Server");
             e.printStackTrace();
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gc.irc.common.api.ILoggable#getLog()
-     */
-    public Logger getLog() {
-        return LOGGER;
     }
 
 }

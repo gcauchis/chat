@@ -4,19 +4,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.server.conf.ServerConf;
 
 /**
  * The Class IRCJMSPoolProducer.
  */
-public class IRCJMSPoolProducer {
-
-    /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(IRCJMSPoolProducer.class);
+public class IRCJMSPoolProducer extends AbstractLoggable {
 
     /** The list pool producer jms. */
     private Map<Integer, IRCJMSProducer> listPoolProducerJMS = Collections.synchronizedMap(new HashMap<Integer, IRCJMSProducer>());
@@ -34,7 +29,7 @@ public class IRCJMSPoolProducer {
      * Builder generate the Producer pool.
      */
     private IRCJMSPoolProducer() {
-        LOGGER.info("Create pool JMS producer");
+        getLog().info("Create pool JMS producer");
 
         for (int i = 0; i < poolSize; i++) {
             listPoolProducerJMS.put(i, new IRCJMSProducer());

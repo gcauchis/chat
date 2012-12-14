@@ -13,13 +13,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.gc.irc.common.abs.AbstractLoggable;
+
 /**
  * A scanner to parse an identification xml file.
  * 
  * @author gcauchis
  * 
  */
-public class UserImformationScanner {
+public class UserImformationScanner extends AbstractLoggable {
 
     /** The m document. */
     org.w3c.dom.Document mDocument;
