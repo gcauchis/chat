@@ -1,5 +1,6 @@
 package com.gc.irc.server.api;
 
+import org.apache.activemq.broker.BrokerService;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -27,6 +28,9 @@ public abstract class AbstractServerIT {
 	/** The starter. */
 	private static ServerStarter starter;
 	
+	/** The jms broker. */
+	private static BrokerService jmsBroker;
+	
 	/**
 	 * Inits the.
 	 * 
@@ -35,6 +39,22 @@ public abstract class AbstractServerIT {
 	 */
 	@BeforeClass
 	public static synchronized void lauchServer() throws InterruptedException {
+		if (jmsBroker == null) {
+			jmsBroker = new BrokerService();
+			try {
+				jmsBroker.addConnector("tcp://localhost:61616");
+			} catch (Exception e) {
+				System.out.println("Fail to initialize jms broker: "+e);
+				e.printStackTrace();
+			}
+			jmsBroker.setPersistent(false);
+			try {
+				jmsBroker.start();
+			} catch (Exception e) {
+				System.out.println("Fail to start jms broker: "+e);
+				e.printStackTrace();
+			}
+		}
 		if (starter == null) {
 			starter = new ServerStarter();
 			starterThread = new Thread(starter);
