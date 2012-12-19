@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:amq="http://activemq.apache.org/schema/core"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-						http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
-	
-	<amq:broker useJmx="false" persistent="false">
-		<amq:transportConnectors>
-			<amq:transportConnector uri="tcp://localhost:61616" />
-		</amq:transportConnectors>
-	</amq:broker>
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<bean name="propertyPlaceholder"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -18,10 +10,10 @@
 		</property>
 	</bean>
 	
-	<!--<bean id="broker" class="org.apache.activemq.xbean.BrokerFactoryBean">
+	<bean id="broker" class="org.apache.activemq.xbean.BrokerFactoryBean" scope="singleton">
 		<property name="config" value="classpath:org/activemq/xbean/activemq.xml" />
 		<property name="start" value="true" />
-	</bean>-->
+	</bean>
 
 	<bean id="serverCore" class="com.gc.irc.server.core.ServerCore">
 		<property name="port" value="${server.port}" />
