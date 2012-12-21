@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gc.irc.common.abs.AbstractRunnable;
 import com.gc.irc.common.message.api.IIRCMessageHandler;
 import com.gc.irc.common.message.api.IIRCMessageSender;
 import com.gc.irc.common.protocol.IRCMessage;
@@ -22,10 +23,10 @@ import com.gc.irc.common.utils.IOStreamUtils;
  * objects wich are transmitted (they are defined in the com.irc.share.protocol
  * package)
  */
-public class ConnectionThread extends Thread implements IIRCMessageSender {
+public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSender {
 
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionThread.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionHandler.class);
 
     /** The connected to server. */
     private boolean connectedToServer = false;
@@ -75,7 +76,7 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
      * @param port
      *            the port of the connexion
      */
-    public ConnectionThread(final String serverName, final int port) {
+    public ConnectionHandler(final String serverName, final int port) {
 
         this.serverName = serverName;
         this.port = port;
@@ -344,6 +345,7 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
      * com.gc.irc.common.api.IIRCMessageSender#send(com.gc.irc.common.protocol
      * .IRCMessage)
      */
+    @Override
     public void send(final IRCMessage message) {
         try {
             /**
@@ -379,6 +381,7 @@ public class ConnectionThread extends Thread implements IIRCMessageSender {
         return initialized;
     }
 
+    @Override
     public Logger getLog() {
         return LOGGER;
     }

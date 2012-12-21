@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gc.irc.common.connector.ConnectionThread;
+import com.gc.irc.common.connector.ConnectionHandler;
 import com.gc.irc.common.message.api.IClientMessageLine;
 import com.gc.irc.common.message.impl.BasicClientMessageLine;
 import com.gc.irc.common.protocol.IRCMessage;
@@ -21,7 +21,7 @@ import com.gc.irc.server.api.AbstractServerIT;
 public class BasicServerIT extends AbstractServerIT {
 
     /** The connection thread. */
-    private ConnectionThread connectionThread;
+    private ConnectionHandler connectionThread;
 
     /**
      * Prepare.
@@ -40,7 +40,7 @@ public class BasicServerIT extends AbstractServerIT {
     @After
     public void clean() {
         connectionThread.disconnect();
-        connectionThread.interrupt();
+        // connectionThread.interrupt();
     }
 
     /**

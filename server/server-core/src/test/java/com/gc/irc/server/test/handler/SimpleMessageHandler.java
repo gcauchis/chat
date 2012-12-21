@@ -5,7 +5,7 @@ import com.gc.irc.common.protocol.IRCMessage;
 /**
  * The Class SimpleMessageHandler.
  */
-public class SimpleMessageHandler extends AbstractMessageHandler {
+public class SimpleMessageHandler extends AbstractMessageHandlerTester {
 	
 	/** The last received message. */
 	private IRCMessage lastReceivedMessage;

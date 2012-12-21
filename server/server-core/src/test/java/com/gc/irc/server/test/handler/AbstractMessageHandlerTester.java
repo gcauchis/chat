@@ -1,18 +1,15 @@
 package com.gc.irc.server.test.handler;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.message.api.IIRCMessageHandler;
 import com.gc.irc.common.protocol.IRCMessage;
 
 /**
  * The Class AbstractMessageHandler.
  */
-public abstract class AbstractMessageHandler implements IIRCMessageHandler {
-
-    /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractMessageHandler.class);
+public abstract class AbstractMessageHandlerTester extends AbstractLoggable implements IIRCMessageHandler {
 
     /** The message recieved. */
     boolean messageRecieved = false;
@@ -20,7 +17,7 @@ public abstract class AbstractMessageHandler implements IIRCMessageHandler {
     /**
      * Instantiates a new abstract message handler.
      */
-    public AbstractMessageHandler() {
+    public AbstractMessageHandlerTester() {
         super();
     }
 
@@ -31,8 +28,9 @@ public abstract class AbstractMessageHandler implements IIRCMessageHandler {
      * com.gc.irc.common.api.IIRCMessageHandler#handle(com.gc.irc.common.protocol
      * .IRCMessage)
      */
+    @Override
     public void handle(final IRCMessage message) {
-        LOGGER.info("Message recived: " + message);
+        getLog().info("Message recived: " + message);
         handleInternal(message);
         messageRecieved = true;
     }
@@ -58,7 +56,7 @@ public abstract class AbstractMessageHandler implements IIRCMessageHandler {
      * Reset.
      */
     public void reset() {
-        LOGGER.info("Reset");
+        getLog().info("Reset");
         messageRecieved = false;
         resetInsernal();
     }
@@ -73,8 +71,9 @@ public abstract class AbstractMessageHandler implements IIRCMessageHandler {
      * 
      * @see com.gc.irc.common.api.ILoggable#getLog()
      */
+    @Override
     public Logger getLog() {
-        return LOGGER;
+        return getLog();
     }
 
 }

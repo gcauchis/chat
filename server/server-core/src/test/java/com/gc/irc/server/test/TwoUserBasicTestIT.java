@@ -10,7 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gc.irc.common.connector.ConnectionThread;
+import com.gc.irc.common.connector.ConnectionHandler;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.message.api.IClientMessageLine;
 import com.gc.irc.common.message.impl.BasicClientMessageLine;
@@ -25,13 +25,13 @@ import com.gc.irc.server.test.handler.SimpleMessageHandler;
 public class TwoUserBasicTestIT extends AbstractServerIT {
 
     /** The connection user1. */
-    private ConnectionThread connectionUser1;
+    private ConnectionHandler connectionUser1;
 
     /** The user1. */
     private IRCUser user1;
 
     /** The connection user2. */
-    private ConnectionThread connectionUser2;
+    private ConnectionHandler connectionUser2;
 
     /** The user2. */
     private IRCUser user2;
@@ -58,9 +58,9 @@ public class TwoUserBasicTestIT extends AbstractServerIT {
     @After
     public void clean() {
         connectionUser1.disconnect();
-        connectionUser1.interrupt();
+        // connectionUser1.interrupt();
         connectionUser2.disconnect();
-        connectionUser2.interrupt();
+        // connectionUser2.interrupt();
     }
 
     /**
@@ -124,7 +124,7 @@ public class TwoUserBasicTestIT extends AbstractServerIT {
      * @throws InterruptedException
      *             the interrupted exception
      */
-    private void sendMessageToGlobal(final IRCUser userA, final ConnectionThread connectionThreadA, final String messageStr,
+    private void sendMessageToGlobal(final IRCUser userA, final ConnectionHandler connectionThreadA, final String messageStr,
             final SimpleMessageHandler messageHandlerUserB) throws InterruptedException {
         final IRCMessage currentSendedMessage = buildSimpleMessage(userA, messageStr);
         messageHandlerUserB.reset();
