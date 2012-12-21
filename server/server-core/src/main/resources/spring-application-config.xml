@@ -9,6 +9,11 @@
 			<value>classpath*:conf/servConf.properties</value>
 		</property>
 	</bean>
+	
+	<!--<bean id="broker" class="org.apache.activemq.xbean.BrokerFactoryBean" scope="singleton">
+		<property name="config" value="classpath:org/activemq/xbean/activemq.xml" />
+		<property name="start" value="true" />
+	</bean>-->
 
 	<bean id="serverCore" class="com.gc.irc.server.core.ServerCore">
 		<property name="port" value="${server.port}" />

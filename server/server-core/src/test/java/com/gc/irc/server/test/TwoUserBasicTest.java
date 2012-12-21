@@ -22,7 +22,7 @@ import com.gc.irc.server.test.handler.SimpleMessageHandler;
 /**
  * The Class TwoUserBasicTestIT.
  */
-public class TwoUserBasicTestIT extends AbstractServerIT {
+public class TwoUserBasicTest extends AbstractServerIT {
 
     /** The connection user1. */
     private ConnectionHandler connectionUser1;

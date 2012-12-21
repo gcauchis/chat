@@ -18,7 +18,7 @@ import com.gc.irc.server.api.AbstractServerIT;
 /**
  * The Class ServerTest.
  */
-public class BasicServerIT extends AbstractServerIT {
+public class BasicServerTest extends AbstractServerIT {
 
     /** The connection thread. */
     private ConnectionHandler connectionThread;

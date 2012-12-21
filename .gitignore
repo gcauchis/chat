@@ -1,6 +1,6 @@
 *.settings
 *.project
-*target/*
+target/
 *.classpath
-/target
-/Temp
+Temp/
+activemq-data/
