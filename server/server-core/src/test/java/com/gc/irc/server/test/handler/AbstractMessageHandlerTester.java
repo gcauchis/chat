@@ -1,7 +1,5 @@
 package com.gc.irc.server.test.handler;
 
-import org.slf4j.Logger;
-
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.message.api.IIRCMessageHandler;
 import com.gc.irc.common.protocol.IRCMessage;
@@ -65,15 +63,5 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
      * Reset insernal.
      */
     protected abstract void resetInsernal();
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gc.irc.common.api.ILoggable#getLog()
-     */
-    @Override
-    public Logger getLog() {
-        return getLog();
-    }
 
 }
