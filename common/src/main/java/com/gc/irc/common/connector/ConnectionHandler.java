@@ -9,8 +9,6 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.gc.irc.common.abs.AbstractRunnable;
 import com.gc.irc.common.message.api.IIRCMessageHandler;
@@ -24,9 +22,6 @@ import com.gc.irc.common.utils.IOStreamUtils;
  * package)
  */
 public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSender {
-
-    /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionHandler.class);
 
     /** The connected to server. */
     private boolean connectedToServer = false;
@@ -379,11 +374,6 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
 
     public boolean isInitialized() {
         return initialized;
-    }
-
-    @Override
-    public Logger getLog() {
-        return LOGGER;
     }
 
 }

@@ -2,19 +2,15 @@ package com.gc.irc.common.entity;
 
 import java.io.Serializable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.gc.irc.common.abs.AbstractLoggable;
 
 /**
  * The Class IRCUser.
  */
-public class IRCUser implements Serializable {
+public class IRCUser extends AbstractLoggable implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -7180427709043943598L;
-
-    /** The Constant logger. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(IRCUser.class);
 
     /** The id. */
     private int id;
@@ -40,7 +36,7 @@ public class IRCUser implements Serializable {
         this.id = id;
         this.nickName = nickName;
 
-        LOGGER.debug("New User : " + id + ", " + nickName + ", pictur : " + hasPictur);
+        getLog().debug("New User : " + id + ", " + nickName + ", pictur : " + hasPictur);
     }
 
     /**
@@ -144,7 +140,7 @@ public class IRCUser implements Serializable {
      * @return A copy.
      */
     public IRCUser getCopy() {
-        LOGGER.debug("Create a copy");
+    	getLog().debug("build copy");
         final IRCUser userCopy = new IRCUser(id, nickName, hasPictur);
         userCopy.setUserStatus(userStatus);
         return userCopy;

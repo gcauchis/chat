@@ -11,9 +11,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
 
 import javolution.util.FastList;
@@ -39,17 +39,17 @@ public final class ReflectionEncoder implements IReflectionEncoder {
     public static final int DEFAULT_MAX_DEEP = 40;
 
     /** The Constant WRAPPER_TYPES. */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     private static final Set<Class> WRAPPER_TYPES = new HashSet<Class>(Arrays.asList(Boolean.class, Character.class, Byte.class, Short.class, Integer.class,
             Long.class, Float.class, Double.class, Void.class, BigDecimal.class, BigInteger.class));
 
     /** The Constant NOT_ENCODABLE_TYPES. */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     private static final Set<Class> NOT_ENCODABLE_TYPES = new HashSet<Class>(Arrays.asList(Object.class, String.class, java.util.Date.class,
             java.sql.Date.class, Calendar.class, Locale.class, TimeZone.class, org.apache.log4j.Logger.class, AccessibleObject.class));
 
     /** The Constant NOT_ENCODABLE_INTERFACES. */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     private static final Set<Class> NOT_ENCODABLE_INTERFACES = new HashSet<Class>(Arrays.asList(Logger.class));
 
     /*
@@ -77,12 +77,12 @@ public final class ReflectionEncoder implements IReflectionEncoder {
     private boolean encodeAllString = false;
 
     /** The class black list. */
-    @SuppressWarnings("rawtypes")
-    private Set<Class> classBlackList = new FastSet<Class>();
+    @SuppressWarnings("unchecked")
+	private Set<Class> classBlackList = new FastSet<Class>();
 
     /** The interfaces black list. */
-    @SuppressWarnings("rawtypes")
-    private Set<Class> interfacesBlackList = new FastSet<Class>();
+    @SuppressWarnings("unchecked")
+	private Set<Class> interfacesBlackList = new FastSet<Class>();
 
     /** The lock. */
     private Semaphore lock = new Semaphore(1);
@@ -131,8 +131,9 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * @param blackList
      *            the black list
      */
-    public ReflectionEncoder(final IStringEncoder stringEncoder, final List<IObjectEncoder> objectEncoders,
-            @SuppressWarnings("rawtypes") final Collection<Class> blackList) {
+    @SuppressWarnings("unchecked")
+	public ReflectionEncoder(final IStringEncoder stringEncoder, final List<IObjectEncoder> objectEncoders,
+            final Collection<Class> blackList) {
         this(stringEncoder, objectEncoders);
         addToBlackList(blackList);
     }
@@ -144,7 +145,8 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * com.acp.vision.encoder.IReflectionEncoder#addToBlackList(java.util.Collection
      * )
      */
-    public void addToBlackList(@SuppressWarnings("rawtypes") final Collection<Class> list) {
+    @SuppressWarnings("unchecked")
+	public void addToBlackList(final Collection<Class> list) {
         classBlackList.addAll(list);
     }
 
@@ -155,7 +157,8 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * com.acp.vision.encoder.IReflectionEncoder#addInterfacesToBlackList(java
      * .util.Collection)
      */
-    public void addInterfacesToBlackList(@SuppressWarnings("rawtypes") final Collection<Class> list) {
+    @SuppressWarnings("unchecked")
+	public void addInterfacesToBlackList(final Collection<Class> list) {
         interfacesBlackList.addAll(list);
     }
 
@@ -184,7 +187,8 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      *            the clazz
      * @return true, if is encodable
      */
-    private static boolean isEncodableField(@SuppressWarnings("rawtypes") final Class clazz) {
+    @SuppressWarnings("unchecked")
+	private static boolean isEncodableField(final Class clazz) {
         return !(WRAPPER_TYPES.contains(clazz) || clazz.isEnum());
     }
 
@@ -195,7 +199,8 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      *            the clazz
      * @return true, if is not an encodable type
      */
-    private boolean isNotAnEncodableClass(@SuppressWarnings("rawtypes") final Class clazz) {
+    @SuppressWarnings("unchecked")
+	private boolean isNotAnEncodableClass(final Class clazz) {
         return isInClassCollection(clazz, NOT_ENCODABLE_TYPES) || !isEncodableField(clazz) || isInClassCollection(clazz, classBlackList)
                 || isInClassCollection(clazz.getInterfaces(), NOT_ENCODABLE_INTERFACES) || isInClassCollection(clazz.getInterfaces(), interfacesBlackList);
     }
@@ -209,8 +214,8 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      *            the classes
      * @return true, if is in class collection
      */
-    @SuppressWarnings("rawtypes")
-    private boolean isInClassCollection(Class clazz, final Collection<Class> classes) {
+    @SuppressWarnings("unchecked")
+	private boolean isInClassCollection(Class clazz, final Collection<Class> classes) {
         while (clazz != null && !clazz.equals(Object.class)) {
             if (classes.contains(clazz)) {
                 return true;
@@ -229,8 +234,8 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      *            the classes
      * @return true, if is in class collection
      */
-    @SuppressWarnings("rawtypes")
-    private boolean isInClassCollection(final Class[] classesTab, final Collection<Class> classes) {
+    @SuppressWarnings("unchecked")
+	private boolean isInClassCollection(final Class[] classesTab, final Collection<Class> classes) {
         for (final Class clazz : classesTab) {
             if (clazz != null && isInClassCollection(clazz, classes)) {
                 return true;
@@ -265,7 +270,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * @param value
      *            the value
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked" })
     private void internalEncodeByReflection(final Object value) {
         deep++;
         if (deep > maxDeep) {
@@ -309,8 +314,8 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * @param value
      *            the value
      */
-    @SuppressWarnings("rawtypes")
-    private void encodeClassFields(final Object value) {
+    @SuppressWarnings("unchecked")
+	private void encodeClassFields(final Object value) {
         if (value != null) {
             Class clazz = value.getClass();
             while (clazz != null && !clazz.equals(Object.class)) {

@@ -14,7 +14,8 @@ public interface IReflectionEncoder extends ILoggable {
      * @param list
      *            the list
      */
-    void addToBlackList(@SuppressWarnings("rawtypes") Collection<Class> list);
+    @SuppressWarnings("unchecked")
+	void addToBlackList(Collection<Class> list);
 
     /**
      * Adds the interfaces to black list.
@@ -22,7 +23,8 @@ public interface IReflectionEncoder extends ILoggable {
      * @param list
      *            the list
      */
-    void addInterfacesToBlackList(@SuppressWarnings("rawtypes") Collection<Class> list);
+    @SuppressWarnings("unchecked")
+	void addInterfacesToBlackList(Collection<Class> list);
 
     /**
      * Encode the given string using the given stringEncoder.
