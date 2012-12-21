@@ -16,13 +16,13 @@ import com.gc.irc.common.message.api.IClientMessageLine;
 import com.gc.irc.common.message.impl.BasicClientMessageLine;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.protocol.chat.IRCMessageChat;
-import com.gc.irc.server.api.AbstractServerIT;
+import com.gc.irc.server.api.AbstractServerTest;
 import com.gc.irc.server.test.handler.SimpleMessageHandler;
 
 /**
  * The Class TwoUserBasicTestIT.
  */
-public class TwoUserBasicTest extends AbstractServerIT {
+public class TwoUserBasicTest extends AbstractServerTest {
 
     /** The connection user1. */
     private ConnectionHandler connectionUser1;

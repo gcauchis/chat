@@ -16,9 +16,9 @@ import com.gc.irc.server.test.handler.AbstractMessageHandlerTester;
 import com.gc.irc.server.test.handler.LoginMessageHandler;
 
 /**
- * The Class AbstractServerIT.
+ * The Class AbstractServerTest.
  */
-public abstract class AbstractServerIT {
+public abstract class AbstractServerTest {
     /** The Constant SERVER_PORT. */
     protected static final int SERVER_PORT = 1973;
 
