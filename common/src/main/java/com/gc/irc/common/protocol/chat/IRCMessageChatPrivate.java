@@ -1,6 +1,6 @@
 package com.gc.irc.common.protocol.chat;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.gc.irc.common.message.api.IClientMessageLine;
 
@@ -29,7 +29,7 @@ public class IRCMessageChatPrivate extends IRCMessageChat {
 	 *            the text color
 	 */
 	public IRCMessageChatPrivate(final int userID,
-			final ArrayList<IClientMessageLine> lines) {
+			final List<IClientMessageLine> lines) {
 		super(userID, lines);
 		setChatMessageType(IRCMessageChatType.PRIVATE);
 	}
@@ -47,7 +47,7 @@ public class IRCMessageChatPrivate extends IRCMessageChat {
 	 *            the text color
 	 */
 	public IRCMessageChatPrivate(final int userID,
-			final ArrayList<IClientMessageLine> lines, final int toId) {
+			final List<IClientMessageLine> lines, final int toId) {
 		this(userID, lines);
 		this.toId = toId;
 	}
