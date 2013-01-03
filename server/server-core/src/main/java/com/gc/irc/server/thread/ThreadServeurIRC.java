@@ -37,339 +37,386 @@ import com.gc.irc.server.persistance.IRCGestionPicture;
  */
 public class ThreadServeurIRC extends Thread implements IThreadServeurIRCMBean {
 
-    /** The nb thread. */
-    private static int nbThread = 0;
+	/** The Constant LOGGER. */
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(ThreadServeurIRC.class);
 
-    /**
-     * Gets the nb thread.
-     * 
-     * @return the nb thread
-     */
-    protected static int getNbThread() {
-        nbThread++;
-        return nbThread;
-    }
+	/** The nb message. */
+	private static Long nbMessage = 0L;
 
-    /** The id. */
-    private int id = getNbThread();
+	/** The nb thread. */
+	private static int nbThread = 0;
 
-    /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ThreadServeurIRC.class);
+	/** The num passage max. */
+	private static int numPassageMax = Integer.parseInt(ServerConf
+			.getConfProperty(ServerConf.NB_MESSAGE_MAX_PASSAGE, "10"), 10);
 
-    /** The session. */
-    private Session session = JMSConnection.getSession();
+	/**
+	 * Gets the nb thread.
+	 * 
+	 * @return the nb thread
+	 */
+	protected static int getNbThread() {
+		nbThread++;
+		return nbThread;
+	}
 
-    /** The message consumer. */
-    private MessageConsumer messageConsumer = null;
+	/** The id. */
+	private final int id = getNbThread();
 
-    /** The parent. */
-    private ServerCore parent = null;
+	/** The message consumer. */
+	private MessageConsumer messageConsumer = null;
 
-    /** The num passage max. */
-    private static int numPassageMax = Integer.parseInt(ServerConf.getConfProperty(ServerConf.NB_MESSAGE_MAX_PASSAGE, "10"), 10);
+	/** The parent. */
+	private ServerCore parent = null;
 
-    /** The nb message. */
-    private static Integer nbMessage = 0;
+	/** The session. */
+	private final Session session = JMSConnection.getSession();
 
-    /**
-     * Builder.
-     * 
-     * @param parent
-     *            Parent.
-     */
-    public ThreadServeurIRC(final ServerCore parent) {
-        this.parent = parent;
-    }
+	/**
+	 * Builder.
+	 * 
+	 * @param parent
+	 *            Parent.
+	 */
+	public ThreadServeurIRC(final ServerCore parent) {
+		this.parent = parent;
+	}
 
-    /**
-     * Initialize Thread.
-     * 
-     * Listening JMS Queue
-     */
-    private void init() {
+	/**
+	 * Finalize the Thread.
+	 */
+	public void finalizeClass() {
+		LOGGER.debug("Finalize the Thread");
+		try {
+			messageConsumer.close();
+		} catch (final JMSException e) {
+			LOGGER.warn(id + " Problem when close the messageConsumer : "
+					+ e.getMessage());
+		}
+		try {
+			super.finalize();
+		} catch (final Throwable e) {
+			LOGGER.warn(id + " Fail to finalize class : " + e.getMessage());
+		}
+	}
 
-        /**
-         * Create JMS Consumer
-         */
-        try {
-            LOGGER.debug(id + " Create JMS Consumer");
-            messageConsumer = session.createConsumer(JMSConnection.getQueue());
-        } catch (final JMSException e) {
-            LOGGER.error(id + " Fail to create JMS Consumer : " + e.getMessage());
-            System.exit(-1);
-        }
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.gc.irc.server.thread.IThreadServeurIRCMBean#getNbMessages()
+	 */
+	public long getNbMessages() {
+		/**
+		 * Get the number of messages (for JMX)
+		 */
+		return nbMessage;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Thread#run()
-     */
-    @Override
-    public void run() {
-        LOGGER.debug(id + " Start");
-        init();
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.gc.irc.server.thread.IThreadServeurIRCMBean#getNbUser()
+	 */
+	public int getNbUser() {
+		/**
+		 * Get the number of connected client (for JMX)
+		 */
+		final List<ThreadGestionClientIRC> clientConnecter = parent
+				.getClientConnecter();
+		return clientConnecter.size();
+	}
 
-        while (true) {
-            Message message = null;
-            try {
-                /**
-                 * Wait for a message in JMS Queue
-                 */
-                LOGGER.debug(id + " Wait for a message in JMS Queue");
-                message = messageConsumer.receive();
-            } catch (final JMSException e) {
-                LOGGER.warn(id + " Fail to receive message in JMS Queue : " + e.getMessage());
-            }
+	/**
+	 * Return the list of online users (for JMX).
+	 * 
+	 * @return the user list
+	 */
+	public String getUserList() {
+		String result = "";
 
-            traitementObjecttMessage((ObjectMessage) message);
-        }
-    }
+		for (final IRCUser u : parent.getAllUsers()) {
+			result += u.getId() + " : " + u.getNickName() + " | ";
+		}
 
-    /**
-     * Handle Message.
-     * 
-     * @param message
-     *            Message received.
-     */
-    private void traitementObjecttMessage(final ObjectMessage message) {
-        LOGGER.debug(id + " Handle received Message.");
-        IRCMessage messageObj = null;
+		return result;
+	}
 
-        /**
-         * Update of the number of messages.
-         */
-        synchronized (nbMessage) {
-            nbMessage++;
-        }
+	/**
+	 * Initialize Thread.
+	 * 
+	 * Listening JMS Queue
+	 */
+	private void init() {
 
-        /**
-         * Extract Message
-         */
-        try {
-            LOGGER.debug(id + " Extract Message receive in JMS");
-            messageObj = (IRCMessage) message.getObject();
-        } catch (final JMSException e) {
-            LOGGER.warn(id + " Fail to extract Message receive in JMS : " + e.getMessage());
-        }
+		/**
+		 * Create JMS Consumer
+		 */
+		try {
+			LOGGER.debug(id + " Create JMS Consumer");
+			messageConsumer = session.createConsumer(JMSConnection.getQueue());
+		} catch (final JMSException e) {
+			LOGGER.error(id + " Fail to create JMS Consumer : "
+					+ e.getMessage());
+			System.exit(-1);
+		}
+	}
 
-        LOGGER.debug(id + " Message's type : " + messageObj.getType());
-        switch (messageObj.getType()) {
-        case CHATMESSAGE:
-            final IRCMessageChat messageObjChat = (IRCMessageChat) messageObj;
-            LOGGER.debug(id + " Type : " + messageObjChat.getChatMessageType());
-            switch (messageObjChat.getChatMessageType()) {
-            case GLOBAL:
-                if (IRCServerAuthentification.getInstance().getUser(messageObjChat.getFromId()) != null) {
-                    LOGGER.debug(id + " Global message form " + IRCServerAuthentification.getInstance().getUser(messageObjChat.getFromId()).getNickname());
-                    sendObjetMessageIRCToAll(messageObjChat);
-                } else {
-                    LOGGER.warn(id + " inexisting source id");
-                }
-                break;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.gc.irc.server.thread.IThreadServeurIRCMBean#kickUser(int)
+	 */
+	public String kickUser(final int userID) {
+		/**
+		 * Kick the user with the ID userID
+		 */
+		final ThreadGestionClientIRC thClient = parent.getThreadOfUser(userID);
+		if (thClient != null) {
+			thClient.finalizeClass();
+			return "Client successfully kicked";
+		} else {
+			return "Could not kick client";
+		}
+	}
 
-            case PRIVATE:
-                final IRCMessageChatPrivate messageChatPriv = (IRCMessageChatPrivate) messageObjChat;
-                if (IRCServerAuthentification.getInstance().getUser(messageChatPriv.getFromId()) != null) {
-                    if (IRCServerAuthentification.getInstance().getUser(messageChatPriv.getToId()) != null) {
-                        LOGGER.debug(id + " Private Message from " + IRCServerAuthentification.getInstance().getUser(messageChatPriv.getFromId()).getNickname()
-                                + " to " + IRCServerAuthentification.getInstance().getUser(messageChatPriv.getToId()).getNickname());
-                        final ThreadGestionClientIRC clientCible = parent.getThreadOfUser(messageChatPriv.getToId());
-                        if (clientCible != null) {
-                            clientCible.envoyerMessageObjetSocket(messageChatPriv);
-                        }
-                    } else {
-                        LOGGER.warn(id + " inexisting destination id");
-                        LOGGER.debug(id + " Check if retry later");
-                        final int numPassage = messageChatPriv.numPassage();
-                        if (numPassage < numPassageMax) {
-                            LOGGER.debug(id + " Send again the private message in JMS. Passage number " + numPassage);
-                            IRCJMSPoolProducer.getInstance().postMessageObjectInJMS(messageChatPriv);
-                        } else {
-                            LOGGER.debug(id + " Message passed to much time in the server (more than " + numPassageMax + "). Trash it !");
-                        }
-                    }
-                } else {
-                    LOGGER.warn(id + " inexisting source id");
-                }
-                break;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Thread#run()
+	 */
+	@Override
+	public void run() {
+		LOGGER.debug(id + " Start");
+		init();
 
-            default:
-                break;
-            }
-            break;
-        case COMMAND:
-            final IRCMessageCommand messageObjCmd = (IRCMessageCommand) messageObj;
-            LOGGER.debug(id + " Type : " + messageObjCmd.getCommandType());
-            switch (messageObjCmd.getCommandType()) {
-            case CHANGE_NICKNAME:
-                final IRCMessageCommandChangeNickname messageChNick = (IRCMessageCommandChangeNickname) messageObjCmd;
-                {
-                    final IRCServerAuthentification auth = IRCServerAuthentification.getInstance();
-                    if (auth.getUser(messageChNick.getFromId()) != null) {
-                        auth.changeNickUser(messageChNick.getFromId(), messageChNick.getNewNickname());
-                        sendObjetMessageIRCToAll(new IRCMessageNoticeContactInfo(auth.getUser(messageChNick.getFromId()).getUser()));
-                    } else {
-                        LOGGER.warn(id + " this user didn't exist.");
-                    }
-                }
-                break;
-            case CHANGE_STATUS:
-                try {
-                    final IRCMessageCommandChangeStatus messageChStatus = (IRCMessageCommandChangeStatus) messageObjCmd;
-                    final IRCUser user = IRCServerAuthentification.getInstance().getUser(messageChStatus.getFromId()).getUser();
-                    if (user != null) {
-                        LOGGER.debug(id + " " + user.getNickName() + " change statu to " + messageChStatus.getNewStatus());
-                        user.setUserStatus(messageChStatus.getNewStatus());
-                        sendObjetMessageIRCToAll(new IRCMessageNoticeContactInfo(user));
-                    }
-                } catch (final NullPointerException e) {
-                    LOGGER.warn(id + " Null pointer exception.");
-                }
-                break;
-            default:
-                break;
-            }
-            break;
-        case NOTIFICATION:
-            final IRCMessageNotice messageObjNotice = (IRCMessageNotice) messageObj;
-            LOGGER.debug(id + " Type : " + messageObjNotice.getNoticeType());
-            switch (messageObjNotice.getNoticeType()) {
-            case CONTACT_INFO:
-                final IRCMessageNoticeContactInfo messageObjNoticeContactInfo = (IRCMessageNoticeContactInfo) messageObjNotice;
-                final IRCUser userChange = messageObjNoticeContactInfo.getUser();
-                LOGGER.debug(id + " User " + userChange.getNickName() + " change state to " + userChange.getUserStatus() + " has pictur : "
-                        + userChange.hasPictur());
-                sendObjetMessageIRCToAll(messageObjNoticeContactInfo);
-                break;
+		while (true) {
+			Message message = null;
+			try {
+				/**
+				 * Wait for a message in JMS Queue
+				 */
+				LOGGER.debug(id + " Wait for a message in JMS Queue");
+				message = messageConsumer.receive();
+			} catch (final JMSException e) {
+				LOGGER.warn(id + " Fail to receive message in JMS Queue : "
+						+ e.getMessage());
+			}
 
-            default:
-                break;
-            }
-            break;
-        case ITEM:
-            final IRCMessageItemPicture messagePictur = (IRCMessageItemPicture) messageObj;
-            {
+			traitementObjecttMessage((ObjectMessage) message);
+		}
+	}
 
-                IRCGestionPicture.getInstance().newPicture(messagePictur.getFromId(), messagePictur);
+	/**
+	 * Send a message to all connected Client.
+	 * 
+	 * @param message
+	 *            Message to Send
+	 */
+	private void sendObjetMessageIRCToAll(final IRCMessage message) {
+		final List<ThreadGestionClientIRC> clientConnecter = parent
+				.getClientConnecter();
 
-                final IRCServerAuthentification auth = IRCServerAuthentification.getInstance();
-                final IRCUserInformations userInfo = auth.getUser(messagePictur.getFromId());
-                if (userInfo != null) {
-                    userInfo.setHasPicture(true);
-                } else {
-                    LOGGER.warn(id + " User null");
-                }
+		if (IRCServerAuthentification.getInstance()
+				.getUser(message.getFromId()) != null) {
+			LOGGER.debug(id
+					+ " Send a message to all connected client from "
+					+ IRCServerAuthentification.getInstance().getUser(
+							message.getFromId()).getNickname());
+			synchronized (clientConnecter) {
+				for (final ThreadGestionClientIRC client : clientConnecter) {
+					if (message.getFromId() != client.getUser().getId()) {
+						synchronized (client) {
+							synchronized (client.getUser()) {
+								client.envoyerMessageObjetSocket(message);
+							}
+						}
+					}
+				}
+			}
+		} else {
+			LOGGER.warn(id + " Inexisting source ID");
+		}
+	}
 
-                sendObjetMessageIRCToAll(messagePictur);
-            }
-            break;
+	/**
+	 * Handle Message.
+	 * 
+	 * @param message
+	 *            Message received.
+	 */
+	private void traitementObjecttMessage(final ObjectMessage message) {
+		LOGGER.debug(id + " Handle received Message.");
+		IRCMessage messageObj = null;
 
-        default:
-            break;
-        }
-    }
+		/**
+		 * Update of the number of messages.
+		 */
+		synchronized (nbMessage) {
+			nbMessage++;
+		}
 
-    /**
-     * Send a message to all connected Client.
-     * 
-     * @param message
-     *            Message to Send
-     */
-    private void sendObjetMessageIRCToAll(final IRCMessage message) {
-        final List<ThreadGestionClientIRC> clientConnecter = parent.getClientConnecter();
+		/**
+		 * Extract Message
+		 */
+		try {
+			LOGGER.debug(id + " Extract Message receive in JMS");
+			messageObj = (IRCMessage) message.getObject();
+		} catch (final JMSException e) {
+			LOGGER.warn(id + " Fail to extract Message receive in JMS : "
+					+ e.getMessage());
+		}
 
-        if (IRCServerAuthentification.getInstance().getUser(message.getFromId()) != null) {
-            LOGGER.debug(id + " Send a message to all connected client from "
-                    + IRCServerAuthentification.getInstance().getUser(message.getFromId()).getNickname());
-            synchronized (clientConnecter) {
-                for (final ThreadGestionClientIRC client : clientConnecter) {
-                    if (message.getFromId() != client.getUser().getId()) {
-                        synchronized (client) {
-                            synchronized (client.getUser()) {
-                                client.envoyerMessageObjetSocket(message);
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            LOGGER.warn(id + " Inexisting source ID");
-        }
-    }
+		LOGGER.debug(id + " Message's type : " + messageObj.getType());
+		switch (messageObj.getType()) {
+		case CHATMESSAGE:
+			final IRCMessageChat messageObjChat = (IRCMessageChat) messageObj;
+			LOGGER.debug(id + " Type : " + messageObjChat.getChatMessageType());
+			switch (messageObjChat.getChatMessageType()) {
+			case GLOBAL:
+				if (IRCServerAuthentification.getInstance().getUser(
+						messageObjChat.getFromId()) != null) {
+					LOGGER.debug(id
+							+ " Global message form "
+							+ IRCServerAuthentification.getInstance().getUser(
+									messageObjChat.getFromId()).getNickname());
+					sendObjetMessageIRCToAll(messageObjChat);
+				} else {
+					LOGGER.warn(id + " inexisting source id");
+				}
+				break;
 
-    /**
-     * Finalize the Thread.
-     */
-    public void finalizeClass() {
-        LOGGER.debug("Finalize the Thread");
-        try {
-            messageConsumer.close();
-        } catch (final JMSException e) {
-            LOGGER.warn(id + " Problem when close the messageConsumer : " + e.getMessage());
-        }
-        try {
-            super.finalize();
-        } catch (final Throwable e) {
-            LOGGER.warn(id + " Fail to finalize class : " + e.getMessage());
-        }
-    }
+			case PRIVATE:
+				final IRCMessageChatPrivate messageChatPriv = (IRCMessageChatPrivate) messageObjChat;
+				if (IRCServerAuthentification.getInstance().getUser(
+						messageChatPriv.getFromId()) != null) {
+					if (IRCServerAuthentification.getInstance().getUser(
+							messageChatPriv.getToId()) != null) {
+						LOGGER.debug(id
+								+ " Private Message from "
+								+ IRCServerAuthentification.getInstance()
+										.getUser(messageChatPriv.getFromId())
+										.getNickname()
+								+ " to "
+								+ IRCServerAuthentification.getInstance()
+										.getUser(messageChatPriv.getToId())
+										.getNickname());
+						final ThreadGestionClientIRC clientCible = parent
+								.getThreadOfUser(messageChatPriv.getToId());
+						if (clientCible != null) {
+							clientCible
+									.envoyerMessageObjetSocket(messageChatPriv);
+						}
+					} else {
+						LOGGER.warn(id + " inexisting destination id");
+						LOGGER.debug(id + " Check if retry later");
+						final int numPassage = messageChatPriv.numPassage();
+						if (numPassage < numPassageMax) {
+							LOGGER
+									.debug(id
+											+ " Send again the private message in JMS. Passage number "
+											+ numPassage);
+							IRCJMSPoolProducer.getInstance()
+									.postMessageObjectInJMS(messageChatPriv);
+						} else {
+							LOGGER
+									.debug(id
+											+ " Message passed to much time in the server (more than "
+											+ numPassageMax + "). Trash it !");
+						}
+					}
+				} else {
+					LOGGER.warn(id + " inexisting source id");
+				}
+				break;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gc.irc.server.thread.IThreadServeurIRCMBean#getNbMessages()
-     */
-    public int getNbMessages() {
-        /**
-         * Get the number of messages (for JMX)
-         */
-        return nbMessage;
-    }
+			default:
+				break;
+			}
+			break;
+		case COMMAND:
+			final IRCMessageCommand messageObjCmd = (IRCMessageCommand) messageObj;
+			LOGGER.debug(id + " Type : " + messageObjCmd.getCommandType());
+			switch (messageObjCmd.getCommandType()) {
+			case CHANGE_NICKNAME:
+				final IRCMessageCommandChangeNickname messageChNick = (IRCMessageCommandChangeNickname) messageObjCmd;
+				{
+					final IRCServerAuthentification auth = IRCServerAuthentification
+							.getInstance();
+					if (auth.getUser(messageChNick.getFromId()) != null) {
+						auth.changeNickUser(messageChNick.getFromId(),
+								messageChNick.getNewNickname());
+						sendObjetMessageIRCToAll(new IRCMessageNoticeContactInfo(
+								auth.getUser(messageChNick.getFromId())
+										.getUser()));
+					} else {
+						LOGGER.warn(id + " this user didn't exist.");
+					}
+				}
+				break;
+			case CHANGE_STATUS:
+				try {
+					final IRCMessageCommandChangeStatus messageChStatus = (IRCMessageCommandChangeStatus) messageObjCmd;
+					final IRCUser user = IRCServerAuthentification
+							.getInstance().getUser(messageChStatus.getFromId())
+							.getUser();
+					if (user != null) {
+						LOGGER.debug(id + " " + user.getNickName()
+								+ " change statu to "
+								+ messageChStatus.getNewStatus());
+						user.setUserStatus(messageChStatus.getNewStatus());
+						sendObjetMessageIRCToAll(new IRCMessageNoticeContactInfo(
+								user));
+					}
+				} catch (final NullPointerException e) {
+					LOGGER.warn(id + " Null pointer exception.");
+				}
+				break;
+			default:
+				break;
+			}
+			break;
+		case NOTIFICATION:
+			final IRCMessageNotice messageObjNotice = (IRCMessageNotice) messageObj;
+			LOGGER.debug(id + " Type : " + messageObjNotice.getNoticeType());
+			switch (messageObjNotice.getNoticeType()) {
+			case CONTACT_INFO:
+				final IRCMessageNoticeContactInfo messageObjNoticeContactInfo = (IRCMessageNoticeContactInfo) messageObjNotice;
+				final IRCUser userChange = messageObjNoticeContactInfo
+						.getUser();
+				LOGGER.debug(id + " User " + userChange.getNickName()
+						+ " change state to " + userChange.getUserStatus()
+						+ " has pictur : " + userChange.hasPictur());
+				sendObjetMessageIRCToAll(messageObjNoticeContactInfo);
+				break;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gc.irc.server.thread.IThreadServeurIRCMBean#getNbUser()
-     */
-    public int getNbUser() {
-        /**
-         * Get the number of connected client (for JMX)
-         */
-        final List<ThreadGestionClientIRC> clientConnecter = parent.getClientConnecter();
-        return clientConnecter.size();
-    }
+			default:
+				break;
+			}
+			break;
+		case ITEM:
+			final IRCMessageItemPicture messagePictur = (IRCMessageItemPicture) messageObj;
+			{
 
-    /**
-     * Return the list of online users (for JMX).
-     * 
-     * @return the user list
-     */
-    public String getUserList() {
-        String result = "";
+				IRCGestionPicture.getInstance().newPicture(
+						messagePictur.getFromId(), messagePictur);
 
-        for (final IRCUser u : parent.getAllUsers()) {
-            result += u.getId() + " : " + u.getNickName() + " | ";
-        }
+				final IRCServerAuthentification auth = IRCServerAuthentification
+						.getInstance();
+				final IRCUserInformations userInfo = auth.getUser(messagePictur
+						.getFromId());
+				if (userInfo != null) {
+					userInfo.setHasPicture(true);
+				} else {
+					LOGGER.warn(id + " User null");
+				}
 
-        return result;
-    }
+				sendObjetMessageIRCToAll(messagePictur);
+			}
+			break;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gc.irc.server.thread.IThreadServeurIRCMBean#kickUser(int)
-     */
-    public String kickUser(final int userID) {
-        /**
-         * Kick the user with the ID userID
-         */
-        final ThreadGestionClientIRC thClient = parent.getThreadOfUser(userID);
-        if (thClient != null) {
-            thClient.finalizeClass();
-            return "Client successfully kicked";
-        } else {
-            return "Could not kick client";
-        }
-    }
+		default:
+			break;
+		}
+	}
 }
