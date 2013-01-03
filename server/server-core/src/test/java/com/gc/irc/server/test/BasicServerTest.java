@@ -50,7 +50,7 @@ public class BasicServerTest extends AbstractServerTest {
      *             the interrupted exception
      */
     @Test
-    public void basicTest() throws InterruptedException {
+    public void sendMsg() throws InterruptedException {
         for (int i = 0; i < 5; i++) {
             System.out.println("send msg");
             sendMessage(connectionThread, getBasicMessage());
