@@ -20,95 +20,100 @@ import com.gc.irc.server.api.AbstractServerTest;
  */
 public class BasicServerTest extends AbstractServerTest {
 
-    /** The connection thread. */
-    private ConnectionHandler connectionThread;
+	/** The connection thread. */
+	private ConnectionHandler connectionThread;
 
-    /**
-     * Prepare.
-     * 
-     * @throws InterruptedException
-     *             the interrupted exception
-     */
-    @Before
-    public void prepare() throws InterruptedException {
-        connectionThread = getConnectionToServer();
-    }
+	/**
+	 * Clean.
+	 */
+	@After
+	public void clean() {
+		connectionThread.disconnect();
+	}
 
-    /**
-     * Clean.
-     */
-    @After
-    public void clean() {
-        connectionThread.disconnect();
-        // connectionThread.interrupt();
-    }
+	/**
+	 * Gets the basic message.
+	 * 
+	 * @return the basic message
+	 */
+	private IRCMessage getBasicMessage() {
+		return new IRCMessageChat(0, Arrays
+				.asList((IClientMessageLine) new BasicClientMessageLine(
+						"message")));
+	}
 
-    /**
-     * Basic test.
-     * 
-     * @throws InterruptedException
-     *             the interrupted exception
-     */
-    @Test
-    public void sendMsg() throws InterruptedException {
-        for (int i = 0; i < 5; i++) {
-            System.out.println("send msg");
-            sendMessage(connectionThread, getBasicMessage());
-            Thread.sleep(500);
-        }
-    }
+	/**
+	 * Login0.
+	 * 
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 */
+	@Test
+	public void login0() throws InterruptedException {
+		assertNotNull(loginAndRegister(connectionThread, "test", "test"));
+	}
 
-    /**
-     * Login0.
-     * 
-     * @throws InterruptedException
-     *             the interrupted exception
-     */
-    @Test
-    public void login0() throws InterruptedException {
-        assertNotNull(loginAndRegister(connectionThread, "test", "test"));
-    }
+	/**
+	 * Login1.
+	 * 
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 */
+	@Test
+	public void login1() throws InterruptedException {
+		assertNotNull(loginAndRegister(connectionThread, "test1", "test"));
+	}
 
-    /**
-     * Login1.
-     * 
-     * @throws InterruptedException
-     *             the interrupted exception
-     */
-    @Test
-    public void login1() throws InterruptedException {
-        assertNotNull(loginAndRegister(connectionThread, "test1", "test"));
-    }
+	/**
+	 * Login2.
+	 * 
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 */
+	@Test
+	public void login2() throws InterruptedException {
+		assertNotNull(loginAndRegister(connectionThread, "test2", "test"));
+	}
 
-    /**
-     * Login2.
-     * 
-     * @throws InterruptedException
-     *             the interrupted exception
-     */
-    @Test
-    public void login2() throws InterruptedException {
-        assertNotNull(loginAndRegister(connectionThread, "test2", "test"));
-    }
+	/**
+	 * Login rand.
+	 * 
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 */
+	@Test
+	public void loginRand() throws InterruptedException {
+		assertNotNull(loginAndRegister(connectionThread, "TestUser"
+				+ Math.round(Math.random() * System.currentTimeMillis()),
+				"TestPassword"
+						+ Math
+								.round(Math.random()
+										* System.currentTimeMillis())));
+	}
 
-    /**
-     * Login rand.
-     * 
-     * @throws InterruptedException
-     *             the interrupted exception
-     */
-    @Test
-    public void loginRand() throws InterruptedException {
-        assertNotNull(loginAndRegister(connectionThread, "TestUser" + Math.round(Math.random() * System.currentTimeMillis()),
-                "TestPassword" + Math.round(Math.random() * System.currentTimeMillis())));
-    }
+	/**
+	 * Prepare.
+	 * 
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 */
+	@Before
+	public void prepare() throws InterruptedException {
+		connectionThread = getConnectionToServer();
+	}
 
-    /**
-     * Gets the basic message.
-     * 
-     * @return the basic message
-     */
-    private IRCMessage getBasicMessage() {
-        return new IRCMessageChat(0, Arrays.asList((IClientMessageLine) new BasicClientMessageLine("message")));
-    }
+	/**
+	 * Basic test.
+	 * 
+	 * @throws InterruptedException
+	 *             the interrupted exception
+	 */
+	@Test
+	public void sendMsg() throws InterruptedException {
+		for (int i = 0; i < 5; i++) {
+			System.out.println("send msg");
+			sendMessage(connectionThread, getBasicMessage());
+			Thread.sleep(500);
+		}
+	}
 }
