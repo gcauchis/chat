@@ -12,11 +12,11 @@ public class IRCMessageChatPrivate extends IRCMessageChat {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -6494361960510331113L;
 
-	/** The to id. */
-	private int toId = -1;
-
 	/** The cpt persist. */
 	private int cptPersist = 0;
+
+	/** The to id. */
+	private int toId = -1;
 
 	/**
 	 * Instantiates a new iRC message chat private.
@@ -70,25 +70,15 @@ public class IRCMessageChatPrivate extends IRCMessageChat {
 		return cptPersist++;
 	}
 
-	/**
-	 * Constructs a <code>String</code> with all attributes
-	 * in name = value format.
-	 *
-	 * @return a <code>String</code> representation 
-	 * of this object.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.gc.irc.common.protocol.chat.IRCMessageChat#toString()
 	 */
+	@Override
 	public String toString() {
-	    final String TAB = " ";
-	
-	    StringBuilder retValue = new StringBuilder();
-	    
-	    retValue.append("IRCMessageChatPrivate ( ")
-	        .append(super.toString()).append(TAB)
-	        .append("toId = ").append(this.toId).append(TAB)
-	        .append("cptPersist = ").append(this.cptPersist).append(TAB)
-	        .append(" )");
-	    
-	    return retValue.toString();
+		return "IRCMessageChatPrivate(" + super.toString() + ") [cptPersist="
+				+ cptPersist + ", toId=" + toId + "]";
 	}
 
 }

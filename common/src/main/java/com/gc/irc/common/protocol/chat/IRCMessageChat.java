@@ -16,11 +16,11 @@ public class IRCMessageChat extends IRCMessage {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6599297905344621111L;
 
-	/** The lines. */
-	private List<IClientMessageLine> lines;
-
 	/** The chat message type. */
 	private IRCMessageChatType chatMessageType = IRCMessageChatType.GLOBAL;
+
+	/** The lines. */
+	private List<IClientMessageLine> lines;
 
 	/**
 	 * Instantiates a new iRC message chat.
@@ -32,20 +32,18 @@ public class IRCMessageChat extends IRCMessage {
 	 * @param textColor
 	 *            the text color
 	 */
-	public IRCMessageChat(final int userID,
-			final List<IClientMessageLine> lines) {
+	public IRCMessageChat(final int userID, final List<IClientMessageLine> lines) {
 		super(userID, IRCMessageType.CHATMESSAGE);
 		setLines(lines);
 	}
 
 	/**
-	 * Sets the lines.
+	 * Gets the chat message type.
 	 * 
-	 * @param lines
-	 *            the new lines
+	 * @return the chat message type
 	 */
-	public void setLines(final List<IClientMessageLine> lines) {
-		this.lines = lines;
+	public IRCMessageChatType getChatMessageType() {
+		return chatMessageType;
 	}
 
 	/**
@@ -68,33 +66,24 @@ public class IRCMessageChat extends IRCMessage {
 	}
 
 	/**
-	 * Gets the chat message type.
+	 * Sets the lines.
 	 * 
-	 * @return the chat message type
+	 * @param lines
+	 *            the new lines
 	 */
-	public IRCMessageChatType getChatMessageType() {
-		return chatMessageType;
+	public void setLines(final List<IClientMessageLine> lines) {
+		this.lines = lines;
 	}
 
-	/**
-	 * Constructs a <code>String</code> with all attributes
-	 * in name = value format.
-	 *
-	 * @return a <code>String</code> representation 
-	 * of this object.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.gc.irc.common.protocol.IRCMessage#toString()
 	 */
+	@Override
 	public String toString() {
-	    final String TAB = " ";
-	
-	    StringBuilder retValue = new StringBuilder();
-	    
-	    retValue.append("IRCMessageChat ( ")
-	        .append(super.toString()).append(TAB)
-	        .append("lines = ").append(this.lines).append(TAB)
-	        .append("chatMessageType = ").append(this.chatMessageType).append(TAB)
-	        .append(" )");
-	    
-	    return retValue.toString();
+		return "IRCMessageChat(" + super.toString() + ") [chatMessageType="
+				+ chatMessageType + ", lines=" + lines + "]";
 	}
 
 }

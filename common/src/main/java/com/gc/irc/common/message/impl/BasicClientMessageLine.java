@@ -6,10 +6,10 @@ import com.gc.irc.common.message.api.IClientMessageLine;
  * The Class BasicClientMessage.
  */
 public class BasicClientMessageLine implements IClientMessageLine {
-	
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 6741145004079482180L;
-	
+
 	/** The message. */
 	private String message;
 
@@ -22,8 +22,9 @@ public class BasicClientMessageLine implements IClientMessageLine {
 
 	/**
 	 * Instantiates a new basic client message.
-	 *
-	 * @param message the message
+	 * 
+	 * @param message
+	 *            the message
 	 */
 	public BasicClientMessageLine(String message) {
 		super();
@@ -32,7 +33,7 @@ public class BasicClientMessageLine implements IClientMessageLine {
 
 	/**
 	 * Gets the message.
-	 *
+	 * 
 	 * @return the message
 	 */
 	public String getMessage() {
@@ -41,31 +42,23 @@ public class BasicClientMessageLine implements IClientMessageLine {
 
 	/**
 	 * Sets the message.
-	 *
-	 * @param message the new message
+	 * 
+	 * @param message
+	 *            the new message
 	 */
 	public void setMessage(String message) {
 		this.message = message;
 	}
 
-	/**
-	 * Constructs a <code>String</code> with all attributes
-	 * in name = value format.
-	 *
-	 * @return a <code>String</code> representation 
-	 * of this object.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
-	    final String TAB = " ";
-	
-	    StringBuilder retValue = new StringBuilder();
-	    
-	    retValue.append("BasicClientMessage ( ")
-	        .append(super.toString()).append(TAB)
-	        .append("message = ").append(this.message).append(TAB)
-	        .append(" )");
-	    
-	    return retValue.toString();
+		return "BasicClientMessageLine(" + super.toString() + ") [message="
+				+ message + "]";
 	}
-	
+
 }
