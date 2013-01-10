@@ -1,9 +1,12 @@
 package com.gc.irc.server.api;
 
+import static org.junit.Assert.assertNotNull;
+
 import org.apache.activemq.broker.BrokerService;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
+import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.connector.ConnectionHandler;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.message.api.IIRCMessageSender;
@@ -12,13 +15,14 @@ import com.gc.irc.common.protocol.command.IRCMessageCommand;
 import com.gc.irc.common.protocol.command.IRCMessageCommandLogin;
 import com.gc.irc.common.protocol.command.IRCMessageCommandRegister;
 import com.gc.irc.server.ServerStarter;
-import com.gc.irc.server.test.handler.AbstractMessageHandlerTester;
+import com.gc.irc.server.test.handler.IMessageHandlerTester;
 import com.gc.irc.server.test.handler.LoginMessageHandler;
+import com.gc.irc.server.test.utils.entity.UserContextEntity;
 
 /**
  * The Class AbstractServerTest.
  */
-public abstract class AbstractServerTest {
+public abstract class AbstractServerTest extends AbstractLoggable {
     /** The jms broker. */
     private static BrokerService jmsBroker;
 
@@ -76,13 +80,29 @@ public abstract class AbstractServerTest {
     }
 
     /**
+     * Gets the connected user.
+     * 
+     * @return the connected user
+     * @throws InterruptedException
+     */
+    protected final UserContextEntity getConnectedUser(final String login, final String password) throws InterruptedException {
+        final ConnectionHandler connection = getConnectionToServer();
+        assertNotNull(connection);
+        final IRCUser user = loginAndRegister(connection, login, password);
+        assertNotNull(user);
+        final UserContextEntity context = new UserContextEntity(user, connection);
+        context.cleanMessageHandler();
+        return context;
+    }
+
+    /**
      * Gets the connection to server.
      * 
      * @return the connection to server
      * @throws InterruptedException
      *             the interrupted exception
      */
-    protected ConnectionHandler getConnectionToServer() throws InterruptedException {
+    protected final ConnectionHandler getConnectionToServer() throws InterruptedException {
         final ConnectionHandler connectionHandler = new ConnectionHandler(null, SERVER_PORT);
         new Thread(connectionHandler).start();
 
@@ -107,7 +127,7 @@ public abstract class AbstractServerTest {
      * @throws InterruptedException
      *             the interrupted exception
      */
-    protected IRCUser login(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
+    protected final IRCUser login(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
         return sendCommandMessageForLogin(connectionThread, new IRCMessageCommandLogin(login, password));
     }
 
@@ -123,7 +143,7 @@ public abstract class AbstractServerTest {
      * @throws InterruptedException
      *             the interrupted exception
      */
-    protected IRCUser loginAndRegister(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
+    protected final IRCUser loginAndRegister(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
         IRCUser user = login(connectionThread, login, password);
         if (user == null) {
             user = register(connectionThread, login, password);
@@ -144,7 +164,7 @@ public abstract class AbstractServerTest {
      * @throws InterruptedException
      *             the interrupted exception
      */
-    protected IRCUser register(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
+    protected final IRCUser register(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
         return sendCommandMessageForLogin(connectionThread, new IRCMessageCommandRegister(login, password));
     }
 
@@ -177,7 +197,7 @@ public abstract class AbstractServerTest {
      * @param message
      *            the message
      */
-    protected void sendMessage(final IIRCMessageSender messageSender, final IRCMessage message) {
+    protected final void sendMessage(final IIRCMessageSender messageSender, final IRCMessage message) {
         messageSender.send(message);
     }
 
@@ -189,9 +209,10 @@ public abstract class AbstractServerTest {
      * @throws InterruptedException
      *             the interrupted exception
      */
-    protected void waitForMessageInHandler(final AbstractMessageHandlerTester messageHandler) throws InterruptedException {
+    protected final void waitForMessageInHandler(final IMessageHandlerTester messageHandler) throws InterruptedException {
         while (!messageHandler.isMessageRecieved()) {
             Thread.sleep(300);
         }
     }
+
 }

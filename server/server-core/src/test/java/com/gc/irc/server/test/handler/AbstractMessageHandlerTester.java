@@ -1,16 +1,15 @@
 package com.gc.irc.server.test.handler;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.common.message.api.IIRCMessageHandler;
 import com.gc.irc.common.protocol.IRCMessage;
 
 /**
  * The Class AbstractMessageHandler.
  */
-public abstract class AbstractMessageHandlerTester extends AbstractLoggable implements IIRCMessageHandler {
+public abstract class AbstractMessageHandlerTester extends AbstractLoggable implements IMessageHandlerTester {
 
-    /** The message recieved. */
-    boolean messageRecieved = false;
+    /** The last received message. */
+    private IRCMessage lastReceivedMessage;
 
     /**
      * Instantiates a new abstract message handler.
@@ -19,18 +18,28 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
         super();
     }
 
+    /**
+     * Gets the last received message.
+     * 
+     * @return the last received message
+     */
+    @Override
+    public IRCMessage getLastReceivedMessage() {
+        return lastReceivedMessage;
+    }
+
     /*
      * (non-Javadoc)
      * 
      * @see
-     * com.gc.irc.common.api.IIRCMessageHandler#handle(com.gc.irc.common.protocol
-     * .IRCMessage)
+     * com.gc.irc.common.message.api.IIRCMessageHandler#handle(com.gc.irc.common
+     * .protocol.IRCMessage)
      */
     @Override
     public void handle(final IRCMessage message) {
         getLog().info("Message recived: " + message);
+        lastReceivedMessage = message;
         handleInternal(message);
-        messageRecieved = true;
     }
 
     /**
@@ -41,21 +50,26 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
      */
     protected abstract void handleInternal(final IRCMessage message);
 
-    /**
-     * Checks if is message recieved.
+    /*
+     * (non-Javadoc)
      * 
-     * @return true, if is message recieved
+     * @see
+     * com.gc.irc.server.test.handler.IMessageHandlerTester#isMessageRecieved()
      */
+    @Override
     public boolean isMessageRecieved() {
-        return messageRecieved;
+        return lastReceivedMessage != null;
     }
 
-    /**
-     * Reset.
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gc.irc.server.test.handler.IMessageHandlerTester#reset()
      */
+    @Override
     public void reset() {
         getLog().info("Reset");
-        messageRecieved = false;
+        lastReceivedMessage = null;
         resetInsernal();
     }
 

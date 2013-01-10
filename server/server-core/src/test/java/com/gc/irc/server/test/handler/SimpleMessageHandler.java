@@ -7,18 +7,6 @@ import com.gc.irc.common.protocol.IRCMessage;
  */
 public class SimpleMessageHandler extends AbstractMessageHandlerTester {
 
-    /** The last received message. */
-    private IRCMessage lastReceivedMessage;
-
-    /**
-     * Gets the last received message.
-     * 
-     * @return the last received message
-     */
-    public IRCMessage getLastReceivedMessage() {
-        return lastReceivedMessage;
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -27,8 +15,7 @@ public class SimpleMessageHandler extends AbstractMessageHandlerTester {
      * com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
-    protected void handleInternal(IRCMessage message) {
-        lastReceivedMessage = message;
+    protected void handleInternal(final IRCMessage message) {
     }
 
     /*
@@ -39,7 +26,6 @@ public class SimpleMessageHandler extends AbstractMessageHandlerTester {
      */
     @Override
     protected void resetInsernal() {
-        lastReceivedMessage = null;
     }
 
 }
