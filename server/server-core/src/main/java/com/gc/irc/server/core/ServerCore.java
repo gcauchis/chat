@@ -254,8 +254,8 @@ public class ServerCore extends AbstractLoggable {
      * 
      * @return The list of all the connected users.
      */
-    public ArrayList<IRCUser> getAllUsers() {
-        ArrayList<IRCUser> list = null;
+    public List<IRCUser> getAllUsers() {
+        List<IRCUser> list = null;
         synchronized (listUserById) {
             list = new ArrayList<IRCUser>(listUserById.values());
         }
@@ -298,8 +298,7 @@ public class ServerCore extends AbstractLoggable {
         try {
             super.finalize();
         } catch (final Throwable e) {
-            getLog().warn("Problem when finalize the Server");
-            e.printStackTrace();
+            getLog().warn("Problem when finalize the Server", e);
         }
     }
 

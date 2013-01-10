@@ -407,8 +407,7 @@ public class ThreadGestionClientIRC extends Thread {
                             }
                         }
                     } catch (final IOException e) {
-                        LOGGER.warn(id + " Fail to send list connected users.");
-                        e.printStackTrace();
+                        LOGGER.warn(id + " Fail to send list connected users.", e);
                         throw new IRCServerException(e);
                     }
 

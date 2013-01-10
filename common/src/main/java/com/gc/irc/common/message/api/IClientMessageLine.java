@@ -5,6 +5,6 @@ import java.io.Serializable;
 /**
  * The Interface ITextAreaLine.
  */
-public interface IClientMessageLine extends Serializable{
+public interface IClientMessageLine extends Serializable {
 
 }

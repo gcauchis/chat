@@ -1,9 +1,9 @@
 package com.gc.irc.common.abs;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.gc.irc.common.api.ILoggable;
+import com.gc.irc.common.utils.LoggerUtils;
 
 /**
  * The Class AbstractLoggable.
@@ -21,7 +21,7 @@ public abstract class AbstractLoggable implements ILoggable {
     @Override
     public Logger getLog() {
         if (log == null) {
-            log = LoggerFactory.getLogger(this.getClass());
+            log = LoggerUtils.getLogger(this.getClass());
         }
         return log;
     }

@@ -1,6 +1,6 @@
 package com.gc.irc.server.persistance;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.utils.IOUtils;
@@ -14,7 +14,7 @@ import com.gc.irc.common.utils.IOUtils;
 public class PersiteUsers extends Thread {
 
     /** The list users. */
-    private ArrayList<IRCUser> listUsers;
+    private List<IRCUser> listUsers;
 
     /**
      * Start a Thread to persist.
@@ -22,7 +22,7 @@ public class PersiteUsers extends Thread {
      * @param listUsers
      *            List to persist.
      */
-    public static void persistListUser(final ArrayList<IRCUser> listUsers) {
+    public static void persistListUser(final List<IRCUser> listUsers) {
         final PersiteUsers persisteUser = new PersiteUsers(listUsers);
         persisteUser.start();
     }
@@ -33,7 +33,7 @@ public class PersiteUsers extends Thread {
      * @param listUsers
      *            the list users
      */
-    public PersiteUsers(final ArrayList<IRCUser> listUsers) {
+    public PersiteUsers(final List<IRCUser> listUsers) {
         this.listUsers = listUsers;
     }
 

@@ -105,14 +105,14 @@ public final class JMSConnection {
      */
     public static Session getSession() {
         // Create a Session
-        Session session = null;
+        Session lSession = null;
         try {
-            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            lSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         } catch (final JMSException e) {
             LOGGER.error("Failt to create a Session JMS", e);
             System.exit(-1);
         }
-        return session;
+        return lSession;
     }
 
     /**

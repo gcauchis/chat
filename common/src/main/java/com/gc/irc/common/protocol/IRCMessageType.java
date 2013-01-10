@@ -7,12 +7,12 @@ package com.gc.irc.common.protocol;
  */
 public enum IRCMessageType {
 
-	/** The CHATMESSAGE. */
-	CHATMESSAGE,
-	/** The ITEM. */
-	ITEM,
-	/** The COMMAND. */
-	COMMAND,
-	/** The NOTIFICATION. */
-	NOTIFICATION
+    /** The CHATMESSAGE. */
+    CHATMESSAGE,
+    /** The ITEM. */
+    ITEM,
+    /** The COMMAND. */
+    COMMAND,
+    /** The NOTIFICATION. */
+    NOTIFICATION
 }

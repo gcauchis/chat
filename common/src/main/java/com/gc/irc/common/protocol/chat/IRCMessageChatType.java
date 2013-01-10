@@ -5,8 +5,8 @@ package com.gc.irc.common.protocol.chat;
  */
 public enum IRCMessageChatType {
 
-	/** The GLOBAL. */
-	GLOBAL,
-	/** The PRIVATE. */
-	PRIVATE
+    /** The GLOBAL. */
+    GLOBAL,
+    /** The PRIVATE. */
+    PRIVATE
 }

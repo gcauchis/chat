@@ -3,7 +3,7 @@ package com.gc.irc.common.utils;
 /**
  * The Class XorString.
  */
-public class XorString {
+public final class XorString {
 
     /**
      * Xor hex.
@@ -20,6 +20,13 @@ public class XorString {
             chars[i] = toHex(fromHex(a.charAt(i)) ^ fromHex(b.charAt(i)));
         }
         return new String(chars);
+    }
+
+    /**
+     * Instantiates a new xor string.
+     */
+    private XorString() {
+        super();
     }
 
     /**

@@ -13,10 +13,15 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+
 /**
  * The Class MailUtils.
  */
 public final class MailUtils {
+
+    /** The Constant LOGGER. */
+    private static final Logger LOGGER = LoggerUtils.getLogger(MailUtils.class);
 
     /**
      * Instantiates a new mail utils.
@@ -25,28 +30,28 @@ public final class MailUtils {
         super();
     }
 
-    public static boolean sendMailSMTP(final String SMTPserveur, final String SMTPport, final String SMTPauthentication, final String SMTPlogin,
-            final String SMTPpass, final String SMTPsocketPort, final String SMTPsocketFallBack, final String SMTPenabledSSL, final String emailFrom,
+    public static boolean sendMailSMTP(final String smtpServeur, final String smtpPort, final String smtpAuthentication, final String smtpLogin,
+            final String smtpPass, final String smtpSocketPort, final String smtpSocketFallBack, final String smtpEnabledSSL, final String emailFrom,
             final String subject, final String emailTo, final String messageText) {
         final boolean result = false;
         try {
             final Properties props = System.getProperties();
 
-            props.put("mail.smtp.host", SMTPserveur);
-            props.put("mail.smtp.auth", SMTPauthentication);
-            props.put("mail.smtp.port", SMTPport);
-            props.put("mail.smtp.socketFactory.port", SMTPsocketPort);
-            props.put("mail.smtp.socketFactory.fallback", SMTPsocketFallBack);
-            props.put("mail.smtp.ssl.enable", SMTPenabledSSL);
+            props.put("mail.smtp.host", smtpServeur);
+            props.put("mail.smtp.auth", smtpAuthentication);
+            props.put("mail.smtp.port", smtpPort);
+            props.put("mail.smtp.socketFactory.port", smtpSocketPort);
+            props.put("mail.smtp.socketFactory.fallback", smtpSocketFallBack);
+            props.put("mail.smtp.ssl.enable", smtpEnabledSSL);
 
             Session session = null;
-            if (!SMTPauthentication.equals("true")) {
+            if (!smtpAuthentication.equals("true")) {
                 session = Session.getDefaultInstance(props);
             } else {
                 session = Session.getDefaultInstance(props, new Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(SMTPlogin, SMTPpass);
+                        return new PasswordAuthentication(smtpLogin, smtpPass);
                     }
                 });
             }
@@ -60,9 +65,9 @@ public final class MailUtils {
 
             Transport.send(message);
         } catch (final AddressException e) {
-            e.printStackTrace();
+            LOGGER.warn("Fail to send email", e);
         } catch (final MessagingException e) {
-            e.printStackTrace();
+            LOGGER.warn("Fail to send email", e);
         }
         return result;
     }

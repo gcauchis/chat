@@ -11,7 +11,7 @@ import com.gc.irc.server.conf.ServerConf;
 /**
  * The Class IRCJMSPoolProducer.
  */
-public class IRCJMSPoolProducer extends AbstractLoggable {
+public final class IRCJMSPoolProducer extends AbstractLoggable {
 
     /** The list pool producer jms. */
     private Map<Integer, IRCJMSProducer> listPoolProducerJMS = Collections.synchronizedMap(new HashMap<Integer, IRCJMSProducer>());

@@ -140,7 +140,7 @@ public class IRCUser extends AbstractLoggable implements Serializable {
      * @return A copy.
      */
     public IRCUser getCopy() {
-    	getLog().debug("build copy");
+        getLog().debug("build copy");
         final IRCUser userCopy = new IRCUser(id, nickName, hasPictur);
         userCopy.setUserStatus(userStatus);
         return userCopy;

@@ -15,9 +15,17 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class IOUtils.
  */
-public class IOUtils {
+public final class IOUtils {
 
+    /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(IOUtils.class);
+
+    /**
+     * Instantiates a new iO utils.
+     */
+    private IOUtils() {
+        super();
+    }
 
     /**
      * Byte to char.

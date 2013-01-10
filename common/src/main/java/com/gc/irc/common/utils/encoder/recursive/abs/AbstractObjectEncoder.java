@@ -37,7 +37,7 @@ public abstract class AbstractObjectEncoder<OBJ> implements IObjectEncoder {
      * @return the class
      */
     @SuppressWarnings("unchecked")
-	private Class retreiveDirectSubClass() {
+    private Class retreiveDirectSubClass() {
         Class clazz = getClass();
         while (clazz.getSuperclass() != AbstractObjectEncoder.class) {
             clazz = clazz.getSuperclass();

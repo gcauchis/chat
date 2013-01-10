@@ -78,11 +78,11 @@ public final class ReflectionEncoder implements IReflectionEncoder {
 
     /** The class black list. */
     @SuppressWarnings("unchecked")
-	private Set<Class> classBlackList = new FastSet<Class>();
+    private Set<Class> classBlackList = new FastSet<Class>();
 
     /** The interfaces black list. */
     @SuppressWarnings("unchecked")
-	private Set<Class> interfacesBlackList = new FastSet<Class>();
+    private Set<Class> interfacesBlackList = new FastSet<Class>();
 
     /** The lock. */
     private Semaphore lock = new Semaphore(1);
@@ -132,8 +132,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      *            the black list
      */
     @SuppressWarnings("unchecked")
-	public ReflectionEncoder(final IStringEncoder stringEncoder, final List<IObjectEncoder> objectEncoders,
-            final Collection<Class> blackList) {
+    public ReflectionEncoder(final IStringEncoder stringEncoder, final List<IObjectEncoder> objectEncoders, final Collection<Class> blackList) {
         this(stringEncoder, objectEncoders);
         addToBlackList(blackList);
     }
@@ -146,7 +145,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * )
      */
     @SuppressWarnings("unchecked")
-	public void addToBlackList(final Collection<Class> list) {
+    public void addToBlackList(final Collection<Class> list) {
         classBlackList.addAll(list);
     }
 
@@ -158,7 +157,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * .util.Collection)
      */
     @SuppressWarnings("unchecked")
-	public void addInterfacesToBlackList(final Collection<Class> list) {
+    public void addInterfacesToBlackList(final Collection<Class> list) {
         interfacesBlackList.addAll(list);
     }
 
@@ -188,7 +187,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * @return true, if is encodable
      */
     @SuppressWarnings("unchecked")
-	private static boolean isEncodableField(final Class clazz) {
+    private static boolean isEncodableField(final Class clazz) {
         return !(WRAPPER_TYPES.contains(clazz) || clazz.isEnum());
     }
 
@@ -200,7 +199,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * @return true, if is not an encodable type
      */
     @SuppressWarnings("unchecked")
-	private boolean isNotAnEncodableClass(final Class clazz) {
+    private boolean isNotAnEncodableClass(final Class clazz) {
         return isInClassCollection(clazz, NOT_ENCODABLE_TYPES) || !isEncodableField(clazz) || isInClassCollection(clazz, classBlackList)
                 || isInClassCollection(clazz.getInterfaces(), NOT_ENCODABLE_INTERFACES) || isInClassCollection(clazz.getInterfaces(), interfacesBlackList);
     }
@@ -215,7 +214,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * @return true, if is in class collection
      */
     @SuppressWarnings("unchecked")
-	private boolean isInClassCollection(Class clazz, final Collection<Class> classes) {
+    private boolean isInClassCollection(Class clazz, final Collection<Class> classes) {
         while (clazz != null && !clazz.equals(Object.class)) {
             if (classes.contains(clazz)) {
                 return true;
@@ -235,7 +234,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * @return true, if is in class collection
      */
     @SuppressWarnings("unchecked")
-	private boolean isInClassCollection(final Class[] classesTab, final Collection<Class> classes) {
+    private boolean isInClassCollection(final Class[] classesTab, final Collection<Class> classes) {
         for (final Class clazz : classesTab) {
             if (clazz != null && isInClassCollection(clazz, classes)) {
                 return true;
@@ -315,7 +314,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      *            the value
      */
     @SuppressWarnings("unchecked")
-	private void encodeClassFields(final Object value) {
+    private void encodeClassFields(final Object value) {
         if (value != null) {
             Class clazz = value.getClass();
             while (clazz != null && !clazz.equals(Object.class)) {

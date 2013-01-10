@@ -19,16 +19,17 @@ import javax.crypto.spec.PBEParameterSpec;
 
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import com.gc.irc.common.utils.LoggerUtils;
 
 /**
  * The Class CryptoUtils.
  * 
  */
-public class CryptoUtils {
+public final class CryptoUtils {
 
     /** The Constant LOGGER. */
-    private static final transient Logger LOGGER = LoggerFactory.getLogger(CryptoUtils.class);
+    private static final transient Logger LOGGER = LoggerUtils.getLogger(CryptoUtils.class);
 
     /** The dcipher. */
     private static Cipher dcipher;
@@ -138,7 +139,7 @@ public class CryptoUtils {
     /**
      * Instantiates a new password crypto service.
      */
-    public CryptoUtils() {
+    private CryptoUtils() {
         super();
     }
 

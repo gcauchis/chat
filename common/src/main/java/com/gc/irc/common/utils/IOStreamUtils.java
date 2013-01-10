@@ -8,10 +8,17 @@ import org.apache.log4j.Logger;
 
 import com.gc.irc.common.protocol.IRCMessage;
 
-public class IOStreamUtils {
+public final class IOStreamUtils {
 
     /** The Constant logger. */
     private static final Logger LOGGER = Logger.getLogger(IRCMessage.class);
+
+    /**
+     * Instantiates a new iO stream utils.
+     */
+    private IOStreamUtils() {
+        super();
+    }
 
     /**
      * Send the message.
