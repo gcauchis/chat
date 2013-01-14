@@ -201,7 +201,7 @@ public class ThreadServeurIRC extends Thread implements IThreadServeurIRCMBean {
                 LOGGER.warn(id + " Fail to receive message in JMS Queue : " + e.getMessage());
             }
 
-            traitementObjecttMessage((ObjectMessage) message);
+            traitementObjectMessage((ObjectMessage) message);
         }
     }
 
@@ -239,7 +239,7 @@ public class ThreadServeurIRC extends Thread implements IThreadServeurIRCMBean {
      * @param message
      *            Message received.
      */
-    private void traitementObjecttMessage(final ObjectMessage message) {
+    private void traitementObjectMessage(final ObjectMessage message) {
         LOGGER.debug(id + " Handle received Message.");
         IRCMessage messageObj = null;
 

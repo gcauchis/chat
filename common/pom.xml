@@ -8,9 +8,7 @@
 		<groupId>com.gc.irc</groupId>
 		<version>0.0.2-SNAPSHOT</version>
 	</parent>
-	<groupId>com.gc.irc</groupId>
 	<artifactId>common</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
 	<name>common</name>
 	<url>http://maven.apache.org</url>
 

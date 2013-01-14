@@ -8,10 +8,8 @@
 		<groupId>com.gc.irc</groupId>
 		<version>0.0.2-SNAPSHOT</version>
 	</parent>
-	<groupId>com.gc.irc</groupId>
 	<artifactId>server</artifactId>
 	<packaging>pom</packaging>
-	<version>0.0.2-SNAPSHOT</version>
 	<name>server</name>
 	<url>http://maven.apache.org</url>
 	

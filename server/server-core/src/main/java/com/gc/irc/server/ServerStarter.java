@@ -1,20 +1,15 @@
 package com.gc.irc.server;
 
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.core.ServerCore;
 
 /**
  * The Class ServerStarter.
  */
 public class ServerStarter extends AbstractLoggable implements Runnable {
-
-    /** The initialized. */
-    private boolean initialized = false;
 
     /**
      * The main method.
@@ -27,22 +22,16 @@ public class ServerStarter extends AbstractLoggable implements Runnable {
         starter.startAndWaitForClient();
     }
 
+    /** The initialized. */
+    private boolean initialized = false;
+
     /**
-     * Start and wait for client.
+     * Checks if is initialized.
+     * 
+     * @return true, if is initialized
      */
-    public void startAndWaitForClient() {
-        final XmlBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("spring-application-config.xml"));
-        final PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
-        cfg.setProperties(ServerConf.getProperties());
-        cfg.postProcessBeanFactory(beanFactory);
-        final ServerCore core = (ServerCore) beanFactory.getBean("serverCore");
-        getLog().info("Init server");
-        core.initServeur();
-        initialized = true;
-        getLog().info("Start Waiting for client");
-        while (true) {
-            core.waitClient();
-        }
+    public boolean isInitialized() {
+        return initialized;
     }
 
     /*
@@ -56,12 +45,20 @@ public class ServerStarter extends AbstractLoggable implements Runnable {
     }
 
     /**
-     * Checks if is initialized.
-     * 
-     * @return true, if is initialized
+     * Start and wait for client.
      */
-    public boolean isInitialized() {
-        return initialized;
+    public void startAndWaitForClient() {
+        getLog().info("Load context");
+        final ApplicationContext context = new ClassPathXmlApplicationContext("spring-application-config.xml");
+        getLog().info("Retreive server core bean");
+        final ServerCore core = (ServerCore) context.getBean("serverCore");
+        getLog().info("Init server");
+        core.initServeur();
+        initialized = true;
+        getLog().info("Start Waiting for client");
+        while (true) {
+            core.waitClient();
+        }
     }
 
 }

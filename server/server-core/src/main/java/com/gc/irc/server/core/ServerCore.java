@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.server.conf.ServerConf;
@@ -26,7 +29,11 @@ import com.gc.irc.server.thread.ThreadServeurIRC;
  * @author gcauchis
  * 
  */
+@Component("serverCore")
 public class ServerCore extends AbstractLoggable {
+
+    /** The message acceuil. */
+    private static String messageAcceuil = "Welcome on our server.";
 
     /** The nb thread serveur. */
     private static int nbThreadServeur = Integer.parseInt(ServerConf.getConfProperty(ServerConf.NB_CONSUMER_THREAD, "1"));
@@ -34,23 +41,14 @@ public class ServerCore extends AbstractLoggable {
     /** The server socket. */
     private static ServerSocket serverSocket = null;
 
-    /** The port. */
-    private int port = -1;
-
-    /** The client connecter. */
-    private List<ThreadGestionClientIRC> clientConnecter = Collections.synchronizedList(new ArrayList<ThreadGestionClientIRC>());
-
-    /** The pull thread serveur. */
-    private List<ThreadServeurIRC> pullThreadServeur = Collections.synchronizedList(new ArrayList<ThreadServeurIRC>());
-
-    /** The list user by id. */
-    private Map<Integer, IRCUser> listUserById = Collections.synchronizedMap(new HashMap<Integer, IRCUser>());
-
-    /** The list thread client by id user. */
-    private Map<Integer, ThreadGestionClientIRC> listThreadClientByIdUser = Collections.synchronizedMap(new HashMap<Integer, ThreadGestionClientIRC>());
-
-    /** The message acceuil. */
-    private static String messageAcceuil = "Welcome on our server.";
+    /**
+     * Get the welcome message.
+     * 
+     * @return The welcome message.
+     */
+    public static String getMessageAcceuil() {
+        return messageAcceuil;
+    }
 
     /**
      * Used to change the welcoming message.
@@ -62,14 +60,21 @@ public class ServerCore extends AbstractLoggable {
         ServerCore.messageAcceuil = messageAcceuil;
     }
 
-    /**
-     * Get the welcome message.
-     * 
-     * @return The welcome message.
-     */
-    public static String getMessageAcceuil() {
-        return messageAcceuil;
-    }
+    /** The client connecter. */
+    private final List<ThreadGestionClientIRC> clientConnecter = Collections.synchronizedList(new ArrayList<ThreadGestionClientIRC>());
+
+    /** The list thread client by id user. */
+    private final Map<Integer, ThreadGestionClientIRC> listThreadClientByIdUser = Collections.synchronizedMap(new HashMap<Integer, ThreadGestionClientIRC>());
+
+    /** The list user by id. */
+    private final Map<Integer, IRCUser> listUserById = Collections.synchronizedMap(new HashMap<Integer, IRCUser>());
+
+    /** The port. */
+    @Value("${server.port}")
+    private int port = -1;
+
+    /** The pull thread serveur. */
+    private final List<ThreadServeurIRC> pullThreadServeur = Collections.synchronizedList(new ArrayList<ThreadServeurIRC>());
 
     /**
      * Builder, Initialize the server. The port is 1973.
@@ -90,12 +95,101 @@ public class ServerCore extends AbstractLoggable {
     }
 
     /**
+     * Delete the deconnected Client.
+     * 
+     * @param client
+     *            Deconnected Client.
+     */
+    public void disconnectClient(final ThreadGestionClientIRC client) {
+        getLog().debug("Delete the deconnected Client : " + client.getUser().getNickName());
+        synchronized (clientConnecter) {
+            synchronized (listUserById) {
+                synchronized (listThreadClientByIdUser) {
+                    getLog().debug("Remove from list clientConnecter");
+                    clientConnecter.remove(client);
+                    getLog().debug("Remove from listUserConnectedById");
+                    listUserById.remove(client.getUser().getId());
+                    getLog().debug("Remove from lisThreadClientByIdUser");
+                    listThreadClientByIdUser.remove(client.getUser().getId());
+                }
+            }
+        }
+
+        /**
+         * Persist the change.
+         */
+        PersiteUsers.persistListUser(getAllUsers());
+    }
+
+    /**
+     * Finalize the Server.
+     */
+    public void finalizeClass() {
+        for (final ThreadServeurIRC thread : pullThreadServeur) {
+            thread.finalizeClass();
+        }
+
+        for (final ThreadGestionClientIRC thread : clientConnecter) {
+            thread.finalizeClass();
+        }
+        try {
+            super.finalize();
+        } catch (final Throwable e) {
+            getLog().warn("Problem when finalize the Server", e);
+        }
+    }
+
+    /**
+     * Get the users Connected list.
+     * 
+     * @return The list of all the connected users.
+     */
+    public List<IRCUser> getAllUsers() {
+        List<IRCUser> list = null;
+        synchronized (listUserById) {
+            list = new ArrayList<IRCUser>(listUserById.values());
+        }
+        return list;
+    }
+
+    /**
+     * Get the Thread list of connected client.
+     * 
+     * @return Client's thread list.
+     */
+    public List<ThreadGestionClientIRC> getClientConnecter() {
+        return clientConnecter;
+    }
+
+    /**
+     * Get the thread of a selected user.
+     * 
+     * @param id
+     *            User's Id.
+     * @return The Designed User's Thread.
+     */
+    public ThreadGestionClientIRC getThreadOfUser(final int id) {
+        return listThreadClientByIdUser.get(id);
+    }
+
+    /**
+     * Get the user demand if he is connected.
+     * 
+     * @param id
+     *            User's Id.
+     * @return The User selected or null if not find.
+     */
+    public IRCUser getUser(final int id) {
+        return listUserById.get(id);
+    }
+
+    /**
      * Initialize the server.
      */
     public void initServeur() {
         getLog().info("Initialise server.");
         if (port < 0) {
-            throw new IllegalArgumentException("The port should be set");
+            throw new IllegalArgumentException("Port should be set");
         }
 
         /**
@@ -155,38 +249,6 @@ public class ServerCore extends AbstractLoggable {
     }
 
     /**
-     * Change the listening port
-     * 
-     * Don't forget to use initServer() after use this method.
-     * 
-     * @param port
-     *            New Listening Port.
-     */
-    public void setPort(final int port) {
-        this.port = port;
-        getLog().debug("Nouveau port : " + port);
-    }
-
-    /**
-     * Wait for new client. When a client connect to the sever stat a Thred fot
-     * him.
-     */
-    public void waitClient() {
-        Socket clientSocket = null;
-        try {
-            getLog().debug("Wait for a client");
-            clientSocket = serverSocket.accept();
-            getLog().debug("Client " + clientSocket.getInetAddress() + " is connected");
-        } catch (final IOException e) {
-            getLog().warn("Timeout or Connection error.", e);
-            return;
-        }
-        final Thread thread = new ThreadGestionClientIRC(clientSocket, this);
-        getLog().debug("End Client's Thread Initialization.");
-        thread.start();
-    }
-
-    /**
      * Add the login client to the Client's list.
      * 
      * @param client
@@ -214,92 +276,34 @@ public class ServerCore extends AbstractLoggable {
     }
 
     /**
-     * Delete the deconnected Client.
+     * Change the listening port
      * 
-     * @param client
-     *            Deconnected Client.
+     * Don't forget to use initServer() after use this method.
+     * 
+     * @param port
+     *            New Listening Port.
      */
-    public void disconnectClient(final ThreadGestionClientIRC client) {
-        getLog().debug("Delete the deconnected Client : " + client.getUser().getNickName());
-        synchronized (clientConnecter) {
-            synchronized (listUserById) {
-                synchronized (listThreadClientByIdUser) {
-                    getLog().debug("Remove from list clientConnecter");
-                    clientConnecter.remove(client);
-                    getLog().debug("Remove from listUserConnectedById");
-                    listUserById.remove(client.getUser().getId());
-                    getLog().debug("Remove from lisThreadClientByIdUser");
-                    listThreadClientByIdUser.remove(client.getUser().getId());
-                }
-            }
-        }
-
-        /**
-         * Persist the change.
-         */
-        PersiteUsers.persistListUser(getAllUsers());
+    public void setPort(final int port) {
+        this.port = port;
+        getLog().debug("Nouveau port : " + port);
     }
 
     /**
-     * Get the Thread list of connected client.
-     * 
-     * @return Client's thread list.
+     * Wait for new client. When a client connect to the sever stat a Thred fot him.
      */
-    public List<ThreadGestionClientIRC> getClientConnecter() {
-        return clientConnecter;
-    }
-
-    /**
-     * Get the users Connected list.
-     * 
-     * @return The list of all the connected users.
-     */
-    public List<IRCUser> getAllUsers() {
-        List<IRCUser> list = null;
-        synchronized (listUserById) {
-            list = new ArrayList<IRCUser>(listUserById.values());
-        }
-        return list;
-    }
-
-    /**
-     * Get the user demand if he is connected.
-     * 
-     * @param id
-     *            User's Id.
-     * @return The User selected or null if not find.
-     */
-    public IRCUser getUser(final int id) {
-        return listUserById.get(id);
-    }
-
-    /**
-     * Get the thread of a selected user.
-     * 
-     * @param id
-     *            User's Id.
-     * @return The Designed User's Thread.
-     */
-    public ThreadGestionClientIRC getThreadOfUser(final int id) {
-        return listThreadClientByIdUser.get(id);
-    }
-
-    /**
-     * Finalize the Server.
-     */
-    public void finalizeClass() {
-        for (final ThreadServeurIRC thread : pullThreadServeur) {
-            thread.finalizeClass();
-        }
-
-        for (final ThreadGestionClientIRC thread : clientConnecter) {
-            thread.finalizeClass();
-        }
+    public void waitClient() {
+        Socket clientSocket = null;
         try {
-            super.finalize();
-        } catch (final Throwable e) {
-            getLog().warn("Problem when finalize the Server", e);
+            getLog().debug("Wait for a client");
+            clientSocket = serverSocket.accept();
+            getLog().debug("Client " + clientSocket.getInetAddress() + " is connected");
+        } catch (final IOException e) {
+            getLog().warn("Timeout or Connection error.", e);
+            return;
         }
+        final Thread thread = new ThreadGestionClientIRC(clientSocket, this);
+        getLog().debug("End Client's Thread Initialization.");
+        thread.start();
     }
 
 }
