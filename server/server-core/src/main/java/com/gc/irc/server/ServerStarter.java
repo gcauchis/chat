@@ -49,7 +49,7 @@ public class ServerStarter extends AbstractLoggable implements Runnable {
      */
     public void startAndWaitForClient() {
         getLog().info("Load context");
-        final ApplicationContext context = new ClassPathXmlApplicationContext("spring-application-config.xml");
+        final ApplicationContext context = new ClassPathXmlApplicationContext("classpath*:spring-application-config.xml");
         getLog().info("Retreive server core bean");
         final ServerCore core = (ServerCore) context.getBean("serverCore");
         getLog().info("Init server");
