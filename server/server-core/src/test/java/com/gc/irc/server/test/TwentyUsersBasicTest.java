@@ -3,9 +3,9 @@ package com.gc.irc.server.test;
 import com.gc.irc.server.api.AbstractNUsersBasicTest;
 
 /**
- * The Class TenUserBasicTest.
+ * The Class TwentyUsersBasicTest.
  */
-public class TenUserBasicTest extends AbstractNUsersBasicTest {
+public class TwentyUsersBasicTest extends AbstractNUsersBasicTest {
 
 	/*
 	 * (non-Javadoc)
@@ -14,7 +14,7 @@ public class TenUserBasicTest extends AbstractNUsersBasicTest {
 	 */
 	@Override
 	protected int getNbMessageToSend() {
-		return 10;
+		return 25;
 	}
 
 	/*
@@ -24,7 +24,7 @@ public class TenUserBasicTest extends AbstractNUsersBasicTest {
 	 */
 	@Override
 	protected int getNbUserConnected() {
-		return 10;
+		return 20;
 	}
 
 }

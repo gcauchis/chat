@@ -192,7 +192,7 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 	 * @throws InterruptedException
 	 *             the interrupted exception
 	 */
-	protected void randomUserSendMessageToGlobal(String messageStr)
+	protected final void randomUserSendMessageToGlobal(String messageStr)
 			throws InterruptedException {
 		userSendMessageToGlobal(getRandomUserContext(), messageStr);
 	}
@@ -205,7 +205,7 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 	 * @throws InterruptedException
 	 *             the interrupted exception
 	 */
-	protected void randomUserSendMessageToRandomOtherOne(String messageStr)
+	protected final void randomUserSendMessageToRandomOtherOne(String messageStr)
 			throws InterruptedException {
 		UserContextEntity sender = getRandomUserContext();
 		UserContextEntity receiver = null;
@@ -225,8 +225,9 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 	 * @throws InterruptedException
 	 *             the interrupted exception
 	 */
-	protected void userSendMessageToGlobal(UserContextEntity contextSender,
-			String messageStr) throws InterruptedException {
+	protected final void userSendMessageToGlobal(
+			UserContextEntity contextSender, String messageStr)
+			throws InterruptedException {
 		List<UserContextEntity> contextsDest = getContextListWithout(contextSender);
 		sendMessageToGlobal(contextSender, messageStr, contextsDest);
 	}
@@ -243,9 +244,9 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 	 * @throws InterruptedException
 	 *             the interrupted exception
 	 */
-	protected void userSendMessageToOtherOne(UserContextEntity contextSender,
-			String messageStr, UserContextEntity contextDest)
-			throws InterruptedException {
+	protected final void userSendMessageToOtherOne(
+			UserContextEntity contextSender, String messageStr,
+			UserContextEntity contextDest) throws InterruptedException {
 		assertNotSame(contextSender, contextDest);
 		List<UserContextEntity> contextsDest = getContextListWithout(
 				contextSender, contextDest);
