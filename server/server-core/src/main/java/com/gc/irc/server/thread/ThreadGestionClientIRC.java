@@ -8,6 +8,7 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gc.irc.common.abs.AbstractRunnable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.entity.UserStatus;
 import com.gc.irc.common.exception.security.IRCInvalidSenderException;
@@ -35,7 +36,10 @@ import com.gc.irc.server.persistance.IRCGestionPicture;
  * @author gcauchis
  * 
  */
-public class ThreadGestionClientIRC extends Thread {
+public class ThreadGestionClientIRC extends AbstractRunnable {
+
+    /** The Constant LOGGER. */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ThreadGestionClientIRC.class);
 
     /** The nb thread. */
     private static int nbThread = 0;
@@ -50,17 +54,17 @@ public class ThreadGestionClientIRC extends Thread {
         return nbThread;
     }
 
-    /** The id. */
-    private int id = getNbThread();
-
-    /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ThreadGestionClientIRC.class);
-
     /** The client socket. */
     private Socket clientSocket;
 
+    /** The id. */
+    private int id = getNbThread();
+
     /** The in object. */
     private ObjectInputStream inObject;
+
+    /** The is identify. */
+    private boolean isIdentify = false;
 
     /** The out object. */
     private ObjectOutputStream outObject;
@@ -70,9 +74,6 @@ public class ThreadGestionClientIRC extends Thread {
 
     /** The user. */
     private IRCUser user;
-
-    /** The is identify. */
-    private boolean isIdentify = false;
 
     /**
      * Builder who initialize the TCP connection.
@@ -99,40 +100,52 @@ public class ThreadGestionClientIRC extends Thread {
         LOGGER.debug(id + " end init");
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Check message.
      * 
-     * @see java.lang.Thread#run()
+     * @param message
+     *            the message
      */
-    @Override
-    public void run() {
-        LOGGER.info(id + " Start Thread.");
+    private void checkMessage(final IRCMessage message) {
+        if (message != null && user.getId() != message.getFromId()) {
+            throw new IRCInvalidSenderException("Message from " + message.getFromId() + " instead of " + user.getId());
+        }
+    }
 
+    /**
+     * Send and IRCMessage to the Client.
+     * 
+     * @param message
+     *            Message to send.
+     */
+    public void envoyerMessageObjetSocket(final IRCMessage message) {
         try {
-            protocoleDAuthentification();
-        } catch (final IRCServerException e) {
-            LOGGER.warn(id + " Fail to autentificate the Client : " + e.getMessage());
-        }
-
-        IRCMessage messageClient;
-        while (isIdentify) {
             /**
-             * Wait for a Message
+             * Synchronize the socket.
              */
-            messageClient = null;
-            messageClient = receiveMessage();
-            if (messageClient == null) {
-                LOGGER.info(id + " Empty message. Closing Connection.");
-                break;
+            if (!clientSocket.isOutputShutdown()) {
+                synchronized (inObject) {
+                    synchronized (outObject) {
+                        LOGGER.debug(id + " Send message to " + user.getNickName());
+                        if (clientSocket.isConnected()) {
+                            if (!clientSocket.isOutputShutdown()) {
+                                IOStreamUtils.sendMessage(outObject, message);
+                            } else {
+                                LOGGER.warn(id + " Output is Shutdown !");
+                            }
+                        } else {
+                            LOGGER.warn(id + " Socket not connected !");
+                        }
+                    }
+                }
+            } else {
+                LOGGER.warn(id + " Fail to send message. Finalize because output is shutdown.");
+                finalizeClass();
             }
-
-            /**
-             * Post Message in JMS
-             */
-            postMessageObjectInJMS(messageClient);
-
+        } catch (final IOException e) {
+            LOGGER.warn(id + " Fail to send the message : " + e.getMessage());
+            socketAlive();
         }
-        finalizeClass();
     }
 
     /**
@@ -194,72 +207,22 @@ public class ThreadGestionClientIRC extends Thread {
     }
 
     /**
-     * Send and IRCMessage to the Client.
+     * Get the id of the Thread. <strong>Warning : </strong> This id is not the
+     * user id.
      * 
-     * @param message
-     *            Message to send.
+     * @return Id of this.
      */
-    public void envoyerMessageObjetSocket(final IRCMessage message) {
-        try {
-            /**
-             * Synchronize the socket.
-             */
-            if (!clientSocket.isOutputShutdown()) {
-                synchronized (inObject) {
-                    synchronized (outObject) {
-                        LOGGER.debug(id + " Send message to " + user.getNickName());
-                        if (clientSocket.isConnected()) {
-                            if (!clientSocket.isOutputShutdown()) {
-                                IOStreamUtils.sendMessage(outObject, message);
-                            } else {
-                                LOGGER.warn(id + " Output is Shutdown !");
-                            }
-                        } else {
-                            LOGGER.warn(id + " Socket not connected !");
-                        }
-                    }
-                }
-            } else {
-                LOGGER.warn(id + " Fail to send message. Finalize because output is shutdown.");
-                finalizeClass();
-            }
-        } catch (final IOException e) {
-            LOGGER.warn(id + " Fail to send the message : " + e.getMessage());
-            socketAlive();
-        }
+    public int getIdThread() {
+        return id;
     }
 
     /**
-     * Wait and Receive a message send by the client.
+     * Get the user connected to this Thread.
      * 
-     * @return Message received.
+     * @return User connected to this Thread.
      */
-    private IRCMessage receiveMessage() {
-        IRCMessage message = null;
-        try {
-            LOGGER.debug(id + " Wait for a message in the socket.");
-            message = IOStreamUtils.receiveMessage(inObject);
-            checkMessage(message);
-        } catch (final ClassNotFoundException e) {
-            LOGGER.warn(id + " Fail to receive a message : " + e.getMessage());
-            socketAlive();
-        } catch (final IOException e) {
-            LOGGER.warn(id + " Fail to receive a message : " + e.getMessage());
-            socketAlive();
-        }
-        return message;
-    }
-
-    /**
-     * Check message.
-     * 
-     * @param message
-     *            the message
-     */
-    private void checkMessage(final IRCMessage message) {
-        if (message != null && user.getId() != message.getFromId()) {
-            throw new IRCInvalidSenderException("Message from " + message.getFromId() + " instead of " + user.getId());
-        }
+    public IRCUser getUser() {
+        return user;
     }
 
     /**
@@ -271,16 +234,6 @@ public class ThreadGestionClientIRC extends Thread {
     private void postMessageObjectInJMS(final IRCMessage objectMessage) {
         LOGGER.debug(id + " Send a message in JMS Queue.");
         IRCJMSPoolProducer.getInstance().postMessageObjectInJMS(objectMessage);
-    }
-
-    /**
-     * Get the id of the Thread. <strong>Warning : </strong> This id is not the
-     * user id.
-     * 
-     * @return Id of this.
-     */
-    public int getIdThread() {
-        return id;
     }
 
     /**
@@ -461,12 +414,60 @@ public class ThreadGestionClientIRC extends Thread {
     }
 
     /**
-     * Get the user connected to this Thread.
+     * Wait and Receive a message send by the client.
      * 
-     * @return User connected to this Thread.
+     * @return Message received.
      */
-    public IRCUser getUser() {
-        return user;
+    private IRCMessage receiveMessage() {
+        IRCMessage message = null;
+        try {
+            LOGGER.debug(id + " Wait for a message in the socket.");
+            message = IOStreamUtils.receiveMessage(inObject);
+            checkMessage(message);
+        } catch (final ClassNotFoundException e) {
+            LOGGER.warn(id + " Fail to receive a message : " + e.getMessage());
+            socketAlive();
+        } catch (final IOException e) {
+            LOGGER.warn(id + " Fail to receive a message : " + e.getMessage());
+            socketAlive();
+        }
+        return message;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Thread#run()
+     */
+    @Override
+    public void run() {
+        LOGGER.info(id + " Start Thread.");
+
+        try {
+            protocoleDAuthentification();
+        } catch (final IRCServerException e) {
+            LOGGER.warn(id + " Fail to autentificate the Client : " + e.getMessage());
+        }
+
+        IRCMessage messageClient;
+        while (isIdentify) {
+            /**
+             * Wait for a Message
+             */
+            messageClient = null;
+            messageClient = receiveMessage();
+            if (messageClient == null) {
+                LOGGER.info(id + " Empty message. Closing Connection.");
+                break;
+            }
+
+            /**
+             * Post Message in JMS
+             */
+            postMessageObjectInJMS(messageClient);
+
+        }
+        finalizeClass();
     }
 
     /**

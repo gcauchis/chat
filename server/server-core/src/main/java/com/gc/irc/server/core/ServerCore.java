@@ -289,7 +289,8 @@ public class ServerCore extends AbstractLoggable {
     }
 
     /**
-     * Wait for new client. When a client connect to the sever stat a Thred fot him.
+     * Wait for new client. When a client connect to the sever stat a Thred fot
+     * him.
      */
     public void waitClient() {
         Socket clientSocket = null;
@@ -301,9 +302,9 @@ public class ServerCore extends AbstractLoggable {
             getLog().warn("Timeout or Connection error.", e);
             return;
         }
-        final Thread thread = new ThreadGestionClientIRC(clientSocket, this);
+        final Runnable gestionClient = new ThreadGestionClientIRC(clientSocket, this);
         getLog().debug("End Client's Thread Initialization.");
-        thread.start();
+        new Thread(gestionClient).start();
     }
 
 }
