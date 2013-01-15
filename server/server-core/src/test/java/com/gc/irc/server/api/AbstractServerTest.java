@@ -15,6 +15,7 @@ import com.gc.irc.common.protocol.command.IRCMessageCommand;
 import com.gc.irc.common.protocol.command.IRCMessageCommandLogin;
 import com.gc.irc.common.protocol.command.IRCMessageCommandRegister;
 import com.gc.irc.server.ServerStarter;
+import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.test.handler.IMessageHandlerTester;
 import com.gc.irc.server.test.handler.LoginMessageHandler;
 import com.gc.irc.server.test.utils.entity.UserContextEntity;
@@ -54,7 +55,7 @@ public abstract class AbstractServerTest extends AbstractLoggable {
         if (jmsBroker == null) {
             jmsBroker = new BrokerService();
             try {
-                jmsBroker.addConnector("tcp://localhost:61616");
+                jmsBroker.addConnector(ServerConf.getProperty(ServerConf.JMS_SERVER_URL, "tcp://localhost:61616"));
             } catch (final Exception e) {
                 System.out.println("Fail to initialize jms broker: " + e);
                 e.printStackTrace();

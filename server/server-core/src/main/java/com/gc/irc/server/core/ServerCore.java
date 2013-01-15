@@ -16,7 +16,7 @@ import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.persistance.PersiteUsers;
-import com.gc.irc.server.thread.ThreadGestionClientIRC;
+import com.gc.irc.server.thread.GestionClientBean;
 import com.gc.irc.server.thread.ThreadServeurIRC;
 
 /**
@@ -61,10 +61,10 @@ public class ServerCore extends AbstractLoggable {
     }
 
     /** The client connecter. */
-    private final List<ThreadGestionClientIRC> clientConnecter = Collections.synchronizedList(new ArrayList<ThreadGestionClientIRC>());
+    private final List<GestionClientBean> clientConnecter = Collections.synchronizedList(new ArrayList<GestionClientBean>());
 
     /** The list thread client by id user. */
-    private final Map<Integer, ThreadGestionClientIRC> listThreadClientByIdUser = Collections.synchronizedMap(new HashMap<Integer, ThreadGestionClientIRC>());
+    private final Map<Integer, GestionClientBean> listThreadClientByIdUser = Collections.synchronizedMap(new HashMap<Integer, GestionClientBean>());
 
     /** The list user by id. */
     private final Map<Integer, IRCUser> listUserById = Collections.synchronizedMap(new HashMap<Integer, IRCUser>());
@@ -100,7 +100,7 @@ public class ServerCore extends AbstractLoggable {
      * @param client
      *            Deconnected Client.
      */
-    public void disconnectClient(final ThreadGestionClientIRC client) {
+    public void disconnectClient(final GestionClientBean client) {
         getLog().debug("Delete the deconnected Client : " + client.getUser().getNickName());
         synchronized (clientConnecter) {
             synchronized (listUserById) {
@@ -129,8 +129,8 @@ public class ServerCore extends AbstractLoggable {
             thread.finalizeClass();
         }
 
-        for (final ThreadGestionClientIRC thread : clientConnecter) {
-            thread.finalizeClass();
+        for (final GestionClientBean thread : clientConnecter) {
+            thread.disconnectUser();
         }
         try {
             super.finalize();
@@ -157,7 +157,7 @@ public class ServerCore extends AbstractLoggable {
      * 
      * @return Client's thread list.
      */
-    public List<ThreadGestionClientIRC> getClientConnecter() {
+    public List<GestionClientBean> getClientConnecter() {
         return clientConnecter;
     }
 
@@ -168,7 +168,7 @@ public class ServerCore extends AbstractLoggable {
      *            User's Id.
      * @return The Designed User's Thread.
      */
-    public ThreadGestionClientIRC getThreadOfUser(final int id) {
+    public GestionClientBean getThreadOfUser(final int id) {
         return listThreadClientByIdUser.get(id);
     }
 
@@ -254,7 +254,7 @@ public class ServerCore extends AbstractLoggable {
      * @param client
      *            New Client
      */
-    public void newClientConnected(final ThreadGestionClientIRC client) {
+    public void newClientConnected(final GestionClientBean client) {
         getLog().debug("Add a new Connected Client : " + client.getUser().getNickName());
         synchronized (clientConnecter) {
             synchronized (listUserById) {
@@ -302,7 +302,7 @@ public class ServerCore extends AbstractLoggable {
             getLog().warn("Timeout or Connection error.", e);
             return;
         }
-        final Runnable gestionClient = new ThreadGestionClientIRC(clientSocket, this);
+        final Runnable gestionClient = new GestionClientBean(clientSocket, this);
         getLog().debug("End Client's Thread Initialization.");
         new Thread(gestionClient).start();
     }

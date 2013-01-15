@@ -6,7 +6,8 @@ import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import com.gc.irc.common.utils.LoggerUtils;
 
 /**
  * An object use to configure the server.
@@ -19,27 +20,23 @@ public class ServerConf {
     /** The Constant CONF_FILE_PATH. */
     private static final String CONF_FILE_PATH = "conf/servConf.properties";
 
+    /** The Constant JMS_POOL_SIZE. */
+    public static final String JMS_POOL_SIZE = "jmsPoolSize";
+
+    /** The Constant JMS_SERVER_URL. */
+    public static final String JMS_SERVER_URL = "jms.server.url";
+
+    /** The Constant logger. */
+    private static final Logger LOGGER = LoggerUtils.getLogger(ServerConf.class);
+
     /** The Constant NB_CONSUMER_THREAD. */
     public static final String NB_CONSUMER_THREAD = "nbConsumerThread";
 
     /** The Constant NB_MESSAGE_MAX_PASSAGE. */
     public static final String NB_MESSAGE_MAX_PASSAGE = "nbMessageMaxPassage";
 
-    /** The Constant JMS_POOL_SIZE. */
-    public static final String JMS_POOL_SIZE = "jmsPoolSize";
-
     /** The properties. */
     private static Properties properties;
-
-    /** The Constant logger. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServerConf.class);
-
-    /**
-     * Instantiates a new properties utils.
-     */
-    private ServerConf() {
-        super();
-    }
 
     /**
      * Get the property.
@@ -98,5 +95,12 @@ public class ServerConf {
         LOGGER.debug("Search " + key + (StringUtils.isBlank(defaultValue) ? "" : " (default value : " + defaultValue + ")"));
         final String result = getProperties().getProperty(key, defaultValue);
         return result == null ? null : result.trim();
+    }
+
+    /**
+     * Instantiates a new properties utils.
+     */
+    private ServerConf() {
+        super();
     }
 }

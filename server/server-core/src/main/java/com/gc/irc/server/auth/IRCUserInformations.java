@@ -221,7 +221,7 @@ public class IRCUserInformations extends AbstractLoggable {
      * 
      * @return true, if is connecte
      */
-    public boolean isConnecte() {
+    public boolean isConnected() {
         return user != null;
     }
 

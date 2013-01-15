@@ -11,7 +11,9 @@ import javax.naming.NamingException;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import com.gc.irc.common.utils.LoggerUtils;
+import com.gc.irc.server.conf.ServerConf;
 
 /**
  * Initialize JMS.
@@ -21,20 +23,20 @@ import org.slf4j.LoggerFactory;
  */
 public final class JMSConnection {
 
-    /** The Constant logger. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(JMSConnection.class);
-
     /** The connection. */
     private static Connection connection = null;
 
     /** The context. */
     private static Context context = null;
 
-    /** The session. */
-    private static Session session = null;
+    /** The Constant logger. */
+    private static final Logger LOGGER = LoggerUtils.getLogger(JMSConnection.class);
 
     /** The queue. */
     private static Queue queue = null;
+
+    /** The session. */
+    private static Session session = null;
 
     static {
         try {
@@ -45,7 +47,7 @@ public final class JMSConnection {
         }
 
         // Create a ConnectionFactory
-        final ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+        final ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ServerConf.getProperty(ServerConf.JMS_SERVER_URL, "tcp://localhost:61616"));
 
         // Create a Connection
         try {
@@ -74,13 +76,6 @@ public final class JMSConnection {
     }
 
     /**
-     * Instantiates a new jMS connection.
-     */
-    private JMSConnection() {
-        super();
-    }
-
-    /**
      * Gets the connection.
      * 
      * @return the connection
@@ -96,6 +91,15 @@ public final class JMSConnection {
      */
     public static Context getContext() {
         return context;
+    }
+
+    /**
+     * Gets the queue.
+     * 
+     * @return the queue
+     */
+    public static Queue getQueue() {
+        return queue;
     }
 
     /**
@@ -116,11 +120,9 @@ public final class JMSConnection {
     }
 
     /**
-     * Gets the queue.
-     * 
-     * @return the queue
+     * Instantiates a new jMS connection.
      */
-    public static Queue getQueue() {
-        return queue;
+    private JMSConnection() {
+        super();
     }
 }

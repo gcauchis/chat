@@ -5,9 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.gc.irc.common.abs.AbstractRunnable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.entity.UserStatus;
@@ -36,10 +33,7 @@ import com.gc.irc.server.persistance.IRCGestionPicture;
  * @author gcauchis
  * 
  */
-public class ThreadGestionClientIRC extends AbstractRunnable {
-
-    /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ThreadGestionClientIRC.class);
+public class GestionClientBean extends AbstractRunnable {
 
     /** The nb thread. */
     private static int nbThread = 0;
@@ -55,10 +49,10 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
     }
 
     /** The client socket. */
-    private Socket clientSocket;
+    private final Socket clientSocket;
 
     /** The id. */
-    private int id = getNbThread();
+    private final int id = getNbThread();
 
     /** The in object. */
     private ObjectInputStream inObject;
@@ -70,7 +64,7 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
     private ObjectOutputStream outObject;
 
     /** The parent. */
-    private ServerCore parent;
+    private final ServerCore parent;
 
     /** The user. */
     private IRCUser user;
@@ -83,21 +77,21 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
      * @param parent
      *            Thread's Parent.
      */
-    public ThreadGestionClientIRC(final Socket clientSocket, final ServerCore parent) {
-        LOGGER.info(id + " Initialisation du thread.");
+    public GestionClientBean(final Socket clientSocket, final ServerCore parent) {
+        getLog().info(id + " Initialisation du thread.");
         this.clientSocket = clientSocket;
         this.parent = parent;
 
         try {
-            LOGGER.debug(id + " Create inObject");
+            getLog().debug(id + " Create inObject");
             inObject = new ObjectInputStream(clientSocket.getInputStream());
-            LOGGER.debug(id + " Create outObject");
+            getLog().debug(id + " Create outObject");
             outObject = new ObjectOutputStream(clientSocket.getOutputStream());
 
         } catch (final IOException e) {
-            LOGGER.warn(id + " Fail to open Client's Steams to " + clientSocket.getInetAddress() + " : " + e.getMessage());
+            getLog().warn(id + " Fail to open Client's Steams to " + clientSocket.getInetAddress() + " : " + e.getMessage());
         }
-        LOGGER.debug(id + " end init");
+        getLog().debug(id + " end init");
     }
 
     /**
@@ -126,24 +120,24 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
             if (!clientSocket.isOutputShutdown()) {
                 synchronized (inObject) {
                     synchronized (outObject) {
-                        LOGGER.debug(id + " Send message to " + user.getNickName());
+                        getLog().debug(id + " Send message to " + user.getNickName());
                         if (clientSocket.isConnected()) {
                             if (!clientSocket.isOutputShutdown()) {
                                 IOStreamUtils.sendMessage(outObject, message);
                             } else {
-                                LOGGER.warn(id + " Output is Shutdown !");
+                                getLog().warn(id + " Output is Shutdown !");
                             }
                         } else {
-                            LOGGER.warn(id + " Socket not connected !");
+                            getLog().warn(id + " Socket not connected !");
                         }
                     }
                 }
             } else {
-                LOGGER.warn(id + " Fail to send message. Finalize because output is shutdown.");
-                finalizeClass();
+                getLog().warn(id + " Fail to send message. Finalize because output is shutdown.");
+                disconnectUser();
             }
         } catch (final IOException e) {
-            LOGGER.warn(id + " Fail to send the message : " + e.getMessage());
+            getLog().warn(id + " Fail to send the message : " + e.getMessage());
             socketAlive();
         }
     }
@@ -153,8 +147,8 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
      * 
      * Close all Connection.
      */
-    public void finalizeClass() {
-        LOGGER.debug(id + " Finalize Thread");
+    public void disconnectUser() {
+        getLog().debug(id + " Finalize Thread");
 
         if (user != null) {
             /**
@@ -165,13 +159,13 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
             /**
              * Remove the client from server.
              */
-            LOGGER.debug(id + " Delete Client " + user.getNickName() + " from list");
+            getLog().debug(id + " Delete Client " + user.getNickName() + " from list");
             parent.disconnectClient(this);
 
             /**
              * Inform all the other client.
              */
-            LOGGER.debug(id + " Inform all other client that the client " + user.getNickName() + " is deconnected.");
+            getLog().debug(id + " Inform all other client that the client " + user.getNickName() + " is deconnected.");
             synchronized (user) {
                 user.setUserStatus(UserStatus.OFFLINE);
                 postMessageObjectInJMS(new IRCMessageNoticeContactInfo(user.getCopy()));
@@ -183,32 +177,31 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
          * Closing Socket.
          */
         try {
-            LOGGER.info(id + " Closing Client's connection " + clientSocket.getInetAddress() + ".");
+            getLog().info(id + " Closing Client's connection " + clientSocket.getInetAddress() + ".");
             if (!clientSocket.isInputShutdown()) {
-                LOGGER.debug(id + " Closing inObject");
+                getLog().debug(id + " Closing inObject");
                 inObject.close();
             }
             if (!clientSocket.isOutputShutdown()) {
-                LOGGER.debug(id + " Closing outObject");
+                getLog().debug(id + " Closing outObject");
                 outObject.close();
             }
             if (!clientSocket.isClosed()) {
-                LOGGER.debug(id + " Closing clientSocket");
+                getLog().debug(id + " Closing clientSocket");
                 clientSocket.close();
             }
         } catch (final IOException e) {
-            LOGGER.warn(id + " Fail to close Client's connection " + clientSocket.getInetAddress() + " : " + e.getMessage());
+            getLog().warn(id + " Fail to close Client's connection " + clientSocket.getInetAddress() + " : " + e.getMessage());
         }
         try {
             super.finalize();
         } catch (final Throwable e) {
-            LOGGER.warn(id + " Fail to finalize class : " + e.getMessage());
+            getLog().warn(id + " Fail to finalize class : " + e.getMessage());
         }
     }
 
     /**
-     * Get the id of the Thread. <strong>Warning : </strong> This id is not the
-     * user id.
+     * Get the id of the Thread. <strong>Warning : </strong> This id is not the user id.
      * 
      * @return Id of this.
      */
@@ -232,7 +225,7 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
      *            the object message
      */
     private void postMessageObjectInJMS(final IRCMessage objectMessage) {
-        LOGGER.debug(id + " Send a message in JMS Queue.");
+        getLog().debug(id + " Send a message in JMS Queue.");
         IRCJMSPoolProducer.getInstance().postMessageObjectInJMS(objectMessage);
     }
 
@@ -243,20 +236,20 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
      *             the iRC server exception
      */
     private void protocoleDAuthentification() throws IRCServerException {
-        LOGGER.debug("Start Login protocol");
+        getLog().debug("Start Login protocol");
         IRCMessage messageInit = new IRCMessageNoticeServerMessage(ServerCore.getMessageAcceuil());
         /**
          * Send welcome message
          */
         try {
-            LOGGER.debug("Send Welcome Message.");
+            getLog().debug("Send Welcome Message.");
             synchronized (inObject) {
                 synchronized (outObject) {
                     IOStreamUtils.sendMessage(outObject, messageInit);
                 }
             }
         } catch (final IOException e) {
-            LOGGER.warn(id + " Fail to send Welcome message : " + e.getMessage());
+            getLog().warn(id + " Fail to send Welcome message : " + e.getMessage());
             throw new IRCServerException(e);
         }
 
@@ -266,36 +259,36 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
              * Wait for login/Registration Message
              */
             try {
-                LOGGER.debug(id + " Wait for login/Registration Message");
+                getLog().debug(id + " Wait for login/Registration Message");
                 messageInit = IOStreamUtils.receiveMessage(inObject);
             } catch (final ClassNotFoundException e) {
-                LOGGER.warn(id + " Fail to receive the Login/Registration Message : " + e.getMessage());
+                getLog().warn(id + " Fail to receive the Login/Registration Message : " + e.getMessage());
                 throw new IRCServerException(e);
             } catch (final IOException e) {
-                LOGGER.warn(id + " Fail to receive the Login/Registration Message : " + e.getMessage());
+                getLog().warn(id + " Fail to receive the Login/Registration Message : " + e.getMessage());
                 throw new IRCServerException(e);
             }
 
             /**
              * Answer to the client
              */
-            LOGGER.debug(id + " Type : " + messageInit.getType());
+            getLog().debug(id + " Type : " + messageInit.getType());
             if (messageInit.getType() == IRCMessageType.COMMAND) {
                 final IRCMessageCommand messagecmd = (IRCMessageCommand) messageInit;
 
                 boolean registration = false;
                 final IRCServerAuthentification auth = IRCServerAuthentification.getInstance();
-                LOGGER.debug(id + " type : " + messagecmd.getCommandType());
+                getLog().debug(id + " type : " + messagecmd.getCommandType());
 
                 switch (messagecmd.getCommandType()) {
                 case LOGIN:
-                    LOGGER.debug(id + " Login Message receive");
+                    getLog().debug(id + " Login Message receive");
                     final IRCMessageCommandLogin messageLogin = (IRCMessageCommandLogin) messagecmd;
                     user = auth.logUser(messageLogin.getLogin(), messageLogin.getPassword());
                     break;
 
                 case REGISTER:
-                    LOGGER.debug(id + " Register Message receive");
+                    getLog().debug(id + " Register Message receive");
                     registration = true;
                     final IRCMessageCommandRegister messageRegister = (IRCMessageCommandRegister) messagecmd;
                     if (auth.addUser(messageRegister.getLogin(), messageRegister.getPassword(), messageRegister.getLogin())) {
@@ -311,7 +304,7 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
                     /**
                      * User accepted
                      */
-                    LOGGER.debug(id + " User " + user.getNickName() + " is just loggin");
+                    getLog().debug(id + " User " + user.getNickName() + " is just loggin");
                     if (registration) {
                         messageInit = new IRCMessageNoticeRegister(user);
                     } else {
@@ -319,24 +312,24 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
                     }
 
                     try {
-                        LOGGER.debug(id + " Send notice Login");
+                        getLog().debug(id + " Send notice Login");
                         IOStreamUtils.sendMessage(outObject, messageInit);
                     } catch (final IOException e) {
-                        LOGGER.warn(id + " Fail to send notice Login : " + e.getMessage());
+                        getLog().warn(id + " Fail to send notice Login : " + e.getMessage());
                         throw new IRCServerException(e);
                     }
 
                     /**
                      * init env
                      */
-                    LOGGER.debug(id + " Init env");
+                    getLog().debug(id + " Init env");
                     parent.newClientConnected(this);
 
                     /**
                      * Inform connected Users
                      */
                     messageInit = new IRCMessageNoticeContactInfo(user);
-                    LOGGER.debug(id + " Send notice ContactInfo");
+                    getLog().debug(id + " Send notice ContactInfo");
                     postMessageObjectInJMS(messageInit);
 
                     /**
@@ -344,23 +337,23 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
                      */
                     messageInit = new IRCMessageNoticeContactsList(parent.getAllUsers());
 
-                    LOGGER.debug("\n\nConnected users : ");
+                    getLog().debug("\n\nConnected users : ");
                     for (final IRCUser u : parent.getAllUsers()) {
-                        LOGGER.debug("\t" + u.getNickName());
+                        getLog().debug("\t" + u.getNickName());
                     }
-                    LOGGER.debug("\n\nConnected users threads : ");
-                    for (final ThreadGestionClientIRC t : parent.getClientConnecter()) {
-                        LOGGER.debug("\t" + t.getUser().getNickName());
+                    getLog().debug("\n\nConnected users threads : ");
+                    for (final GestionClientBean t : parent.getClientConnecter()) {
+                        getLog().debug("\t" + t.getUser().getNickName());
                     }
                     try {
-                        LOGGER.debug(id + " Send list connected users.");
+                        getLog().debug(id + " Send list connected users.");
                         synchronized (inObject) {
                             synchronized (outObject) {
                                 IOStreamUtils.sendMessage(outObject, messageInit);
                             }
                         }
                     } catch (final IOException e) {
-                        LOGGER.warn(id + " Fail to send list connected users.", e);
+                        getLog().warn(id + " Fail to send list connected users.", e);
                         throw new IRCServerException(e);
                     }
 
@@ -368,7 +361,7 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
                      * Send user's pictur to all others Users
                      */
                     if (user.hasPictur()) {
-                        LOGGER.debug(id + " Send user's pictur to all others Users");
+                        getLog().debug(id + " Send user's pictur to all others Users");
                         final IRCGestionPicture gestionPcture = IRCGestionPicture.getInstance();
                         final IRCMessageItemPicture picture = gestionPcture.getPictureOf(user.getId());
                         if (picture != null) {
@@ -379,7 +372,7 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
                     /**
                      * Send all users pictur
                      */
-                    LOGGER.debug(id + " Send all users pictur");
+                    getLog().debug(id + " Send all users pictur");
                     synchronized (inObject) {
                         synchronized (outObject) {
                             auth.sendUsersPicture(outObject);
@@ -404,13 +397,13 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
                             }
                         }
                     } catch (final IOException e) {
-                        LOGGER.warn(id + " Fail to send the message : " + e.getMessage());
+                        getLog().warn(id + " Fail to send the message : " + e.getMessage());
                         throw new IRCServerException(e);
                     }
                 }
             }
         }
-        LOGGER.debug(id + " End protocole.");
+        getLog().debug(id + " End protocole.");
     }
 
     /**
@@ -421,14 +414,14 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
     private IRCMessage receiveMessage() {
         IRCMessage message = null;
         try {
-            LOGGER.debug(id + " Wait for a message in the socket.");
+            getLog().debug(id + " Wait for a message in the socket.");
             message = IOStreamUtils.receiveMessage(inObject);
             checkMessage(message);
         } catch (final ClassNotFoundException e) {
-            LOGGER.warn(id + " Fail to receive a message : " + e.getMessage());
+            getLog().warn(id + " Fail to receive a message : " + e.getMessage());
             socketAlive();
         } catch (final IOException e) {
-            LOGGER.warn(id + " Fail to receive a message : " + e.getMessage());
+            getLog().warn(id + " Fail to receive a message : " + e.getMessage());
             socketAlive();
         }
         return message;
@@ -441,12 +434,12 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
      */
     @Override
     public void run() {
-        LOGGER.info(id + " Start Thread.");
+        getLog().info(id + " Start Thread.");
 
         try {
             protocoleDAuthentification();
         } catch (final IRCServerException e) {
-            LOGGER.warn(id + " Fail to autentificate the Client : " + e.getMessage());
+            getLog().warn(id + " Fail to autentificate the Client : " + e.getMessage());
         }
 
         IRCMessage messageClient;
@@ -457,7 +450,7 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
             messageClient = null;
             messageClient = receiveMessage();
             if (messageClient == null) {
-                LOGGER.info(id + " Empty message. Closing Connection.");
+                getLog().info(id + " Empty message. Closing Connection.");
                 break;
             }
 
@@ -467,19 +460,18 @@ public class ThreadGestionClientIRC extends AbstractRunnable {
             postMessageObjectInJMS(messageClient);
 
         }
-        finalizeClass();
+        disconnectUser();
     }
 
     /**
-     * Test if the socket is already open. If socket is closed or a problem is
-     * remark the thread is finalize.
+     * Test if the socket is already open. If socket is closed or a problem is remark the thread is finalize.
      */
     private void socketAlive() {
-        LOGGER.info(id + " Test if the socket have no problem.");
+        getLog().info(id + " Test if the socket have no problem.");
         if (clientSocket.isClosed() || clientSocket.isInputShutdown() || clientSocket.isOutputShutdown() || !clientSocket.isBound()
                 || !clientSocket.isConnected()) {
-            LOGGER.error(id + " A problem find on the Socket. Closing Connection");
-            finalizeClass();
+            getLog().error(id + " A problem find on the Socket. Closing Connection");
+            disconnectUser();
         }
     }
 }

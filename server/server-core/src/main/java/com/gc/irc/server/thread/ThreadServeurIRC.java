@@ -121,7 +121,7 @@ public class ThreadServeurIRC extends Thread implements IThreadServeurIRCMBean {
         /**
          * Get the number of connected client (for JMX)
          */
-        final List<ThreadGestionClientIRC> clientConnecter = parent.getClientConnecter();
+        final List<GestionClientBean> clientConnecter = parent.getClientConnecter();
         return clientConnecter.size();
     }
 
@@ -170,9 +170,9 @@ public class ThreadServeurIRC extends Thread implements IThreadServeurIRCMBean {
         /**
          * Kick the user with the ID userID
          */
-        final ThreadGestionClientIRC thClient = parent.getThreadOfUser(userID);
+        final GestionClientBean thClient = parent.getThreadOfUser(userID);
         if (thClient != null) {
-            thClient.finalizeClass();
+            thClient.disconnectUser();
             return "Client successfully kicked";
         } else {
             return "Could not kick client";
@@ -212,13 +212,13 @@ public class ThreadServeurIRC extends Thread implements IThreadServeurIRCMBean {
      *            Message to Send
      */
     private void sendObjetMessageIRCToAll(final IRCMessage message) {
-        final List<ThreadGestionClientIRC> clientConnecter = parent.getClientConnecter();
+        final List<GestionClientBean> clientConnecter = parent.getClientConnecter();
 
         if (IRCServerAuthentification.getInstance().getUser(message.getFromId()) != null) {
             LOGGER.debug(id + " Send a message to all connected client from "
                     + IRCServerAuthentification.getInstance().getUser(message.getFromId()).getNickname());
             synchronized (clientConnecter) {
-                for (final ThreadGestionClientIRC client : clientConnecter) {
+                for (final GestionClientBean client : clientConnecter) {
                     if (message.getFromId() != client.getUser().getId()) {
                         synchronized (client) {
                             synchronized (client.getUser()) {
@@ -281,7 +281,7 @@ public class ThreadServeurIRC extends Thread implements IThreadServeurIRCMBean {
                     if (IRCServerAuthentification.getInstance().getUser(messageChatPriv.getToId()) != null) {
                         LOGGER.debug(id + " Private Message from " + IRCServerAuthentification.getInstance().getUser(messageChatPriv.getFromId()).getNickname()
                                 + " to " + IRCServerAuthentification.getInstance().getUser(messageChatPriv.getToId()).getNickname());
-                        final ThreadGestionClientIRC clientCible = parent.getThreadOfUser(messageChatPriv.getToId());
+                        final GestionClientBean clientCible = parent.getThreadOfUser(messageChatPriv.getToId());
                         if (clientCible != null) {
                             clientCible.envoyerMessageObjetSocket(messageChatPriv);
                         }

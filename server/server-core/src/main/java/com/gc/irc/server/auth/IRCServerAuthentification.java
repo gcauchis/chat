@@ -188,7 +188,7 @@ public class IRCServerAuthentification extends AbstractLoggable implements
 		for (final IRCUserInformations user : listUsers) {
 			if (user.getLogin().equals(login)
 					&& user.getPassword().equals(password)) {
-				if (user.isConnecte()) {
+				if (user.isConnected()) {
 					return null;
 				}
 				return user.getUser();
@@ -217,7 +217,7 @@ public class IRCServerAuthentification extends AbstractLoggable implements
 	public synchronized void sendUsersPicture(final ObjectOutputStream outObject) {
 		IRCMessageItemPicture messagePicture;
 		for (final IRCUserInformations user : listUsers) {
-			if (user.isConnecte() && user.hasPictur()) {
+			if (user.isConnected() && user.hasPictur()) {
 				final IRCGestionPicture picturUser = IRCGestionPicture
 						.getInstance();
 				messagePicture = picturUser.getPictureOf(user.getId());
