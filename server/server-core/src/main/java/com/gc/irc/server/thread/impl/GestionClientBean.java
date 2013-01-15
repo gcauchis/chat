@@ -436,11 +436,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                     synchronized (outObject) {
                         getLog().debug(id + " Send message to " + user.getNickName());
                         if (clientSocket.isConnected()) {
-                            if (!clientSocket.isOutputShutdown()) {
-                                IOStreamUtils.sendMessage(outObject, message);
-                            } else {
-                                getLog().warn(id + " Output is Shutdown !");
-                            }
+                            IOStreamUtils.sendMessage(outObject, message);
                         } else {
                             getLog().warn(id + " Socket not connected !");
                         }

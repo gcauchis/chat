@@ -1,7 +1,7 @@
 package com.gc.irc.server.core.user.management.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,7 +23,7 @@ import com.gc.irc.server.thread.api.IGestionClientBean;
 public class UserConnectionsManagement extends AbstractLoggable implements IUserConnectionsManagement {
 
     /** The client connecter. */
-    private final List<IGestionClientBean> clientConnected = Collections.synchronizedList(new ArrayList<IGestionClientBean>());
+    private final List<IGestionClientBean> clientConnected = new LinkedList<IGestionClientBean>();
 
     /** The list thread client by id user. */
     private final Map<Integer, IGestionClientBean> listThreadClientByIdUser = new ConcurrentHashMap<Integer, IGestionClientBean>();

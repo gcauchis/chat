@@ -23,8 +23,8 @@ import com.gc.irc.server.auth.IRCServerAuthentification;
 import com.gc.irc.server.auth.IRCUserInformations;
 import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.core.user.management.api.IUserConnectionsManagement;
-import com.gc.irc.server.jms.JMSPoolProducer;
 import com.gc.irc.server.jms.JMSConnection;
+import com.gc.irc.server.jms.JMSPoolProducer;
 import com.gc.irc.server.persistance.IRCGestionPicture;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 import com.gc.irc.server.thread.api.IServeurMBean;
@@ -51,7 +51,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      * 
      * @return the nb thread
      */
-    protected static int getNbThread() {
+    private static synchronized int getNbThread() {
         nbThread++;
         return nbThread;
     }
@@ -137,106 +137,17 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     }
 
     /**
-     * Initialize Thread.
-     * 
-     * Listening JMS Queue
-     */
-    private void init() {
-
-        /**
-         * Create JMS Consumer
-         */
-        try {
-            getLog().debug(id + " Create JMS Consumer");
-            messageConsumer = session.createConsumer(JMSConnection.getQueue());
-        } catch (final JMSException e) {
-            getLog().error(id + " Fail to create JMS Consumer : " + e.getMessage());
-            System.exit(-1);
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gc.irc.server.thread.api.IServeurMBean#kickUser(int)
-     */
-    @Override
-    public String kickUser(final int userID) {
-        /**
-         * Kick the user with the ID userID
-         */
-        final IGestionClientBean thClient = userManagement.getGestionClientBeanOfUser(userID);
-        if (thClient != null) {
-            thClient.disconnectUser();
-            return "Client successfully kicked";
-        } else {
-            return "Could not kick client";
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Thread#run()
-     */
-    @Override
-    public void run() {
-        getLog().debug(id + " Start");
-        init();
-
-        while (true) {
-            Message message = null;
-            try {
-                /**
-                 * Wait for a message in JMS Queue
-                 */
-                getLog().debug(id + " Wait for a message in JMS Queue");
-                message = messageConsumer.receive();
-            } catch (final JMSException e) {
-                getLog().warn(id + " Fail to receive message in JMS Queue : " + e.getMessage());
-            }
-
-            traitementObjectMessage((ObjectMessage) message);
-        }
-    }
-
-    /**
-     * Send a message to all connected Client.
-     * 
-     * @param message
-     *            Message to Send
-     */
-    private void sendObjetMessageIRCToAll(final IRCMessage message) {
-        final List<IGestionClientBean> clientConnecter = userManagement.getClientConnected();
-
-        if (IRCServerAuthentification.getInstance().getUser(message.getFromId()) != null) {
-            getLog().debug(
-                    id + " Send a message to all connected client from " + IRCServerAuthentification.getInstance().getUser(message.getFromId()).getNickname());
-            synchronized (clientConnecter) {
-                for (final IGestionClientBean client : clientConnecter) {
-                    if (message.getFromId() != client.getUser().getId()) {
-                        synchronized (client) {
-                            synchronized (client.getUser()) {
-                                client.sendMessageObjetInSocket(message);
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            getLog().warn(id + " Inexisting source ID");
-        }
-    }
-
-    /**
      * Handle Message.
      * 
      * @param message
      *            Message received.
      */
-    private void traitementObjectMessage(final ObjectMessage message) {
+    private void handleObjectMessage(final ObjectMessage message) {
         getLog().debug(id + " Handle received Message.");
-        IRCMessage messageObj = null;
+        if (message == null) {
+            getLog().debug("Null message to handle");
+            return;
+        }
 
         /**
          * Update of the number of messages.
@@ -248,11 +159,16 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
         /**
          * Extract Message
          */
+        IRCMessage messageObj = null;
         try {
             getLog().debug(id + " Extract Message receive in JMS");
             messageObj = (IRCMessage) message.getObject();
         } catch (final JMSException e) {
             getLog().warn(id + " Fail to extract Message receive in JMS : " + e.getMessage());
+        }
+        if (messageObj == null) {
+            getLog().debug("Null messageObj to handle");
+            return;
         }
 
         getLog().debug(id + " Message's type : " + messageObj.getType());
@@ -368,6 +284,98 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
 
         default:
             break;
+        }
+    }
+
+    /**
+     * Initialize Thread.
+     * 
+     * Listening JMS Queue
+     */
+    private void init() {
+
+        /**
+         * Create JMS Consumer
+         */
+        try {
+            getLog().debug(id + " Create JMS Consumer");
+            messageConsumer = session.createConsumer(JMSConnection.getQueue());
+        } catch (final JMSException e) {
+            getLog().error(id + " Fail to create JMS Consumer : " + e.getMessage());
+            System.exit(-1);
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gc.irc.server.thread.api.IServeurMBean#kickUser(int)
+     */
+    @Override
+    public String kickUser(final int userID) {
+        /**
+         * Kick the user with the ID userID
+         */
+        final IGestionClientBean thClient = userManagement.getGestionClientBeanOfUser(userID);
+        if (thClient != null) {
+            thClient.disconnectUser();
+            return "Client successfully kicked";
+        } else {
+            return "Could not kick client";
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Thread#run()
+     */
+    @Override
+    public void run() {
+        getLog().debug(id + " Start");
+        init();
+
+        while (true) {
+            Message message = null;
+            try {
+                /**
+                 * Wait for a message in JMS Queue
+                 */
+                getLog().debug(id + " Wait for a message in JMS Queue");
+                message = messageConsumer.receive();
+            } catch (final JMSException e) {
+                getLog().warn(id + " Fail to receive message in JMS Queue : " + e.getMessage());
+            }
+
+            handleObjectMessage((ObjectMessage) message);
+        }
+    }
+
+    /**
+     * Send a message to all connected Client.
+     * 
+     * @param message
+     *            Message to Send
+     */
+    private void sendObjetMessageIRCToAll(final IRCMessage message) {
+        final List<IGestionClientBean> clientConnecter = userManagement.getClientConnected();
+
+        if (IRCServerAuthentification.getInstance().getUser(message.getFromId()) != null) {
+            getLog().debug(
+                    id + " Send a message to all connected client from " + IRCServerAuthentification.getInstance().getUser(message.getFromId()).getNickname());
+            synchronized (clientConnecter) {
+                for (final IGestionClientBean client : clientConnecter) {
+                    if (message.getFromId() != client.getUser().getId()) {
+                        synchronized (client) {
+                            synchronized (client.getUser()) {
+                                client.sendMessageObjetInSocket(message);
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            getLog().warn(id + " Inexisting source ID");
         }
     }
 }
