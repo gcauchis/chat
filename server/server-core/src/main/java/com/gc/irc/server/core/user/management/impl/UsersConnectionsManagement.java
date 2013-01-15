@@ -11,16 +11,16 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.entity.IRCUser;
-import com.gc.irc.server.core.user.management.api.IUserConnectionsManagement;
+import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.persistance.PersiteUsers;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 
 /**
  * The Class UserManagement.
  */
-@Component("userConnectionsManagement")
+@Component("usersConnectionsManagement")
 @Scope("singleton")
-public class UserConnectionsManagement extends AbstractLoggable implements IUserConnectionsManagement {
+public class UsersConnectionsManagement extends AbstractLoggable implements IUsersConnectionsManagement {
 
     /** The client connecter. */
     private final List<IGestionClientBean> clientConnected = new LinkedList<IGestionClientBean>();

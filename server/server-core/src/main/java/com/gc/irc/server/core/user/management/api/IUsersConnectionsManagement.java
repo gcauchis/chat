@@ -6,7 +6,7 @@ import com.gc.irc.common.api.ILoggable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 
-public interface IUserConnectionsManagement extends ILoggable {
+public interface IUsersConnectionsManagement extends ILoggable {
 
     /**
      * Close.

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.server.conf.ServerConf;
-import com.gc.irc.server.core.user.management.api.IUserConnectionsManagement;
+import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.thread.api.IServeurMBean;
 import com.gc.irc.server.thread.factory.api.IGestionClientBeanFactory;
 import com.gc.irc.server.thread.factory.api.IServeurMBeanFactory;
@@ -74,9 +74,9 @@ public class ServerCore extends AbstractLoggable {
     @Autowired
     private IServeurMBeanFactory serveurMBeanFactory;
 
-    /** The user connections management. */
+    /** The users connections management. */
     @Autowired
-    private IUserConnectionsManagement userConnectionsManagement;
+    private IUsersConnectionsManagement usersConnectionsManagement;
 
     /**
      * Builder, Initialize the server. The port is 1973.
@@ -104,7 +104,7 @@ public class ServerCore extends AbstractLoggable {
             thread.close();
         }
 
-        userConnectionsManagement.close();
+        usersConnectionsManagement.close();
     }
 
     /**
@@ -205,8 +205,8 @@ public class ServerCore extends AbstractLoggable {
         this.serveurMBeanFactory = serveurMBeanFactory;
     }
 
-    public void setUserConnectionsManagement(IUserConnectionsManagement userConnectionsManagement) {
-        this.userConnectionsManagement = userConnectionsManagement;
+    public void setUserConnectionsManagement(IUsersConnectionsManagement userConnectionsManagement) {
+        usersConnectionsManagement = userConnectionsManagement;
     }
 
     /**

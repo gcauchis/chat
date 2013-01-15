@@ -23,7 +23,7 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeServerMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.server.auth.IRCServerAuthentification;
 import com.gc.irc.server.core.ServerCore;
-import com.gc.irc.server.core.user.management.api.IUserConnectionsManagement;
+import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.exception.ServerException;
 import com.gc.irc.server.jms.JMSPoolProducer;
 import com.gc.irc.server.persistance.IRCGestionPicture;
@@ -69,7 +69,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     private IRCUser user;
 
     /** The parent. */
-    private final IUserConnectionsManagement userManagement;
+    private final IUsersConnectionsManagement userManagement;
 
     /**
      * Builder who initialize the TCP connection.
@@ -79,7 +79,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * @param parent
      *            Thread's Parent.
      */
-    public GestionClientBean(final Socket clientSocket, final IUserConnectionsManagement userManagement) {
+    public GestionClientBean(final Socket clientSocket, final IUsersConnectionsManagement userManagement) {
         getLog().info(id + " Initialisation du thread.");
         this.clientSocket = clientSocket;
         this.userManagement = userManagement;

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.server.core.user.management.api.IUserConnectionsManagement;
+import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 import com.gc.irc.server.thread.factory.api.IGestionClientBeanFactory;
 import com.gc.irc.server.thread.impl.GestionClientBean;
@@ -19,9 +19,9 @@ import com.gc.irc.server.thread.impl.GestionClientBean;
 @Scope("singleton")
 public class GestionClientBeanFactory extends AbstractLoggable implements IGestionClientBeanFactory {
 
-    /** The user connections management. */
+    /** The users connections management. */
     @Autowired
-    private IUserConnectionsManagement userConnectionsManagement;
+    private IUsersConnectionsManagement usersConnectionsManagement;
 
     /*
      * (non-Javadoc)
@@ -30,11 +30,11 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      */
     @Override
     public IGestionClientBean getGestionClientBean(Socket clientSocket) {
-        return new GestionClientBean(clientSocket, userConnectionsManagement);
+        return new GestionClientBean(clientSocket, usersConnectionsManagement);
     }
 
-    public void setUserConnectionsManagement(IUserConnectionsManagement userConnectionsManagement) {
-        this.userConnectionsManagement = userConnectionsManagement;
+    public void setUserConnectionsManagement(IUsersConnectionsManagement userConnectionsManagement) {
+        usersConnectionsManagement = userConnectionsManagement;
     }
 
 }
