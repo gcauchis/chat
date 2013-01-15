@@ -1,11 +1,17 @@
-package com.gc.irc.server.core;
+package com.gc.irc.server.core.user.management.api;
 
 import java.util.List;
 
+import com.gc.irc.common.api.ILoggable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 
-public interface IUserManagement {
+public interface IUserConnectionsManagement extends ILoggable {
+
+    /**
+     * Close.
+     */
+    void close();
 
     /**
      * Delete the deconnected Client.
@@ -13,21 +19,21 @@ public interface IUserManagement {
      * @param client
      *            Deconnected Client.
      */
-    public abstract void disconnectClient(final IGestionClientBean client);
+    void disconnectClient(final IGestionClientBean client);
 
     /**
      * Get the users Connected list.
      * 
      * @return The list of all the connected users.
      */
-    public abstract List<IRCUser> getAllUsers();
+    List<IRCUser> getAllUsers();
 
     /**
      * Get the Thread list of connected client.
      * 
      * @return Client's thread list.
      */
-    public abstract List<IGestionClientBean> getClientConnected();
+    List<IGestionClientBean> getClientConnected();
 
     /**
      * Get the thread of a selected user.
@@ -36,7 +42,7 @@ public interface IUserManagement {
      *            User's Id.
      * @return The Designed User's Thread.
      */
-    public abstract IGestionClientBean getGestionClientBeanOfUser(final int id);
+    IGestionClientBean getGestionClientBeanOfUser(final int id);
 
     /**
      * Get the user demand if he is connected.
@@ -45,7 +51,7 @@ public interface IUserManagement {
      *            User's Id.
      * @return The User selected or null if not find.
      */
-    public abstract IRCUser getUser(final int id);
+    IRCUser getUser(final int id);
 
     /**
      * Add the login client to the Client's list.
@@ -53,6 +59,5 @@ public interface IUserManagement {
      * @param client
      *            New Client
      */
-    public abstract void newClientConnected(final IGestionClientBean client);
-
+    void newClientConnected(final IGestionClientBean client);
 }

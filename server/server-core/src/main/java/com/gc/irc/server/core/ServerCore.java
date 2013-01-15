@@ -5,24 +5,19 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.server.conf.ServerConf;
-import com.gc.irc.server.persistance.PersiteUsers;
-import com.gc.irc.server.thread.api.IGestionClientBean;
+import com.gc.irc.server.core.user.management.api.IUserConnectionsManagement;
 import com.gc.irc.server.thread.api.IServeurMBean;
 import com.gc.irc.server.thread.factory.api.IGestionClientBeanFactory;
 import com.gc.irc.server.thread.factory.api.IServeurMBeanFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * Main class.
  * 
@@ -34,7 +29,7 @@ import com.gc.irc.server.thread.factory.api.IServeurMBeanFactory;
  * 
  */
 @Component("serverCore")
-public class ServerCore extends AbstractLoggable implements IUserManagement {
+public class ServerCore extends AbstractLoggable {
 
     /** The message acceuil. */
     private static String messageAcceuil = "Welcome on our server.";
@@ -64,18 +59,9 @@ public class ServerCore extends AbstractLoggable implements IUserManagement {
         ServerCore.messageAcceuil = messageAcceuil;
     }
 
-    /** The client connecter. */
-    private final List<IGestionClientBean> clientConnected = Collections.synchronizedList(new ArrayList<IGestionClientBean>());
-
     /** The gestion client bean factory. */
     @Autowired
     private IGestionClientBeanFactory gestionClientBeanFactory;
-
-    /** The list thread client by id user. */
-    private final Map<Integer, IGestionClientBean> listThreadClientByIdUser = Collections.synchronizedMap(new HashMap<Integer, IGestionClientBean>());
-
-    /** The list user by id. */
-    private final Map<Integer, IRCUser> listUserById = Collections.synchronizedMap(new HashMap<Integer, IRCUser>());
 
     /** The port. */
     @Value("${server.port}")
@@ -87,6 +73,10 @@ public class ServerCore extends AbstractLoggable implements IUserManagement {
     /** The serveur m bean factory. */
     @Autowired
     private IServeurMBeanFactory serveurMBeanFactory;
+
+    /** The user connections management. */
+    @Autowired
+    private IUserConnectionsManagement userConnectionsManagement;
 
     /**
      * Builder, Initialize the server. The port is 1973.
@@ -114,70 +104,7 @@ public class ServerCore extends AbstractLoggable implements IUserManagement {
             thread.close();
         }
 
-        for (final IGestionClientBean thread : clientConnected) {
-            thread.disconnectUser();
-        }
-        try {
-            super.finalize();
-        } catch (final Throwable e) {
-            getLog().warn("Problem when finalize the Server", e);
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see com.gc.irc.server.core.IUserManagement#disconnectClient(com.gc.irc.server.thread.api.IGestionClientBean)
-     */
-    public void disconnectClient(final IGestionClientBean client) {
-        getLog().debug("Delete the deconnected Client : " + client.getUser().getNickName());
-        synchronized (clientConnected) {
-            synchronized (listUserById) {
-                synchronized (listThreadClientByIdUser) {
-                    getLog().debug("Remove from list clientConnecter");
-                    clientConnected.remove(client);
-                    getLog().debug("Remove from listUserConnectedById");
-                    listUserById.remove(client.getUser().getId());
-                    getLog().debug("Remove from lisThreadClientByIdUser");
-                    listThreadClientByIdUser.remove(client.getUser().getId());
-                }
-            }
-        }
-
-        /**
-         * Persist the change.
-         */
-        PersiteUsers.persistListUser(getAllUsers());
-    }
-
-    /* (non-Javadoc)
-     * @see com.gc.irc.server.core.IUserManagement#getAllUsers()
-     */
-    public List<IRCUser> getAllUsers() {
-        List<IRCUser> list = null;
-        synchronized (listUserById) {
-            list = new ArrayList<IRCUser>(listUserById.values());
-        }
-        return list;
-    }
-
-    /* (non-Javadoc)
-     * @see com.gc.irc.server.core.IUserManagement#getClientConnected()
-     */
-    public List<IGestionClientBean> getClientConnected() {
-        return clientConnected;
-    }
-
-    /* (non-Javadoc)
-     * @see com.gc.irc.server.core.IUserManagement#getGestionClientBeanOfUser(int)
-     */
-    public IGestionClientBean getGestionClientBeanOfUser(final int id) {
-        return listThreadClientByIdUser.get(id);
-    }
-
-    /* (non-Javadoc)
-     * @see com.gc.irc.server.core.IUserManagement#getUser(int)
-     */
-    public IRCUser getUser(final int id) {
-        return listUserById.get(id);
+        userConnectionsManagement.close();
     }
 
     /**
@@ -238,35 +165,11 @@ public class ServerCore extends AbstractLoggable implements IUserManagement {
         // }
 
         for (int i = 0; i < nbThreadServeur; i++) {
-            IServeurMBean serveurMBean = serveurMBeanFactory.getServeurMBean(this);
+            IServeurMBean serveurMBean = serveurMBeanFactory.getServeurMBean();
             new Thread(serveurMBean).start();
             pullThreadServeur.add(serveurMBean);
         }
 
-    }
-
-    /* (non-Javadoc)
-     * @see com.gc.irc.server.core.IUserManagement#newClientConnected(com.gc.irc.server.thread.api.IGestionClientBean)
-     */
-    public void newClientConnected(final IGestionClientBean client) {
-        getLog().debug("Add a new Connected Client : " + client.getUser().getNickName());
-        synchronized (clientConnected) {
-            synchronized (listUserById) {
-                synchronized (listThreadClientByIdUser) {
-                    getLog().debug("Add to clientConnecter");
-                    clientConnected.add(client);
-                    getLog().debug("Add to listThreadClientByIdUser");
-                    listThreadClientByIdUser.put(client.getUser().getId(), client);
-                    getLog().debug("Add to listUserById");
-                    listUserById.put(client.getUser().getId(), client.getUser());
-                }
-            }
-        }
-
-        /**
-         * Persist the change.
-         */
-        PersiteUsers.persistListUser(getAllUsers());
     }
 
     /**
@@ -302,6 +205,10 @@ public class ServerCore extends AbstractLoggable implements IUserManagement {
         this.serveurMBeanFactory = serveurMBeanFactory;
     }
 
+    public void setUserConnectionsManagement(IUserConnectionsManagement userConnectionsManagement) {
+        this.userConnectionsManagement = userConnectionsManagement;
+    }
+
     /**
      * Wait for new client. When a client connect to the sever stat a Thred fot him.
      */
@@ -315,7 +222,7 @@ public class ServerCore extends AbstractLoggable implements IUserManagement {
             getLog().warn("Timeout or Connection error.", e);
             return;
         }
-        final Runnable gestionClient = gestionClientBeanFactory.getGestionClientBean(clientSocket, this);
+        final Runnable gestionClient = gestionClientBeanFactory.getGestionClientBean(clientSocket);
         getLog().debug("End Client's Thread Initialization.");
         new Thread(gestionClient).start();
     }

@@ -1,7 +1,6 @@
 package com.gc.irc.server.thread.factory.api;
 
 import com.gc.irc.common.api.ILoggable;
-import com.gc.irc.server.core.IUserManagement;
 import com.gc.irc.server.thread.api.IServeurMBean;
 
 /**
@@ -16,6 +15,6 @@ public interface IServeurMBeanFactory extends ILoggable {
      *            the parent
      * @return the serveur m bean
      */
-    IServeurMBean getServeurMBean(IUserManagement parent);
+    IServeurMBean getServeurMBean();
 
 }

@@ -22,7 +22,7 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
 import com.gc.irc.server.auth.IRCServerAuthentification;
 import com.gc.irc.server.auth.IRCUserInformations;
 import com.gc.irc.server.conf.ServerConf;
-import com.gc.irc.server.core.IUserManagement;
+import com.gc.irc.server.core.user.management.api.IUserConnectionsManagement;
 import com.gc.irc.server.jms.IRCJMSPoolProducer;
 import com.gc.irc.server.jms.JMSConnection;
 import com.gc.irc.server.persistance.IRCGestionPicture;
@@ -66,7 +66,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     private final Session session = JMSConnection.getSession();
 
     /** The parent. */
-    private final IUserManagement userManagement;
+    private final IUserConnectionsManagement userManagement;
 
     /**
      * Builder.
@@ -74,7 +74,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      * @param userManagement
      *            Parent.
      */
-    public ServeurMBean(final IUserManagement userManagement) {
+    public ServeurMBean(final IUserConnectionsManagement userManagement) {
         this.userManagement = userManagement;
     }
 
