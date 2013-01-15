@@ -65,7 +65,7 @@ public class ServerCore extends AbstractLoggable {
     }
 
     /** The client connecter. */
-    private final List<IGestionClientBean> clientConnecter = Collections.synchronizedList(new ArrayList<IGestionClientBean>());
+    private final List<IGestionClientBean> clientConnected = Collections.synchronizedList(new ArrayList<IGestionClientBean>());
 
     /** The gestion client bean factory. */
     @Autowired
@@ -114,7 +114,7 @@ public class ServerCore extends AbstractLoggable {
             thread.close();
         }
 
-        for (final IGestionClientBean thread : clientConnecter) {
+        for (final IGestionClientBean thread : clientConnected) {
             thread.disconnectUser();
         }
         try {
@@ -132,11 +132,11 @@ public class ServerCore extends AbstractLoggable {
      */
     public void disconnectClient(final IGestionClientBean client) {
         getLog().debug("Delete the deconnected Client : " + client.getUser().getNickName());
-        synchronized (clientConnecter) {
+        synchronized (clientConnected) {
             synchronized (listUserById) {
                 synchronized (listThreadClientByIdUser) {
                     getLog().debug("Remove from list clientConnecter");
-                    clientConnecter.remove(client);
+                    clientConnected.remove(client);
                     getLog().debug("Remove from listUserConnectedById");
                     listUserById.remove(client.getUser().getId());
                     getLog().debug("Remove from lisThreadClientByIdUser");
@@ -169,8 +169,8 @@ public class ServerCore extends AbstractLoggable {
      * 
      * @return Client's thread list.
      */
-    public List<IGestionClientBean> getClientConnecter() {
-        return clientConnecter;
+    public List<IGestionClientBean> getClientConnected() {
+        return clientConnected;
     }
 
     /**
@@ -180,7 +180,7 @@ public class ServerCore extends AbstractLoggable {
      *            User's Id.
      * @return The Designed User's Thread.
      */
-    public IGestionClientBean getThreadOfUser(final int id) {
+    public IGestionClientBean getGestionClientBeanOfUser(final int id) {
         return listThreadClientByIdUser.get(id);
     }
 
@@ -268,11 +268,11 @@ public class ServerCore extends AbstractLoggable {
      */
     public void newClientConnected(final IGestionClientBean client) {
         getLog().debug("Add a new Connected Client : " + client.getUser().getNickName());
-        synchronized (clientConnecter) {
+        synchronized (clientConnected) {
             synchronized (listUserById) {
                 synchronized (listThreadClientByIdUser) {
                     getLog().debug("Add to clientConnecter");
-                    clientConnecter.add(client);
+                    clientConnected.add(client);
                     getLog().debug("Add to listThreadClientByIdUser");
                     listThreadClientByIdUser.put(client.getUser().getId(), client);
                     getLog().debug("Add to listUserById");

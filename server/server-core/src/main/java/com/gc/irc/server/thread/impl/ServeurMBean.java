@@ -121,7 +121,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
         /**
          * Get the number of connected client (for JMX)
          */
-        final List<IGestionClientBean> clientConnecter = parent.getClientConnecter();
+        final List<IGestionClientBean> clientConnecter = parent.getClientConnected();
         return clientConnecter.size();
     }
 
@@ -170,7 +170,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
         /**
          * Kick the user with the ID userID
          */
-        final IGestionClientBean thClient = parent.getThreadOfUser(userID);
+        final IGestionClientBean thClient = parent.getGestionClientBeanOfUser(userID);
         if (thClient != null) {
             thClient.disconnectUser();
             return "Client successfully kicked";
@@ -212,7 +212,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      *            Message to Send
      */
     private void sendObjetMessageIRCToAll(final IRCMessage message) {
-        final List<IGestionClientBean> clientConnecter = parent.getClientConnecter();
+        final List<IGestionClientBean> clientConnecter = parent.getClientConnected();
 
         if (IRCServerAuthentification.getInstance().getUser(message.getFromId()) != null) {
             getLog().debug(
@@ -282,7 +282,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
                         getLog().debug(
                                 id + " Private Message from " + IRCServerAuthentification.getInstance().getUser(messageChatPriv.getFromId()).getNickname()
                                         + " to " + IRCServerAuthentification.getInstance().getUser(messageChatPriv.getToId()).getNickname());
-                        final IGestionClientBean clientCible = parent.getThreadOfUser(messageChatPriv.getToId());
+                        final IGestionClientBean clientCible = parent.getGestionClientBeanOfUser(messageChatPriv.getToId());
                         if (clientCible != null) {
                             clientCible.sendMessageObjetInSocket(messageChatPriv);
                         }
