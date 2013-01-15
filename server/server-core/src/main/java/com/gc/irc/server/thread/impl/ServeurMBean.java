@@ -23,7 +23,7 @@ import com.gc.irc.server.auth.IRCServerAuthentification;
 import com.gc.irc.server.auth.IRCUserInformations;
 import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.core.user.management.api.IUserConnectionsManagement;
-import com.gc.irc.server.jms.IRCJMSPoolProducer;
+import com.gc.irc.server.jms.JMSPoolProducer;
 import com.gc.irc.server.jms.JMSConnection;
 import com.gc.irc.server.persistance.IRCGestionPicture;
 import com.gc.irc.server.thread.api.IGestionClientBean;
@@ -90,11 +90,6 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
             messageConsumer.close();
         } catch (final JMSException e) {
             getLog().warn(id + " Problem when close the messageConsumer : " + e.getMessage());
-        }
-        try {
-            super.finalize();
-        } catch (final Throwable e) {
-            getLog().warn(id + " Fail to finalize class : " + e.getMessage());
         }
     }
 
@@ -292,7 +287,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
                         final int numPassage = messageChatPriv.numPassage();
                         if (numPassage < numPassageMax) {
                             getLog().debug(id + " Send again the private message in JMS. Passage number " + numPassage);
-                            IRCJMSPoolProducer.getInstance().postMessageObjectInJMS(messageChatPriv);
+                            JMSPoolProducer.getInstance().postMessageObjectInJMS(messageChatPriv);
                         } else {
                             getLog().debug(id + " Message passed to much time in the server (more than " + numPassageMax + "). Trash it !");
                         }

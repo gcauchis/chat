@@ -5,7 +5,7 @@ import com.gc.irc.common.exception.IRCRuntimeException;
 /**
  * The Class IRCSecurityException.
  */
-public class IRCSecurityException extends IRCRuntimeException {
+public class SecurityException extends IRCRuntimeException {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1938248536012113269L;
@@ -18,7 +18,7 @@ public class IRCSecurityException extends IRCRuntimeException {
      * @param cause
      *            the cause
      */
-    public IRCSecurityException(final String message, final Throwable cause) {
+    public SecurityException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
@@ -28,7 +28,7 @@ public class IRCSecurityException extends IRCRuntimeException {
      * @param message
      *            the message
      */
-    public IRCSecurityException(final String message) {
+    public SecurityException(final String message) {
         super(message);
     }
 

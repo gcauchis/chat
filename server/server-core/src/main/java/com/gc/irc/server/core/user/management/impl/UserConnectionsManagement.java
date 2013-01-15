@@ -2,9 +2,9 @@ package com.gc.irc.server.core.user.management.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -26,10 +26,10 @@ public class UserConnectionsManagement extends AbstractLoggable implements IUser
     private final List<IGestionClientBean> clientConnected = Collections.synchronizedList(new ArrayList<IGestionClientBean>());
 
     /** The list thread client by id user. */
-    private final Map<Integer, IGestionClientBean> listThreadClientByIdUser = Collections.synchronizedMap(new HashMap<Integer, IGestionClientBean>());
+    private final Map<Integer, IGestionClientBean> listThreadClientByIdUser = new ConcurrentHashMap<Integer, IGestionClientBean>();
 
     /** The list user by id. */
-    private final Map<Integer, IRCUser> listUserById = Collections.synchronizedMap(new HashMap<Integer, IRCUser>());
+    private final Map<Integer, IRCUser> listUserById = new ConcurrentHashMap<Integer, IRCUser>();
 
     /*
      * (non-Javadoc)

@@ -1,6 +1,5 @@
 package com.gc.irc.common.exception;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class IRCException.
  */
@@ -21,11 +20,9 @@ public class IRCException extends Exception {
      * 
      * @param message
      *            the message
-     * @param cause
-     *            the cause
      */
-    public IRCException(final String message, final Throwable cause) {
-        super(message, cause);
+    public IRCException(final String message) {
+        super(message);
     }
 
     /**
@@ -33,9 +30,11 @@ public class IRCException extends Exception {
      * 
      * @param message
      *            the message
+     * @param cause
+     *            the cause
      */
-    public IRCException(final String message) {
-        super(message);
+    public IRCException(final String message, final Throwable cause) {
+        super(message, cause);
     }
 
     /**

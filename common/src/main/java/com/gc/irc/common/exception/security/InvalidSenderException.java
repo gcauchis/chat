@@ -3,7 +3,7 @@ package com.gc.irc.common.exception.security;
 /**
  * The Class IRCInvalideSenderException.
  */
-public class IRCInvalidSenderException extends IRCSecurityException {
+public class InvalidSenderException extends SecurityException {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -3690981509325343624L;
@@ -16,7 +16,7 @@ public class IRCInvalidSenderException extends IRCSecurityException {
      * @param cause
      *            the cause
      */
-    public IRCInvalidSenderException(final String message, final Throwable cause) {
+    public InvalidSenderException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
@@ -26,7 +26,7 @@ public class IRCInvalidSenderException extends IRCSecurityException {
      * @param message
      *            the message
      */
-    public IRCInvalidSenderException(final String message) {
+    public InvalidSenderException(final String message) {
         super(message);
     }
 

@@ -8,7 +8,7 @@ import java.net.Socket;
 import com.gc.irc.common.abs.AbstractRunnable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.entity.UserStatus;
-import com.gc.irc.common.exception.security.IRCInvalidSenderException;
+import com.gc.irc.common.exception.security.InvalidSenderException;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.protocol.IRCMessageType;
 import com.gc.irc.common.protocol.command.IRCMessageCommand;
@@ -24,8 +24,8 @@ import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.server.auth.IRCServerAuthentification;
 import com.gc.irc.server.core.ServerCore;
 import com.gc.irc.server.core.user.management.api.IUserConnectionsManagement;
-import com.gc.irc.server.exception.IRCServerException;
-import com.gc.irc.server.jms.IRCJMSPoolProducer;
+import com.gc.irc.server.exception.ServerException;
+import com.gc.irc.server.jms.JMSPoolProducer;
 import com.gc.irc.server.persistance.IRCGestionPicture;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 
@@ -104,7 +104,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      */
     private void checkMessage(final IRCMessage message) {
         if (message != null && user.getId() != message.getFromId()) {
-            throw new IRCInvalidSenderException("Message from " + message.getFromId() + " instead of " + user.getId());
+            throw new InvalidSenderException("Message from " + message.getFromId() + " instead of " + user.getId());
         }
     }
 
@@ -192,16 +192,16 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      */
     private void postMessageObjectInJMS(final IRCMessage objectMessage) {
         getLog().debug(id + " Send a message in JMS Queue.");
-        IRCJMSPoolProducer.getInstance().postMessageObjectInJMS(objectMessage);
+        JMSPoolProducer.getInstance().postMessageObjectInJMS(objectMessage);
     }
 
     /**
      * Identification protocol.
      * 
-     * @throws IRCServerException
+     * @throws ServerException
      *             the iRC server exception
      */
-    private void protocoleDAuthentification() throws IRCServerException {
+    private void protocoleDAuthentification() throws ServerException {
         getLog().debug("Start Login protocol");
         IRCMessage messageInit = new IRCMessageNoticeServerMessage(ServerCore.getMessageAcceuil());
         /**
@@ -216,7 +216,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             }
         } catch (final IOException e) {
             getLog().warn(id + " Fail to send Welcome message : " + e.getMessage());
-            throw new IRCServerException(e);
+            throw new ServerException(e);
         }
 
         boolean isLogin = false;
@@ -229,10 +229,10 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                 messageInit = IOStreamUtils.receiveMessage(inObject);
             } catch (final ClassNotFoundException e) {
                 getLog().warn(id + " Fail to receive the Login/Registration Message : " + e.getMessage());
-                throw new IRCServerException(e);
+                throw new ServerException(e);
             } catch (final IOException e) {
                 getLog().warn(id + " Fail to receive the Login/Registration Message : " + e.getMessage());
-                throw new IRCServerException(e);
+                throw new ServerException(e);
             }
 
             /**
@@ -282,7 +282,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                         IOStreamUtils.sendMessage(outObject, messageInit);
                     } catch (final IOException e) {
                         getLog().warn(id + " Fail to send notice Login : " + e.getMessage());
-                        throw new IRCServerException(e);
+                        throw new ServerException(e);
                     }
 
                     /**
@@ -312,7 +312,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                         }
                     } catch (final IOException e) {
                         getLog().warn(id + " Fail to send list connected users.", e);
-                        throw new IRCServerException(e);
+                        throw new ServerException(e);
                     }
 
                     /**
@@ -356,7 +356,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                         }
                     } catch (final IOException e) {
                         getLog().warn(id + " Fail to send the message : " + e.getMessage());
-                        throw new IRCServerException(e);
+                        throw new ServerException(e);
                     }
                 }
             }
@@ -396,7 +396,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
 
         try {
             protocoleDAuthentification();
-        } catch (final IRCServerException e) {
+        } catch (final ServerException e) {
             getLog().warn(id + " Fail to autentificate the Client : " + e.getMessage());
         }
 

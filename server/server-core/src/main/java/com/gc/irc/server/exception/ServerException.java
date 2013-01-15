@@ -8,7 +8,7 @@ import com.gc.irc.common.exception.IRCException;
  * @author gcauchis
  * 
  */
-public class IRCServerException extends IRCException {
+public class ServerException extends IRCException {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 6210212249602883652L;
@@ -16,7 +16,7 @@ public class IRCServerException extends IRCException {
     /**
      * Instantiates a new iRC server exception.
      */
-    public IRCServerException() {
+    public ServerException() {
         super();
     }
 
@@ -28,7 +28,7 @@ public class IRCServerException extends IRCException {
      * @param cause
      *            the cause
      */
-    public IRCServerException(final String message, final Throwable cause) {
+    public ServerException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
@@ -38,7 +38,7 @@ public class IRCServerException extends IRCException {
      * @param message
      *            the message
      */
-    public IRCServerException(final String message) {
+    public ServerException(final String message) {
         super(message);
     }
 
@@ -48,7 +48,7 @@ public class IRCServerException extends IRCException {
      * @param cause
      *            the cause
      */
-    public IRCServerException(final Throwable cause) {
+    public ServerException(final Throwable cause) {
         super(cause);
     }
 

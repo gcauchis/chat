@@ -14,7 +14,7 @@ import com.gc.irc.common.protocol.IRCMessage;
  * @author gcauchis
  * 
  */
-public class IRCJMSProducer extends AbstractLoggable {
+public class JMSProducer extends AbstractLoggable {
 
     /** The nb thread. */
     private static int nbThread = 0;
@@ -41,7 +41,7 @@ public class IRCJMSProducer extends AbstractLoggable {
     /**
      * Instantiates a new iRCJMS producer.
      */
-    public IRCJMSProducer() {
+    public JMSProducer() {
         try {
             getLog().info(id + " Create the JMS producer");
             messageProducer = session.createProducer(JMSConnection.getQueue());
