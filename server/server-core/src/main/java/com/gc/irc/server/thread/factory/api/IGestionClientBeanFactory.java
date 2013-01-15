@@ -3,7 +3,7 @@ package com.gc.irc.server.thread.factory.api;
 import java.net.Socket;
 
 import com.gc.irc.common.api.ILoggable;
-import com.gc.irc.server.core.ServerCore;
+import com.gc.irc.server.core.IUserManagement;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 
 /**
@@ -20,6 +20,6 @@ public interface IGestionClientBeanFactory extends ILoggable {
      *            the parent
      * @return the gestion client bean
      */
-    IGestionClientBean getGestionClientBean(Socket clientSocket, ServerCore parent);
+    IGestionClientBean getGestionClientBean(Socket clientSocket, IUserManagement parent);
 
 }

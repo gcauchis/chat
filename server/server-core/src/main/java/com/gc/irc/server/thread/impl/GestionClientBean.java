@@ -22,6 +22,7 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeRegister;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeServerMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.server.auth.IRCServerAuthentification;
+import com.gc.irc.server.core.IUserManagement;
 import com.gc.irc.server.core.ServerCore;
 import com.gc.irc.server.exception.IRCServerException;
 import com.gc.irc.server.jms.IRCJMSPoolProducer;
@@ -64,11 +65,11 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     /** The out object. */
     private ObjectOutputStream outObject;
 
-    /** The parent. */
-    private final ServerCore parent;
-
     /** The user. */
     private IRCUser user;
+
+    /** The parent. */
+    private final IUserManagement userManagement;
 
     /**
      * Builder who initialize the TCP connection.
@@ -78,10 +79,10 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * @param parent
      *            Thread's Parent.
      */
-    public GestionClientBean(final Socket clientSocket, final ServerCore parent) {
+    public GestionClientBean(final Socket clientSocket, final IUserManagement userManagement) {
         getLog().info(id + " Initialisation du thread.");
         this.clientSocket = clientSocket;
-        this.parent = parent;
+        this.userManagement = userManagement;
 
         try {
             getLog().debug(id + " Create inObject");
@@ -125,7 +126,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
              * Remove the client from server.
              */
             getLog().debug(id + " Delete Client " + user.getNickName() + " from list");
-            parent.disconnectClient(this);
+            userManagement.disconnectClient(this);
 
             /**
              * Inform all the other client.
@@ -162,41 +163,6 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             super.finalize();
         } catch (final Throwable e) {
             getLog().warn(id + " Fail to finalize class : " + e.getMessage());
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket(com.gc.irc.common.protocol.IRCMessage)
-     */
-    public void sendMessageObjetInSocket(final IRCMessage message) {
-        try {
-            /**
-             * Synchronize the socket.
-             */
-            if (!clientSocket.isOutputShutdown()) {
-                synchronized (inObject) {
-                    synchronized (outObject) {
-                        getLog().debug(id + " Send message to " + user.getNickName());
-                        if (clientSocket.isConnected()) {
-                            if (!clientSocket.isOutputShutdown()) {
-                                IOStreamUtils.sendMessage(outObject, message);
-                            } else {
-                                getLog().warn(id + " Output is Shutdown !");
-                            }
-                        } else {
-                            getLog().warn(id + " Socket not connected !");
-                        }
-                    }
-                }
-            } else {
-                getLog().warn(id + " Fail to send message. Finalize because output is shutdown.");
-                disconnectUser();
-            }
-        } catch (final IOException e) {
-            getLog().warn(id + " Fail to send the message : " + e.getMessage());
-            socketAlive();
         }
     }
 
@@ -323,7 +289,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                      * init env
                      */
                     getLog().debug(id + " Init env");
-                    parent.newClientConnected(this);
+                    userManagement.newClientConnected(this);
 
                     /**
                      * Inform connected Users
@@ -335,7 +301,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                     /**
                      * Send list connected users.
                      */
-                    messageInit = new IRCMessageNoticeContactsList(parent.getAllUsers());
+                    messageInit = new IRCMessageNoticeContactsList(userManagement.getAllUsers());
 
                     try {
                         getLog().debug(id + " Send list connected users.");
@@ -453,6 +419,41 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
 
         }
         disconnectUser();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket(com.gc.irc.common.protocol.IRCMessage)
+     */
+    public void sendMessageObjetInSocket(final IRCMessage message) {
+        try {
+            /**
+             * Synchronize the socket.
+             */
+            if (!clientSocket.isOutputShutdown()) {
+                synchronized (inObject) {
+                    synchronized (outObject) {
+                        getLog().debug(id + " Send message to " + user.getNickName());
+                        if (clientSocket.isConnected()) {
+                            if (!clientSocket.isOutputShutdown()) {
+                                IOStreamUtils.sendMessage(outObject, message);
+                            } else {
+                                getLog().warn(id + " Output is Shutdown !");
+                            }
+                        } else {
+                            getLog().warn(id + " Socket not connected !");
+                        }
+                    }
+                }
+            } else {
+                getLog().warn(id + " Fail to send message. Finalize because output is shutdown.");
+                disconnectUser();
+            }
+        } catch (final IOException e) {
+            getLog().warn(id + " Fail to send the message : " + e.getMessage());
+            socketAlive();
+        }
     }
 
     /**

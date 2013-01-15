@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.server.core.ServerCore;
+import com.gc.irc.server.core.IUserManagement;
 import com.gc.irc.server.thread.api.IServeurMBean;
 import com.gc.irc.server.thread.factory.api.IServeurMBeanFactory;
 import com.gc.irc.server.thread.impl.ServeurMBean;
@@ -22,7 +22,7 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
      * @see com.gc.irc.server.thread.factory.api.IServeurMBeanFactory#getServeurMBean(com.gc.irc.server.core.ServerCore)
      */
     @Override
-    public IServeurMBean getServeurMBean(ServerCore parent) {
+    public IServeurMBean getServeurMBean(IUserManagement parent) {
         return new ServeurMBean(parent);
     }
 

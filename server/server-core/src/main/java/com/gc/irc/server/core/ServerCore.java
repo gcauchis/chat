@@ -34,7 +34,7 @@ import com.gc.irc.server.thread.factory.api.IServeurMBeanFactory;
  * 
  */
 @Component("serverCore")
-public class ServerCore extends AbstractLoggable {
+public class ServerCore extends AbstractLoggable implements IUserManagement {
 
     /** The message acceuil. */
     private static String messageAcceuil = "Welcome on our server.";
@@ -124,11 +124,8 @@ public class ServerCore extends AbstractLoggable {
         }
     }
 
-    /**
-     * Delete the deconnected Client.
-     * 
-     * @param client
-     *            Deconnected Client.
+    /* (non-Javadoc)
+     * @see com.gc.irc.server.core.IUserManagement#disconnectClient(com.gc.irc.server.thread.api.IGestionClientBean)
      */
     public void disconnectClient(final IGestionClientBean client) {
         getLog().debug("Delete the deconnected Client : " + client.getUser().getNickName());
@@ -151,10 +148,8 @@ public class ServerCore extends AbstractLoggable {
         PersiteUsers.persistListUser(getAllUsers());
     }
 
-    /**
-     * Get the users Connected list.
-     * 
-     * @return The list of all the connected users.
+    /* (non-Javadoc)
+     * @see com.gc.irc.server.core.IUserManagement#getAllUsers()
      */
     public List<IRCUser> getAllUsers() {
         List<IRCUser> list = null;
@@ -164,32 +159,22 @@ public class ServerCore extends AbstractLoggable {
         return list;
     }
 
-    /**
-     * Get the Thread list of connected client.
-     * 
-     * @return Client's thread list.
+    /* (non-Javadoc)
+     * @see com.gc.irc.server.core.IUserManagement#getClientConnected()
      */
     public List<IGestionClientBean> getClientConnected() {
         return clientConnected;
     }
 
-    /**
-     * Get the thread of a selected user.
-     * 
-     * @param id
-     *            User's Id.
-     * @return The Designed User's Thread.
+    /* (non-Javadoc)
+     * @see com.gc.irc.server.core.IUserManagement#getGestionClientBeanOfUser(int)
      */
     public IGestionClientBean getGestionClientBeanOfUser(final int id) {
         return listThreadClientByIdUser.get(id);
     }
 
-    /**
-     * Get the user demand if he is connected.
-     * 
-     * @param id
-     *            User's Id.
-     * @return The User selected or null if not find.
+    /* (non-Javadoc)
+     * @see com.gc.irc.server.core.IUserManagement#getUser(int)
      */
     public IRCUser getUser(final int id) {
         return listUserById.get(id);
@@ -260,11 +245,8 @@ public class ServerCore extends AbstractLoggable {
 
     }
 
-    /**
-     * Add the login client to the Client's list.
-     * 
-     * @param client
-     *            New Client
+    /* (non-Javadoc)
+     * @see com.gc.irc.server.core.IUserManagement#newClientConnected(com.gc.irc.server.thread.api.IGestionClientBean)
      */
     public void newClientConnected(final IGestionClientBean client) {
         getLog().debug("Add a new Connected Client : " + client.getUser().getNickName());

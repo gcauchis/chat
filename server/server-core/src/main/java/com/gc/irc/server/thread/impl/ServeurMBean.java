@@ -22,7 +22,7 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
 import com.gc.irc.server.auth.IRCServerAuthentification;
 import com.gc.irc.server.auth.IRCUserInformations;
 import com.gc.irc.server.conf.ServerConf;
-import com.gc.irc.server.core.ServerCore;
+import com.gc.irc.server.core.IUserManagement;
 import com.gc.irc.server.jms.IRCJMSPoolProducer;
 import com.gc.irc.server.jms.JMSConnection;
 import com.gc.irc.server.persistance.IRCGestionPicture;
@@ -60,22 +60,22 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     private final int id = getNbThread();
 
     /** The message consumer. */
-    private MessageConsumer messageConsumer = null;
-
-    /** The parent. */
-    private ServerCore parent = null;
+    private MessageConsumer messageConsumer;
 
     /** The session. */
     private final Session session = JMSConnection.getSession();
 
+    /** The parent. */
+    private final IUserManagement userManagement;
+
     /**
      * Builder.
      * 
-     * @param parent
+     * @param userManagement
      *            Parent.
      */
-    public ServeurMBean(final ServerCore parent) {
-        this.parent = parent;
+    public ServeurMBean(final IUserManagement userManagement) {
+        this.userManagement = userManagement;
     }
 
     /*
@@ -121,7 +121,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
         /**
          * Get the number of connected client (for JMX)
          */
-        final List<IGestionClientBean> clientConnecter = parent.getClientConnected();
+        final List<IGestionClientBean> clientConnecter = userManagement.getClientConnected();
         return clientConnecter.size();
     }
 
@@ -134,7 +134,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     public String getUserList() {
         String result = "";
 
-        for (final IRCUser u : parent.getAllUsers()) {
+        for (final IRCUser u : userManagement.getAllUsers()) {
             result += u.getId() + " : " + u.getNickName() + " | ";
         }
 
@@ -170,7 +170,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
         /**
          * Kick the user with the ID userID
          */
-        final IGestionClientBean thClient = parent.getGestionClientBeanOfUser(userID);
+        final IGestionClientBean thClient = userManagement.getGestionClientBeanOfUser(userID);
         if (thClient != null) {
             thClient.disconnectUser();
             return "Client successfully kicked";
@@ -212,7 +212,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      *            Message to Send
      */
     private void sendObjetMessageIRCToAll(final IRCMessage message) {
-        final List<IGestionClientBean> clientConnecter = parent.getClientConnected();
+        final List<IGestionClientBean> clientConnecter = userManagement.getClientConnected();
 
         if (IRCServerAuthentification.getInstance().getUser(message.getFromId()) != null) {
             getLog().debug(
@@ -282,7 +282,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
                         getLog().debug(
                                 id + " Private Message from " + IRCServerAuthentification.getInstance().getUser(messageChatPriv.getFromId()).getNickname()
                                         + " to " + IRCServerAuthentification.getInstance().getUser(messageChatPriv.getToId()).getNickname());
-                        final IGestionClientBean clientCible = parent.getGestionClientBeanOfUser(messageChatPriv.getToId());
+                        final IGestionClientBean clientCible = userManagement.getGestionClientBeanOfUser(messageChatPriv.getToId());
                         if (clientCible != null) {
                             clientCible.sendMessageObjetInSocket(messageChatPriv);
                         }
