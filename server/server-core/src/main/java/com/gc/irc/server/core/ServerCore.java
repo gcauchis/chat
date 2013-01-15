@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +17,12 @@ import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.persistance.PersiteUsers;
-import com.gc.irc.server.thread.GestionClientBean;
-import com.gc.irc.server.thread.ThreadServeurIRC;
+import com.gc.irc.server.thread.api.IGestionClientBean;
+import com.gc.irc.server.thread.factory.api.IGestionClientBeanFactory;
+import com.gc.irc.server.thread.impl.GestionClientBean;
+import com.gc.irc.server.thread.impl.ServeurMBean;
 
+// TODO: Auto-generated Javadoc
 /**
  * Main class.
  * 
@@ -63,6 +67,10 @@ public class ServerCore extends AbstractLoggable {
     /** The client connecter. */
     private final List<GestionClientBean> clientConnecter = Collections.synchronizedList(new ArrayList<GestionClientBean>());
 
+    /** The gestion client bean factory. */
+    @Autowired
+    private IGestionClientBeanFactory gestionClientBeanFactory;
+
     /** The list thread client by id user. */
     private final Map<Integer, GestionClientBean> listThreadClientByIdUser = Collections.synchronizedMap(new HashMap<Integer, GestionClientBean>());
 
@@ -74,7 +82,7 @@ public class ServerCore extends AbstractLoggable {
     private int port = -1;
 
     /** The pull thread serveur. */
-    private final List<ThreadServeurIRC> pullThreadServeur = Collections.synchronizedList(new ArrayList<ThreadServeurIRC>());
+    private final List<ServeurMBean> pullThreadServeur = Collections.synchronizedList(new ArrayList<ServeurMBean>());
 
     /**
      * Builder, Initialize the server. The port is 1973.
@@ -100,7 +108,7 @@ public class ServerCore extends AbstractLoggable {
      * @param client
      *            Deconnected Client.
      */
-    public void disconnectClient(final GestionClientBean client) {
+    public void disconnectClient(final IGestionClientBean client) {
         getLog().debug("Delete the deconnected Client : " + client.getUser().getNickName());
         synchronized (clientConnecter) {
             synchronized (listUserById) {
@@ -125,11 +133,11 @@ public class ServerCore extends AbstractLoggable {
      * Finalize the Server.
      */
     public void finalizeClass() {
-        for (final ThreadServeurIRC thread : pullThreadServeur) {
+        for (final ServeurMBean thread : pullThreadServeur) {
             thread.finalizeClass();
         }
 
-        for (final GestionClientBean thread : clientConnecter) {
+        for (final IGestionClientBean thread : clientConnecter) {
             thread.disconnectUser();
         }
         try {
@@ -168,7 +176,7 @@ public class ServerCore extends AbstractLoggable {
      *            User's Id.
      * @return The Designed User's Thread.
      */
-    public GestionClientBean getThreadOfUser(final int id) {
+    public IGestionClientBean getThreadOfUser(final int id) {
         return listThreadClientByIdUser.get(id);
     }
 
@@ -224,7 +232,7 @@ public class ServerCore extends AbstractLoggable {
         // }
 
         // Create the Thread
-        ThreadServeurIRC threadServer = new ThreadServeurIRC(this);
+        ServeurMBean threadServer = new ServeurMBean(this);
         threadServer.start();
 
         // try {
@@ -241,7 +249,7 @@ public class ServerCore extends AbstractLoggable {
         // }
 
         for (int i = 1; i < nbThreadServeur; i++) {
-            threadServer = new ThreadServeurIRC(this);
+            threadServer = new ServeurMBean(this);
             threadServer.start();
             pullThreadServeur.add(threadServer);
         }
@@ -276,6 +284,16 @@ public class ServerCore extends AbstractLoggable {
     }
 
     /**
+     * Sets the gestion client bean factory.
+     * 
+     * @param gestionClientBeanFactory
+     *            the new gestion client bean factory
+     */
+    public void setGestionClientBeanFactory(IGestionClientBeanFactory gestionClientBeanFactory) {
+        this.gestionClientBeanFactory = gestionClientBeanFactory;
+    }
+
+    /**
      * Change the listening port
      * 
      * Don't forget to use initServer() after use this method.
@@ -289,8 +307,7 @@ public class ServerCore extends AbstractLoggable {
     }
 
     /**
-     * Wait for new client. When a client connect to the sever stat a Thred fot
-     * him.
+     * Wait for new client. When a client connect to the sever stat a Thred fot him.
      */
     public void waitClient() {
         Socket clientSocket = null;
@@ -302,7 +319,7 @@ public class ServerCore extends AbstractLoggable {
             getLog().warn("Timeout or Connection error.", e);
             return;
         }
-        final Runnable gestionClient = new GestionClientBean(clientSocket, this);
+        final Runnable gestionClient = gestionClientBeanFactory.getGestionClientBean(clientSocket, this);
         getLog().debug("End Client's Thread Initialization.");
         new Thread(gestionClient).start();
     }

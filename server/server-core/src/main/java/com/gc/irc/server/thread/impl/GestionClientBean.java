@@ -1,4 +1,4 @@
-package com.gc.irc.server.thread;
+package com.gc.irc.server.thread.impl;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -26,6 +26,7 @@ import com.gc.irc.server.core.ServerCore;
 import com.gc.irc.server.exception.IRCServerException;
 import com.gc.irc.server.jms.IRCJMSPoolProducer;
 import com.gc.irc.server.persistance.IRCGestionPicture;
+import com.gc.irc.server.thread.api.IGestionClientBean;
 
 /**
  * Communication interface between the Client and the server.
@@ -33,7 +34,7 @@ import com.gc.irc.server.persistance.IRCGestionPicture;
  * @author gcauchis
  * 
  */
-public class GestionClientBean extends AbstractRunnable {
+public class GestionClientBean extends AbstractRunnable implements IGestionClientBean {
 
     /** The nb thread. */
     private static int nbThread = 0;
@@ -106,11 +107,8 @@ public class GestionClientBean extends AbstractRunnable {
         }
     }
 
-    /**
-     * Send and IRCMessage to the Client.
-     * 
-     * @param message
-     *            Message to send.
+    /* (non-Javadoc)
+     * @see com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket(com.gc.irc.common.protocol.IRCMessage)
      */
     public void envoyerMessageObjetSocket(final IRCMessage message) {
         try {
@@ -142,10 +140,8 @@ public class GestionClientBean extends AbstractRunnable {
         }
     }
 
-    /**
-     * Finalize Thread.
-     * 
-     * Close all Connection.
+    /* (non-Javadoc)
+     * @see com.gc.irc.server.thread.impl.IGestionClientBean#disconnectUser()
      */
     public void disconnectUser() {
         getLog().debug(id + " Finalize Thread");
@@ -169,7 +165,7 @@ public class GestionClientBean extends AbstractRunnable {
             synchronized (user) {
                 user.setUserStatus(UserStatus.OFFLINE);
                 postMessageObjectInJMS(new IRCMessageNoticeContactInfo(user.getCopy()));
-                IRCServerAuthentification.getInstance().getUser(user.getId()).deconnected();
+                IRCServerAuthentification.getInstance().getUser(user.getId()).diconnected();
             }
         }
 
@@ -200,19 +196,15 @@ public class GestionClientBean extends AbstractRunnable {
         }
     }
 
-    /**
-     * Get the id of the Thread. <strong>Warning : </strong> This id is not the user id.
-     * 
-     * @return Id of this.
+    /* (non-Javadoc)
+     * @see com.gc.irc.server.thread.impl.IGestionClientBean#getIdThread()
      */
     public int getIdThread() {
         return id;
     }
 
-    /**
-     * Get the user connected to this Thread.
-     * 
-     * @return User connected to this Thread.
+    /* (non-Javadoc)
+     * @see com.gc.irc.server.thread.impl.IGestionClientBean#getUser()
      */
     public IRCUser getUser() {
         return user;
@@ -342,7 +334,7 @@ public class GestionClientBean extends AbstractRunnable {
                         getLog().debug("\t" + u.getNickName());
                     }
                     getLog().debug("\n\nConnected users threads : ");
-                    for (final GestionClientBean t : parent.getClientConnecter()) {
+                    for (final IGestionClientBean t : parent.getClientConnecter()) {
                         getLog().debug("\t" + t.getUser().getNickName());
                     }
                     try {

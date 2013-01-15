@@ -21,7 +21,7 @@ import com.gc.irc.common.abs.AbstractLoggable;
  * @author gcauchis
  * 
  */
-public final class UserImformationScanner extends AbstractLoggable {
+public final class UserInformationScanner extends AbstractLoggable {
 
     /** The last id. */
     private static int lastId = 0;
@@ -142,7 +142,7 @@ public final class UserImformationScanner extends AbstractLoggable {
      * @param document
      *            the document
      */
-    public UserImformationScanner(final org.w3c.dom.Document document) {
+    public UserInformationScanner(final org.w3c.dom.Document document) {
         mDocument = document;
         listUsers = Collections.synchronizedList(new ArrayList<IRCUserInformations>());
         visitDocument();
@@ -160,7 +160,7 @@ public final class UserImformationScanner extends AbstractLoggable {
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
-    public UserImformationScanner(final String file) throws ParserConfigurationException, SAXException, IOException {
+    public UserInformationScanner(final String file) throws ParserConfigurationException, SAXException, IOException {
         final DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         final DocumentBuilder builder = builderFactory.newDocumentBuilder();
         mDocument = builder.parse(new InputSource(new File(file).toURI().toString()));

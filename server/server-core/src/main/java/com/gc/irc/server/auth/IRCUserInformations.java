@@ -228,7 +228,7 @@ public class IRCUserInformations extends AbstractLoggable {
     /**
      * Deconnected.
      */
-    public void deconnected() {
+    public void diconnected() {
         getLog().debug(nickname + " is disconnected.");
         user = null;
 

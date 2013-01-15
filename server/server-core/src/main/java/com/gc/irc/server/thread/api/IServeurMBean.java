@@ -1,9 +1,9 @@
-package com.gc.irc.server.thread;
+package com.gc.irc.server.thread.api;
 
 /**
  * The Interface ThreadServeurIRCMBean.
  */
-public interface IThreadServeurIRCMBean {
+public interface IServeurMBean {
 
     /**
      * Gets the nb messages.

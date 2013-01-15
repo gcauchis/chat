@@ -64,7 +64,7 @@ public class IRCServerAuthentification extends AbstractLoggable implements
 	private IRCServerAuthentification() {
 		getLog().debug("Read the Users data.");
 		try {
-			new UserImformationScanner(pathFichier);
+			new UserInformationScanner(pathFichier);
 		} catch (final ParserConfigurationException e) {
 			getLog().warn("Fail to parse xml.", e);
 		} catch (final SAXException e) {
@@ -75,8 +75,8 @@ public class IRCServerAuthentification extends AbstractLoggable implements
 							"Fail to read xml file. If file didn't exist yet, don't worry with this error",
 							e);
 		}
-		setLastId(UserImformationScanner.getLastId());
-		listUsers = UserImformationScanner.getListUserInfomation();
+		setLastId(UserInformationScanner.getLastId());
+		listUsers = UserInformationScanner.getListUserInfomation();
 		getLog().debug("End init auth.");
 	}
 
