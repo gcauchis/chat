@@ -107,40 +107,9 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket(com.gc.irc.common.protocol.IRCMessage)
-     */
-    public void envoyerMessageObjetSocket(final IRCMessage message) {
-        try {
-            /**
-             * Synchronize the socket.
-             */
-            if (!clientSocket.isOutputShutdown()) {
-                synchronized (inObject) {
-                    synchronized (outObject) {
-                        getLog().debug(id + " Send message to " + user.getNickName());
-                        if (clientSocket.isConnected()) {
-                            if (!clientSocket.isOutputShutdown()) {
-                                IOStreamUtils.sendMessage(outObject, message);
-                            } else {
-                                getLog().warn(id + " Output is Shutdown !");
-                            }
-                        } else {
-                            getLog().warn(id + " Socket not connected !");
-                        }
-                    }
-                }
-            } else {
-                getLog().warn(id + " Fail to send message. Finalize because output is shutdown.");
-                disconnectUser();
-            }
-        } catch (final IOException e) {
-            getLog().warn(id + " Fail to send the message : " + e.getMessage());
-            socketAlive();
-        }
-    }
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gc.irc.server.thread.impl.IGestionClientBean#disconnectUser()
      */
     public void disconnectUser() {
@@ -196,14 +165,53 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket(com.gc.irc.common.protocol.IRCMessage)
+     */
+    public void sendMessageObjetInSocket(final IRCMessage message) {
+        try {
+            /**
+             * Synchronize the socket.
+             */
+            if (!clientSocket.isOutputShutdown()) {
+                synchronized (inObject) {
+                    synchronized (outObject) {
+                        getLog().debug(id + " Send message to " + user.getNickName());
+                        if (clientSocket.isConnected()) {
+                            if (!clientSocket.isOutputShutdown()) {
+                                IOStreamUtils.sendMessage(outObject, message);
+                            } else {
+                                getLog().warn(id + " Output is Shutdown !");
+                            }
+                        } else {
+                            getLog().warn(id + " Socket not connected !");
+                        }
+                    }
+                }
+            } else {
+                getLog().warn(id + " Fail to send message. Finalize because output is shutdown.");
+                disconnectUser();
+            }
+        } catch (final IOException e) {
+            getLog().warn(id + " Fail to send the message : " + e.getMessage());
+            socketAlive();
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gc.irc.server.thread.impl.IGestionClientBean#getIdThread()
      */
     public int getIdThread() {
         return id;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gc.irc.server.thread.impl.IGestionClientBean#getUser()
      */
     public IRCUser getUser() {
@@ -329,14 +337,6 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                      */
                     messageInit = new IRCMessageNoticeContactsList(parent.getAllUsers());
 
-                    getLog().debug("\n\nConnected users : ");
-                    for (final IRCUser u : parent.getAllUsers()) {
-                        getLog().debug("\t" + u.getNickName());
-                    }
-                    getLog().debug("\n\nConnected users threads : ");
-                    for (final IGestionClientBean t : parent.getClientConnecter()) {
-                        getLog().debug("\t" + t.getUser().getNickName());
-                    }
                     try {
                         getLog().debug(id + " Send list connected users.");
                         synchronized (inObject) {

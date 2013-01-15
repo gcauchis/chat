@@ -1,9 +1,14 @@
 package com.gc.irc.server.thread.api;
 
 /**
- * The Interface ThreadServeurIRCMBean.
+ * The Interface IServeurMBean.
  */
-public interface IServeurMBean {
+public interface IServeurMBean extends Runnable {
+
+    /**
+     * Close.
+     */
+    void close();
 
     /**
      * Gets the nb messages.

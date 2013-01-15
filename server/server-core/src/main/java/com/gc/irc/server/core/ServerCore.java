@@ -18,9 +18,9 @@ import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.persistance.PersiteUsers;
 import com.gc.irc.server.thread.api.IGestionClientBean;
+import com.gc.irc.server.thread.api.IServeurMBean;
 import com.gc.irc.server.thread.factory.api.IGestionClientBeanFactory;
-import com.gc.irc.server.thread.impl.GestionClientBean;
-import com.gc.irc.server.thread.impl.ServeurMBean;
+import com.gc.irc.server.thread.factory.api.IServeurMBeanFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -65,14 +65,14 @@ public class ServerCore extends AbstractLoggable {
     }
 
     /** The client connecter. */
-    private final List<GestionClientBean> clientConnecter = Collections.synchronizedList(new ArrayList<GestionClientBean>());
+    private final List<IGestionClientBean> clientConnecter = Collections.synchronizedList(new ArrayList<IGestionClientBean>());
 
     /** The gestion client bean factory. */
     @Autowired
     private IGestionClientBeanFactory gestionClientBeanFactory;
 
     /** The list thread client by id user. */
-    private final Map<Integer, GestionClientBean> listThreadClientByIdUser = Collections.synchronizedMap(new HashMap<Integer, GestionClientBean>());
+    private final Map<Integer, IGestionClientBean> listThreadClientByIdUser = Collections.synchronizedMap(new HashMap<Integer, IGestionClientBean>());
 
     /** The list user by id. */
     private final Map<Integer, IRCUser> listUserById = Collections.synchronizedMap(new HashMap<Integer, IRCUser>());
@@ -82,7 +82,11 @@ public class ServerCore extends AbstractLoggable {
     private int port = -1;
 
     /** The pull thread serveur. */
-    private final List<ServeurMBean> pullThreadServeur = Collections.synchronizedList(new ArrayList<ServeurMBean>());
+    private final List<IServeurMBean> pullThreadServeur = Collections.synchronizedList(new ArrayList<IServeurMBean>());
+
+    /** The serveur m bean factory. */
+    @Autowired
+    private IServeurMBeanFactory serveurMBeanFactory;
 
     /**
      * Builder, Initialize the server. The port is 1973.
@@ -99,6 +103,24 @@ public class ServerCore extends AbstractLoggable {
     public ServerCore(final int port) {
         if (this.port != port) {
             setPort(port);
+        }
+    }
+
+    /**
+     * Finalize the Server.
+     */
+    public void close() {
+        for (final IServeurMBean thread : pullThreadServeur) {
+            thread.close();
+        }
+
+        for (final IGestionClientBean thread : clientConnecter) {
+            thread.disconnectUser();
+        }
+        try {
+            super.finalize();
+        } catch (final Throwable e) {
+            getLog().warn("Problem when finalize the Server", e);
         }
     }
 
@@ -130,24 +152,6 @@ public class ServerCore extends AbstractLoggable {
     }
 
     /**
-     * Finalize the Server.
-     */
-    public void finalizeClass() {
-        for (final ServeurMBean thread : pullThreadServeur) {
-            thread.finalizeClass();
-        }
-
-        for (final IGestionClientBean thread : clientConnecter) {
-            thread.disconnectUser();
-        }
-        try {
-            super.finalize();
-        } catch (final Throwable e) {
-            getLog().warn("Problem when finalize the Server", e);
-        }
-    }
-
-    /**
      * Get the users Connected list.
      * 
      * @return The list of all the connected users.
@@ -165,7 +169,7 @@ public class ServerCore extends AbstractLoggable {
      * 
      * @return Client's thread list.
      */
-    public List<GestionClientBean> getClientConnecter() {
+    public List<IGestionClientBean> getClientConnecter() {
         return clientConnecter;
     }
 
@@ -232,8 +236,8 @@ public class ServerCore extends AbstractLoggable {
         // }
 
         // Create the Thread
-        ServeurMBean threadServer = new ServeurMBean(this);
-        threadServer.start();
+        // IServeurMBean threadServer = new ServeurMBean(this);
+        // threadServer.start();
 
         // try {
         // mbs.registerMBean(threadServer, name);
@@ -248,10 +252,10 @@ public class ServerCore extends AbstractLoggable {
         // System.exit(-1);
         // }
 
-        for (int i = 1; i < nbThreadServeur; i++) {
-            threadServer = new ServeurMBean(this);
-            threadServer.start();
-            pullThreadServeur.add(threadServer);
+        for (int i = 0; i < nbThreadServeur; i++) {
+            IServeurMBean serveurMBean = serveurMBeanFactory.getServeurMBean(this);
+            new Thread(serveurMBean).start();
+            pullThreadServeur.add(serveurMBean);
         }
 
     }
@@ -262,7 +266,7 @@ public class ServerCore extends AbstractLoggable {
      * @param client
      *            New Client
      */
-    public void newClientConnected(final GestionClientBean client) {
+    public void newClientConnected(final IGestionClientBean client) {
         getLog().debug("Add a new Connected Client : " + client.getUser().getNickName());
         synchronized (clientConnecter) {
             synchronized (listUserById) {
@@ -304,6 +308,16 @@ public class ServerCore extends AbstractLoggable {
     public void setPort(final int port) {
         this.port = port;
         getLog().debug("Nouveau port : " + port);
+    }
+
+    /**
+     * Sets the serveur m bean factory.
+     * 
+     * @param serveurMBeanFactory
+     *            the new serveur m bean factory
+     */
+    public void setServeurMBeanFactory(IServeurMBeanFactory serveurMBeanFactory) {
+        this.serveurMBeanFactory = serveurMBeanFactory;
     }
 
     /**

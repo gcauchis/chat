@@ -8,9 +8,7 @@ import javax.jms.MessageConsumer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.gc.irc.common.abs.AbstractRunnable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.protocol.chat.IRCMessageChat;
@@ -37,10 +35,7 @@ import com.gc.irc.server.thread.api.IServeurMBean;
  * @author gcauchis
  * 
  */
-public class ServeurMBean extends Thread implements IServeurMBean {
-
-    /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServeurMBean.class);
+public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
 
     /** The nb message. */
     private static Long nbMessage = 0L;
@@ -83,27 +78,30 @@ public class ServeurMBean extends Thread implements IServeurMBean {
         this.parent = parent;
     }
 
-    /**
-     * Finalize the Thread.
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gc.irc.server.thread.api.IServeurMBean#close()
      */
-    public void finalizeClass() {
-        LOGGER.debug("Finalize the Thread");
+    @Override
+    public void close() {
+        getLog().debug("Finalize the Thread");
         try {
             messageConsumer.close();
         } catch (final JMSException e) {
-            LOGGER.warn(id + " Problem when close the messageConsumer : " + e.getMessage());
+            getLog().warn(id + " Problem when close the messageConsumer : " + e.getMessage());
         }
         try {
             super.finalize();
         } catch (final Throwable e) {
-            LOGGER.warn(id + " Fail to finalize class : " + e.getMessage());
+            getLog().warn(id + " Fail to finalize class : " + e.getMessage());
         }
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.thread.IThreadServeurIRCMBean#getNbMessages()
+     * @see com.gc.irc.server.thread.api.IServeurMBean#getNbMessages()
      */
     @Override
     public long getNbMessages() {
@@ -116,14 +114,14 @@ public class ServeurMBean extends Thread implements IServeurMBean {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.thread.IThreadServeurIRCMBean#getNbUser()
+     * @see com.gc.irc.server.thread.api.IServeurMBean#getNbUser()
      */
     @Override
     public int getNbUser() {
         /**
          * Get the number of connected client (for JMX)
          */
-        final List<GestionClientBean> clientConnecter = parent.getClientConnecter();
+        final List<IGestionClientBean> clientConnecter = parent.getClientConnecter();
         return clientConnecter.size();
     }
 
@@ -154,10 +152,10 @@ public class ServeurMBean extends Thread implements IServeurMBean {
          * Create JMS Consumer
          */
         try {
-            LOGGER.debug(id + " Create JMS Consumer");
+            getLog().debug(id + " Create JMS Consumer");
             messageConsumer = session.createConsumer(JMSConnection.getQueue());
         } catch (final JMSException e) {
-            LOGGER.error(id + " Fail to create JMS Consumer : " + e.getMessage());
+            getLog().error(id + " Fail to create JMS Consumer : " + e.getMessage());
             System.exit(-1);
         }
     }
@@ -165,7 +163,7 @@ public class ServeurMBean extends Thread implements IServeurMBean {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.thread.IThreadServeurIRCMBean#kickUser(int)
+     * @see com.gc.irc.server.thread.api.IServeurMBean#kickUser(int)
      */
     @Override
     public String kickUser(final int userID) {
@@ -188,7 +186,7 @@ public class ServeurMBean extends Thread implements IServeurMBean {
      */
     @Override
     public void run() {
-        LOGGER.debug(id + " Start");
+        getLog().debug(id + " Start");
         init();
 
         while (true) {
@@ -197,10 +195,10 @@ public class ServeurMBean extends Thread implements IServeurMBean {
                 /**
                  * Wait for a message in JMS Queue
                  */
-                LOGGER.debug(id + " Wait for a message in JMS Queue");
+                getLog().debug(id + " Wait for a message in JMS Queue");
                 message = messageConsumer.receive();
             } catch (final JMSException e) {
-                LOGGER.warn(id + " Fail to receive message in JMS Queue : " + e.getMessage());
+                getLog().warn(id + " Fail to receive message in JMS Queue : " + e.getMessage());
             }
 
             traitementObjectMessage((ObjectMessage) message);
@@ -214,24 +212,24 @@ public class ServeurMBean extends Thread implements IServeurMBean {
      *            Message to Send
      */
     private void sendObjetMessageIRCToAll(final IRCMessage message) {
-        final List<GestionClientBean> clientConnecter = parent.getClientConnecter();
+        final List<IGestionClientBean> clientConnecter = parent.getClientConnecter();
 
         if (IRCServerAuthentification.getInstance().getUser(message.getFromId()) != null) {
-            LOGGER.debug(id + " Send a message to all connected client from "
-                    + IRCServerAuthentification.getInstance().getUser(message.getFromId()).getNickname());
+            getLog().debug(
+                    id + " Send a message to all connected client from " + IRCServerAuthentification.getInstance().getUser(message.getFromId()).getNickname());
             synchronized (clientConnecter) {
                 for (final IGestionClientBean client : clientConnecter) {
                     if (message.getFromId() != client.getUser().getId()) {
                         synchronized (client) {
                             synchronized (client.getUser()) {
-                                client.envoyerMessageObjetSocket(message);
+                                client.sendMessageObjetInSocket(message);
                             }
                         }
                     }
                 }
             }
         } else {
-            LOGGER.warn(id + " Inexisting source ID");
+            getLog().warn(id + " Inexisting source ID");
         }
     }
 
@@ -242,7 +240,7 @@ public class ServeurMBean extends Thread implements IServeurMBean {
      *            Message received.
      */
     private void traitementObjectMessage(final ObjectMessage message) {
-        LOGGER.debug(id + " Handle received Message.");
+        getLog().debug(id + " Handle received Message.");
         IRCMessage messageObj = null;
 
         /**
@@ -256,24 +254,24 @@ public class ServeurMBean extends Thread implements IServeurMBean {
          * Extract Message
          */
         try {
-            LOGGER.debug(id + " Extract Message receive in JMS");
+            getLog().debug(id + " Extract Message receive in JMS");
             messageObj = (IRCMessage) message.getObject();
         } catch (final JMSException e) {
-            LOGGER.warn(id + " Fail to extract Message receive in JMS : " + e.getMessage());
+            getLog().warn(id + " Fail to extract Message receive in JMS : " + e.getMessage());
         }
 
-        LOGGER.debug(id + " Message's type : " + messageObj.getType());
+        getLog().debug(id + " Message's type : " + messageObj.getType());
         switch (messageObj.getType()) {
         case CHATMESSAGE:
             final IRCMessageChat messageObjChat = (IRCMessageChat) messageObj;
-            LOGGER.debug(id + " Type : " + messageObjChat.getChatMessageType());
+            getLog().debug(id + " Type : " + messageObjChat.getChatMessageType());
             switch (messageObjChat.getChatMessageType()) {
             case GLOBAL:
                 if (IRCServerAuthentification.getInstance().getUser(messageObjChat.getFromId()) != null) {
-                    LOGGER.debug(id + " Global message form " + IRCServerAuthentification.getInstance().getUser(messageObjChat.getFromId()).getNickname());
+                    getLog().debug(id + " Global message form " + IRCServerAuthentification.getInstance().getUser(messageObjChat.getFromId()).getNickname());
                     sendObjetMessageIRCToAll(messageObjChat);
                 } else {
-                    LOGGER.warn(id + " inexisting source id");
+                    getLog().warn(id + " inexisting source id");
                 }
                 break;
 
@@ -281,25 +279,26 @@ public class ServeurMBean extends Thread implements IServeurMBean {
                 final IRCMessageChatPrivate messageChatPriv = (IRCMessageChatPrivate) messageObjChat;
                 if (IRCServerAuthentification.getInstance().getUser(messageChatPriv.getFromId()) != null) {
                     if (IRCServerAuthentification.getInstance().getUser(messageChatPriv.getToId()) != null) {
-                        LOGGER.debug(id + " Private Message from " + IRCServerAuthentification.getInstance().getUser(messageChatPriv.getFromId()).getNickname()
-                                + " to " + IRCServerAuthentification.getInstance().getUser(messageChatPriv.getToId()).getNickname());
+                        getLog().debug(
+                                id + " Private Message from " + IRCServerAuthentification.getInstance().getUser(messageChatPriv.getFromId()).getNickname()
+                                        + " to " + IRCServerAuthentification.getInstance().getUser(messageChatPriv.getToId()).getNickname());
                         final IGestionClientBean clientCible = parent.getThreadOfUser(messageChatPriv.getToId());
                         if (clientCible != null) {
-                            clientCible.envoyerMessageObjetSocket(messageChatPriv);
+                            clientCible.sendMessageObjetInSocket(messageChatPriv);
                         }
                     } else {
-                        LOGGER.warn(id + " inexisting destination id");
-                        LOGGER.debug(id + " Check if retry later");
+                        getLog().warn(id + " inexisting destination id");
+                        getLog().debug(id + " Check if retry later");
                         final int numPassage = messageChatPriv.numPassage();
                         if (numPassage < numPassageMax) {
-                            LOGGER.debug(id + " Send again the private message in JMS. Passage number " + numPassage);
+                            getLog().debug(id + " Send again the private message in JMS. Passage number " + numPassage);
                             IRCJMSPoolProducer.getInstance().postMessageObjectInJMS(messageChatPriv);
                         } else {
-                            LOGGER.debug(id + " Message passed to much time in the server (more than " + numPassageMax + "). Trash it !");
+                            getLog().debug(id + " Message passed to much time in the server (more than " + numPassageMax + "). Trash it !");
                         }
                     }
                 } else {
-                    LOGGER.warn(id + " inexisting source id");
+                    getLog().warn(id + " inexisting source id");
                 }
                 break;
 
@@ -309,7 +308,7 @@ public class ServeurMBean extends Thread implements IServeurMBean {
             break;
         case COMMAND:
             final IRCMessageCommand messageObjCmd = (IRCMessageCommand) messageObj;
-            LOGGER.debug(id + " Type : " + messageObjCmd.getCommandType());
+            getLog().debug(id + " Type : " + messageObjCmd.getCommandType());
             switch (messageObjCmd.getCommandType()) {
             case CHANGE_NICKNAME:
                 final IRCMessageCommandChangeNickname messageChNick = (IRCMessageCommandChangeNickname) messageObjCmd;
@@ -319,7 +318,7 @@ public class ServeurMBean extends Thread implements IServeurMBean {
                         auth.changeNickUser(messageChNick.getFromId(), messageChNick.getNewNickname());
                         sendObjetMessageIRCToAll(new IRCMessageNoticeContactInfo(auth.getUser(messageChNick.getFromId()).getUser()));
                     } else {
-                        LOGGER.warn(id + " this user didn't exist.");
+                        getLog().warn(id + " this user didn't exist.");
                     }
                 }
                 break;
@@ -327,7 +326,7 @@ public class ServeurMBean extends Thread implements IServeurMBean {
                 final IRCMessageCommandChangeStatus messageChStatus = (IRCMessageCommandChangeStatus) messageObjCmd;
                 final IRCUser user = IRCServerAuthentification.getInstance().getUser(messageChStatus.getFromId()).getUser();
                 if (user != null) {
-                    LOGGER.debug(id + " " + user.getNickName() + " change status to " + messageChStatus.getNewStatus());
+                    getLog().debug(id + " " + user.getNickName() + " change status to " + messageChStatus.getNewStatus());
                     user.setUserStatus(messageChStatus.getNewStatus());
                     sendObjetMessageIRCToAll(new IRCMessageNoticeContactInfo(user));
                 }
@@ -338,13 +337,15 @@ public class ServeurMBean extends Thread implements IServeurMBean {
             break;
         case NOTIFICATION:
             final IRCMessageNotice messageObjNotice = (IRCMessageNotice) messageObj;
-            LOGGER.debug(id + " Type : " + messageObjNotice.getNoticeType());
+            getLog().debug(id + " Type : " + messageObjNotice.getNoticeType());
             switch (messageObjNotice.getNoticeType()) {
             case CONTACT_INFO:
                 final IRCMessageNoticeContactInfo messageObjNoticeContactInfo = (IRCMessageNoticeContactInfo) messageObjNotice;
                 final IRCUser userChange = messageObjNoticeContactInfo.getUser();
-                LOGGER.debug(id + " User " + userChange.getNickName() + " change state to " + userChange.getUserStatus() + " has pictur : "
-                        + userChange.hasPictur());
+                getLog()
+                        .debug(
+                                id + " User " + userChange.getNickName() + " change state to " + userChange.getUserStatus() + " has pictur : "
+                                        + userChange.hasPictur());
                 sendObjetMessageIRCToAll(messageObjNoticeContactInfo);
                 break;
 
@@ -363,7 +364,7 @@ public class ServeurMBean extends Thread implements IServeurMBean {
                 if (userInfo != null) {
                     userInfo.setHasPicture(true);
                 } else {
-                    LOGGER.warn(id + " User null");
+                    getLog().warn(id + " User null");
                 }
 
                 sendObjetMessageIRCToAll(messagePictur);
