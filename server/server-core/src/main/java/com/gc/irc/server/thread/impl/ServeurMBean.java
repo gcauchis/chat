@@ -23,8 +23,8 @@ import com.gc.irc.server.auth.IRCServerAuthentification;
 import com.gc.irc.server.auth.IRCUserInformations;
 import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
-import com.gc.irc.server.jms.JMSConnection;
-import com.gc.irc.server.jms.JMSPoolProducer;
+import com.gc.irc.server.jms.impl.JMSPoolProducer;
+import com.gc.irc.server.jms.utils.JMSConnectionUtils;
 import com.gc.irc.server.persistance.IRCGestionPicture;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 import com.gc.irc.server.thread.api.IServeurMBean;
@@ -63,7 +63,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     private MessageConsumer messageConsumer;
 
     /** The session. */
-    private final Session session = JMSConnection.getSession();
+    private final Session session = JMSConnectionUtils.getSession();
 
     /** The parent. */
     private final IUsersConnectionsManagement userManagement;
@@ -203,7 +203,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
                         final int numPassage = messageChatPriv.numPassage();
                         if (numPassage < numPassageMax) {
                             getLog().debug(id + " Send again the private message in JMS. Passage number " + numPassage);
-                            JMSPoolProducer.getInstance().postMessageObjectInJMS(messageChatPriv);
+                            JMSPoolProducer.getInstance().postInJMS(messageChatPriv);
                         } else {
                             getLog().debug(id + " Message passed to much time in the server (more than " + numPassageMax + "). Trash it !");
                         }
@@ -299,7 +299,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
          */
         try {
             getLog().debug(id + " Create JMS Consumer");
-            messageConsumer = session.createConsumer(JMSConnection.getQueue());
+            messageConsumer = session.createConsumer(JMSConnectionUtils.getQueue());
         } catch (final JMSException e) {
             getLog().error(id + " Fail to create JMS Consumer : " + e.getMessage());
             System.exit(-1);

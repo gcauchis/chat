@@ -1,4 +1,4 @@
-package com.gc.irc.server.jms;
+package com.gc.irc.server.jms.impl;
 
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
@@ -7,6 +7,8 @@ import javax.jms.Session;
 
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.server.jms.api.IJMSProducer;
+import com.gc.irc.server.jms.utils.JMSConnectionUtils;
 
 /**
  * Contain a JMSProducer to send a message in the JMS Queue.
@@ -14,7 +16,7 @@ import com.gc.irc.common.protocol.IRCMessage;
  * @author gcauchis
  * 
  */
-public class JMSProducer extends AbstractLoggable {
+public class JMSProducer extends AbstractLoggable implements IJMSProducer {
 
     /** The nb thread. */
     private static int nbThread = 0;
@@ -33,7 +35,7 @@ public class JMSProducer extends AbstractLoggable {
     private int id = getNbThread();
 
     /** The session. */
-    private static Session session = JMSConnection.getSession();
+    private static Session session = JMSConnectionUtils.getSession();
 
     /** The message producer. */
     private MessageProducer messageProducer = null;
@@ -44,19 +46,16 @@ public class JMSProducer extends AbstractLoggable {
     public JMSProducer() {
         try {
             getLog().info(id + " Create the JMS producer");
-            messageProducer = session.createProducer(JMSConnection.getQueue());
+            messageProducer = session.createProducer(JMSConnectionUtils.getQueue());
         } catch (final JMSException e) {
             getLog().error(id + " Fail to create the JMS Producer", e);
         }
     }
 
-    /**
-     * Send a message in the JMS Queue.
-     * 
-     * @param objectMessage
-     *            the object message
+    /* (non-Javadoc)
+     * @see com.gc.irc.server.jms.IJMSProducer#postInJMS(com.gc.irc.common.protocol.IRCMessage)
      */
-    public void postMessageObjectInJMS(final IRCMessage objectMessage) {
+    public void postInJMS(final IRCMessage objectMessage) {
         getLog().debug(id + " Send a message in JMS Queue.");
         ObjectMessage message = null;
         /**

@@ -1,4 +1,4 @@
-package com.gc.irc.server.jms;
+package com.gc.irc.server.jms.impl;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -6,11 +6,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.server.conf.ServerConf;
+import com.gc.irc.server.jms.api.IJMSProducer;
 
 /**
  * The Class IRCJMSPoolProducer.
  */
-public final class JMSPoolProducer extends AbstractLoggable {
+public final class JMSPoolProducer extends AbstractLoggable implements IJMSProducer {
 
     /** The instance. */
     private static JMSPoolProducer instance = null;
@@ -31,7 +32,7 @@ public final class JMSPoolProducer extends AbstractLoggable {
     private Integer currentId = 0;
 
     /** The list pool producer jms. */
-    private final Map<Integer, JMSProducer> listPoolProducerJMS = new ConcurrentHashMap<Integer, JMSProducer>();
+    private final Map<Integer, IJMSProducer> listPoolProducerJMS = new ConcurrentHashMap<Integer, IJMSProducer>();
 
     /** The pool size. */
     private final int poolSize = Integer.parseInt(ServerConf.getConfProperty(ServerConf.JMS_POOL_SIZE, "10"), 10);
@@ -52,7 +53,7 @@ public final class JMSPoolProducer extends AbstractLoggable {
      * 
      * @return An instance of a producer.
      */
-    private JMSProducer getAProducer() {
+    private IJMSProducer getAProducer() {
         int id = 0;
         synchronized (currentId) {
             currentId++;
@@ -64,17 +65,16 @@ public final class JMSPoolProducer extends AbstractLoggable {
         return listPoolProducerJMS.get(id);
     }
 
-    /**
-     * Post the message in JMS using one of the used producer.
+    /*
+     * (non-Javadoc)
      * 
-     * @param objectMessage
-     *            Message to send.
+     * @see com.gc.irc.server.jms.IJMSProducer#postInJMS(com.gc.irc.common.protocol.IRCMessage)
      */
-    public void postMessageObjectInJMS(final IRCMessage objectMessage) {
-        final JMSProducer messageProducer = getAProducer();
+    public void postInJMS(final IRCMessage objectMessage) {
+        final IJMSProducer messageProducer = getAProducer();
 
         synchronized (messageProducer) {
-            messageProducer.postMessageObjectInJMS(objectMessage);
+            messageProducer.postInJMS(objectMessage);
         }
     }
 }

@@ -25,7 +25,7 @@ import com.gc.irc.server.auth.IRCServerAuthentification;
 import com.gc.irc.server.core.ServerCore;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.exception.ServerException;
-import com.gc.irc.server.jms.JMSPoolProducer;
+import com.gc.irc.server.jms.impl.JMSPoolProducer;
 import com.gc.irc.server.persistance.IRCGestionPicture;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 
@@ -192,7 +192,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      */
     private void postMessageObjectInJMS(final IRCMessage objectMessage) {
         getLog().debug(id + " Send a message in JMS Queue.");
-        JMSPoolProducer.getInstance().postMessageObjectInJMS(objectMessage);
+        JMSPoolProducer.getInstance().postInJMS(objectMessage);
     }
 
     /**
