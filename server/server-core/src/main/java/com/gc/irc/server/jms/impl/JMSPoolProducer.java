@@ -1,8 +1,7 @@
 package com.gc.irc.server.jms.impl;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+import org.apache.commons.pool.BasePoolableObjectFactory;
+import org.apache.commons.pool.impl.GenericObjectPool;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -18,58 +17,33 @@ import com.gc.irc.server.jms.api.IJMSProducer;
 @Scope("singleton")
 public final class JMSPoolProducer extends AbstractLoggable implements IJMSProducer {
 
-    /** The current id. */
-    private Integer currentId = 0;
-
-    /** The list pool producer jms. */
-    private final Map<Integer, IJMSProducer> listPoolProducerJMS = new ConcurrentHashMap<Integer, IJMSProducer>();
-
     /** The pool size. */
-    @Value("${jmsPoolSize}")
-    private int poolSize = 10;
+    @Value("${jms.pool.size.max}")
+    private int maxPoolSize = 10;
+
+    /** The pool. */
+    private final GenericObjectPool pool;
 
     /**
      * Builder generate the Producer pool.
      */
     public JMSPoolProducer() {
+        pool = new GenericObjectPool(new BasePoolableObjectFactory() {
 
-    }
-
-    /**
-     * Check and correct pool size.
-     */
-    private void checkAndCorrectPoolSize() {
-        while (listPoolProducerJMS.size() < poolSize) {
-            getLog().info("add a JMS producer to the pool");
-            listPoolProducerJMS.put(listPoolProducerJMS.size(), new JMSProducer());
-        }
-    }
-
-    /**
-     * Get a producer in the pool.
-     * 
-     * @return An instance of a producer.
-     */
-    private IJMSProducer getAProducer() {
-        checkAndCorrectPoolSize();
-        IJMSProducer producer = null;
-        synchronized (currentId) {
-            currentId++;
-            if (currentId == poolSize) {
-                currentId = 0;
+            @Override
+            public Object makeObject() throws Exception {
+                return new JMSProducer();
             }
-            producer = listPoolProducerJMS.get(currentId);
-        }
-        return producer;
+        });
     }
 
     /**
-     * Gets the pool size.
+     * Gets the max pool size.
      * 
-     * @return the pool size
+     * @return the max pool size
      */
-    public int getPoolSize() {
-        return poolSize;
+    public int getMaxPoolSize() {
+        return maxPoolSize;
     }
 
     /*
@@ -78,20 +52,35 @@ public final class JMSPoolProducer extends AbstractLoggable implements IJMSProdu
      * @see com.gc.irc.server.jms.IJMSProducer#postInJMS(com.gc.irc.common.protocol.IRCMessage)
      */
     public void postInJMS(final IRCMessage objectMessage) {
-        final IJMSProducer messageProducer = getAProducer();
-
-        synchronized (messageProducer) {
-            messageProducer.postInJMS(objectMessage);
+        IJMSProducer messageProducer = null;
+        try {
+            messageProducer = (IJMSProducer) pool.borrowObject();
+        } catch (Exception e) {
+            getLog().error("Fail to build JMSProducer", e);
         }
+
+        if (messageProducer != null) {
+            try {
+                messageProducer.postInJMS(objectMessage);
+            } finally {
+                try {
+                    pool.returnObject(messageProducer);
+                } catch (Exception e) {
+                    getLog().error("Fail to return JMSProducer", e);
+                }
+            }
+        }
+
     }
 
     /**
-     * Sets the pool size.
+     * Sets the max pool size.
      * 
-     * @param poolSize
-     *            the new pool size
+     * @param maxPoolSize
+     *            the new max pool size
      */
-    public void setPoolSize(int poolSize) {
-        this.poolSize = poolSize;
+    public void setMaxPoolSize(int maxPoolSize) {
+        this.maxPoolSize = maxPoolSize;
+        pool.setMaxActive(maxPoolSize);
     }
 }
