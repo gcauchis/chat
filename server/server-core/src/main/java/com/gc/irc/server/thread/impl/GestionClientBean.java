@@ -21,12 +21,12 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeLogin;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeRegister;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeServerMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
-import com.gc.irc.server.auth.api.IAuthenticationService;
 import com.gc.irc.server.core.ServerCore;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.exception.ServerException;
 import com.gc.irc.server.jms.api.IJMSProducer;
-import com.gc.irc.server.persistance.UserPictureManagement;
+import com.gc.irc.server.service.api.IAuthenticationService;
+import com.gc.irc.server.service.impl.UserPictureService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 
 /**
@@ -322,7 +322,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                      */
                     if (user.hasPictur()) {
                         getLog().debug(id + " Send user's pictur to all others Users");
-                        final UserPictureManagement gestionPcture = UserPictureManagement.getInstance();
+                        final UserPictureService gestionPcture = UserPictureService.getInstance();
                         final IRCMessageItemPicture picture = gestionPcture.getPictureOf(user.getId());
                         if (picture != null) {
                             postInJMS(picture);

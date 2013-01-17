@@ -1,4 +1,4 @@
-package com.gc.irc.server.persistance;
+package com.gc.irc.server.service.impl;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
+import com.gc.irc.server.service.api.IUserPictureService;
 
 /**
  * Manage the Users's Pictures.
@@ -17,15 +18,16 @@ import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
  * 
  */
 @Component("userPictureManagement")
-public class UserPictureManagement extends AbstractLoggable implements IUserPictureManagement {
+public class UserPictureService extends AbstractLoggable implements IUserPictureService {
 
     /**
      * Gets the single instance of IRCGestionPicture.
      * 
      * @return single instance of IRCGestionPicture
      */
-    public static UserPictureManagement getInstance() {
-        return new UserPictureManagement();
+    // TODO REMOVE
+    public static UserPictureService getInstance() {
+        return new UserPictureService();
     }
 
     /*

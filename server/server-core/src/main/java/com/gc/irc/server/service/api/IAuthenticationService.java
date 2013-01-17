@@ -1,4 +1,4 @@
-package com.gc.irc.server.auth.api;
+package com.gc.irc.server.service.api;
 
 import java.io.ObjectOutputStream;
 

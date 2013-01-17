@@ -1,4 +1,4 @@
-package com.gc.irc.server.auth.impl;
+package com.gc.irc.server.service.impl;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
@@ -15,11 +16,12 @@ import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
 import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.common.utils.IOUtils;
-import com.gc.irc.server.auth.api.IAuthenticationService;
-import com.gc.irc.server.auth.utils.UserInformationScanner;
 import com.gc.irc.server.entity.UserInformations;
-import com.gc.irc.server.persistance.UserPictureManagement;
+import com.gc.irc.server.service.api.IAuthenticationService;
+import com.gc.irc.server.service.api.IUserPictureService;
+import com.gc.irc.server.service.utils.UserInformationScanner;
 
+// TODO: Auto-generated Javadoc
 /**
  * Singleton class use for login and register all the users.
  * 
@@ -48,6 +50,10 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
 
     /** The path fichier. */
     private final String pathFichier = "auth.xml";
+
+    /** The user picture service. */
+    @Autowired
+    private IUserPictureService userPictureService;
 
     /**
      * Read the Users data.
@@ -199,8 +205,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
         IRCMessageItemPicture messagePicture;
         for (final UserInformations user : listUsers) {
             if (user.isConnected() && user.hasPictur()) {
-                final UserPictureManagement picturUser = UserPictureManagement.getInstance();
-                messagePicture = picturUser.getPictureOf(user.getId());
+                messagePicture = userPictureService.getPictureOf(user.getId());
                 if (messagePicture != null) {
                     try {
                         IOStreamUtils.sendMessage(outObject, messagePicture);
@@ -212,6 +217,16 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
                 }
             }
         }
+    }
+
+    /**
+     * Sets the user picture service.
+     * 
+     * @param userPictureService
+     *            the new user picture service
+     */
+    private void setUserPictureService(IUserPictureService userPictureService) {
+        this.userPictureService = userPictureService;
     }
 
     /*

@@ -1,4 +1,4 @@
-package com.gc.irc.server.auth.utils;
+package com.gc.irc.server.service.utils;
 
 import java.io.File;
 import java.io.IOException;
