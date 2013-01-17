@@ -36,6 +36,10 @@
  		<dependency> 
  			<groupId>bouncycastle</groupId> 
  			<artifactId>bcprov-jdk16</artifactId> 
- 		</dependency> 
+ 		</dependency>
+ 		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+		</dependency>
 	</dependencies>
 </project>

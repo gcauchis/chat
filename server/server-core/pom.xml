@@ -129,10 +129,6 @@
 			<artifactId>xbean-spring</artifactId>
 			<groupId>org.apache.xbean</groupId>
 		</dependency>
-		<dependency>
-			<groupId>commons-pool</groupId>
-			<artifactId>commons-pool</artifactId>
-		</dependency>
 	</dependencies>
 
 </project>
