@@ -21,9 +21,8 @@ import com.gc.irc.common.protocol.notice.IRCMessageNotice;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
 import com.gc.irc.server.auth.IRCServerAuthentification;
 import com.gc.irc.server.auth.IRCUserInformations;
-import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
-import com.gc.irc.server.jms.impl.JMSPoolProducer;
+import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.jms.utils.JMSConnectionUtils;
 import com.gc.irc.server.persistance.IRCGestionPicture;
 import com.gc.irc.server.thread.api.IGestionClientBean;
@@ -43,9 +42,6 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     /** The nb thread. */
     private static int nbThread = 0;
 
-    /** The num passage max. */
-    private static int numPassageMax = Integer.parseInt(ServerConf.getConfProperty(ServerConf.NB_MESSAGE_MAX_PASSAGE, "10"), 10);
-
     /**
      * Gets the nb thread.
      * 
@@ -59,24 +55,20 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     /** The id. */
     private final int id = getNbThread();
 
+    /** The jms producer. */
+    private IJMSProducer jmsProducer;
+
     /** The message consumer. */
     private MessageConsumer messageConsumer;
+
+    /** The num passage max. */
+    private int numPassageMax = 10;
 
     /** The session. */
     private final Session session = JMSConnectionUtils.getSession();
 
     /** The parent. */
-    private final IUsersConnectionsManagement userManagement;
-
-    /**
-     * Builder.
-     * 
-     * @param userManagement
-     *            Parent.
-     */
-    public ServeurMBean(final IUsersConnectionsManagement userManagement) {
-        this.userManagement = userManagement;
-    }
+    private IUsersConnectionsManagement usersConnectionsManagement;
 
     /*
      * (non-Javadoc)
@@ -116,7 +108,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
         /**
          * Get the number of connected client (for JMX)
          */
-        final List<IGestionClientBean> clientConnecter = userManagement.getClientConnected();
+        final List<IGestionClientBean> clientConnecter = usersConnectionsManagement.getClientConnected();
         return clientConnecter.size();
     }
 
@@ -129,7 +121,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     public String getUserList() {
         String result = "";
 
-        for (final IRCUser u : userManagement.getAllUsers()) {
+        for (final IRCUser u : usersConnectionsManagement.getAllUsers()) {
             result += u.getId() + " : " + u.getNickName() + " | ";
         }
 
@@ -193,7 +185,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
                         getLog().debug(
                                 id + " Private Message from " + IRCServerAuthentification.getInstance().getUser(messageChatPriv.getFromId()).getNickname()
                                         + " to " + IRCServerAuthentification.getInstance().getUser(messageChatPriv.getToId()).getNickname());
-                        final IGestionClientBean clientCible = userManagement.getGestionClientBeanOfUser(messageChatPriv.getToId());
+                        final IGestionClientBean clientCible = usersConnectionsManagement.getGestionClientBeanOfUser(messageChatPriv.getToId());
                         if (clientCible != null) {
                             clientCible.sendMessageObjetInSocket(messageChatPriv);
                         }
@@ -203,7 +195,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
                         final int numPassage = messageChatPriv.numPassage();
                         if (numPassage < numPassageMax) {
                             getLog().debug(id + " Send again the private message in JMS. Passage number " + numPassage);
-                            JMSPoolProducer.getInstance().postInJMS(messageChatPriv);
+                            jmsProducer.postInJMS(messageChatPriv);
                         } else {
                             getLog().debug(id + " Message passed to much time in the server (more than " + numPassageMax + "). Trash it !");
                         }
@@ -316,7 +308,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
         /**
          * Kick the user with the ID userID
          */
-        final IGestionClientBean thClient = userManagement.getGestionClientBeanOfUser(userID);
+        final IGestionClientBean thClient = usersConnectionsManagement.getGestionClientBeanOfUser(userID);
         if (thClient != null) {
             thClient.disconnectUser();
             return "Client successfully kicked";
@@ -358,7 +350,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      *            Message to Send
      */
     private void sendObjetMessageIRCToAll(final IRCMessage message) {
-        final List<IGestionClientBean> clientConnecter = userManagement.getClientConnected();
+        final List<IGestionClientBean> clientConnecter = usersConnectionsManagement.getClientConnected();
 
         if (IRCServerAuthentification.getInstance().getUser(message.getFromId()) != null) {
             getLog().debug(
@@ -377,5 +369,35 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
         } else {
             getLog().warn(id + " Inexisting source ID");
         }
+    }
+
+    /**
+     * Sets the jms producer.
+     * 
+     * @param jmsProducer
+     *            the new jms producer
+     */
+    public void setJmsProducer(IJMSProducer jmsProducer) {
+        this.jmsProducer = jmsProducer;
+    }
+
+    /**
+     * Sets the num passage max.
+     * 
+     * @param numPassageMax
+     *            the new num passage max
+     */
+    public void setNumPassageMax(int numPassageMax) {
+        this.numPassageMax = numPassageMax;
+    }
+
+    /**
+     * Sets the users connections management.
+     * 
+     * @param usersConnectionsManagement
+     *            the new users connections management
+     */
+    public void setUsersConnectionsManagement(IUsersConnectionsManagement usersConnectionsManagement) {
+        this.usersConnectionsManagement = usersConnectionsManagement;
     }
 }

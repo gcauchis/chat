@@ -5,9 +5,6 @@ import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import javax.jms.Queue;
 import javax.jms.Session;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
@@ -25,9 +22,6 @@ public final class JMSConnectionUtils {
 
     /** The connection. */
     private static Connection connection;
-
-    /** The context. */
-    private static Context context;
 
     /** The Constant logger. */
     private static final Logger LOGGER = LoggerUtils.getLogger(JMSConnectionUtils.class);
@@ -59,23 +53,6 @@ public final class JMSConnectionUtils {
             }
         }
         return connection;
-    }
-
-    /**
-     * Gets the context.
-     * 
-     * @return the context
-     */
-    // TODO See if used
-    public static Context getContext() {
-        if (context == null) {
-            try {
-                context = new InitialContext();
-            } catch (final NamingException e) {
-                LOGGER.error("Fail to create Context JMS.", e);
-            }
-        }
-        return context;
     }
 
     /**

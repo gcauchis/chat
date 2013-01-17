@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
+import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 import com.gc.irc.server.thread.factory.api.IGestionClientBeanFactory;
 import com.gc.irc.server.thread.impl.GestionClientBean;
@@ -18,6 +19,10 @@ import com.gc.irc.server.thread.impl.GestionClientBean;
 @Component("gestionClientBeanFactory")
 @Scope("singleton")
 public class GestionClientBeanFactory extends AbstractLoggable implements IGestionClientBeanFactory {
+
+    /** The jms producer. */
+    @Autowired
+    private IJMSProducer jmsProducer;
 
     /** The users connections management. */
     @Autowired
@@ -30,11 +35,40 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      */
     @Override
     public IGestionClientBean getGestionClientBean(Socket clientSocket) {
-        return new GestionClientBean(clientSocket, usersConnectionsManagement);
+        GestionClientBean gestionClientBean = new GestionClientBean(clientSocket);
+        gestionClientBean.setUsersConnectionsManagement(usersConnectionsManagement);
+        gestionClientBean.setJmsProducer(jmsProducer);
+        return gestionClientBean;
     }
 
+    /**
+     * Sets the jms producer.
+     * 
+     * @param jmsProducer
+     *            the new jms producer
+     */
+    public void setJmsProducer(IJMSProducer jmsProducer) {
+        this.jmsProducer = jmsProducer;
+    }
+
+    /**
+     * Sets the user connections management.
+     * 
+     * @param userConnectionsManagement
+     *            the new user connections management
+     */
     public void setUserConnectionsManagement(IUsersConnectionsManagement userConnectionsManagement) {
         usersConnectionsManagement = userConnectionsManagement;
+    }
+
+    /**
+     * Sets the users connections management.
+     * 
+     * @param usersConnectionsManagement
+     *            the new users connections management
+     */
+    public void setUsersConnectionsManagement(IUsersConnectionsManagement usersConnectionsManagement) {
+        this.usersConnectionsManagement = usersConnectionsManagement;
     }
 
 }

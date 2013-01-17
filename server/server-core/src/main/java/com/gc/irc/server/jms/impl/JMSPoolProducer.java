@@ -3,30 +3,20 @@ package com.gc.irc.server.jms.impl;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.protocol.IRCMessage;
-import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.jms.api.IJMSProducer;
 
 /**
  * The Class IRCJMSPoolProducer.
  */
+@Component("jmsProducer")
+@Scope("singleton")
 public final class JMSPoolProducer extends AbstractLoggable implements IJMSProducer {
-
-    /** The instance. */
-    private static JMSPoolProducer instance = null;
-
-    /**
-     * Get an instance of the pool.
-     * 
-     * @return An unique instance of the pool.
-     */
-    public static JMSPoolProducer getInstance() {
-        if (instance == null) {
-            instance = new JMSPoolProducer();
-        }
-        return instance;
-    }
 
     /** The current id. */
     private Integer currentId = 0;
@@ -35,16 +25,23 @@ public final class JMSPoolProducer extends AbstractLoggable implements IJMSProdu
     private final Map<Integer, IJMSProducer> listPoolProducerJMS = new ConcurrentHashMap<Integer, IJMSProducer>();
 
     /** The pool size. */
-    private final int poolSize = Integer.parseInt(ServerConf.getConfProperty(ServerConf.JMS_POOL_SIZE, "10"), 10);
+    @Value("${jmsPoolSize}")
+    private int poolSize = 10;
 
     /**
      * Builder generate the Producer pool.
      */
-    private JMSPoolProducer() {
-        getLog().info("Create pool JMS producer");
+    public JMSPoolProducer() {
 
-        for (int i = 0; i < poolSize; i++) {
-            listPoolProducerJMS.put(i, new JMSProducer());
+    }
+
+    /**
+     * Check and correct pool size.
+     */
+    private void checkAndCorrectPoolSize() {
+        while (listPoolProducerJMS.size() < poolSize) {
+            getLog().info("add a JMS producer to the pool");
+            listPoolProducerJMS.put(listPoolProducerJMS.size(), new JMSProducer());
         }
     }
 
@@ -54,15 +51,25 @@ public final class JMSPoolProducer extends AbstractLoggable implements IJMSProdu
      * @return An instance of a producer.
      */
     private IJMSProducer getAProducer() {
-        int id = 0;
+        checkAndCorrectPoolSize();
+        IJMSProducer producer = null;
         synchronized (currentId) {
             currentId++;
             if (currentId == poolSize) {
                 currentId = 0;
             }
-            id = currentId;
+            producer = listPoolProducerJMS.get(currentId);
         }
-        return listPoolProducerJMS.get(id);
+        return producer;
+    }
+
+    /**
+     * Gets the pool size.
+     * 
+     * @return the pool size
+     */
+    public int getPoolSize() {
+        return poolSize;
     }
 
     /*
@@ -76,5 +83,15 @@ public final class JMSPoolProducer extends AbstractLoggable implements IJMSProdu
         synchronized (messageProducer) {
             messageProducer.postInJMS(objectMessage);
         }
+    }
+
+    /**
+     * Sets the pool size.
+     * 
+     * @param poolSize
+     *            the new pool size
+     */
+    public void setPoolSize(int poolSize) {
+        this.poolSize = poolSize;
     }
 }

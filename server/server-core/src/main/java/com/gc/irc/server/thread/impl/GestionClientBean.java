@@ -25,7 +25,7 @@ import com.gc.irc.server.auth.IRCServerAuthentification;
 import com.gc.irc.server.core.ServerCore;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.exception.ServerException;
-import com.gc.irc.server.jms.impl.JMSPoolProducer;
+import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.persistance.IRCGestionPicture;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 
@@ -62,14 +62,17 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     /** The is identify. */
     private boolean isIdentify = false;
 
+    /** The jms producer. */
+    private IJMSProducer jmsProducer;
+
     /** The out object. */
     private ObjectOutputStream outObject;
 
     /** The user. */
     private IRCUser user;
 
-    /** The parent. */
-    private final IUsersConnectionsManagement userManagement;
+    /** The users connections management. */
+    private IUsersConnectionsManagement usersConnectionsManagement;
 
     /**
      * Builder who initialize the TCP connection.
@@ -79,10 +82,9 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * @param parent
      *            Thread's Parent.
      */
-    public GestionClientBean(final Socket clientSocket, final IUsersConnectionsManagement userManagement) {
+    public GestionClientBean(final Socket clientSocket) {
         getLog().info(id + " Initialisation du thread.");
         this.clientSocket = clientSocket;
-        this.userManagement = userManagement;
 
         try {
             getLog().debug(id + " Create inObject");
@@ -126,7 +128,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
              * Remove the client from server.
              */
             getLog().debug(id + " Delete Client " + user.getNickName() + " from list");
-            userManagement.disconnectClient(this);
+            usersConnectionsManagement.disconnectClient(this);
 
             /**
              * Inform all the other client.
@@ -134,7 +136,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             getLog().debug(id + " Inform all other client that the client " + user.getNickName() + " is deconnected.");
             synchronized (user) {
                 user.setUserStatus(UserStatus.OFFLINE);
-                postMessageObjectInJMS(new IRCMessageNoticeContactInfo(user.getCopy()));
+                postInJMS(new IRCMessageNoticeContactInfo(user.getCopy()));
                 IRCServerAuthentification.getInstance().getUser(user.getId()).diconnected();
             }
         }
@@ -190,9 +192,9 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * @param objectMessage
      *            the object message
      */
-    private void postMessageObjectInJMS(final IRCMessage objectMessage) {
+    private void postInJMS(final IRCMessage objectMessage) {
         getLog().debug(id + " Send a message in JMS Queue.");
-        JMSPoolProducer.getInstance().postInJMS(objectMessage);
+        jmsProducer.postInJMS(objectMessage);
     }
 
     /**
@@ -289,19 +291,19 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                      * init env
                      */
                     getLog().debug(id + " Init env");
-                    userManagement.newClientConnected(this);
+                    usersConnectionsManagement.newClientConnected(this);
 
                     /**
                      * Inform connected Users
                      */
                     messageInit = new IRCMessageNoticeContactInfo(user);
                     getLog().debug(id + " Send notice ContactInfo");
-                    postMessageObjectInJMS(messageInit);
+                    postInJMS(messageInit);
 
                     /**
                      * Send list connected users.
                      */
-                    messageInit = new IRCMessageNoticeContactsList(userManagement.getAllUsers());
+                    messageInit = new IRCMessageNoticeContactsList(usersConnectionsManagement.getAllUsers());
 
                     try {
                         getLog().debug(id + " Send list connected users.");
@@ -323,7 +325,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                         final IRCGestionPicture gestionPcture = IRCGestionPicture.getInstance();
                         final IRCMessageItemPicture picture = gestionPcture.getPictureOf(user.getId());
                         if (picture != null) {
-                            postMessageObjectInJMS(picture);
+                            postInJMS(picture);
                         }
                     }
 
@@ -415,7 +417,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             /**
              * Post Message in JMS
              */
-            postMessageObjectInJMS(messageClient);
+            postInJMS(messageClient);
 
         }
         disconnectUser();
@@ -450,6 +452,14 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             getLog().warn(id + " Fail to send the message : " + e.getMessage());
             socketAlive();
         }
+    }
+
+    public void setJmsProducer(IJMSProducer jmsProducer) {
+        this.jmsProducer = jmsProducer;
+    }
+
+    public void setUsersConnectionsManagement(IUsersConnectionsManagement usersConnectionsManagement) {
+        this.usersConnectionsManagement = usersConnectionsManagement;
     }
 
     /**
