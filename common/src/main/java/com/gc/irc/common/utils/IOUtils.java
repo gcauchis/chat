@@ -21,13 +21,6 @@ public final class IOUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(IOUtils.class);
 
     /**
-     * Instantiates a new iO utils.
-     */
-    private IOUtils() {
-        super();
-    }
-
-    /**
      * Byte to char.
      * 
      * @param buffer
@@ -36,11 +29,12 @@ public final class IOUtils {
      *            the size
      * @return the char[]
      */
-    public static char[] byteToChar(final byte[] buffer, int size) {
+    public static char[] byteToChar(final byte[] buffer, final int size) {
+        int lsize = size;
         if (size > buffer.length) {
-            size = buffer.length;
+            lsize = buffer.length;
         }
-        final char[] bufferChar = new char[size];
+        final char[] bufferChar = new char[lsize];
 
         for (int i = 0; i < size; i++) {
             bufferChar[i] = (char) buffer[i];
@@ -58,11 +52,12 @@ public final class IOUtils {
      *            the size
      * @return the string
      */
-    public static String byteToString(final byte[] buffer, int size) {
+    public static String byteToString(final byte[] buffer, final int size) {
+        int lsize = size;
         if (size > buffer.length) {
-            size = buffer.length;
+            lsize = buffer.length;
         }
-        return String.valueOf(byteToChar(buffer, size), 0, size);
+        return String.valueOf(byteToChar(buffer, lsize), 0, lsize);
     }
 
     /**
@@ -120,5 +115,12 @@ public final class IOUtils {
                 LOGGER.error("Fail to close file.", e);
             }
         }
+    }
+
+    /**
+     * Instantiates a new iO utils.
+     */
+    private IOUtils() {
+        super();
     }
 }

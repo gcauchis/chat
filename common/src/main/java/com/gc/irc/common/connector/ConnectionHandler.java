@@ -23,17 +23,32 @@ import com.gc.irc.common.utils.IOStreamUtils;
  */
 public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSender {
 
-    /** The connected to server. */
-    private boolean connectedToServer = false;
-
     /** The authenticated. */
     private boolean authenticated = false;
 
-    /** The waiting for authentication. */
-    private boolean waitingForAuthentication = false;
+    /** The connected to server. */
+    private boolean connectedToServer = false;
+
+    /** The host. */
+    private InetAddress host = null;
+
+    /** The initialized. */
+    private boolean initialized;
+
+    /** The in object. */
+    private ObjectInputStream inObject;
 
     /** The manual disconnection. */
     private boolean manualDisconnection = false;
+
+    /** The message handler. */
+    private IIRCMessageHandler messageHandler;
+
+    /** The out object. */
+    private ObjectOutputStream outObject;
+
+    /** The port. */
+    private int port;
 
     /** The server disconnection. */
     private boolean serverDisconnection = false;
@@ -41,26 +56,11 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     /** The server name. */
     private String serverName;
 
-    /** The port. */
-    private int port;
-
-    /** The host. */
-    private InetAddress host = null;
-
     /** The socket. */
     private Socket socket = null;
 
-    /** The in object. */
-    private ObjectInputStream inObject;
-
-    /** The out object. */
-    private ObjectOutputStream outObject;
-
-    /** The message handler. */
-    private IIRCMessageHandler messageHandler;
-
-    /** The initialized. */
-    private boolean initialized;
+    /** The waiting for authentication. */
+    private boolean waitingForAuthentication = false;
 
     /**
      * Instantiates a new connection thread.
@@ -106,6 +106,84 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
 
         }
 
+    }
+
+    /**
+     * disconnect the client from the server After that the client will
+     * automatically try to reconnect.
+     */
+    public void disconnect() {
+        try {
+            manualDisconnection = true;
+            setServerDisconnection(false); // because it is a manual
+                                           // disconnection, from the client
+            socket.close();
+        } catch (final IOException e) {
+            getLog().error("IO error", e);
+        }
+    }
+
+    /**
+     * Gets the port.
+     * 
+     * @return the choosen port for the connexion with the server
+     */
+    public int getPort() {
+        return port;
+    }
+
+    /**
+     * Gets the server name.
+     * 
+     * @return the name or ip address of the remote server
+     */
+    public String getServerName() {
+        if (!serverName.isEmpty()) {
+            return serverName;
+        } else {
+            return "localhost";
+        }
+    }
+
+    /**
+     * Is the client currently authenticated on the server ?.
+     * 
+     * @return true, if is authenticated
+     */
+    public boolean isAuthenticated() {
+        return authenticated;
+    }
+
+    /**
+     * Is the client currently connected on the server ? (the client may not be
+     * authenticated).
+     * 
+     * @return true, if is connected to server
+     */
+    public boolean isConnectedToServer() {
+        return connectedToServer;
+    }
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    /**
+     * Checks if is server disconnection.
+     * 
+     * @return true, if is server disconnection
+     */
+    public boolean isServerDisconnection() {
+        return serverDisconnection;
+    }
+
+    /**
+     * Checks if is waiting for authentication.
+     * 
+     * @return true, if is waiting for authentication
+     */
+    public boolean isWaitingForAuthentication() {
+        return waitingForAuthentication;
     }
 
     /**
@@ -182,24 +260,39 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
         }
     }
 
-    /**
-     * Sets the connected to server.
+    /*
+     * (non-Javadoc)
      * 
-     * @param connectedToServer
-     *            the new connected to server
+     * @see
+     * com.gc.irc.common.api.IIRCMessageSender#send(com.gc.irc.common.protocol
+     * .IRCMessage)
      */
-    private void setConnectedToServer(final boolean connectedToServer) {
-        this.connectedToServer = connectedToServer;
-    }
+    @Override
+    public void send(final IRCMessage message) {
+        try {
+            /**
+             * Synchronize the socket.
+             */
+            if (!socket.isOutputShutdown()) {
+                synchronized (inObject) {
+                    synchronized (outObject) {
+                        getLog().debug("Send message");
+                        if (socket.isConnected()) {
+                            IOStreamUtils.sendMessage(outObject, message);
+                        } else {
+                            getLog().warn("Socket not connected !");
+                        }
+                    }
+                }
+            } else {
+                getLog().warn("Fail to send message. Finalize because output is shutdown.");
+                // TODO close all properly
+            }
+        } catch (final IOException e) {
+            getLog().warn("Fail to send the message : " + e.getMessage());
+            // TODO check the socket
+        }
 
-    /**
-     * Is the client currently connected on the server ? (the client may not be
-     * authenticated).
-     * 
-     * @return true, if is connected to server
-     */
-    public boolean isConnectedToServer() {
-        return connectedToServer;
     }
 
     /**
@@ -240,68 +333,23 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     }
 
     /**
-     * Is the client currently authenticated on the server ?.
+     * Sets the connected to server.
      * 
-     * @return true, if is authenticated
+     * @param connectedToServer
+     *            the new connected to server
      */
-    public boolean isAuthenticated() {
-        return authenticated;
+    private void setConnectedToServer(final boolean connectedToServer) {
+        this.connectedToServer = connectedToServer;
     }
 
     /**
-     * disconnect the client from the server After that the client will
-     * automatically try to reconnect.
-     */
-    public void disconnect() {
-        try {
-            manualDisconnection = true;
-            setServerDisconnection(false); // because it is a manual
-                                           // disconnection, from the client
-            socket.close();
-        } catch (final IOException e) {
-            getLog().error("IO error", e);
-        }
-    }
-
-    /**
-     * Sets the waiting for authentication.
+     * Sets the message handler.
      * 
-     * @param waitingForAuthentication
-     *            the new waiting for authentication
+     * @param messageHandler
+     *            the new message handler
      */
-    public void setWaitingForAuthentication(final boolean waitingForAuthentication) {
-        this.waitingForAuthentication = waitingForAuthentication;
-    }
-
-    /**
-     * Checks if is waiting for authentication.
-     * 
-     * @return true, if is waiting for authentication
-     */
-    public boolean isWaitingForAuthentication() {
-        return waitingForAuthentication;
-    }
-
-    /**
-     * Gets the server name.
-     * 
-     * @return the name or ip address of the remote server
-     */
-    public String getServerName() {
-        if (!serverName.isEmpty()) {
-            return serverName;
-        } else {
-            return "localhost";
-        }
-    }
-
-    /**
-     * Gets the port.
-     * 
-     * @return the choosen port for the connexion with the server
-     */
-    public int getPort() {
-        return port;
+    public void setMessageHandler(final IIRCMessageHandler messageHandler) {
+        this.messageHandler = messageHandler;
     }
 
     /**
@@ -315,65 +363,13 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     }
 
     /**
-     * Checks if is server disconnection.
+     * Sets the waiting for authentication.
      * 
-     * @return true, if is server disconnection
+     * @param waitingForAuthentication
+     *            the new waiting for authentication
      */
-    public boolean isServerDisconnection() {
-        return serverDisconnection;
-    }
-
-    /**
-     * Sets the message handler.
-     * 
-     * @param messageHandler
-     *            the new message handler
-     */
-    public void setMessageHandler(final IIRCMessageHandler messageHandler) {
-        this.messageHandler = messageHandler;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.gc.irc.common.api.IIRCMessageSender#send(com.gc.irc.common.protocol
-     * .IRCMessage)
-     */
-    @Override
-    public void send(final IRCMessage message) {
-        try {
-            /**
-             * Synchronize the socket.
-             */
-            if (!socket.isOutputShutdown()) {
-                synchronized (inObject) {
-                    synchronized (outObject) {
-                        getLog().debug("Send message");
-                        if (socket.isConnected()) {
-                            if (!socket.isOutputShutdown()) {
-                                IOStreamUtils.sendMessage(outObject, message);
-                            } else {
-                                getLog().warn("Output is Shutdown !");
-                            }
-                        } else {
-                            getLog().warn("Socket not connected !");
-                        }
-                    }
-                }
-            } else {
-                getLog().warn("Fail to send message. Finalize because output is shutdown.");
-                // TODO close all properly
-            }
-        } catch (final IOException e) {
-            getLog().warn("Fail to send the message : " + e.getMessage());
-            // TODO check the socket
-        }
-
-    }
-
-    public boolean isInitialized() {
-        return initialized;
+    public void setWaitingForAuthentication(final boolean waitingForAuthentication) {
+        this.waitingForAuthentication = waitingForAuthentication;
     }
 
 }

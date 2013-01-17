@@ -38,13 +38,13 @@ public final class CryptoUtils {
     private static Cipher ecipher;
 
     /** The Constant iterationCount. */
-    private static final int iterationCount = 19;
+    private static final int ITERATION_COUNT = 19;
 
     /** The Constant keypass. */
-    private static final String keypass = "GCiv01Azerty/";
+    private static final String KEY_PASS = "GCiv01Azerty/";
 
     /** The Constant salt. */
-    private static final byte[] salt = { (byte) 0xA9, (byte) 0x9B, (byte) 0xC8, (byte) 0x32, (byte) 0x56, (byte) 0x34, (byte) 0xE3, (byte) 0x03 };
+    private static final byte[] SALT = { (byte) 0xA9, (byte) 0x9B, (byte) 0xC8, (byte) 0x32, (byte) 0x56, (byte) 0x34, (byte) 0xE3, (byte) 0x03 };
 
     /**
      * {@inheritDoc}
@@ -54,14 +54,14 @@ public final class CryptoUtils {
     public static String decrypt(final String str) {
 
         try {
-            final KeySpec keySpec = new PBEKeySpec(keypass.toCharArray(), salt, iterationCount);
+            final KeySpec keySpec = new PBEKeySpec(KEY_PASS.toCharArray(), SALT, ITERATION_COUNT);
             final SecretKey key = SecretKeyFactory.getInstance("PBEWithMD5AndDES").generateSecret(keySpec);
 
             ecipher = Cipher.getInstance(key.getAlgorithm());
             dcipher = Cipher.getInstance(key.getAlgorithm());
 
             /* Prepare the parameters to the cipthers */
-            final AlgorithmParameterSpec paramSpec = new PBEParameterSpec(salt, iterationCount);
+            final AlgorithmParameterSpec paramSpec = new PBEParameterSpec(SALT, ITERATION_COUNT);
 
             ecipher.init(Cipher.ENCRYPT_MODE, key, paramSpec);
             dcipher.init(Cipher.DECRYPT_MODE, key, paramSpec);
@@ -99,13 +99,13 @@ public final class CryptoUtils {
     public static String encrypt(final String str) {
 
         try {
-            final KeySpec keySpec = new PBEKeySpec(keypass.toCharArray(), salt, iterationCount);
+            final KeySpec keySpec = new PBEKeySpec(KEY_PASS.toCharArray(), SALT, ITERATION_COUNT);
             final SecretKey key = SecretKeyFactory.getInstance("PBEWithMD5AndDES").generateSecret(keySpec);
 
             ecipher = Cipher.getInstance(key.getAlgorithm());
             dcipher = Cipher.getInstance(key.getAlgorithm());
 
-            final AlgorithmParameterSpec paramSpec = new PBEParameterSpec(salt, iterationCount);
+            final AlgorithmParameterSpec paramSpec = new PBEParameterSpec(SALT, ITERATION_COUNT);
 
             ecipher.init(Cipher.ENCRYPT_MODE, key, paramSpec);
             dcipher.init(Cipher.DECRYPT_MODE, key, paramSpec);

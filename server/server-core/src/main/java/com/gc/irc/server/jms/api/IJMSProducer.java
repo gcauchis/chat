@@ -10,6 +10,6 @@ public interface IJMSProducer {
      * @param objectMessage
      *            the object message
      */
-    public abstract void postInJMS(final IRCMessage objectMessage);
+    void postInJMS(final IRCMessage objectMessage);
 
 }

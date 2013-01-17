@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class Base64EncodageUtils {
 
+    private static final String ENCODAGE_UTF_8 = "UTF-8";
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerFactory.getLogger(Base64EncodageUtils.class);
 
@@ -62,7 +63,7 @@ public final class Base64EncodageUtils {
      *             the unsupported encoding exception
      */
     public static byte[] compress(final String value) throws UnsupportedEncodingException {
-        final byte[] input = value.getBytes("UTF-8");
+        final byte[] input = value.getBytes(ENCODAGE_UTF_8);
         final byte[] output = new byte[value.length()];
         final Deflater compresser = new Deflater();
         compresser.setInput(input);
@@ -81,7 +82,7 @@ public final class Base64EncodageUtils {
      *             the unsupported encoding exception
      */
     public static String encodeBase64(final byte[] value) throws UnsupportedEncodingException {
-        return new String(Base64.encodeBase64(value), "UTF-8");
+        return new String(Base64.encodeBase64(value), ENCODAGE_UTF_8);
     }
 
     /**
@@ -94,7 +95,7 @@ public final class Base64EncodageUtils {
      *             the unsupported encoding exception
      */
     public static String encodeBase64(final String value) throws UnsupportedEncodingException {
-        return encodeBase64(value.getBytes("UTF-8"));
+        return encodeBase64(value.getBytes(ENCODAGE_UTF_8));
     }
 
     /**
@@ -124,9 +125,9 @@ public final class Base64EncodageUtils {
      */
     public static byte[] decodeBase64(final String value) throws UnsupportedEncodingException {
         if (Base64.isBase64(value)) {
-            return decodeBase64(value.getBytes("UTF-8"));
+            return decodeBase64(value.getBytes(ENCODAGE_UTF_8));
         }
-        return value.getBytes("UTF-8");
+        return value.getBytes(ENCODAGE_UTF_8);
     }
 
     /**
@@ -152,7 +153,7 @@ public final class Base64EncodageUtils {
     public static String decompress(final byte[] value) {
         String resultValue = null;
         try {
-            resultValue = new String(value, "UTF-8");
+            resultValue = new String(value, ENCODAGE_UTF_8);
         } catch (final UnsupportedEncodingException e) {
             LOGGER.warn("fail to build UTF-8 string", e);
         }
@@ -163,7 +164,7 @@ public final class Base64EncodageUtils {
             final int resultLength = decompresser.inflate(result);
             decompresser.end();
 
-            resultValue = new String(result, 0, resultLength, "UTF-8");
+            resultValue = new String(result, 0, resultLength, ENCODAGE_UTF_8);
         } catch (final UnsupportedEncodingException e) {
             LOGGER.warn("fail to decodeBase64AndDecompress: {}", e.getMessage());
         } catch (final DataFormatException e) {

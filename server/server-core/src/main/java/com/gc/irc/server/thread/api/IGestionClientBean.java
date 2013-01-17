@@ -10,21 +10,22 @@ public interface IGestionClientBean extends Runnable {
      * 
      * Close all Connection.
      */
-    public abstract void disconnectUser();
+    void disconnectUser();
 
     /**
-     * Get the id of the Thread. <strong>Warning : </strong> This id is not the user id.
+     * Get the id of the Thread. <strong>Warning : </strong> This id is not the
+     * user id.
      * 
      * @return Id of this.
      */
-    public abstract int getIdThread();
+    int getIdThread();
 
     /**
      * Get the user connected to this Thread.
      * 
      * @return User connected to this Thread.
      */
-    public abstract IRCUser getUser();
+    IRCUser getUser();
 
     /**
      * Send message objet in socket.
@@ -32,6 +33,6 @@ public interface IGestionClientBean extends Runnable {
      * @param message
      *            the message
      */
-    public abstract void sendMessageObjetInSocket(final IRCMessage message);
+    void sendMessageObjetInSocket(final IRCMessage message);
 
 }

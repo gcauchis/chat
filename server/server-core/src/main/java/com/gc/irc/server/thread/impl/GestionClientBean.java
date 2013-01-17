@@ -166,11 +166,6 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
         } catch (final IOException e) {
             getLog().warn(id + " Fail to close Client's connection " + clientSocket.getInetAddress() + " : " + e.getMessage());
         }
-        try {
-            super.finalize();
-        } catch (final Throwable e) {
-            getLog().warn(id + " Fail to finalize class : " + e.getMessage());
-        }
     }
 
     /*
