@@ -20,20 +20,11 @@ import com.gc.irc.server.service.api.IUserPictureService;
 @Component("userPictureManagement")
 public class UserPictureService extends AbstractLoggable implements IUserPictureService {
 
-    /**
-     * Gets the single instance of IRCGestionPicture.
-     * 
-     * @return single instance of IRCGestionPicture
-     */
-    // TODO REMOVE
-    public static UserPictureService getInstance() {
-        return new UserPictureService();
-    }
-
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.persistance.GestionPictureInterface#getPictureOf(int)
+     * @see
+     * com.gc.irc.server.persistance.GestionPictureInterface#getPictureOf(int)
      */
     @Override
     public synchronized IRCMessageItemPicture getPictureOf(final int idUser) {
@@ -54,7 +45,9 @@ public class UserPictureService extends AbstractLoggable implements IUserPicture
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.persistance.GestionPictureInterface#newPicture(int, com.gc.irc.common.protocol.item.IRCMessageItemPicture)
+     * @see
+     * com.gc.irc.server.persistance.GestionPictureInterface#newPicture(int,
+     * com.gc.irc.common.protocol.item.IRCMessageItemPicture)
      */
     @Override
     public synchronized boolean newPicture(final int idUser, final IRCMessageItemPicture image) {

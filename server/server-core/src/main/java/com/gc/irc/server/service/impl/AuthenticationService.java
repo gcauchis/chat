@@ -21,7 +21,6 @@ import com.gc.irc.server.service.api.IAuthenticationService;
 import com.gc.irc.server.service.api.IUserPictureService;
 import com.gc.irc.server.service.utils.UserInformationScanner;
 
-// TODO: Auto-generated Javadoc
 /**
  * Singleton class use for login and register all the users.
  * 
@@ -77,7 +76,9 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.auth.AuthentificationInterface#addUser(java.lang.String , java.lang.String, java.lang.String)
+     * @see
+     * com.gc.irc.server.auth.AuthentificationInterface#addUser(java.lang.String
+     * , java.lang.String, java.lang.String)
      */
     @Override
     public boolean addUser(final String login, final String password, final String nickname) {
@@ -93,7 +94,8 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.auth.AuthentificationInterface#changeNickUser(int, java.lang.String)
+     * @see com.gc.irc.server.auth.AuthentificationInterface#changeNickUser(int,
+     * java.lang.String)
      */
     @Override
     public void changeNickUser(final int id, final String nickname) {
@@ -109,7 +111,9 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.auth.AuthentificationInterface#changePasswordUser(int, java.lang.String)
+     * @see
+     * com.gc.irc.server.auth.AuthentificationInterface#changePasswordUser(int,
+     * java.lang.String)
      */
     @Override
     public void changePasswordUser(final int id, final String password) {
@@ -167,7 +171,9 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.auth.AuthentificationInterface#logUser(java.lang.String , java.lang.String)
+     * @see
+     * com.gc.irc.server.auth.AuthentificationInterface#logUser(java.lang.String
+     * , java.lang.String)
      */
     @Override
     public IRCUser logUser(final String login, final String password) {
@@ -198,7 +204,9 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.auth.AuthentificationInterface#sendUsersPicture(java .io.ObjectOutputStream)
+     * @see
+     * com.gc.irc.server.auth.AuthentificationInterface#sendUsersPicture(java
+     * .io.ObjectOutputStream)
      */
     @Override
     public synchronized void sendUsersPicture(final ObjectOutputStream outObject) {
@@ -225,14 +233,16 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * @param userPictureService
      *            the new user picture service
      */
-    private void setUserPictureService(IUserPictureService userPictureService) {
+    public void setUserPictureService(final IUserPictureService userPictureService) {
         this.userPictureService = userPictureService;
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.auth.AuthentificationInterface#userLoginExist(java. lang.String)
+     * @see
+     * com.gc.irc.server.auth.AuthentificationInterface#userLoginExist(java.
+     * lang.String)
      */
     @Override
     public boolean userLoginExist(final String login) {

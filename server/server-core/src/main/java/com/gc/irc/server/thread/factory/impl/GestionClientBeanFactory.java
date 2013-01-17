@@ -10,6 +10,7 @@ import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.service.api.IAuthenticationService;
+import com.gc.irc.server.service.api.IUserPictureService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 import com.gc.irc.server.thread.factory.api.IGestionClientBeanFactory;
 import com.gc.irc.server.thread.impl.GestionClientBean;
@@ -29,6 +30,10 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
     @Autowired
     private IJMSProducer jmsProducer;
 
+    /** The user picture service. */
+    @Autowired
+    private IUserPictureService userPictureService;
+
     /** The users connections management. */
     @Autowired
     private IUsersConnectionsManagement usersConnectionsManagement;
@@ -36,14 +41,16 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.thread.factory.api.IGestionClientBeanFactory#getGestionClientBean(java.net.Socket, com.gc.irc.server.core.ServerCore)
+     * @see com.gc.irc.server.thread.factory.api.IGestionClientBeanFactory#
+     * getGestionClientBean(java.net.Socket, com.gc.irc.server.core.ServerCore)
      */
     @Override
-    public IGestionClientBean getGestionClientBean(Socket clientSocket) {
-        GestionClientBean gestionClientBean = new GestionClientBean(clientSocket);
+    public IGestionClientBean getGestionClientBean(final Socket clientSocket) {
+        final GestionClientBean gestionClientBean = new GestionClientBean(clientSocket);
         gestionClientBean.setUsersConnectionsManagement(usersConnectionsManagement);
         gestionClientBean.setJmsProducer(jmsProducer);
         gestionClientBean.setAuthenticationService(authenticationService);
+        gestionClientBean.setUserPictureService(userPictureService);
         return gestionClientBean;
     }
 
@@ -53,7 +60,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      * @param authenticationService
      *            the new authentication service
      */
-    public void setAuthenticationService(IAuthenticationService authenticationService) {
+    public void setAuthenticationService(final IAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
@@ -63,7 +70,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      * @param jmsProducer
      *            the new jms producer
      */
-    public void setJmsProducer(IJMSProducer jmsProducer) {
+    public void setJmsProducer(final IJMSProducer jmsProducer) {
         this.jmsProducer = jmsProducer;
     }
 
@@ -73,8 +80,16 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      * @param userConnectionsManagement
      *            the new user connections management
      */
-    public void setUserConnectionsManagement(IUsersConnectionsManagement userConnectionsManagement) {
+    public void setUserConnectionsManagement(final IUsersConnectionsManagement userConnectionsManagement) {
         usersConnectionsManagement = userConnectionsManagement;
+    }
+
+    /**
+     * @param userPictureService
+     *            the userPictureService to set
+     */
+    public void setUserPictureService(final IUserPictureService userPictureService) {
+        this.userPictureService = userPictureService;
     }
 
     /**
@@ -83,7 +98,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      * @param usersConnectionsManagement
      *            the new users connections management
      */
-    public void setUsersConnectionsManagement(IUsersConnectionsManagement usersConnectionsManagement) {
+    public void setUsersConnectionsManagement(final IUsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
 

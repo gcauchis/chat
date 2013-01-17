@@ -24,7 +24,7 @@ import com.gc.irc.server.entity.UserInformations;
 import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.jms.utils.JMSConnectionUtils;
 import com.gc.irc.server.service.api.IAuthenticationService;
-import com.gc.irc.server.service.impl.UserPictureService;
+import com.gc.irc.server.service.api.IUserPictureService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 import com.gc.irc.server.thread.api.IServeurMBean;
 
@@ -69,6 +69,9 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
 
     /** The session. */
     private final Session session = JMSConnectionUtils.getSession();
+
+    /** The user picture service. */
+    private IUserPictureService userPictureService;
 
     /** The parent. */
     private IUsersConnectionsManagement usersConnectionsManagement;
@@ -249,10 +252,8 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
             case CONTACT_INFO:
                 final IRCMessageNoticeContactInfo messageObjNoticeContactInfo = (IRCMessageNoticeContactInfo) messageObjNotice;
                 final IRCUser userChange = messageObjNoticeContactInfo.getUser();
-                getLog()
-                        .debug(
-                                id + " User " + userChange.getNickName() + " change state to " + userChange.getUserStatus() + " has pictur : "
-                                        + userChange.hasPictur());
+                getLog().debug(
+                        id + " User " + userChange.getNickName() + " change state to " + userChange.getUserStatus() + " has pictur : " + userChange.hasPictur());
                 sendObjetMessageIRCToAll(messageObjNoticeContactInfo);
                 break;
 
@@ -264,7 +265,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
             final IRCMessageItemPicture messagePictur = (IRCMessageItemPicture) messageObj;
             {
 
-                UserPictureService.getInstance().newPicture(messagePictur.getFromId(), messagePictur);
+                userPictureService.newPicture(messagePictur.getFromId(), messagePictur);
 
                 final UserInformations userInfo = authenticationService.getUser(messagePictur.getFromId());
                 if (userInfo != null) {
@@ -381,7 +382,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      * @param authenticationService
      *            the new authentication service
      */
-    public void setAuthenticationService(IAuthenticationService authenticationService) {
+    public void setAuthenticationService(final IAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
@@ -391,7 +392,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      * @param jmsProducer
      *            the new jms producer
      */
-    public void setJmsProducer(IJMSProducer jmsProducer) {
+    public void setJmsProducer(final IJMSProducer jmsProducer) {
         this.jmsProducer = jmsProducer;
     }
 
@@ -401,8 +402,16 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      * @param numPassageMax
      *            the new num passage max
      */
-    public void setNumPassageMax(int numPassageMax) {
+    public void setNumPassageMax(final int numPassageMax) {
         this.numPassageMax = numPassageMax;
+    }
+
+    /**
+     * @param userPictureService
+     *            the userPictureService to set
+     */
+    public void setUserPictureService(final IUserPictureService userPictureService) {
+        this.userPictureService = userPictureService;
     }
 
     /**
@@ -411,7 +420,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      * @param usersConnectionsManagement
      *            the new users connections management
      */
-    public void setUsersConnectionsManagement(IUsersConnectionsManagement usersConnectionsManagement) {
+    public void setUsersConnectionsManagement(final IUsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
 }

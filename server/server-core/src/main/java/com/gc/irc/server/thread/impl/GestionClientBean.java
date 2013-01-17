@@ -26,7 +26,7 @@ import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.exception.ServerException;
 import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.service.api.IAuthenticationService;
-import com.gc.irc.server.service.impl.UserPictureService;
+import com.gc.irc.server.service.api.IUserPictureService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 
 /**
@@ -74,6 +74,9 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     /** The user. */
     private IRCUser user;
 
+    /** The user picture service. */
+    private IUserPictureService userPictureService;
+
     /** The users connections management. */
     private IUsersConnectionsManagement usersConnectionsManagement;
 
@@ -116,6 +119,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * 
      * @see com.gc.irc.server.thread.impl.IGestionClientBean#disconnectUser()
      */
+    @Override
     public void disconnectUser() {
         getLog().debug(id + " Finalize Thread");
 
@@ -174,6 +178,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * 
      * @see com.gc.irc.server.thread.impl.IGestionClientBean#getIdThread()
      */
+    @Override
     public int getIdThread() {
         return id;
     }
@@ -183,6 +188,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * 
      * @see com.gc.irc.server.thread.impl.IGestionClientBean#getUser()
      */
+    @Override
     public IRCUser getUser() {
         return user;
     }
@@ -322,8 +328,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                      */
                     if (user.hasPictur()) {
                         getLog().debug(id + " Send user's pictur to all others Users");
-                        final UserPictureService gestionPcture = UserPictureService.getInstance();
-                        final IRCMessageItemPicture picture = gestionPcture.getPictureOf(user.getId());
+                        final IRCMessageItemPicture picture = userPictureService.getPictureOf(user.getId());
                         if (picture != null) {
                             postInJMS(picture);
                         }
@@ -426,8 +431,11 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket(com.gc.irc.common.protocol.IRCMessage)
+     * @see
+     * com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket
+     * (com.gc.irc.common.protocol.IRCMessage)
      */
+    @Override
     public void sendMessageObjetInSocket(final IRCMessage message) {
         try {
             /**
@@ -460,7 +468,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * @param authenticationService
      *            the new authentication service
      */
-    public void setAuthenticationService(IAuthenticationService authenticationService) {
+    public void setAuthenticationService(final IAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
@@ -470,8 +478,16 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * @param jmsProducer
      *            the new jms producer
      */
-    public void setJmsProducer(IJMSProducer jmsProducer) {
+    public void setJmsProducer(final IJMSProducer jmsProducer) {
         this.jmsProducer = jmsProducer;
+    }
+
+    /**
+     * @param userPictureService
+     *            the userPictureService to set
+     */
+    public void setUserPictureService(final IUserPictureService userPictureService) {
+        this.userPictureService = userPictureService;
     }
 
     /**
@@ -480,12 +496,13 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * @param usersConnectionsManagement
      *            the new users connections management
      */
-    public void setUsersConnectionsManagement(IUsersConnectionsManagement usersConnectionsManagement) {
+    public void setUsersConnectionsManagement(final IUsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
 
     /**
-     * Test if the socket is already open. If socket is closed or a problem is remark the thread is finalize.
+     * Test if the socket is already open. If socket is closed or a problem is
+     * remark the thread is finalize.
      */
     private void socketAlive() {
         getLog().info(id + " Test if the socket have no problem.");
