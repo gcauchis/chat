@@ -21,12 +21,13 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeLogin;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeRegister;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeServerMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
-import com.gc.irc.server.auth.IRCServerAuthentification;
+import com.gc.irc.server.auth.AuthenticationService;
+import com.gc.irc.server.auth.IAuthenticationService;
 import com.gc.irc.server.core.ServerCore;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.exception.ServerException;
 import com.gc.irc.server.jms.api.IJMSProducer;
-import com.gc.irc.server.persistance.IRCGestionPicture;
+import com.gc.irc.server.persistance.UserPictureManagement;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 
 /**
@@ -137,7 +138,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             synchronized (user) {
                 user.setUserStatus(UserStatus.OFFLINE);
                 postInJMS(new IRCMessageNoticeContactInfo(user.getCopy()));
-                IRCServerAuthentification.getInstance().getUser(user.getId()).diconnected();
+                AuthenticationService.getInstance().getUser(user.getId()).diconnected();
             }
         }
 
@@ -245,7 +246,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                 final IRCMessageCommand messagecmd = (IRCMessageCommand) messageInit;
 
                 boolean registration = false;
-                final IRCServerAuthentification auth = IRCServerAuthentification.getInstance();
+                final IAuthenticationService auth = AuthenticationService.getInstance();
                 getLog().debug(id + " type : " + messagecmd.getCommandType());
 
                 switch (messagecmd.getCommandType()) {
@@ -322,7 +323,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                      */
                     if (user.hasPictur()) {
                         getLog().debug(id + " Send user's pictur to all others Users");
-                        final IRCGestionPicture gestionPcture = IRCGestionPicture.getInstance();
+                        final UserPictureManagement gestionPcture = UserPictureManagement.getInstance();
                         final IRCMessageItemPicture picture = gestionPcture.getPictureOf(user.getId());
                         if (picture != null) {
                             postInJMS(picture);

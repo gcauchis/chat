@@ -10,7 +10,7 @@ import com.gc.irc.common.entity.IRCUser;
  * @author gcauchis
  * 
  */
-public interface IAuthentificationService {
+public interface IAuthenticationService {
 
     /**
      * Add a new user.
@@ -24,26 +24,6 @@ public interface IAuthentificationService {
      * @return If user add true, else false.
      */
     boolean addUser(String login, String password, String nickname);
-
-    /**
-     * Test if new login is free.
-     * 
-     * @param login
-     *            Login to add.
-     * @return True if login already exist, else false.
-     */
-    boolean userLoginExist(String login);
-
-    /**
-     * Log an user.
-     * 
-     * @param login
-     *            User's Login.
-     * @param password
-     *            User's Password.
-     * @return The user if login succeed. Null if login fail.
-     */
-    IRCUser logUser(String login, String password);
 
     /**
      * Change the Nickname of the User.
@@ -72,7 +52,23 @@ public interface IAuthentificationService {
      *            User's id.
      * @return The User if exist. Else null.
      */
-    IRCUserInformations getUser(int id);
+    UserInformations getUser(int id);
+
+    /**
+     * Log an user.
+     * 
+     * @param login
+     *            User's Login.
+     * @param password
+     *            User's Password.
+     * @return The user if login succeed. Null if login fail.
+     */
+    IRCUser logUser(String login, String password);
+
+    /**
+     * Save modification.
+     */
+    void saveModification();
 
     /**
      * Send in the ObjectOutputStream the Picture of all the connected Users.
@@ -81,4 +77,13 @@ public interface IAuthentificationService {
      *            ObjectOutputStream of the new Client.
      */
     void sendUsersPicture(ObjectOutputStream outObject);
+
+    /**
+     * Test if new login is free.
+     * 
+     * @param login
+     *            Login to add.
+     * @return True if login already exist, else false.
+     */
+    boolean userLoginExist(String login);
 }

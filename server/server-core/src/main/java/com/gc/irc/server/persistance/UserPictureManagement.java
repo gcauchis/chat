@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import org.springframework.stereotype.Component;
+
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
 
@@ -14,22 +16,22 @@ import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
  * @author gcauchis
  * 
  */
-public class IRCGestionPicture extends AbstractLoggable implements IGestionPicture {
+@Component("userPictureManagement")
+public class UserPictureManagement extends AbstractLoggable implements IUserPictureManagement {
 
     /**
      * Gets the single instance of IRCGestionPicture.
      * 
      * @return single instance of IRCGestionPicture
      */
-    public static IRCGestionPicture getInstance() {
-        return new IRCGestionPicture();
+    public static UserPictureManagement getInstance() {
+        return new UserPictureManagement();
     }
 
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.gc.irc.server.persistance.GestionPictureInterface#getPictureOf(int)
+     * @see com.gc.irc.server.persistance.GestionPictureInterface#getPictureOf(int)
      */
     @Override
     public synchronized IRCMessageItemPicture getPictureOf(final int idUser) {
@@ -50,9 +52,7 @@ public class IRCGestionPicture extends AbstractLoggable implements IGestionPictu
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.gc.irc.server.persistance.GestionPictureInterface#newPicture(int,
-     * com.gc.irc.common.protocol.item.IRCMessageItemPicture)
+     * @see com.gc.irc.server.persistance.GestionPictureInterface#newPicture(int, com.gc.irc.common.protocol.item.IRCMessageItemPicture)
      */
     @Override
     public synchronized boolean newPicture(final int idUser, final IRCMessageItemPicture image) {

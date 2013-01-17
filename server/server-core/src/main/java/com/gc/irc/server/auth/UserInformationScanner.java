@@ -27,7 +27,7 @@ public final class UserInformationScanner extends AbstractLoggable {
     private static int lastId = 0;
 
     /** The list users. */
-    private static List<IRCUserInformations> listUsers = Collections.synchronizedList(new ArrayList<IRCUserInformations>());
+    private static List<UserInformations> listUsers = Collections.synchronizedList(new ArrayList<UserInformations>());
 
     /**
      * Gets the last id.
@@ -43,7 +43,7 @@ public final class UserInformationScanner extends AbstractLoggable {
      * 
      * @return the list user infomation
      */
-    public static List<IRCUserInformations> getListUserInfomation() {
+    public static List<UserInformations> getListUserInfomation() {
         return listUsers;
     }
 
@@ -54,7 +54,7 @@ public final class UserInformationScanner extends AbstractLoggable {
      *            the element
      * @return the iRC user informations
      */
-    private static IRCUserInformations visitElementIRCUserInfo(final org.w3c.dom.Element element) {
+    private static UserInformations visitElementIRCUserInfo(final org.w3c.dom.Element element) {
         int id = -1;
         String nickname = "";
         String login = "";
@@ -97,7 +97,7 @@ public final class UserInformationScanner extends AbstractLoggable {
             }
         }
 
-        return new IRCUserInformations(id, nickname, login, password, hasPicture);
+        return new UserInformations(id, nickname, login, password, hasPicture);
     }
 
     /**
@@ -144,7 +144,7 @@ public final class UserInformationScanner extends AbstractLoggable {
      */
     public UserInformationScanner(final org.w3c.dom.Document document) {
         mDocument = document;
-        listUsers = Collections.synchronizedList(new ArrayList<IRCUserInformations>());
+        listUsers = Collections.synchronizedList(new ArrayList<UserInformations>());
         visitDocument();
     }
 
@@ -164,7 +164,7 @@ public final class UserInformationScanner extends AbstractLoggable {
         final DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         final DocumentBuilder builder = builderFactory.newDocumentBuilder();
         mDocument = builder.parse(new InputSource(new File(file).toURI().toString()));
-        listUsers = Collections.synchronizedList(new ArrayList<IRCUserInformations>());
+        listUsers = Collections.synchronizedList(new ArrayList<UserInformations>());
         visitDocument();
     }
 

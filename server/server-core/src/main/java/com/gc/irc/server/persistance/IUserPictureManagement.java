@@ -9,7 +9,7 @@ import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
  * @author gcauchis
  * 
  */
-public interface IGestionPicture extends ILoggable {
+public interface IUserPictureManagement extends ILoggable {
 
     /**
      * Add a picture for a designed User.
