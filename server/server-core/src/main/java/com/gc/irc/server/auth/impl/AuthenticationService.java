@@ -1,4 +1,4 @@
-package com.gc.irc.server.auth;
+package com.gc.irc.server.auth.impl;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -15,6 +15,9 @@ import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
 import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.common.utils.IOUtils;
+import com.gc.irc.server.auth.api.IAuthenticationService;
+import com.gc.irc.server.auth.utils.UserInformationScanner;
+import com.gc.irc.server.entity.UserInformations;
 import com.gc.irc.server.persistance.UserPictureManagement;
 
 /**

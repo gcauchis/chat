@@ -1,4 +1,4 @@
-package com.gc.irc.server.auth;
+package com.gc.irc.server.auth.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +14,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.server.entity.UserInformations;
 
 /**
  * A scanner to parse an identification xml file.

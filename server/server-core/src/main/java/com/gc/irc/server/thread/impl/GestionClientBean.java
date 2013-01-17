@@ -21,7 +21,7 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeLogin;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeRegister;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeServerMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
-import com.gc.irc.server.auth.IAuthenticationService;
+import com.gc.irc.server.auth.api.IAuthenticationService;
 import com.gc.irc.server.core.ServerCore;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.exception.ServerException;

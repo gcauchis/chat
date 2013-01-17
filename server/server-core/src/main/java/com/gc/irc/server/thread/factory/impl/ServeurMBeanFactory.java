@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.server.auth.IAuthenticationService;
+import com.gc.irc.server.auth.api.IAuthenticationService;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.thread.api.IServeurMBean;
