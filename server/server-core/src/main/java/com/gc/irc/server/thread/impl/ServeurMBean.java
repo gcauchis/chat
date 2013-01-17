@@ -19,7 +19,6 @@ import com.gc.irc.common.protocol.command.IRCMessageCommandChangeStatus;
 import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
 import com.gc.irc.common.protocol.notice.IRCMessageNotice;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
-import com.gc.irc.server.auth.AuthenticationService;
 import com.gc.irc.server.auth.IAuthenticationService;
 import com.gc.irc.server.auth.UserInformations;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
@@ -52,6 +51,9 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
         nbThread++;
         return nbThread;
     }
+
+    /** The authentication service. */
+    private IAuthenticationService authenticationService;
 
     /** The id. */
     private final int id = getNbThread();
@@ -171,8 +173,8 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
             getLog().debug(id + " Type : " + messageObjChat.getChatMessageType());
             switch (messageObjChat.getChatMessageType()) {
             case GLOBAL:
-                if (AuthenticationService.getInstance().getUser(messageObjChat.getFromId()) != null) {
-                    getLog().debug(id + " Global message form " + AuthenticationService.getInstance().getUser(messageObjChat.getFromId()).getNickname());
+                if (authenticationService.getUser(messageObjChat.getFromId()) != null) {
+                    getLog().debug(id + " Global message form " + authenticationService.getUser(messageObjChat.getFromId()).getNickname());
                     sendObjetMessageIRCToAll(messageObjChat);
                 } else {
                     getLog().warn(id + " inexisting source id");
@@ -181,11 +183,13 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
 
             case PRIVATE:
                 final IRCMessageChatPrivate messageChatPriv = (IRCMessageChatPrivate) messageObjChat;
-                if (AuthenticationService.getInstance().getUser(messageChatPriv.getFromId()) != null) {
-                    if (AuthenticationService.getInstance().getUser(messageChatPriv.getToId()) != null) {
-                        getLog().debug(
-                                id + " Private Message from " + AuthenticationService.getInstance().getUser(messageChatPriv.getFromId()).getNickname() + " to "
-                                        + AuthenticationService.getInstance().getUser(messageChatPriv.getToId()).getNickname());
+                if (authenticationService.getUser(messageChatPriv.getFromId()) != null) {
+                    if (authenticationService.getUser(messageChatPriv.getToId()) != null) {
+                        if (getLog().isDebugEnabled()) {
+                            getLog().debug(
+                                    id + " Private Message from " + authenticationService.getUser(messageChatPriv.getFromId()).getNickname() + " to "
+                                            + authenticationService.getUser(messageChatPriv.getToId()).getNickname());
+                        }
                         final IGestionClientBean clientCible = usersConnectionsManagement.getGestionClientBeanOfUser(messageChatPriv.getToId());
                         if (clientCible != null) {
                             clientCible.sendMessageObjetInSocket(messageChatPriv);
@@ -217,10 +221,9 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
             case CHANGE_NICKNAME:
                 final IRCMessageCommandChangeNickname messageChNick = (IRCMessageCommandChangeNickname) messageObjCmd;
                 {
-                    final IAuthenticationService auth = AuthenticationService.getInstance();
-                    if (auth.getUser(messageChNick.getFromId()) != null) {
-                        auth.changeNickUser(messageChNick.getFromId(), messageChNick.getNewNickname());
-                        sendObjetMessageIRCToAll(new IRCMessageNoticeContactInfo(auth.getUser(messageChNick.getFromId()).getUser()));
+                    if (authenticationService.getUser(messageChNick.getFromId()) != null) {
+                        authenticationService.changeNickUser(messageChNick.getFromId(), messageChNick.getNewNickname());
+                        sendObjetMessageIRCToAll(new IRCMessageNoticeContactInfo(authenticationService.getUser(messageChNick.getFromId()).getUser()));
                     } else {
                         getLog().warn(id + " this user didn't exist.");
                     }
@@ -228,7 +231,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
                 break;
             case CHANGE_STATUS:
                 final IRCMessageCommandChangeStatus messageChStatus = (IRCMessageCommandChangeStatus) messageObjCmd;
-                final IRCUser user = AuthenticationService.getInstance().getUser(messageChStatus.getFromId()).getUser();
+                final IRCUser user = authenticationService.getUser(messageChStatus.getFromId()).getUser();
                 if (user != null) {
                     getLog().debug(id + " " + user.getNickName() + " change status to " + messageChStatus.getNewStatus());
                     user.setUserStatus(messageChStatus.getNewStatus());
@@ -263,11 +266,10 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
 
                 UserPictureManagement.getInstance().newPicture(messagePictur.getFromId(), messagePictur);
 
-                final IAuthenticationService auth = AuthenticationService.getInstance();
-                final UserInformations userInfo = auth.getUser(messagePictur.getFromId());
+                final UserInformations userInfo = authenticationService.getUser(messagePictur.getFromId());
                 if (userInfo != null) {
                     userInfo.setHasPicture(true);
-                    AuthenticationService.getInstance().saveModification();
+                    authenticationService.saveModification();
                 } else {
                     getLog().warn(id + " User null");
                 }
@@ -354,9 +356,9 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     private void sendObjetMessageIRCToAll(final IRCMessage message) {
         final List<IGestionClientBean> clientConnecter = usersConnectionsManagement.getClientConnected();
 
-        if (AuthenticationService.getInstance().getUser(message.getFromId()) != null) {
-            getLog().debug(
-                    id + " Send a message to all connected client from " + AuthenticationService.getInstance().getUser(message.getFromId()).getNickname());
+        if (authenticationService.getUser(message.getFromId()) != null) {
+            getLog().isDebugEnabled();
+            getLog().debug(id + " Send a message to all connected client from " + authenticationService.getUser(message.getFromId()).getNickname());
             synchronized (clientConnecter) {
                 for (final IGestionClientBean client : clientConnecter) {
                     if (message.getFromId() != client.getUser().getId()) {
@@ -371,6 +373,16 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
         } else {
             getLog().warn(id + " Inexisting source ID");
         }
+    }
+
+    /**
+     * Sets the authentication service.
+     * 
+     * @param authenticationService
+     *            the new authentication service
+     */
+    public void setAuthenticationService(IAuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
     /**

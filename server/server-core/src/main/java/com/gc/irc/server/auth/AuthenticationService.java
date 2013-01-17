@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
@@ -23,25 +24,11 @@ import com.gc.irc.server.persistance.UserPictureManagement;
  * 
  */
 @Component("authenticationService")
+@Scope("singleton")
 public class AuthenticationService extends AbstractLoggable implements IAuthenticationService {
-
-    /** The instance. */
-    private static AuthenticationService instance;
 
     /** The last id. */
     private static int lastId;
-
-    /**
-     * Get an instance of the class.
-     * 
-     * @return The unique instance of the Class.
-     */
-    public static synchronized IAuthenticationService getInstance() {
-        if (instance == null) {
-            instance = new AuthenticationService();
-        }
-        return instance;
-    }
 
     /**
      * Sets the last id.
@@ -104,6 +91,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
         for (final UserInformations user : listUsers) {
             if (user.getId() == id) {
                 user.setNickname(nickname);
+                saveModification();
                 return;
             }
         }
@@ -119,6 +107,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
         for (final UserInformations user : listUsers) {
             if (user.getId() == id) {
                 user.setPassword(password);
+                saveModification();
                 return;
             }
         }

@@ -21,7 +21,6 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeLogin;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeRegister;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeServerMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
-import com.gc.irc.server.auth.AuthenticationService;
 import com.gc.irc.server.auth.IAuthenticationService;
 import com.gc.irc.server.core.ServerCore;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
@@ -50,6 +49,9 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
         nbThread++;
         return nbThread;
     }
+
+    /** The authentication service. */
+    private IAuthenticationService authenticationService;
 
     /** The client socket. */
     private final Socket clientSocket;
@@ -80,8 +82,6 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * 
      * @param clientSocket
      *            Client's Socket.
-     * @param parent
-     *            Thread's Parent.
      */
     public GestionClientBean(final Socket clientSocket) {
         getLog().info(id + " Initialisation du thread.");
@@ -138,7 +138,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             synchronized (user) {
                 user.setUserStatus(UserStatus.OFFLINE);
                 postInJMS(new IRCMessageNoticeContactInfo(user.getCopy()));
-                AuthenticationService.getInstance().getUser(user.getId()).diconnected();
+                authenticationService.getUser(user.getId()).diconnected();
             }
         }
 
@@ -246,22 +246,21 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                 final IRCMessageCommand messagecmd = (IRCMessageCommand) messageInit;
 
                 boolean registration = false;
-                final IAuthenticationService auth = AuthenticationService.getInstance();
                 getLog().debug(id + " type : " + messagecmd.getCommandType());
 
                 switch (messagecmd.getCommandType()) {
                 case LOGIN:
                     getLog().debug(id + " Login Message receive");
                     final IRCMessageCommandLogin messageLogin = (IRCMessageCommandLogin) messagecmd;
-                    user = auth.logUser(messageLogin.getLogin(), messageLogin.getPassword());
+                    user = authenticationService.logUser(messageLogin.getLogin(), messageLogin.getPassword());
                     break;
 
                 case REGISTER:
                     getLog().debug(id + " Register Message receive");
                     registration = true;
                     final IRCMessageCommandRegister messageRegister = (IRCMessageCommandRegister) messagecmd;
-                    if (auth.addUser(messageRegister.getLogin(), messageRegister.getPassword(), messageRegister.getLogin())) {
-                        user = auth.logUser(messageRegister.getLogin(), messageRegister.getPassword());
+                    if (authenticationService.addUser(messageRegister.getLogin(), messageRegister.getPassword(), messageRegister.getLogin())) {
+                        user = authenticationService.logUser(messageRegister.getLogin(), messageRegister.getPassword());
                     }
                     break;
 
@@ -336,7 +335,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                     getLog().debug(id + " Send all users pictur");
                     synchronized (inObject) {
                         synchronized (outObject) {
-                            auth.sendUsersPicture(outObject);
+                            authenticationService.sendUsersPicture(outObject);
                         }
                     }
 
@@ -455,10 +454,32 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
         }
     }
 
+    /**
+     * Sets the authentication service.
+     * 
+     * @param authenticationService
+     *            the new authentication service
+     */
+    public void setAuthenticationService(IAuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
+
+    /**
+     * Sets the jms producer.
+     * 
+     * @param jmsProducer
+     *            the new jms producer
+     */
     public void setJmsProducer(IJMSProducer jmsProducer) {
         this.jmsProducer = jmsProducer;
     }
 
+    /**
+     * Sets the users connections management.
+     * 
+     * @param usersConnectionsManagement
+     *            the new users connections management
+     */
     public void setUsersConnectionsManagement(IUsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }

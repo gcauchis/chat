@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.server.auth.IAuthenticationService;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.thread.api.IServeurMBean;
@@ -18,6 +19,10 @@ import com.gc.irc.server.thread.impl.ServeurMBean;
 @Component("ServeurMBeanFactory")
 @Scope("singleton")
 public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBeanFactory {
+
+    /** The authentication service. */
+    @Autowired
+    private IAuthenticationService authenticationService;
 
     /** The jms producer. */
     @Autowired
@@ -42,7 +47,18 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
         serveurMBean.setUsersConnectionsManagement(usersConnectionsManagement);
         serveurMBean.setJmsProducer(jmsProducer);
         serveurMBean.setNumPassageMax(numPassageMax);
+        serveurMBean.setAuthenticationService(authenticationService);
         return serveurMBean;
+    }
+
+    /**
+     * Sets the authentication service.
+     * 
+     * @param authenticationService
+     *            the new authentication service
+     */
+    public void setAuthenticationService(IAuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
     /**

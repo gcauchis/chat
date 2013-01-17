@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.server.auth.IAuthenticationService;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.thread.api.IGestionClientBean;
@@ -19,6 +20,10 @@ import com.gc.irc.server.thread.impl.GestionClientBean;
 @Component("gestionClientBeanFactory")
 @Scope("singleton")
 public class GestionClientBeanFactory extends AbstractLoggable implements IGestionClientBeanFactory {
+
+    /** The authentication service. */
+    @Autowired
+    private IAuthenticationService authenticationService;
 
     /** The jms producer. */
     @Autowired
@@ -38,7 +43,18 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
         GestionClientBean gestionClientBean = new GestionClientBean(clientSocket);
         gestionClientBean.setUsersConnectionsManagement(usersConnectionsManagement);
         gestionClientBean.setJmsProducer(jmsProducer);
+        gestionClientBean.setAuthenticationService(authenticationService);
         return gestionClientBean;
+    }
+
+    /**
+     * Sets the authentication service.
+     * 
+     * @param authenticationService
+     *            the new authentication service
+     */
+    public void setAuthenticationService(IAuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
     /**
