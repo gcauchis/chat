@@ -14,11 +14,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<com.gc.irc.global.version>${project.version}</com.gc.irc.global.version>
-		<com.gc.irc.version>${com.gc.irc.global.version}</com.gc.irc.version>
-		<com.gc.irc.common.version>${com.gc.irc.global.version}</com.gc.irc.common.version>
-		<com.gc.irc.server.version>${com.gc.irc.global.version}</com.gc.irc.server.version>
-
+		<irc.version>${project.version}</irc.version>
 		<spring.version>3.2.0.RELEASE</spring.version>
 	</properties>
 
@@ -68,7 +64,22 @@
 			<dependency>
 				<groupId>com.gc.irc</groupId>
 				<artifactId>common</artifactId>
-				<version>${com.gc.irc.common.version}</version>
+				<version>${irc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gc.irc</groupId>
+				<artifactId>server-service-api</artifactId>
+				<version>${irc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gc.irc</groupId>
+				<artifactId>server-service-impl-file</artifactId>
+				<version>${irc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gc.irc</groupId>
+				<artifactId>server-model</artifactId>
+				<version>${irc.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>

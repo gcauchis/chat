@@ -3,7 +3,7 @@ package com.gc.irc.server.service.api;
 import java.io.ObjectOutputStream;
 
 import com.gc.irc.common.entity.IRCUser;
-import com.gc.irc.server.entity.UserInformations;
+import com.gc.irc.server.model.UserInformations;
 
 /**
  * Interface use for the login of the users.

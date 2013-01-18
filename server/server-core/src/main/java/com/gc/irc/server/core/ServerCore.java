@@ -18,6 +18,7 @@ import com.gc.irc.server.thread.api.IServeurMBean;
 import com.gc.irc.server.thread.factory.api.IGestionClientBeanFactory;
 import com.gc.irc.server.thread.factory.api.IServeurMBeanFactory;
 
+// TODO: Auto-generated Javadoc
 /**
  * Main class.
  * 
@@ -79,16 +80,16 @@ public class ServerCore extends AbstractLoggable {
     private IUsersConnectionsManagement usersConnectionsManagement;
 
     /**
-     * Builder, Initialize the server. The port is 1973.
+     * Instantiates a new server core.
      */
     public ServerCore() {
     }
 
     /**
-     * Builder, Initialize the server. The port is given.
+     * Instantiates a new server core.
      * 
      * @param port
-     *            New port.
+     *            the port
      */
     public ServerCore(final int port) {
         if (this.port != port) {
@@ -205,6 +206,12 @@ public class ServerCore extends AbstractLoggable {
         this.serveurMBeanFactory = serveurMBeanFactory;
     }
 
+    /**
+     * Sets the user connections management.
+     * 
+     * @param userConnectionsManagement
+     *            the new user connections management
+     */
     public void setUserConnectionsManagement(IUsersConnectionsManagement userConnectionsManagement) {
         usersConnectionsManagement = userConnectionsManagement;
     }

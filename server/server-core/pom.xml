@@ -105,7 +105,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.gc.irc</groupId>
-			<artifactId>common</artifactId>
+			<artifactId>server-service-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.gc.irc</groupId>
+			<artifactId>server-service-impl-file</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.activemq</groupId>

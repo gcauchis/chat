@@ -20,9 +20,9 @@ import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
 import com.gc.irc.common.protocol.notice.IRCMessageNotice;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
-import com.gc.irc.server.entity.UserInformations;
 import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.jms.utils.JMSConnectionUtils;
+import com.gc.irc.server.model.UserInformations;
 import com.gc.irc.server.service.api.IAuthenticationService;
 import com.gc.irc.server.service.api.IUserPictureService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
@@ -252,8 +252,10 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
             case CONTACT_INFO:
                 final IRCMessageNoticeContactInfo messageObjNoticeContactInfo = (IRCMessageNoticeContactInfo) messageObjNotice;
                 final IRCUser userChange = messageObjNoticeContactInfo.getUser();
-                getLog().debug(
-                        id + " User " + userChange.getNickName() + " change state to " + userChange.getUserStatus() + " has pictur : " + userChange.hasPictur());
+                getLog()
+                        .debug(
+                                id + " User " + userChange.getNickName() + " change state to " + userChange.getUserStatus() + " has pictur : "
+                                        + userChange.hasPictur());
                 sendObjetMessageIRCToAll(messageObjNoticeContactInfo);
                 break;
 
@@ -341,7 +343,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
                 getLog().debug(id + " Wait for a message in JMS Queue");
                 message = messageConsumer.receive();
             } catch (final JMSException e) {
-                getLog().warn(id + " Fail to receive message in JMS Queue : " + e.getMessage());
+                getLog().warn(id + " Fail to receive message in JMS Queue : ", e);
             }
 
             handleObjectMessage((ObjectMessage) message);

@@ -14,7 +14,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.server.entity.UserInformations;
+import com.gc.irc.server.model.UserInformations;
 
 /**
  * A scanner to parse an identification xml file.

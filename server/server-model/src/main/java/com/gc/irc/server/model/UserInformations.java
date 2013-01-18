@@ -1,4 +1,4 @@
-package com.gc.irc.server.entity;
+package com.gc.irc.server.model;
 
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.entity.IRCUser;

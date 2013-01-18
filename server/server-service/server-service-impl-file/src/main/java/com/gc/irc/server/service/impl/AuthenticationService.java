@@ -16,7 +16,7 @@ import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
 import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.common.utils.IOUtils;
-import com.gc.irc.server.entity.UserInformations;
+import com.gc.irc.server.model.UserInformations;
 import com.gc.irc.server.service.api.IAuthenticationService;
 import com.gc.irc.server.service.api.IUserPictureService;
 import com.gc.irc.server.service.utils.UserInformationScanner;
