@@ -116,6 +116,12 @@
 			<artifactId>apache-activemq</artifactId>
 			<version>5.7.0</version>
 			<type>pom</type>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.activemq</groupId>
+					<artifactId>activemq-all</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>javax.jms</groupId>

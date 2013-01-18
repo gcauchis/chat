@@ -97,7 +97,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             outObject = new ObjectOutputStream(clientSocket.getOutputStream());
 
         } catch (final IOException e) {
-            getLog().warn(id + " Fail to open Client's Steams to " + clientSocket.getInetAddress() + " : " + e.getMessage());
+            getLog().warn(id + " Fail to open Client's Steams to " + clientSocket.getInetAddress() + " : ", e);
         }
         getLog().debug(id + " end init");
     }
@@ -164,7 +164,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                 clientSocket.close();
             }
         } catch (final IOException e) {
-            getLog().warn(id + " Fail to close Client's connection " + clientSocket.getInetAddress() + " : " + e.getMessage());
+            getLog().warn(id + " Fail to close Client's connection " + clientSocket.getInetAddress() + " : ", e);
         }
     }
 
@@ -219,7 +219,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                 }
             }
         } catch (final IOException e) {
-            getLog().warn(id + " Fail to send Welcome message : " + e.getMessage());
+            getLog().warn(id + " Fail to send Welcome message : ", e);
             throw new ServerException(e);
         }
 
@@ -232,10 +232,10 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                 getLog().debug(id + " Wait for login/Registration Message");
                 messageInit = IOStreamUtils.receiveMessage(inObject);
             } catch (final ClassNotFoundException e) {
-                getLog().warn(id + " Fail to receive the Login/Registration Message : " + e.getMessage());
+                getLog().warn(id + " Fail to receive the Login/Registration Message : ", e);
                 throw new ServerException(e);
             } catch (final IOException e) {
-                getLog().warn(id + " Fail to receive the Login/Registration Message : " + e.getMessage());
+                getLog().warn(id + " Fail to receive the Login/Registration Message : ", e);
                 throw new ServerException(e);
             }
 
@@ -273,7 +273,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                     /**
                      * User accepted
                      */
-                    getLog().debug(id + " User " + user.getNickName() + " is just loggin");
+                    getLog().debug(id + " User " + user.getNickName() + " just loggin");
                     if (registration) {
                         messageInit = new IRCMessageNoticeRegister(user);
                     } else {
@@ -284,7 +284,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                         getLog().debug(id + " Send notice Login");
                         IOStreamUtils.sendMessage(outObject, messageInit);
                     } catch (final IOException e) {
-                        getLog().warn(id + " Fail to send notice Login : " + e.getMessage());
+                        getLog().warn(id + " Fail to send notice Login : ", e);
                         throw new ServerException(e);
                     }
 
@@ -357,7 +357,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                             }
                         }
                     } catch (final IOException e) {
-                        getLog().warn(id + " Fail to send the message : " + e.getMessage());
+                        getLog().warn(id + " Fail to send the message : ", e);
                         throw new ServerException(e);
                     }
                 }
@@ -378,10 +378,10 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             message = IOStreamUtils.receiveMessage(inObject);
             checkMessage(message);
         } catch (final ClassNotFoundException e) {
-            getLog().warn(id + " Fail to receive a message : " + e.getMessage());
+            getLog().warn(id + " Fail to receive a message : ", e);
             socketAlive();
         } catch (final IOException e) {
-            getLog().warn(id + " Fail to receive a message : " + e.getMessage());
+            getLog().warn(id + " Fail to receive a message : ", e);
             socketAlive();
         }
         return message;
@@ -399,7 +399,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
         try {
             protocoleDAuthentification();
         } catch (final ServerException e) {
-            getLog().warn(id + " Fail to autentificate the Client : " + e.getMessage());
+            getLog().warn(id + " Fail to autentificate the Client : ", e);
         }
 
         IRCMessage messageClient;
@@ -426,9 +426,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket
-     * (com.gc.irc.common.protocol.IRCMessage)
+     * @see com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket (com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
     public void sendMessageObjetInSocket(final IRCMessage message) {
@@ -496,8 +494,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     }
 
     /**
-     * Test if the socket is already open. If socket is closed or a problem is
-     * remark the thread is finalize.
+     * Test if the socket is already open. If socket is closed or a problem is remark the thread is finalize.
      */
     private void socketAlive() {
         getLog().info(id + " Test if the socket have no problem.");

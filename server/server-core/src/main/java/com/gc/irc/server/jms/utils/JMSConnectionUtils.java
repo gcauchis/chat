@@ -3,6 +3,7 @@ package com.gc.irc.server.jms.utils;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
+import javax.jms.MessageConsumer;
 import javax.jms.Queue;
 import javax.jms.Session;
 
@@ -31,6 +32,17 @@ public final class JMSConnectionUtils {
 
     /** The session. */
     private static Session session;
+
+    /**
+     * Creates the consumer.
+     * 
+     * @return the message consumer
+     * @throws JMSException
+     *             the jMS exception
+     */
+    public static MessageConsumer createConsumer() throws JMSException {
+        return getSession().createConsumer(getQueue());
+    }
 
     /**
      * Gets the connection.

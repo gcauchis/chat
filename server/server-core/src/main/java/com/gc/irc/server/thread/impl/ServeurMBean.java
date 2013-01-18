@@ -3,10 +3,8 @@ package com.gc.irc.server.thread.impl;
 import java.util.List;
 
 import javax.jms.JMSException;
-import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.ObjectMessage;
-import javax.jms.Session;
 
 import com.gc.irc.common.abs.AbstractRunnable;
 import com.gc.irc.common.entity.IRCUser;
@@ -67,14 +65,23 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     /** The num passage max. */
     private int numPassageMax = 10;
 
-    /** The session. */
-    private final Session session = JMSConnectionUtils.getSession();
-
     /** The user picture service. */
     private IUserPictureService userPictureService;
 
     /** The parent. */
     private IUsersConnectionsManagement usersConnectionsManagement;
+
+    /**
+     * Builds the JMS message consumer.
+     */
+    private void buildMessageConsumer() {
+        try {
+            getLog().debug(id + " Create JMS Consumer");
+            messageConsumer = JMSConnectionUtils.createConsumer();
+        } catch (final JMSException e) {
+            getLog().error(id + " Fail to create JMS Consumer : ", e);
+        }
+    }
 
     /*
      * (non-Javadoc)
@@ -293,16 +300,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      */
     private void init() {
 
-        /**
-         * Create JMS Consumer
-         */
-        try {
-            getLog().debug(id + " Create JMS Consumer");
-            messageConsumer = session.createConsumer(JMSConnectionUtils.getQueue());
-        } catch (final JMSException e) {
-            getLog().error(id + " Fail to create JMS Consumer : " + e.getMessage());
-            System.exit(-1);
-        }
+        buildMessageConsumer();
     }
 
     /*
@@ -335,18 +333,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
         init();
 
         while (true) {
-            Message message = null;
-            try {
-                /**
-                 * Wait for a message in JMS Queue
-                 */
-                getLog().debug(id + " Wait for a message in JMS Queue");
-                message = messageConsumer.receive();
-            } catch (final JMSException e) {
-                getLog().warn(id + " Fail to receive message in JMS Queue : ", e);
-            }
-
-            handleObjectMessage((ObjectMessage) message);
+            waitAndHandleJMSMessage();
         }
     }
 
@@ -424,5 +411,23 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      */
     public void setUsersConnectionsManagement(final IUsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
+    }
+
+    /**
+     * Wait and handle jms message.
+     */
+    private void waitAndHandleJMSMessage() {
+        try {
+            getLog().debug(id + " Wait for a message in JMS Queue");
+            handleObjectMessage((ObjectMessage) messageConsumer.receive());
+        } catch (final JMSException e) {
+            getLog().warn(id + " Fail to receive message in JMS Queue : ", e);
+            try {
+                messageConsumer.close();
+            } catch (JMSException e1) {
+                getLog().warn(id + " Fail to close messageConsumer Queue : ", e1);
+            }
+            buildMessageConsumer();
+        }
     }
 }

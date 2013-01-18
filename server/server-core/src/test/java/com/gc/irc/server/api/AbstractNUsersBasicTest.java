@@ -14,6 +14,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.gc.irc.server.test.handler.ContactInfoMessageHandler;
 import com.gc.irc.server.test.handler.SimpleMessageHandler;
 import com.gc.irc.server.test.utils.entity.UserContextEntity;
 
@@ -157,8 +158,17 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
         assertTrue(getNbUserConnected() > 1);
         contexts = new ArrayList<UserContextEntity>();
         testId = Math.round(Math.random() * System.currentTimeMillis());
+        ContactInfoMessageHandler contactInfoMessageHandler = new ContactInfoMessageHandler();
         for (int i = 0; i < getNbUserConnected(); i++) {
-            contexts.add(getConnectedUser("User" + i + "Login" + testId, "User" + i + "Password" + testId));
+            contactInfoMessageHandler.reset();
+            UserContextEntity context = getConnectedUser("User" + i + "Login" + testId, "User" + i + "Password" + testId);
+            getLog().info("Wait for contact info");
+            while (i != contactInfoMessageHandler.getNbContactInfoReceived()) {
+                Thread.sleep(1000);
+                getLog().info(i + " => " + contactInfoMessageHandler.getNbContactInfoReceived());
+            }
+            contexts.add(context);
+            context.setMessageHandler(contactInfoMessageHandler);
         }
         putNewSimpleMessageHandlerInAllContext();
     }

@@ -31,9 +31,7 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.gc.irc.common.message.api.IIRCMessageHandler#handle(com.gc.irc.common
-     * .protocol.IRCMessage)
+     * @see com.gc.irc.common.message.api.IIRCMessageHandler#handle(com.gc.irc.common .protocol.IRCMessage)
      */
     @Override
     public void handle(final IRCMessage message) {
@@ -53,8 +51,7 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.gc.irc.server.test.handler.IMessageHandlerTester#isMessageRecieved()
+     * @see com.gc.irc.server.test.handler.IMessageHandlerTester#isMessageRecieved()
      */
     @Override
     public boolean isMessageRecieved() {
@@ -68,7 +65,7 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
      */
     @Override
     public void reset() {
-        getLog().info("Reset");
+        getLog().debug("Reset");
         lastReceivedMessage = null;
         resetInsernal();
     }

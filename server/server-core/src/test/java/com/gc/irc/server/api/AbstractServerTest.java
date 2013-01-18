@@ -1,6 +1,7 @@
 package com.gc.irc.server.api;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.apache.activemq.broker.BrokerService;
 import org.junit.AfterClass;
@@ -14,10 +15,12 @@ import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.protocol.command.IRCMessageCommand;
 import com.gc.irc.common.protocol.command.IRCMessageCommandLogin;
 import com.gc.irc.common.protocol.command.IRCMessageCommandRegister;
+import com.gc.irc.common.protocol.notice.IRCMessageNoticeServerMessage;
 import com.gc.irc.server.ServerStarter;
 import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.test.handler.IMessageHandlerTester;
 import com.gc.irc.server.test.handler.LoginMessageHandler;
+import com.gc.irc.server.test.handler.SimpleMessageHandler;
 import com.gc.irc.server.test.utils.entity.UserContextEntity;
 
 /**
@@ -105,13 +108,19 @@ public abstract class AbstractServerTest extends AbstractLoggable {
      */
     protected final ConnectionHandler getConnectionToServer() throws InterruptedException {
         final ConnectionHandler connectionHandler = new ConnectionHandler(null, SERVER_PORT);
+        IMessageHandlerTester messageHandler = new SimpleMessageHandler();
+        connectionHandler.setMessageHandler(messageHandler);
         new Thread(connectionHandler).start();
 
         System.out.println("Wait for connectionHandler to be up");
         while (!connectionHandler.isInitialized()) {
             Thread.sleep(500);
         }
+
         System.out.println("connectionHandler up");
+        waitForMessageInHandler(messageHandler);
+        assertTrue("" + messageHandler.getLastReceivedMessage(), messageHandler.getLastReceivedMessage() instanceof IRCMessageNoticeServerMessage);
+
         return connectionHandler;
     }
 

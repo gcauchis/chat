@@ -12,17 +12,17 @@ public class IRCUser extends AbstractLoggable implements Serializable {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -7180427709043943598L;
 
+    /** The has pictur. */
+    private boolean hasPictur = false;
+
     /** The id. */
-    private int id;
+    private final int id;
 
     /** The nick name. */
     private String nickName;
 
     /** The user status. */
     private UserStatus userStatus = UserStatus.ONLINE;
-
-    /** The has pictur. */
-    private boolean hasPictur = false;
 
     /**
      * Builder.
@@ -55,6 +55,18 @@ public class IRCUser extends AbstractLoggable implements Serializable {
     }
 
     /**
+     * Get a copy of the user.
+     * 
+     * @return A copy.
+     */
+    public IRCUser getCopy() {
+        getLog().debug("build copy");
+        final IRCUser userCopy = new IRCUser(id, nickName, hasPictur);
+        userCopy.setUserStatus(userStatus);
+        return userCopy;
+    }
+
+    /**
      * Gets the id.
      * 
      * @return the id
@@ -73,13 +85,12 @@ public class IRCUser extends AbstractLoggable implements Serializable {
     }
 
     /**
-     * Sets the nick name.
+     * Gets the user status.
      * 
-     * @param nickName
-     *            the new nick name
+     * @return the user status
      */
-    public void setNickName(final String nickName) {
-        this.nickName = nickName;
+    public UserStatus getUserStatus() {
+        return userStatus;
     }
 
     /**
@@ -92,12 +103,23 @@ public class IRCUser extends AbstractLoggable implements Serializable {
     }
 
     /**
-     * Gets the user status.
+     * Sets the checks for pictur.
      * 
-     * @return the user status
+     * @param hasPictur
+     *            the new checks for pictur
      */
-    public UserStatus getUserStatus() {
-        return userStatus;
+    public void setHasPictur(final boolean hasPictur) {
+        this.hasPictur = hasPictur;
+    }
+
+    /**
+     * Sets the nick name.
+     * 
+     * @param nickName
+     *            the new nick name
+     */
+    public void setNickName(final String nickName) {
+        this.nickName = nickName;
     }
 
     /**
@@ -108,6 +130,16 @@ public class IRCUser extends AbstractLoggable implements Serializable {
      */
     public void setUserStatus(final UserStatus userStatus) {
         this.userStatus = userStatus;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "IRCUser(" + super.toString() + ") [id=" + id + ", nickName=" + nickName + ", userStatus=" + userStatus + "]";
     }
 
     /**
@@ -122,28 +154,6 @@ public class IRCUser extends AbstractLoggable implements Serializable {
                 + "\" />\n";
 
         return result;
-    }
-
-    /**
-     * Sets the checks for pictur.
-     * 
-     * @param hasPictur
-     *            the new checks for pictur
-     */
-    public void setHasPictur(final boolean hasPictur) {
-        this.hasPictur = hasPictur;
-    }
-
-    /**
-     * Get a copy of the user.
-     * 
-     * @return A copy.
-     */
-    public IRCUser getCopy() {
-        getLog().debug("build copy");
-        final IRCUser userCopy = new IRCUser(id, nickName, hasPictur);
-        userCopy.setUserStatus(userStatus);
-        return userCopy;
     }
 
 }

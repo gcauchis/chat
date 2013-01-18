@@ -158,9 +158,10 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
         final List<IRCMessage> receivedMessages = sendMessageAndWaitForResponse(connectionThreadSrc, messageHandlerUserDest, currentSendedMessage);
         final List<IRCMessageChat> receivedMessagesToCheck = new ArrayList<IRCMessageChat>();
         for (final IRCMessage receivedMessage : receivedMessages) {
-            assertTrue(receivedMessage instanceof IRCMessageChat);
+            assertTrue("" + receivedMessage, receivedMessage instanceof IRCMessageChat);
             receivedMessagesToCheck.add((IRCMessageChat) receivedMessage);
         }
+        assertEquals(messageHandlerUserDest.size(), receivedMessagesToCheck.size());
         checkMessageReceived(userSrc, messageStr, receivedMessagesToCheck);
     }
 
@@ -217,7 +218,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
             }
         }
         final IRCMessage receivedMessage = sendMessageAndWaitForResponse(connectionThreadSource, messageHandlerUserDestination, currentSendedMessage);
-        assertTrue(receivedMessage instanceof IRCMessageChatPrivate);
+        assertTrue("" + receivedMessage, receivedMessage instanceof IRCMessageChatPrivate);
         final IRCMessageChatPrivate receivedChatMessage = (IRCMessageChatPrivate) receivedMessage;
         assertEquals(userDestination.getId(), receivedChatMessage.getToId());
         checkMessageReceived(userSource, messageStr, receivedChatMessage);

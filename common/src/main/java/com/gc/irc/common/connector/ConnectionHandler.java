@@ -17,8 +17,7 @@ import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
 
 /**
- * The thread wich connects the client to the server, and manages the serialized
- * objects wich are transmitted (they are defined in the com.irc.share.protocol
+ * The thread wich connects the client to the server, and manages the serialized objects wich are transmitted (they are defined in the com.irc.share.protocol
  * package)
  */
 public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSender {
@@ -48,13 +47,13 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     private ObjectOutputStream outObject;
 
     /** The port. */
-    private int port;
+    private final int port;
 
     /** The server disconnection. */
     private boolean serverDisconnection = false;
 
     /** The server name. */
-    private String serverName;
+    private final String serverName;
 
     /** The socket. */
     private Socket socket = null;
@@ -66,8 +65,7 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
      * Instantiates a new connection thread.
      * 
      * @param serverName
-     *            the ip address or name of the server If the server is on
-     *            localhost, out an empty string
+     *            the ip address or name of the server If the server is on localhost, out an empty string
      * @param port
      *            the port of the connexion
      */
@@ -109,14 +107,13 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     }
 
     /**
-     * disconnect the client from the server After that the client will
-     * automatically try to reconnect.
+     * disconnect the client from the server After that the client will automatically try to reconnect.
      */
     public void disconnect() {
         try {
             manualDisconnection = true;
             setServerDisconnection(false); // because it is a manual
-                                           // disconnection, from the client
+            // disconnection, from the client
             socket.close();
         } catch (final IOException e) {
             getLog().error("IO error", e);
@@ -155,8 +152,7 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     }
 
     /**
-     * Is the client currently connected on the server ? (the client may not be
-     * authenticated).
+     * Is the client currently connected on the server ? (the client may not be authenticated).
      * 
      * @return true, if is connected to server
      */
@@ -187,10 +183,8 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     }
 
     /**
-     * The thread infinite loop. Here, the client will try to connect to the
-     * server (opening a socket, and getting input and output streams). Then,
-     * the loop will wait for new serialized objects sent by the server, and
-     * execute the corresponding actions.
+     * The thread infinite loop. Here, the client will try to connect to the server (opening a socket, and getting input and output streams). Then, the loop
+     * will wait for new serialized objects sent by the server, and execute the corresponding actions.
      */
     @Override
     public void run() {
@@ -239,10 +233,10 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
 
                     } else {
                         getLog().debug("Message received : " + messageObject.getClass());
-                        if (messageHandler != null) {
-                            messageHandler.handle(messageObject);
-                        } else {
+                        if (messageHandler == null) {
                             getLog().warn("No messageHandler to handle " + messageObject);
+                        } else {
+                            messageHandler.handle(messageObject);
                         }
                     }
                 }
@@ -263,9 +257,7 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.gc.irc.common.api.IIRCMessageSender#send(com.gc.irc.common.protocol
-     * .IRCMessage)
+     * @see com.gc.irc.common.api.IIRCMessageSender#send(com.gc.irc.common.protocol .IRCMessage)
      */
     @Override
     public void send(final IRCMessage message) {

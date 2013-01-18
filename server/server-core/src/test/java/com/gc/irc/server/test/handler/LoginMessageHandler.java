@@ -2,19 +2,33 @@ package com.gc.irc.server.test.handler;
 
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactsList;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeLogin;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeRegister;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class LoginMessageHandler.
  */
 public class LoginMessageHandler extends AbstractMessageHandlerTester {
+
+    /** The contact list received. */
+    boolean contactListReceived = false;
 
     /** The login. */
     private IRCUser login;
 
     /** The login validated. */
     boolean loginValidated = false;
+
+    /**
+     * Gets the login.
+     * 
+     * @return the login
+     */
+    public IRCUser getLogin() {
+        return login;
+    }
 
     /**
      * Handle internal.
@@ -36,6 +50,9 @@ public class LoginMessageHandler extends AbstractMessageHandlerTester {
                 loginValidated = true;
                 getLog().info("REGISTER USER : " + login.toStringXML(""));
             }
+        } else if (message instanceof IRCMessageNoticeContactsList) {
+            contactListReceived = true;
+            getLog().info("Contact list received : " + message);
         }
     }
 
@@ -45,7 +62,7 @@ public class LoginMessageHandler extends AbstractMessageHandlerTester {
      * @return true, if is login validated
      */
     public boolean isLoginValidated() {
-        return loginValidated;
+        return loginValidated && contactListReceived;
     }
 
     /**
@@ -54,15 +71,6 @@ public class LoginMessageHandler extends AbstractMessageHandlerTester {
     @Override
     protected void resetInsernal() {
         loginValidated = false;
-    }
-
-    /**
-     * Gets the login.
-     * 
-     * @return the login
-     */
-    public IRCUser getLogin() {
-        return login;
     }
 
 }
