@@ -34,7 +34,7 @@ public interface IAuthenticationService {
      * @param nickname
      *            New NickName
      */
-    void changeNickUser(int id, String nickname);
+    void updateUserNickName(int id, String nickname);
 
     /**
      * Change the Password of the User.
@@ -44,7 +44,7 @@ public interface IAuthenticationService {
      * @param password
      *            New Password.
      */
-    void changePasswordUser(int id, String password);
+    void updateUserPasword(int id, String password);
 
     /**
      * Get the designed User.

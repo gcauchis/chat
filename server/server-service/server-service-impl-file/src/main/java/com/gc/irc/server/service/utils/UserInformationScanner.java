@@ -2,9 +2,8 @@ package com.gc.irc.server.service.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,7 +27,7 @@ public final class UserInformationScanner extends AbstractLoggable {
     private static int lastId = 0;
 
     /** The list users. */
-    private static List<UserInformations> listUsers = Collections.synchronizedList(new ArrayList<UserInformations>());
+    private static Map<Integer, UserInformations> users = new ConcurrentHashMap<Integer, UserInformations>();
 
     /**
      * Gets the last id.
@@ -44,8 +43,8 @@ public final class UserInformationScanner extends AbstractLoggable {
      * 
      * @return the list user infomation
      */
-    public static List<UserInformations> getListUserInfomation() {
-        return listUsers;
+    public static Map<Integer, UserInformations> getListUserInfomation() {
+        return users;
     }
 
     /**
@@ -88,10 +87,6 @@ public final class UserInformationScanner extends AbstractLoggable {
             case org.w3c.dom.Node.CDATA_SECTION_NODE:
                 break;
             case org.w3c.dom.Node.ELEMENT_NODE:
-                // org.w3c.dom.Element nodeElement = (org.w3c.dom.Element) node;
-                // if (nodeElement.getTagName().equals(""))
-                // {
-                // }
                 break;
             case org.w3c.dom.Node.PROCESSING_INSTRUCTION_NODE:
                 break;
@@ -125,7 +120,8 @@ public final class UserInformationScanner extends AbstractLoggable {
             case org.w3c.dom.Node.ELEMENT_NODE:
                 final org.w3c.dom.Element nodeElement = (org.w3c.dom.Element) node;
                 if (nodeElement.getTagName().equals("IRCUserInfo")) {
-                    listUsers.add(visitElementIRCUserInfo(nodeElement));
+                    final UserInformations userInfo = visitElementIRCUserInfo(nodeElement);
+                    users.put(userInfo.getId(), userInfo);
                 }
                 break;
             case org.w3c.dom.Node.PROCESSING_INSTRUCTION_NODE:
@@ -145,7 +141,7 @@ public final class UserInformationScanner extends AbstractLoggable {
      */
     public UserInformationScanner(final org.w3c.dom.Document document) {
         mDocument = document;
-        listUsers = Collections.synchronizedList(new ArrayList<UserInformations>());
+        users = new ConcurrentHashMap<Integer, UserInformations>();
         visitDocument();
     }
 
@@ -165,7 +161,7 @@ public final class UserInformationScanner extends AbstractLoggable {
         final DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
         final DocumentBuilder builder = builderFactory.newDocumentBuilder();
         mDocument = builder.parse(new InputSource(new File(file).toURI().toString()));
-        listUsers = Collections.synchronizedList(new ArrayList<UserInformations>());
+        users = new ConcurrentHashMap<Integer, UserInformations>();
         visitDocument();
     }
 

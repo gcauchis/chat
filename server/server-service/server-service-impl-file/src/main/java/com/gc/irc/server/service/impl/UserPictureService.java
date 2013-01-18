@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
@@ -17,7 +17,7 @@ import com.gc.irc.server.service.api.IUserPictureService;
  * @author gcauchis
  * 
  */
-@Component("userPictureManagement")
+@Service("userPictureManagement")
 public class UserPictureService extends AbstractLoggable implements IUserPictureService {
 
     /*

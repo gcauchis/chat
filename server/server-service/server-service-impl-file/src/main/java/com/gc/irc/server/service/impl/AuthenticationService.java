@@ -2,13 +2,13 @@ package com.gc.irc.server.service.impl;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
 import com.gc.irc.common.abs.AbstractLoggable;
@@ -27,7 +27,7 @@ import com.gc.irc.server.service.utils.UserInformationScanner;
  * @author gcauchis
  * 
  */
-@Component("authenticationService")
+@Service("authenticationService")
 @Scope("singleton")
 public class AuthenticationService extends AbstractLoggable implements IAuthenticationService {
 
@@ -44,15 +44,15 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
         AuthenticationService.lastId = lastId;
     }
 
-    /** The list users. */
-    private final List<UserInformations> listUsers;
-
     /** The path fichier. */
     private final String pathFichier = "auth.xml";
 
     /** The user picture service. */
     @Autowired
     private IUserPictureService userPictureService;
+
+    /** The list users. */
+    private final Map<Integer, UserInformations> users;
 
     /**
      * Read the Users data.
@@ -69,7 +69,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
             getLog().warn("Fail to read xml file. If file didn't exist yet, don't worry with this error", e);
         }
         setLastId(UserInformationScanner.getLastId());
-        listUsers = UserInformationScanner.getListUserInfomation();
+        users = UserInformationScanner.getListUserInfomation();
         getLog().debug("End init auth.");
     }
 
@@ -86,44 +86,10 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
             getLog().info("Login already exist");
             return false;
         }
-        listUsers.add(new UserInformations(getNewId(), nickname, login, password));
+        final int newId = getNewId();
+        users.put(newId, new UserInformations(newId, nickname, login, password));
         saveModification();
         return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gc.irc.server.auth.AuthentificationInterface#changeNickUser(int,
-     * java.lang.String)
-     */
-    @Override
-    public void changeNickUser(final int id, final String nickname) {
-        for (final UserInformations user : listUsers) {
-            if (user.getId() == id) {
-                user.setNickname(nickname);
-                saveModification();
-                return;
-            }
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.gc.irc.server.auth.AuthentificationInterface#changePasswordUser(int,
-     * java.lang.String)
-     */
-    @Override
-    public void changePasswordUser(final int id, final String password) {
-        for (final UserInformations user : listUsers) {
-            if (user.getId() == id) {
-                user.setPassword(password);
-                saveModification();
-                return;
-            }
-        }
     }
 
     /**
@@ -134,8 +100,8 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
     private String generateXML() {
         String result = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\" ?>\n\n";
         result += "<IRCUsers lastId=\"" + lastId + "\">\n";
-        for (final UserInformations user : listUsers) {
-            result += user.toStringXML("\t");
+        for (final Map.Entry<Integer, UserInformations> entry : users.entrySet()) {
+            result += entry.getValue().toStringXML("\t");
         }
 
         result += "</IRCUsers>\n";
@@ -160,12 +126,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      */
     @Override
     public UserInformations getUser(final int id) {
-        for (final UserInformations user : listUsers) {
-            if (user.getId() == id) {
-                return user;
-            }
-        }
-        return null;
+        return users.get(id);
     }
 
     /*
@@ -177,13 +138,12 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      */
     @Override
     public IRCUser logUser(final String login, final String password) {
-
-        for (final UserInformations user : listUsers) {
-            if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
-                if (user.isConnected()) {
+        for (final Map.Entry<Integer, UserInformations> entry : users.entrySet()) {
+            if (entry.getValue().getLogin().equals(login) && entry.getValue().getPassword().equals(password)) {
+                if (entry.getValue().isConnected()) {
                     return null;
                 }
-                return user.getUser();
+                return entry.getValue().getUser();
             }
         }
         return null;
@@ -196,7 +156,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      */
     @Override
     public void saveModification() {
-        synchronized (listUsers) {
+        synchronized (users) {
             IOUtils.writeFile(pathFichier, generateXML());
         }
     }
@@ -211,17 +171,17 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
     @Override
     public synchronized void sendUsersPicture(final ObjectOutputStream outObject) {
         IRCMessageItemPicture messagePicture;
-        for (final UserInformations user : listUsers) {
-            if (user.isConnected() && user.hasPictur()) {
-                messagePicture = userPictureService.getPictureOf(user.getId());
+        for (final Map.Entry<Integer, UserInformations> entry : users.entrySet()) {
+            if (entry.getValue().isConnected() && entry.getValue().hasPictur()) {
+                messagePicture = userPictureService.getPictureOf(entry.getValue().getId());
                 if (messagePicture != null) {
                     try {
                         IOStreamUtils.sendMessage(outObject, messagePicture);
                     } catch (final IOException e) {
-                        getLog().warn("Fail to send the picture of " + user.getNickname() + " : ", e);
+                        getLog().warn("Fail to send the picture of " + entry.getValue().getNickname() + " : ", e);
                     }
                 } else {
-                    getLog().warn("Fail to open the picture of " + user.getNickname());
+                    getLog().warn("Fail to open the picture of {}", entry.getValue().getNickname());
                 }
             }
         }
@@ -240,14 +200,45 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
     /*
      * (non-Javadoc)
      * 
+     * @see com.gc.irc.server.auth.AuthentificationInterface#changeNickUser(int,
+     * java.lang.String)
+     */
+    @Override
+    public void updateUserNickName(final int id, final String nickname) {
+        final UserInformations user = getUser(id);
+        if (user != null) {
+            user.setNickname(nickname);
+            saveModification();
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.gc.irc.server.auth.AuthentificationInterface#changePasswordUser(int,
+     * java.lang.String)
+     */
+    @Override
+    public void updateUserPasword(final int id, final String password) {
+        final UserInformations user = getUser(id);
+        if (user != null) {
+            user.setPassword(password);
+            saveModification();
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see
      * com.gc.irc.server.auth.AuthentificationInterface#userLoginExist(java.
      * lang.String)
      */
     @Override
     public boolean userLoginExist(final String login) {
-        for (final UserInformations user : listUsers) {
-            if (user.loginEquals(login)) {
+        for (final Map.Entry<Integer, UserInformations> entry : users.entrySet()) {
+            if (entry.getValue().loginEquals(login)) {
                 return true;
             }
         }

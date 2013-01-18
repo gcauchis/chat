@@ -185,7 +185,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
             case GLOBAL:
                 if (authenticationService.getUser(messageObjChat.getFromId()) != null) {
                     getLog().debug(id + " Global message form " + authenticationService.getUser(messageObjChat.getFromId()).getNickname());
-                    sendObjetMessageIRCToAll(messageObjChat);
+                    usersConnectionsManagement.sendMessageToAllUsers(messageObjChat);
                 } else {
                     getLog().warn(id + " inexisting source id");
                 }
@@ -232,8 +232,9 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
                 final IRCMessageCommandChangeNickname messageChNick = (IRCMessageCommandChangeNickname) messageObjCmd;
                 {
                     if (authenticationService.getUser(messageChNick.getFromId()) != null) {
-                        authenticationService.changeNickUser(messageChNick.getFromId(), messageChNick.getNewNickname());
-                        sendObjetMessageIRCToAll(new IRCMessageNoticeContactInfo(authenticationService.getUser(messageChNick.getFromId()).getUser()));
+                        authenticationService.updateUserNickName(messageChNick.getFromId(), messageChNick.getNewNickname());
+                        usersConnectionsManagement.sendMessageToAllUsers(new IRCMessageNoticeContactInfo(authenticationService.getUser(
+                                messageChNick.getFromId()).getUser()));
                     } else {
                         getLog().warn(id + " this user didn't exist.");
                     }
@@ -245,7 +246,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
                 if (user != null) {
                     getLog().debug(id + " " + user.getNickName() + " change status to " + messageChStatus.getNewStatus());
                     user.setUserStatus(messageChStatus.getNewStatus());
-                    sendObjetMessageIRCToAll(new IRCMessageNoticeContactInfo(user));
+                    usersConnectionsManagement.sendMessageToAllUsers(new IRCMessageNoticeContactInfo(user));
                 }
                 break;
             default:
@@ -259,11 +260,9 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
             case CONTACT_INFO:
                 final IRCMessageNoticeContactInfo messageObjNoticeContactInfo = (IRCMessageNoticeContactInfo) messageObjNotice;
                 final IRCUser userChange = messageObjNoticeContactInfo.getUser();
-                getLog()
-                        .debug(
-                                id + " User " + userChange.getNickName() + " change state to " + userChange.getUserStatus() + " has pictur : "
-                                        + userChange.hasPictur());
-                sendObjetMessageIRCToAll(messageObjNoticeContactInfo);
+                getLog().debug(
+                        id + " User " + userChange.getNickName() + " change state to " + userChange.getUserStatus() + " has pictur : " + userChange.hasPictur());
+                usersConnectionsManagement.sendMessageToAllUsers(messageObjNoticeContactInfo);
                 break;
 
             default:
@@ -284,7 +283,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
                     getLog().warn(id + " User null");
                 }
 
-                sendObjetMessageIRCToAll(messagePictur);
+                usersConnectionsManagement.sendMessageToAllUsers(messagePictur);
             }
             break;
 
@@ -334,34 +333,6 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
 
         while (true) {
             waitAndHandleJMSMessage();
-        }
-    }
-
-    /**
-     * Send a message to all connected Client.
-     * 
-     * @param message
-     *            Message to Send
-     */
-    private void sendObjetMessageIRCToAll(final IRCMessage message) {
-        final List<IGestionClientBean> clientConnecter = usersConnectionsManagement.getClientConnected();
-
-        if (authenticationService.getUser(message.getFromId()) != null) {
-            getLog().isDebugEnabled();
-            getLog().debug(id + " Send a message to all connected client from " + authenticationService.getUser(message.getFromId()).getNickname());
-            synchronized (clientConnecter) {
-                for (final IGestionClientBean client : clientConnecter) {
-                    if (message.getFromId() != client.getUser().getId()) {
-                        synchronized (client) {
-                            synchronized (client.getUser()) {
-                                client.sendMessageObjetInSocket(message);
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            getLog().warn(id + " Inexisting source ID");
         }
     }
 
@@ -424,7 +395,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
             getLog().warn(id + " Fail to receive message in JMS Queue : ", e);
             try {
                 messageConsumer.close();
-            } catch (JMSException e1) {
+            } catch (final JMSException e1) {
                 getLog().warn(id + " Fail to close messageConsumer Queue : ", e1);
             }
             buildMessageConsumer();
