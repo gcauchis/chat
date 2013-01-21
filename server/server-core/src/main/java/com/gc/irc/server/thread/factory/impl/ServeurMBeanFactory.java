@@ -1,5 +1,7 @@
 package com.gc.irc.server.thread.factory.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
+import com.gc.irc.server.handler.message.api.IServerMessageHandler;
 import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.service.api.IAuthenticationService;
 import com.gc.irc.server.service.api.IUserPictureService;
@@ -33,6 +36,10 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
     @Value("${nbMessageMaxPassage}")
     private int numPassageMax = 10;
 
+    /** The server message handlers. */
+    @Autowired
+    private List<IServerMessageHandler> serverMessageHandlers;
+
     /** The user picture service. */
     @Autowired
     private IUserPictureService userPictureService;
@@ -44,9 +51,7 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.gc.irc.server.thread.factory.api.IServeurMBeanFactory#getServeurMBean
-     * (com.gc.irc.server.core.ServerCore)
+     * @see com.gc.irc.server.thread.factory.api.IServeurMBeanFactory#getServeurMBean (com.gc.irc.server.core.ServerCore)
      */
     @Override
     public IServeurMBean getServeurMBean() {
@@ -56,6 +61,7 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
         serveurMBean.setNumPassageMax(numPassageMax);
         serveurMBean.setAuthenticationService(authenticationService);
         serveurMBean.setUserPictureService(userPictureService);
+        serveurMBean.setServerMessageHandlers(serverMessageHandlers);
         return serveurMBean;
     }
 
@@ -87,6 +93,16 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
      */
     public void setNumPassageMax(final int numPassageMax) {
         this.numPassageMax = numPassageMax;
+    }
+
+    /**
+     * Sets the server message handlers.
+     * 
+     * @param serverMessageHandlers
+     *            the new server message handlers
+     */
+    public void setServerMessageHandlers(List<IServerMessageHandler> serverMessageHandlers) {
+        this.serverMessageHandlers = serverMessageHandlers;
     }
 
     /**

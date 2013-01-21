@@ -60,9 +60,7 @@ public abstract class AbstractServerMessageHandler<MSG extends IRCMessage> exten
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.gc.irc.server.handler.message.api.IServerMessageHandler#handle(com
-     * .gc.irc.common.protocol.IRCMessage)
+     * @see com.gc.irc.server.handler.message.api.IServerMessageHandler#handle(com .gc.irc.common.protocol.IRCMessage)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -84,9 +82,7 @@ public abstract class AbstractServerMessageHandler<MSG extends IRCMessage> exten
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.gc.irc.server.handler.message.api.IServerMessageHandler#isHandled
-     * (com.gc.irc.common.protocol.IRCMessage)
+     * @see com.gc.irc.server.handler.message.api.IServerMessageHandler#isHandled (com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
     public final boolean isHandled(final IRCMessage message) {

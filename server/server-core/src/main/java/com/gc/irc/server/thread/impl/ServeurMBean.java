@@ -9,18 +9,10 @@ import javax.jms.ObjectMessage;
 import com.gc.irc.common.abs.AbstractRunnable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.protocol.IRCMessage;
-import com.gc.irc.common.protocol.chat.IRCMessageChat;
-import com.gc.irc.common.protocol.chat.IRCMessageChatPrivate;
-import com.gc.irc.common.protocol.command.IRCMessageCommand;
-import com.gc.irc.common.protocol.command.IRCMessageCommandChangeNickname;
-import com.gc.irc.common.protocol.command.IRCMessageCommandChangeStatus;
-import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
-import com.gc.irc.common.protocol.notice.IRCMessageNotice;
-import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
+import com.gc.irc.server.handler.message.api.IServerMessageHandler;
 import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.jms.utils.JMSConnectionUtils;
-import com.gc.irc.server.model.UserInformations;
 import com.gc.irc.server.service.api.IAuthenticationService;
 import com.gc.irc.server.service.api.IUserPictureService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
@@ -64,6 +56,9 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
 
     /** The num passage max. */
     private int numPassageMax = 10;
+
+    /** The server message handlers. */
+    private List<IServerMessageHandler> serverMessageHandlers;
 
     /** The user picture service. */
     private IUserPictureService userPictureService;
@@ -176,120 +171,14 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
             return;
         }
 
-        getLog().debug(id + " Message's type : " + messageObj.getType());
-        switch (messageObj.getType()) {
-        case CHATMESSAGE:
-            final IRCMessageChat messageObjChat = (IRCMessageChat) messageObj;
-            getLog().debug(id + " Type : " + messageObjChat.getChatMessageType());
-            switch (messageObjChat.getChatMessageType()) {
-            case GLOBAL:
-                if (authenticationService.getUser(messageObjChat.getFromId()) != null) {
-                    getLog().debug(id + " Global message form " + authenticationService.getUser(messageObjChat.getFromId()).getNickname());
-                    usersConnectionsManagement.sendMessageToAllUsers(messageObjChat);
-                } else {
-                    getLog().warn(id + " inexisting source id");
-                }
-                break;
+        getLog().debug("Handle {}", messageObj);
 
-            case PRIVATE:
-                final IRCMessageChatPrivate messageChatPriv = (IRCMessageChatPrivate) messageObjChat;
-                if (authenticationService.getUser(messageChatPriv.getFromId()) != null) {
-                    if (authenticationService.getUser(messageChatPriv.getToId()) != null) {
-                        if (getLog().isDebugEnabled()) {
-                            getLog().debug(
-                                    id + " Private Message from " + authenticationService.getUser(messageChatPriv.getFromId()).getNickname() + " to "
-                                            + authenticationService.getUser(messageChatPriv.getToId()).getNickname());
-                        }
-                        final IGestionClientBean clientCible = usersConnectionsManagement.getGestionClientBeanOfUser(messageChatPriv.getToId());
-                        if (clientCible != null) {
-                            clientCible.sendMessageObjetInSocket(messageChatPriv);
-                        }
-                    } else {
-                        getLog().warn(id + " inexisting destination id");
-                        getLog().debug(id + " Check if retry later");
-                        final int numPassage = messageChatPriv.numPassage();
-                        if (numPassage < numPassageMax) {
-                            getLog().debug(id + " Send again the private message in JMS. Passage number " + numPassage);
-                            jmsProducer.postInJMS(messageChatPriv);
-                        } else {
-                            getLog().debug(id + " Message passed to much time in the server (more than " + numPassageMax + "). Trash it !");
-                        }
-                    }
-                } else {
-                    getLog().warn(id + " inexisting source id");
-                }
-                break;
-
-            default:
-                break;
+        for (IServerMessageHandler serverMessageHandler : serverMessageHandlers) {
+            if (serverMessageHandler.isHandled(messageObj)) {
+                serverMessageHandler.handle(messageObj);
             }
-            break;
-        case COMMAND:
-            final IRCMessageCommand messageObjCmd = (IRCMessageCommand) messageObj;
-            getLog().debug(id + " Type : " + messageObjCmd.getCommandType());
-            switch (messageObjCmd.getCommandType()) {
-            case CHANGE_NICKNAME:
-                final IRCMessageCommandChangeNickname messageChNick = (IRCMessageCommandChangeNickname) messageObjCmd;
-                {
-                    if (authenticationService.getUser(messageChNick.getFromId()) != null) {
-                        authenticationService.updateUserNickName(messageChNick.getFromId(), messageChNick.getNewNickname());
-                        usersConnectionsManagement.sendMessageToAllUsers(new IRCMessageNoticeContactInfo(authenticationService.getUser(
-                                messageChNick.getFromId()).getUser()));
-                    } else {
-                        getLog().warn(id + " this user didn't exist.");
-                    }
-                }
-                break;
-            case CHANGE_STATUS:
-                final IRCMessageCommandChangeStatus messageChStatus = (IRCMessageCommandChangeStatus) messageObjCmd;
-                final IRCUser user = authenticationService.getUser(messageChStatus.getFromId()).getUser();
-                if (user != null) {
-                    getLog().debug(id + " " + user.getNickName() + " change status to " + messageChStatus.getNewStatus());
-                    user.setUserStatus(messageChStatus.getNewStatus());
-                    usersConnectionsManagement.sendMessageToAllUsers(new IRCMessageNoticeContactInfo(user));
-                }
-                break;
-            default:
-                break;
-            }
-            break;
-        case NOTIFICATION:
-            final IRCMessageNotice messageObjNotice = (IRCMessageNotice) messageObj;
-            getLog().debug(id + " Type : " + messageObjNotice.getNoticeType());
-            switch (messageObjNotice.getNoticeType()) {
-            case CONTACT_INFO:
-                final IRCMessageNoticeContactInfo messageObjNoticeContactInfo = (IRCMessageNoticeContactInfo) messageObjNotice;
-                final IRCUser userChange = messageObjNoticeContactInfo.getUser();
-                getLog().debug(
-                        id + " User " + userChange.getNickName() + " change state to " + userChange.getUserStatus() + " has pictur : " + userChange.hasPictur());
-                usersConnectionsManagement.sendMessageToAllUsers(messageObjNoticeContactInfo);
-                break;
-
-            default:
-                break;
-            }
-            break;
-        case ITEM:
-            final IRCMessageItemPicture messagePictur = (IRCMessageItemPicture) messageObj;
-            {
-
-                userPictureService.newPicture(messagePictur.getFromId(), messagePictur);
-
-                final UserInformations userInfo = authenticationService.getUser(messagePictur.getFromId());
-                if (userInfo != null) {
-                    userInfo.setHasPicture(true);
-                    authenticationService.saveModification();
-                } else {
-                    getLog().warn(id + " User null");
-                }
-
-                usersConnectionsManagement.sendMessageToAllUsers(messagePictur);
-            }
-            break;
-
-        default:
-            break;
         }
+
     }
 
     /**
@@ -364,6 +253,16 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      */
     public void setNumPassageMax(final int numPassageMax) {
         this.numPassageMax = numPassageMax;
+    }
+
+    /**
+     * Sets the server message handlers.
+     * 
+     * @param serverMessageHandlers
+     *            the new server message handlers
+     */
+    public void setServerMessageHandlers(List<IServerMessageHandler> serverMessageHandlers) {
+        this.serverMessageHandlers = serverMessageHandlers;
     }
 
     /**
