@@ -2,6 +2,7 @@ package com.gc.irc.server.conf;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
@@ -60,12 +61,15 @@ public class ServerConf {
         if (properties == null) {
             properties = new Properties();
             LOGGER.info("load " + CONF_FILE_PATH);
-            try {
-                properties.load(ClassLoader.getSystemResource(CONF_FILE_PATH).openStream());
-            } catch (final FileNotFoundException e) {
-                LOGGER.warn("Configuration file not found.", e);
-            } catch (final IOException e) {
-                LOGGER.warn("Failes to read configuration.", e);
+            URL confUrl = ClassLoader.getSystemResource(CONF_FILE_PATH);
+            if (confUrl != null) {
+                try {
+                    properties.load(confUrl.openStream());
+                } catch (final FileNotFoundException e) {
+                    LOGGER.warn("Configuration file not found.", e);
+                } catch (final IOException e) {
+                    LOGGER.warn("Failes to read configuration.", e);
+                }
             }
         }
         return properties;

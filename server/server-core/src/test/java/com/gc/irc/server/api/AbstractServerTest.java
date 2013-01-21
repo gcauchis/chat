@@ -2,10 +2,12 @@ package com.gc.irc.server.api;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.apache.activemq.broker.BrokerService;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.slf4j.Logger;
 
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.connector.ConnectionHandler;
@@ -16,6 +18,7 @@ import com.gc.irc.common.protocol.command.IRCMessageCommand;
 import com.gc.irc.common.protocol.command.IRCMessageCommandLogin;
 import com.gc.irc.common.protocol.command.IRCMessageCommandRegister;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeServerMessage;
+import com.gc.irc.common.utils.LoggerUtils;
 import com.gc.irc.server.ServerStarter;
 import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.test.handler.IMessageHandlerTester;
@@ -27,8 +30,12 @@ import com.gc.irc.server.test.utils.entity.UserContextEntity;
  * The Class AbstractServerTest.
  */
 public abstract class AbstractServerTest extends AbstractLoggable {
+
     /** The jms broker. */
     private static BrokerService jmsBroker;
+
+    /** The Constant LOGGER. */
+    private static final Logger LOGGER = LoggerUtils.getLogger(AbstractServerTest.class);
 
     /** The Constant SERVER_PORT. */
     protected static final int SERVER_PORT = 1973;
@@ -44,7 +51,18 @@ public abstract class AbstractServerTest extends AbstractLoggable {
      */
     @AfterClass
     public static void cleanAll() {
-        starterThread.interrupt();
+        LOGGER.info("Close env");
+        if (starterThread != null) {
+            starterThread.interrupt();
+        }
+        if (jmsBroker != null) {
+            try {
+                jmsBroker.stop();
+            } catch (Exception e) {
+                LOGGER.error("Fail to stop jms broker: ", e);
+                fail();
+            }
+        }
     }
 
     /**
@@ -55,31 +73,28 @@ public abstract class AbstractServerTest extends AbstractLoggable {
      */
     @BeforeClass
     public static synchronized void lauchServer() throws InterruptedException {
+        LOGGER.info("Start jms broker");
         if (jmsBroker == null) {
             jmsBroker = new BrokerService();
             try {
                 jmsBroker.addConnector(ServerConf.getProperty(ServerConf.JMS_SERVER_URL, "tcp://localhost:61616"));
-            } catch (final Exception e) {
-                System.out.println("Fail to initialize jms broker: " + e);
-                e.printStackTrace();
-            }
-            jmsBroker.setPersistent(false);
-            try {
+                jmsBroker.setPersistent(false);
                 jmsBroker.start();
             } catch (final Exception e) {
-                System.out.println("Fail to start jms broker: " + e);
-                e.printStackTrace();
+                LOGGER.warn("Fail to initialize/start jms broker: ", e);
             }
+            LOGGER.info("end start jms broker");
         }
+        LOGGER.info("Start Server");
         if (starter == null) {
             starter = new ServerStarter();
             starterThread = new Thread(starter);
             starterThread.start();
-            System.out.println("Wait for server to be up");
+            LOGGER.info("Wait for server to be up");
             while (!starter.isInitialized()) {
                 Thread.sleep(500);
             }
-            System.out.println("Server up");
+            LOGGER.info("Server up");
         }
     }
 
@@ -112,12 +127,12 @@ public abstract class AbstractServerTest extends AbstractLoggable {
         connectionHandler.setMessageHandler(messageHandler);
         new Thread(connectionHandler).start();
 
-        System.out.println("Wait for connectionHandler to be up");
+        getLog().info("Wait for connectionHandler to be up");
         while (!connectionHandler.isInitialized()) {
             Thread.sleep(500);
         }
 
-        System.out.println("connectionHandler up");
+        getLog().info("connectionHandler up");
         waitForMessageInHandler(messageHandler);
         assertTrue("" + messageHandler.getLastReceivedMessage(), messageHandler.getLastReceivedMessage() instanceof IRCMessageNoticeServerMessage);
 

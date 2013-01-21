@@ -81,8 +81,8 @@ public class BasicServerTest extends AbstractServerTest {
      */
     @Test
     public void loginRand() throws InterruptedException {
-        assertNotNull(loginAndRegister(connectionThread, "TestUser" + Math.round(Math.random() * System.currentTimeMillis()),
-                "TestPassword" + Math.round(Math.random() * System.currentTimeMillis())));
+        assertNotNull(loginAndRegister(connectionThread, "TestUser" + Math.round(Math.random() * System.currentTimeMillis()), "TestPassword"
+                + Math.round(Math.random() * System.currentTimeMillis())));
     }
 
     /**
@@ -105,7 +105,7 @@ public class BasicServerTest extends AbstractServerTest {
     @Test
     public void sendMsg() throws InterruptedException {
         for (int i = 0; i < 5; i++) {
-            System.out.println("send msg");
+            getLog().info("send msg");
             sendMessage(connectionThread, getBasicMessage());
             Thread.sleep(500);
         }

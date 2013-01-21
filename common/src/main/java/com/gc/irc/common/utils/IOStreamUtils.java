@@ -4,36 +4,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
 import com.gc.irc.common.protocol.IRCMessage;
 
 public final class IOStreamUtils {
 
     /** The Constant logger. */
-    private static final Logger LOGGER = Logger.getLogger(IRCMessage.class);
-
-    /**
-     * Instantiates a new iO stream utils.
-     */
-    private IOStreamUtils() {
-        super();
-    }
-
-    /**
-     * Send the message.
-     * 
-     * @param outObject
-     *            Stream where is send the message
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
-     */
-    public static void sendMessage(final ObjectOutputStream outObject, final IRCMessage message) throws IOException {
-        LOGGER.debug("Send the Message : " + message);
-        outObject.writeObject(message);
-        outObject.flush();
-        outObject.reset();
-    }
+    private static final Logger LOGGER = LoggerUtils.getLogger(IOStreamUtils.class);
 
     /**
      * Wait and receive a Message.
@@ -53,6 +31,29 @@ public final class IOStreamUtils {
         LOGGER.debug("Message receive : " + message);
 
         return message;
+    }
+
+    /**
+     * Send the message.
+     * 
+     * @param outObject
+     *            Stream where is send the message
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    public static void sendMessage(final ObjectOutputStream outObject, final IRCMessage message) throws IOException {
+        LOGGER.debug("Send the Message : " + message);
+        outObject.writeObject(message);
+        outObject.flush();
+        outObject.reset();
+        LOGGER.debug("Message sended");
+    }
+
+    /**
+     * Instantiates a new iO stream utils.
+     */
+    private IOStreamUtils() {
+        super();
     }
 
 }
