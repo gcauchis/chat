@@ -147,7 +147,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      * @param message
      *            Message received.
      */
-    private void handleObjectMessage(final ObjectMessage message) {
+    private void handleMessage(final ObjectMessage message) {
         getLog().debug(id + " Handle received Message.");
         if (message == null) {
             getLog().debug("Null message to handle");
@@ -390,7 +390,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     private void waitAndHandleJMSMessage() {
         try {
             getLog().debug(id + " Wait for a message in JMS Queue");
-            handleObjectMessage((ObjectMessage) messageConsumer.receive());
+            handleMessage((ObjectMessage) messageConsumer.receive());
         } catch (final JMSException e) {
             getLog().warn(id + " Fail to receive message in JMS Queue : ", e);
             try {
