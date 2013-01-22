@@ -87,6 +87,20 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
     }
 
     /**
+     * Reset message handlers.
+     * 
+     * @param messageHandlers
+     *            the message handlers
+     */
+    protected final void resetMessageHandlers(final List<IMessageHandlerTester> messageHandlers) {
+        if (messageHandlers != null && !messageHandlers.isEmpty()) {
+            for (final IMessageHandlerTester messageHandler : messageHandlers) {
+                messageHandler.reset();
+            }
+        }
+    }
+
+    /**
      * Send meassage and wait for response.
      * 
      * @param connectionThreadSender
@@ -123,9 +137,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
         if (messageHandlerUserDestination == null || messageHandlerUserDestination.isEmpty()) {
             return null;
         }
-        for (final IMessageHandlerTester messageHandler : messageHandlerUserDestination) {
-            messageHandler.reset();
-        }
+        resetMessageHandlers(messageHandlerUserDestination);
         sendMessage(connectionThreadSender, sendedMessage);
         final List<IRCMessage> receivedMessages = new ArrayList<IRCMessage>();
         for (final IMessageHandlerTester messageHandler : messageHandlerUserDestination) {
@@ -212,11 +224,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
             final IMessageHandlerTester messageHandlerUserDestination, final IRCUser userDestination,
             final List<IMessageHandlerTester> otherUsersMessageHandlers) throws InterruptedException {
         final IRCMessage currentSendedMessage = buildSimplePrivateMessage(userSource, messageStr, userDestination.getId());
-        if (otherUsersMessageHandlers != null && !otherUsersMessageHandlers.isEmpty()) {
-            for (final IMessageHandlerTester otherMessageHandler : otherUsersMessageHandlers) {
-                otherMessageHandler.reset();
-            }
-        }
+        resetMessageHandlers(otherUsersMessageHandlers);
         final IRCMessage receivedMessage = sendMessageAndWaitForResponse(connectionThreadSource, messageHandlerUserDestination, currentSendedMessage);
         assertTrue("" + receivedMessage, receivedMessage instanceof IRCMessageChatPrivate);
         final IRCMessageChatPrivate receivedChatMessage = (IRCMessageChatPrivate) receivedMessage;

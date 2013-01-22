@@ -6,7 +6,7 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
 /**
  * The Class ContactInfoMessageHandler.
  */
-public class ContactInfoMessageHandler extends AbstractMessageHandlerTester {
+public class LoginContactInfoMessageHandler extends AbstractMessageHandlerTester {
 
     /** The nb contact info received. */
     private int nbContactInfoReceived = 0;

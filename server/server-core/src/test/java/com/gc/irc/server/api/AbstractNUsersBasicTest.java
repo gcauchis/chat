@@ -1,5 +1,6 @@
 package com.gc.irc.server.api;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -14,7 +15,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gc.irc.server.test.handler.ContactInfoMessageHandler;
+import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.UserStatus;
+import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.command.IRCMessageCommandChangeNickname;
+import com.gc.irc.common.protocol.command.IRCMessageCommandChangeStatus;
+import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
+import com.gc.irc.server.test.handler.IMessageHandlerTester;
+import com.gc.irc.server.test.handler.LoginContactInfoMessageHandler;
 import com.gc.irc.server.test.handler.SimpleMessageHandler;
 import com.gc.irc.server.test.utils.entity.UserContextEntity;
 
@@ -33,9 +41,78 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
     private List<UserContextEntity> contexts;
 
     /** The random. */
-    private final Random random = new SecureRandom();
+    protected final Random random = new SecureRandom();
 
+    /** The test id. */
     private long testId;
+
+    /**
+     * Change nick name.
+     * 
+     * @throws InterruptedException
+     *             the interrupted exception
+     */
+    @Test
+    public final void changeNickName() throws InterruptedException {
+        UserContextEntity senderContext = getRandomUserContext();
+        IRCUser user = senderContext.getUser();
+        user.setNickName("ChangeNickName-" + user.getId() + "-" + testId);
+        IRCMessage changeNickNameMessage = new IRCMessageCommandChangeNickname(user);
+        List<IRCMessage> receivedMessages = sendMessageAndWaitForResponse(senderContext.getConnectionUser(),
+                getMessageHandlers(getContextListWithout(senderContext)), changeNickNameMessage);
+        assertEquals(getNbUserConnected() - 1, receivedMessages.size());
+        for (IRCMessage receivedMessage : receivedMessages) {
+            assertTrue(receivedMessage instanceof IRCMessageNoticeContactInfo);
+            IRCMessageNoticeContactInfo message = (IRCMessageNoticeContactInfo) receivedMessage;
+            assertEquals(user.getId(), message.getFromId());
+            assertEquals(user.getId(), message.getUser().getId());
+            assertEquals(user.getNickName(), message.getUser().getNickName());
+        }
+    }
+
+    /**
+     * Change status.
+     * 
+     * @throws InterruptedException
+     *             the interrupted exception
+     */
+    @Test
+    public final void changeStatus() throws InterruptedException {
+        UserContextEntity senderContext = getRandomUserContext();
+        IRCUser user = senderContext.getUser();
+        UserStatus newStatus = UserStatus.BUSY;
+        changeStatus(senderContext, user, newStatus);
+        newStatus = UserStatus.ABSENT;
+        changeStatus(senderContext, user, newStatus);
+        newStatus = UserStatus.ONLINE;
+        changeStatus(senderContext, user, newStatus);
+    }
+
+    /**
+     * Change status.
+     * 
+     * @param senderContext
+     *            the sender context
+     * @param user
+     *            the user
+     * @param newStatus
+     *            the new status
+     * @throws InterruptedException
+     *             the interrupted exception
+     */
+    private void changeStatus(UserContextEntity senderContext, IRCUser user, UserStatus newStatus) throws InterruptedException {
+        IRCMessage changeStatusMessage = new IRCMessageCommandChangeStatus(user.getId(), newStatus);
+        List<IRCMessage> receivedMessages = sendMessageAndWaitForResponse(senderContext.getConnectionUser(),
+                getMessageHandlers(getContextListWithout(senderContext)), changeStatusMessage);
+        assertEquals(getNbUserConnected() - 1, receivedMessages.size());
+        for (IRCMessage receivedMessage : receivedMessages) {
+            assertTrue(receivedMessage instanceof IRCMessageNoticeContactInfo);
+            IRCMessageNoticeContactInfo message = (IRCMessageNoticeContactInfo) receivedMessage;
+            assertEquals(user.getId(), message.getFromId());
+            assertEquals(user.getId(), message.getUser().getId());
+            assertEquals(newStatus, message.getUser().getUserStatus());
+        }
+    }
 
     /**
      * Clean.
@@ -68,8 +145,8 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
     /**
      * Gets the context list without.
      * 
-     * @param asList
-     *            the as list
+     * @param contextToRemove
+     *            the context to remove
      * @return the context list without
      */
     private List<UserContextEntity> getContextListWithout(List<UserContextEntity> contextToRemove) {
@@ -96,6 +173,22 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
      */
     protected final List<UserContextEntity> getContexts() {
         return new ArrayList<UserContextEntity>(contexts);
+    }
+
+    /**
+     * Gets the message handlers.
+     * 
+     * @param contexts
+     *            the contexts
+     * @return the message handlers
+     */
+    private List<IMessageHandlerTester> getMessageHandlers(List<UserContextEntity> contexts) {
+        List<IMessageHandlerTester> result = new ArrayList<IMessageHandlerTester>();
+        for (UserContextEntity context : contexts) {
+            result.add(context.getMessageHandler());
+        }
+        return result;
+
     }
 
     /**
@@ -158,14 +251,16 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
         assertTrue(getNbUserConnected() > 1);
         contexts = new ArrayList<UserContextEntity>();
         testId = Math.round(Math.random() * System.currentTimeMillis());
-        ContactInfoMessageHandler contactInfoMessageHandler = new ContactInfoMessageHandler();
+        LoginContactInfoMessageHandler contactInfoMessageHandler = new LoginContactInfoMessageHandler();
         for (int i = 0; i < getNbUserConnected(); i++) {
             contactInfoMessageHandler.reset();
             UserContextEntity context = getConnectedUser("User" + i + "Login" + testId, "User" + i + "Password" + testId);
             getLog().info("Wait for contact info");
+            int cptWait = 0;
             while (i != contactInfoMessageHandler.getNbContactInfoReceived()) {
                 Thread.sleep(1000);
                 getLog().info(i + " => " + contactInfoMessageHandler.getNbContactInfoReceived());
+                assertTrue(++cptWait < 15);
             }
             contexts.add(context);
             context.setMessageHandler(contactInfoMessageHandler);
@@ -173,6 +268,12 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
         putNewSimpleMessageHandlerInAllContext();
     }
 
+    /**
+     * Private convers.
+     * 
+     * @throws InterruptedException
+     *             the interrupted exception
+     */
     @Test
     public final void privateConvers() throws InterruptedException {
         for (int i = 0; i < getNbMessageToSend(); i++) {
