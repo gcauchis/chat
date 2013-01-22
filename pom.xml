@@ -151,6 +151,11 @@
 				<artifactId>commons-pool</artifactId>
 				<version>1.5.6</version>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.skins</groupId>
+				<artifactId>maven-default-skin</artifactId>
+				<version>1.0</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
