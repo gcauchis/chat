@@ -58,7 +58,7 @@ public abstract class AbstractServerTest extends AbstractLoggable {
         if (jmsBroker != null) {
             try {
                 jmsBroker.stop();
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 LOGGER.error("Fail to stop jms broker: ", e);
                 fail();
             }
@@ -81,7 +81,8 @@ public abstract class AbstractServerTest extends AbstractLoggable {
                 jmsBroker.setPersistent(false);
                 jmsBroker.start();
             } catch (final Exception e) {
-                LOGGER.warn("Fail to initialize/start jms broker: ", e);
+                LOGGER.error("Fail to initialize/start jms broker: ", e);
+                System.exit(-1);
             }
             LOGGER.info("end start jms broker");
         }
@@ -123,7 +124,7 @@ public abstract class AbstractServerTest extends AbstractLoggable {
      */
     protected final ConnectionHandler getConnectionToServer() throws InterruptedException {
         final ConnectionHandler connectionHandler = new ConnectionHandler(null, SERVER_PORT);
-        IMessageHandlerTester messageHandler = new SimpleMessageHandler();
+        final IMessageHandlerTester messageHandler = new SimpleMessageHandler();
         connectionHandler.setMessageHandler(messageHandler);
         new Thread(connectionHandler).start();
 

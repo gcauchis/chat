@@ -2,6 +2,7 @@ package com.gc.irc.server.jms.utils;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
+import javax.jms.IllegalStateException;
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
 import javax.jms.Queue;
@@ -52,13 +53,16 @@ public final class JMSConnectionUtils {
     public static Connection getConnection() {
         if (connection == null) {
             // Create a ConnectionFactory
-            final ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ServerConf
-                    .getProperty(ServerConf.JMS_SERVER_URL, "tcp://localhost:61616"));
+            final ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
+                    ServerConf.getProperty(ServerConf.JMS_SERVER_URL, "tcp://localhost:61616"));
 
             // Create a Connection
             try {
                 connection = connectionFactory.createConnection();
                 connection.start();
+            } catch (final IllegalStateException e) {
+                LOGGER.error("JMS in bad State", e);
+                System.exit(-1);
             } catch (final JMSException e) {
                 LOGGER.error("Fail to create a Connection JMS.", e);
                 connection = null;

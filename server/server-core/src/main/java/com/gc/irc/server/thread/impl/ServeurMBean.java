@@ -2,6 +2,7 @@ package com.gc.irc.server.thread.impl;
 
 import java.util.List;
 
+import javax.jms.IllegalStateException;
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
 import javax.jms.ObjectMessage;
@@ -173,7 +174,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
 
         getLog().debug("Handle {}", messageObj);
 
-        for (IServerMessageHandler serverMessageHandler : serverMessageHandlers) {
+        for (final IServerMessageHandler serverMessageHandler : serverMessageHandlers) {
             if (serverMessageHandler.isHandled(messageObj)) {
                 serverMessageHandler.handle(messageObj);
             }
@@ -261,7 +262,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      * @param serverMessageHandlers
      *            the new server message handlers
      */
-    public void setServerMessageHandlers(List<IServerMessageHandler> serverMessageHandlers) {
+    public void setServerMessageHandlers(final List<IServerMessageHandler> serverMessageHandlers) {
         this.serverMessageHandlers = serverMessageHandlers;
     }
 
@@ -290,6 +291,9 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
         try {
             getLog().debug(id + " Wait for a message in JMS Queue");
             handleMessage((ObjectMessage) messageConsumer.receive());
+        } catch (final IllegalStateException e) {
+            getLog().error("JMS in bad State", e);
+            System.exit(-1);
         } catch (final JMSException e) {
             getLog().warn(id + " Fail to receive message in JMS Queue : ", e);
             try {
