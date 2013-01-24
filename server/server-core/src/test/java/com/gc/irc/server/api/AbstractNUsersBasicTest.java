@@ -1,6 +1,7 @@
 package com.gc.irc.server.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -250,7 +251,7 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
     public final void prepare() throws InterruptedException {
         assertTrue(getNbUserConnected() > 1);
         contexts = new ArrayList<UserContextEntity>();
-        testId = Math.round(Math.random() * System.currentTimeMillis());
+        testId = Math.round(Math.random() * System.currentTimeMillis() * random.nextLong());
         LoginContactInfoMessageHandler contactInfoMessageHandler = new LoginContactInfoMessageHandler();
         for (int i = 0; i < getNbUserConnected(); i++) {
             contactInfoMessageHandler.reset();
@@ -261,6 +262,10 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
                 Thread.sleep(1000);
                 getLog().info(i + " => " + contactInfoMessageHandler.getNbContactInfoReceived());
                 assertTrue(++cptWait < 15);
+            }
+            for (IRCMessageNoticeContactInfo messageNoticeContactInfo : contactInfoMessageHandler.getMessageNoticeContactInfos()) {
+                assertNotNull(messageNoticeContactInfo.getUser());
+                assertEquals(context.getUser().getId(), messageNoticeContactInfo.getUser().getId());
             }
             contexts.add(context);
             context.setMessageHandler(contactInfoMessageHandler);

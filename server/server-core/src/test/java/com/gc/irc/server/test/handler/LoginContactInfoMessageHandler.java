@@ -1,5 +1,8 @@
 package com.gc.irc.server.test.handler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
 
@@ -8,8 +11,17 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
  */
 public class LoginContactInfoMessageHandler extends AbstractMessageHandlerTester {
 
-    /** The nb contact info received. */
-    private int nbContactInfoReceived = 0;
+    /** The message notice contact infos. */
+    private final List<IRCMessageNoticeContactInfo> messageNoticeContactInfos = new ArrayList<IRCMessageNoticeContactInfo>();
+
+    /**
+     * Gets the message notice contact infos.
+     * 
+     * @return the message notice contact infos
+     */
+    public List<IRCMessageNoticeContactInfo> getMessageNoticeContactInfos() {
+        return messageNoticeContactInfos;
+    }
 
     /**
      * Gets the nb contact info received.
@@ -17,7 +29,7 @@ public class LoginContactInfoMessageHandler extends AbstractMessageHandlerTester
      * @return the nb contact info received
      */
     public int getNbContactInfoReceived() {
-        return nbContactInfoReceived;
+        return messageNoticeContactInfos.size();
     }
 
     /*
@@ -28,7 +40,7 @@ public class LoginContactInfoMessageHandler extends AbstractMessageHandlerTester
     @Override
     protected void handleInternal(IRCMessage message) {
         if (message instanceof IRCMessageNoticeContactInfo) {
-            nbContactInfoReceived++;
+            messageNoticeContactInfos.add((IRCMessageNoticeContactInfo) message);
         }
     }
 
@@ -39,7 +51,7 @@ public class LoginContactInfoMessageHandler extends AbstractMessageHandlerTester
      */
     @Override
     protected void resetInsernal() {
-        nbContactInfoReceived = 0;
+        messageNoticeContactInfos.clear();
     }
 
 }

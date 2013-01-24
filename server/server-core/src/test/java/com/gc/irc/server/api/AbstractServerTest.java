@@ -77,10 +77,10 @@ public abstract class AbstractServerTest extends AbstractLoggable {
         if (jmsBroker == null) {
             jmsBroker = new BrokerService();
             try {
-                jmsBroker.addConnector(ServerConf.getProperty(ServerConf.JMS_SERVER_URL, "tcp://localhost:61616"));
                 jmsBroker.setPersistent(false);
+                jmsBroker.addConnector(ServerConf.getProperty(ServerConf.JMS_SERVER_URL, "tcp://localhost:61616"));
                 jmsBroker.start();
-				LOGGER.info("end start jms broker");
+                LOGGER.info("end start jms broker");
             } catch (final Exception e) {
                 LOGGER.error("Fail to initialize/start jms broker: ", e);
             }
