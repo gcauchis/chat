@@ -12,10 +12,7 @@ import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.handler.message.api.IServerMessageHandler;
-import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.jms.utils.JMSConnectionUtils;
-import com.gc.irc.server.service.api.IAuthenticationService;
-import com.gc.irc.server.service.api.IUserPictureService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 import com.gc.irc.server.thread.api.IServeurMBean;
 
@@ -43,26 +40,14 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
         return nbThread;
     }
 
-    /** The authentication service. */
-    private IAuthenticationService authenticationService;
-
     /** The id. */
     private final int id = getNbThread();
-
-    /** The jms producer. */
-    private IJMSProducer jmsProducer;
 
     /** The message consumer. */
     private MessageConsumer messageConsumer;
 
-    /** The num passage max. */
-    private int numPassageMax = 10;
-
     /** The server message handlers. */
     private List<IServerMessageHandler> serverMessageHandlers;
-
-    /** The user picture service. */
-    private IUserPictureService userPictureService;
 
     /** The parent. */
     private IUsersConnectionsManagement usersConnectionsManagement;
@@ -227,36 +212,6 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     }
 
     /**
-     * Sets the authentication service.
-     * 
-     * @param authenticationService
-     *            the new authentication service
-     */
-    public void setAuthenticationService(final IAuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
-
-    /**
-     * Sets the jms producer.
-     * 
-     * @param jmsProducer
-     *            the new jms producer
-     */
-    public void setJmsProducer(final IJMSProducer jmsProducer) {
-        this.jmsProducer = jmsProducer;
-    }
-
-    /**
-     * Sets the num passage max.
-     * 
-     * @param numPassageMax
-     *            the new num passage max
-     */
-    public void setNumPassageMax(final int numPassageMax) {
-        this.numPassageMax = numPassageMax;
-    }
-
-    /**
      * Sets the server message handlers.
      * 
      * @param serverMessageHandlers
@@ -264,14 +219,6 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      */
     public void setServerMessageHandlers(final List<IServerMessageHandler> serverMessageHandlers) {
         this.serverMessageHandlers = serverMessageHandlers;
-    }
-
-    /**
-     * @param userPictureService
-     *            the userPictureService to set
-     */
-    public void setUserPictureService(final IUserPictureService userPictureService) {
-        this.userPictureService = userPictureService;
     }
 
     /**
