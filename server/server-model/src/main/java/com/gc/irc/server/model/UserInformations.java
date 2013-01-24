@@ -46,7 +46,7 @@ public class UserInformations extends AbstractLoggable {
         this.login = login;
         this.nickname = nickname;
         this.password = password;
-        getLog().info("New users " + id + ": login : " + login);
+        getLog().debug("New users " + id + ": login : " + login);
     }
 
     /**

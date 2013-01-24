@@ -53,8 +53,8 @@ public final class JMSConnectionUtils {
     public static Connection getConnection() {
         if (connection == null) {
             // Create a ConnectionFactory
-            final ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(
-                    ServerConf.getProperty(ServerConf.JMS_SERVER_URL, "tcp://localhost:61616"));
+            final ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ServerConf
+                    .getProperty(ServerConf.JMS_SERVER_URL, "tcp://localhost:61616"));
 
             // Create a Connection
             try {
