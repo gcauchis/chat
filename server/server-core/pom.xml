@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>server</artifactId>
 		<groupId>com.gc.irc</groupId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.3-SNAPSHOT</version>
 	</parent>
 	<artifactId>server-core</artifactId>
 	<name>server-core</name>
