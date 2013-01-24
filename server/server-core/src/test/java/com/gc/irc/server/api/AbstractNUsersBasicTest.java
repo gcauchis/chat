@@ -261,7 +261,7 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
             while (i != contactInfoMessageHandler.getNbContactInfoReceived()) {
                 Thread.sleep(1000);
                 getLog().info(i + " => " + contactInfoMessageHandler.getNbContactInfoReceived());
-                assertTrue(++cptWait < 15);
+                assertTrue("Too much time waiting to inform other users", ++cptWait < 15);
             }
             for (IRCMessageNoticeContactInfo messageNoticeContactInfo : contactInfoMessageHandler.getMessageNoticeContactInfos()) {
                 assertNotNull(messageNoticeContactInfo.getUser());

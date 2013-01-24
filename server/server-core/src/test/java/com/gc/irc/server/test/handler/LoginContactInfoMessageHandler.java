@@ -1,6 +1,6 @@
 package com.gc.irc.server.test.handler;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.gc.irc.common.protocol.IRCMessage;
@@ -12,7 +12,7 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
 public class LoginContactInfoMessageHandler extends AbstractMessageHandlerTester {
 
     /** The message notice contact infos. */
-    private final List<IRCMessageNoticeContactInfo> messageNoticeContactInfos = new ArrayList<IRCMessageNoticeContactInfo>();
+    private final List<IRCMessageNoticeContactInfo> messageNoticeContactInfos = new LinkedList<IRCMessageNoticeContactInfo>();
 
     /**
      * Gets the message notice contact infos.
