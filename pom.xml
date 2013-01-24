@@ -312,10 +312,5 @@
 			<name>apache activemq</name>
 			<url>https://repository.apache.org/content/repositories/snapshots/</url>
 		</repository>
-		<repository>
-			<id>apache-service</id>
-			<name>apache service</name>
-			<url>https://repository.apache.org/service/local/staging/deploy/maven2</url>
-		</repository>
 	</repositories>
 </project>
