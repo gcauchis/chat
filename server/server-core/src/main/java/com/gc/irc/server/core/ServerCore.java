@@ -166,7 +166,8 @@ public class ServerCore extends AbstractLoggable {
         // }
 
         for (int i = 0; i < nbThreadServeur; i++) {
-            IServeurMBean serveurMBean = serveurMBeanFactory.getServeurMBean();
+            getLog().info("Build serveurMBean {}", i);
+            final IServeurMBean serveurMBean = serveurMBeanFactory.getServeurMBean();
             new Thread(serveurMBean).start();
             pullThreadServeur.add(serveurMBean);
         }
@@ -179,7 +180,7 @@ public class ServerCore extends AbstractLoggable {
      * @param gestionClientBeanFactory
      *            the new gestion client bean factory
      */
-    public void setGestionClientBeanFactory(IGestionClientBeanFactory gestionClientBeanFactory) {
+    public void setGestionClientBeanFactory(final IGestionClientBeanFactory gestionClientBeanFactory) {
         this.gestionClientBeanFactory = gestionClientBeanFactory;
     }
 
@@ -202,7 +203,7 @@ public class ServerCore extends AbstractLoggable {
      * @param serveurMBeanFactory
      *            the new serveur m bean factory
      */
-    public void setServeurMBeanFactory(IServeurMBeanFactory serveurMBeanFactory) {
+    public void setServeurMBeanFactory(final IServeurMBeanFactory serveurMBeanFactory) {
         this.serveurMBeanFactory = serveurMBeanFactory;
     }
 
@@ -212,12 +213,13 @@ public class ServerCore extends AbstractLoggable {
      * @param userConnectionsManagement
      *            the new user connections management
      */
-    public void setUserConnectionsManagement(IUsersConnectionsManagement userConnectionsManagement) {
+    public void setUserConnectionsManagement(final IUsersConnectionsManagement userConnectionsManagement) {
         usersConnectionsManagement = userConnectionsManagement;
     }
 
     /**
-     * Wait for new client. When a client connect to the sever stat a Thred fot him.
+     * Wait for new client. When a client connect to the sever stat a Thred fot
+     * him.
      */
     public void waitClient() {
         Socket clientSocket = null;

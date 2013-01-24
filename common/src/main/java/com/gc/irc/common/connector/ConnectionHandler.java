@@ -17,7 +17,8 @@ import com.gc.irc.common.protocol.IRCMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
 
 /**
- * The thread wich connects the client to the server, and manages the serialized objects wich are transmitted (they are defined in the com.irc.share.protocol
+ * The thread wich connects the client to the server, and manages the serialized
+ * objects wich are transmitted (they are defined in the com.irc.share.protocol
  * package)
  */
 public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSender {
@@ -53,7 +54,7 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     private boolean serverDisconnection = false;
 
     /** The server name. */
-    private final String serverName;
+    private final String serverHost;
 
     /** The socket. */
     private Socket socket = null;
@@ -64,28 +65,29 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     /**
      * Instantiates a new connection thread.
      * 
-     * @param serverName
-     *            the ip address or name of the server If the server is on localhost, out an empty string
+     * @param serverHost
+     *            the ip address or name of the server If the server is on
+     *            localhost, out an empty string
      * @param port
      *            the port of the connexion
      */
-    public ConnectionHandler(final String serverName, final int port) {
+    public ConnectionHandler(final String serverHost, final int port) {
 
-        this.serverName = serverName;
+        this.serverHost = serverHost;
         this.port = port;
 
-        if (StringUtils.isEmpty(serverName)) {
-            getLog().info("The server parameters will be : name=localhost" + " port=" + port);
+        if (StringUtils.isEmpty(serverHost)) {
+            getLog().info("The server parameters will be : host=localhost" + " port=" + port);
         } else {
-            getLog().info("The server parameters will be : name=" + serverName + " port=" + port);
+            getLog().info("The server parameters will be : host=" + serverHost + " port=" + port);
         }
 
         while (true) {
-            getLog().debug("Initialisation of the connection thread. Server name/ip : " + serverName + " port : " + port);
+            getLog().debug("Initialisation of the connection thread. Server host : " + serverHost + " port : " + port);
 
             try {
-                if (StringUtils.isNotEmpty(serverName)) {
-                    host = InetAddress.getByName(serverName);
+                if (StringUtils.isNotEmpty(serverHost)) {
+                    host = InetAddress.getByName(serverHost);
                 } else {
                     host = InetAddress.getLocalHost();
                 }
@@ -107,7 +109,8 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     }
 
     /**
-     * disconnect the client from the server After that the client will automatically try to reconnect.
+     * disconnect the client from the server After that the client will
+     * automatically try to reconnect.
      */
     public void disconnect() {
         try {
@@ -134,9 +137,9 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
      * 
      * @return the name or ip address of the remote server
      */
-    public String getServerName() {
-        if (!serverName.isEmpty()) {
-            return serverName;
+    public String getServerHost() {
+        if (!serverHost.isEmpty()) {
+            return serverHost;
         } else {
             return "localhost";
         }
@@ -152,7 +155,8 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     }
 
     /**
-     * Is the client currently connected on the server ? (the client may not be authenticated).
+     * Is the client currently connected on the server ? (the client may not be
+     * authenticated).
      * 
      * @return true, if is connected to server
      */
@@ -183,8 +187,10 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     }
 
     /**
-     * The thread infinite loop. Here, the client will try to connect to the server (opening a socket, and getting input and output streams). Then, the loop
-     * will wait for new serialized objects sent by the server, and execute the corresponding actions.
+     * The thread infinite loop. Here, the client will try to connect to the
+     * server (opening a socket, and getting input and output streams). Then,
+     * the loop will wait for new serialized objects sent by the server, and
+     * execute the corresponding actions.
      */
     @Override
     public void run() {
@@ -257,7 +263,9 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.common.api.IIRCMessageSender#send(com.gc.irc.common.protocol .IRCMessage)
+     * @see
+     * com.gc.irc.common.api.IIRCMessageSender#send(com.gc.irc.common.protocol
+     * .IRCMessage)
      */
     @Override
     public void send(final IRCMessage message) {

@@ -15,13 +15,21 @@ public class IRCMessageNoticeContactInfoHandler extends AbstractServerMessageHan
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler#internalHandle(com.gc.irc.common.protocol.IRCMessage)
+     * @see com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler#
+     * internalHandle(com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
-    protected void internalHandle(IRCMessageNoticeContactInfo message) {
+    protected void internalHandle(final IRCMessageNoticeContactInfo message) {
         final IRCUser userChange = message.getUser();
         // TODO : Persistence
-        getLog().debug(" User " + userChange.getNickName() + " change state to " + userChange.getUserStatus() + " has pictur : " + userChange.hasPictur());
+        getLog().error("##############################################################################################################");
+        getLog().error("##############################################################################################################");
+        getLog().error("##############################################################################################################");
+        getLog().error("##############################################################################################################");
+        getLog().error("##############################################################################################################");
+        getLog().error("##############################################################################################################");
+        getLog().error("##############################################################################################################");
+        getLog().error(" User " + userChange.getNickName() + " change state to " + userChange.getUserStatus() + " has pictur : " + userChange.hasPictur());
         sendToAllUsers(message);
     }
 
