@@ -5,3 +5,5 @@ target/
 Temp/
 activemq-data/
 mvn.log
+*.swp
+
