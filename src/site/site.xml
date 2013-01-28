@@ -9,11 +9,12 @@
 		<version>1.0</version>
 	</skin>
 
-	<links>
-		<item name="Maven" href="http://maven.apache.org"/>
-	</links>
-
 	<body>
+		<links>
+			<item name="Maven" href="http://maven.apache.org"/>
+		</links>
 		<menu ref="reports"/>
+		<menu ref="modules"/>
+		<menu ref="parent"/>
 	</body>
 </project>
