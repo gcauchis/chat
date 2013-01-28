@@ -232,7 +232,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>2.6</version>
-				<reportSets> 
+<!--				<reportSets> 
 					<reportSet> 
 						<reports> 
 							<report>index</report>
@@ -249,7 +249,7 @@
 							<report>summary</report>
 						</reports> 
 					</reportSet> 
-				</reportSets>
+				</reportSets>-->
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
