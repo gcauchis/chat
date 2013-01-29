@@ -7,6 +7,27 @@
 	<version>0.0.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>irc</name>
+	<description>A chat application</description>
+
+	<developers>
+		<developer>
+			<id>gcs</id>
+			<name>gabriel</name>
+			<email>gabriel.cauchis@gmail.com</email>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/gcauchis/irc.git</connection>
+		<developerConnection>scm:git:https://github.com/gcauchis/irc.git</developerConnection>
+		<tag>HEAD</tag>
+		<url>https://github.com/gcauchis/irc.git</url>
+	</scm>
 
 	<!--	<prerequisites>-->
 	<!--		<maven>2.2.1</maven>-->
