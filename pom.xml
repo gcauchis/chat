@@ -44,6 +44,8 @@
 		<spring.version>3.2.1.RELEASE</spring.version>
 		<slf4j.version>1.7.2</slf4j.version>
 		<activemq.version>5.7.0</activemq.version>
+		
+		<java.build.version>1.6</java.build.version>
 	</properties>
 
 	<dependencyManagement>
@@ -221,8 +223,8 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>3.0</version>
 					<configuration>
-						<source>1.6</source>
-						<target>1.6</target>
+						<source>${java.build.version}</source>
+						<target>${java.build.version}</target>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -281,6 +283,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>2.7.1</version>
+				<configuration>
+					<targetJdk>${java.build.version}</targetJdk>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
