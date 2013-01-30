@@ -29,9 +29,9 @@
 		<url>https://github.com/gcauchis/irc.git</url>
 	</scm>
 
-	<!--	<prerequisites>-->
-	<!--		<maven>2.2.1</maven>-->
-	<!--	</prerequisites>-->
+	<prerequisites>
+		<maven>3.0.4</maven>
+	</prerequisites>
 
 	<modules>
 		<module>common</module>
@@ -65,11 +65,6 @@
 				<artifactId>junit</artifactId>
 				<version>4.11</version>
 				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.wapmx.native</groupId>
-				<artifactId>mx-native-loader</artifactId>
-				<version>1.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -182,19 +177,9 @@
 				<version>1.6</version>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.maven.skins</groupId>
-				<artifactId>maven-default-skin</artifactId>
-				<version>1.1</version>
-			</dependency>
-			<dependency>
 				<groupId>com.wapmx.native</groupId>
 				<artifactId>mx-native-loader</artifactId>
 				<version>1.8</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.xbean</groupId>
-				<artifactId>xbean-spring</artifactId>
-				<version>3.12</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
