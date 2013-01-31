@@ -44,7 +44,7 @@
 		<spring.version>3.2.1.RELEASE</spring.version>
 		<slf4j.version>1.7.2</slf4j.version>
 		<activemq.version>5.7.0</activemq.version>
-		
+
 		<java.build.version>1.6</java.build.version>
 	</properties>
 
@@ -230,6 +230,11 @@
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>2.4</version>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>		
+					<version>2.13</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -305,6 +310,11 @@
 						</reports>
 					</reportSet>
 				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.13</version>
 			</plugin>
 		</plugins>
 	</reporting>
