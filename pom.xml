@@ -355,4 +355,12 @@
 			<url>https://repository.apache.org/content/repositories/snapshots/</url>
 		</repository>
 	</repositories>
+
+	<distributionManagement>
+		<site>
+			<id>website</id>
+			<url>file:///tmp/fake.com/</url>
+		</site>
+	</distributionManagement>
+
 </project>
