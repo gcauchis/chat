@@ -27,6 +27,44 @@
 					<argLine>-Xms512M -Xmx1024M -XX:PermSize=64M -XX:MaxPermSize=128M</argLine>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.pyx4me</groupId>
+				<artifactId>proguard-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>proguard</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<obfuscate>true</obfuscate>
+					<maxMemory>576m</maxMemory>
+					<options>
+						<option>-allowaccessmodification</option>
+						<!-- <option>-dontshrink</option> -->
+						<option>-dontoptimize</option>
+						<option>-keep public class com.gc.irc.server.ServerStarter {public static void main(java.lang.String[]);}</option>
+
+						<option>-renamesourcefileattribute SourceFile</option>
+						<option>-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod</option>
+						<option>-keep public class * { public protected *;}</option>
+						<option>-keepclassmembernames class * {java.lang.Class class$(java.lang.String); java.lang.Class class$(java.lang.String, boolean);}</option>
+						<option>-keepclassmembernames class * {com.common.license.LicenseService licenseService; com.common.license.LicenseSessionStore licenseSessionStore;}</option>
+						<option>-keepclassmembers enum * {public static **[] values(); public static ** valueOf(java.lang.String);}</option>
+						<option>-keepclassmembers class * implements java.io.Serializable { static final long serialVersionUID; private static final java.io.ObjectStreamField[] serialPersistentFields; private void writeObject(java.io.ObjectOutputStream); private void readObject(java.io.ObjectInputStream); java.lang.Object writeReplace(); java.lang.Object readResolve();}</option>
+						<option>-keep @org.springframework.beans.factory.annotation.Service class *</option>
+						<option>-keep @org.springframework.stereotype.Controller class *</option>
+						<option>-keep @org.springframework.stereotype.Component class *</option>
+						<option>-keepclassmembers class * { @org.springframework.beans.factory.annotation.Autowired *; }</option>
+					</options>
+					<libs>
+						<lib>${java.home}/lib/rt.jar</lib>
+						<lib>${java.home}/lib/jsse.jar</lib>
+					</libs>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -156,6 +194,13 @@
 		<dependency>
 			<artifactId>xbean-spring</artifactId>
 			<groupId>org.apache.xbean</groupId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.proguard</groupId>
+			<artifactId>proguard</artifactId>
+			<version>4.4</version>
+			<scope>runtime</scope>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
