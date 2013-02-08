@@ -4,16 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<bean name="propertyPlaceholder"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<value>classpath*:conf/servConf.properties</value>
-		</property>
-	</bean>
-	
-	<import resource="classpath*:spring-server-services-application-config.xml" />
-	<import resource="classpath*:spring-server-bridge-application-config.xml"/>
 
-	<context:component-scan base-package="com.gc.irc.server" />
+	<context:component-scan base-package="com.gc.irc.server.bridge" />
 
 </beans>

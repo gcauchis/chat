@@ -2,17 +2,14 @@ package com.gc.irc.server.thread.impl;
 
 import java.util.List;
 
-import javax.jms.IllegalStateException;
-import javax.jms.JMSException;
-import javax.jms.MessageConsumer;
-import javax.jms.ObjectMessage;
-
 import com.gc.irc.common.abs.AbstractRunnable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.server.bridge.api.IServerBridgeConsumer;
+import com.gc.irc.server.bridge.api.IServerBridgeConsumerFactory;
+import com.gc.irc.server.bridge.api.ServerBridgeException;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.handler.message.api.IServerMessageHandler;
-import com.gc.irc.server.jms.utils.JMSConnectionUtils;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 import com.gc.irc.server.thread.api.IServeurMBean;
 
@@ -43,8 +40,11 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     /** The id. */
     private final int id = getNbThread();
 
-    /** The message consumer. */
-    private MessageConsumer messageConsumer;
+    /** The server bridge consumer. */
+    private IServerBridgeConsumer serverBridgeConsumer;
+
+    /** The server bridge consumer factory. */
+    private IServerBridgeConsumerFactory serverBridgeConsumerFactory;
 
     /** The server message handlers. */
     private List<IServerMessageHandler> serverMessageHandlers;
@@ -53,15 +53,17 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     private IUsersConnectionsManagement usersConnectionsManagement;
 
     /**
-     * Builds the JMS message consumer.
+     * Builds the message consumer.
      */
     private void buildMessageConsumer() {
+
         try {
-            getLog().debug(id + " Create JMS Consumer");
-            messageConsumer = JMSConnectionUtils.createConsumer();
-        } catch (final JMSException e) {
-            getLog().error(id + " Fail to create JMS Consumer : ", e);
+            getLog().debug("Build Message consumer");
+            serverBridgeConsumer = serverBridgeConsumerFactory.getInstance();
+        } catch (final ServerBridgeException e) {
+            getLog().error("Fail to create server bridge consumer", e);
         }
+
     }
 
     /*
@@ -73,9 +75,9 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     public void close() {
         getLog().debug("Finalize the Thread");
         try {
-            messageConsumer.close();
-        } catch (final JMSException e) {
-            getLog().warn(id + " Problem when close the messageConsumer : " + e.getMessage());
+            serverBridgeConsumer.close();
+        } catch (final ServerBridgeException e) {
+            getLog().warn(id + " Problem when close the messageConsumer : ", e);
         }
     }
 
@@ -128,12 +130,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      * @param message
      *            Message received.
      */
-    private void handleMessage(final ObjectMessage message) {
-        getLog().debug(id + " Handle received Message.");
-        if (message == null) {
-            getLog().debug("Null message to handle");
-            return;
-        }
+    private void handleMessage(final IRCMessage message) {
 
         /**
          * Update of the number of messages.
@@ -142,26 +139,17 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
             nbMessage++;
         }
 
-        /**
-         * Extract Message
-         */
-        IRCMessage messageObj = null;
-        try {
-            getLog().debug(id + " Extract Message receive in JMS");
-            messageObj = (IRCMessage) message.getObject();
-        } catch (final JMSException e) {
-            getLog().warn(id + " Fail to extract Message receive in JMS : " + e.getMessage());
-        }
-        if (messageObj == null) {
-            getLog().debug("Null messageObj to handle");
+        getLog().debug(id + " Handle received Message.");
+        if (message == null) {
+            getLog().debug("Null message to handle");
             return;
         }
 
-        getLog().debug("Handle {}", messageObj);
+        getLog().debug("Handle {}", message);
 
         for (final IServerMessageHandler serverMessageHandler : serverMessageHandlers) {
-            if (serverMessageHandler.isHandled(messageObj)) {
-                serverMessageHandler.handle(messageObj);
+            if (serverMessageHandler.isHandled(message)) {
+                serverMessageHandler.handle(message);
             }
         }
 
@@ -212,6 +200,14 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     }
 
     /**
+     * @param serverBridgeConsumerFactory
+     *            the serverBridgeConsumerFactory to set
+     */
+    public void setServerBridgeConsumerFactory(final IServerBridgeConsumerFactory serverBridgeConsumerFactory) {
+        this.serverBridgeConsumerFactory = serverBridgeConsumerFactory;
+    }
+
+    /**
      * Sets the server message handlers.
      * 
      * @param serverMessageHandlers
@@ -236,19 +232,17 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      */
     private void waitAndHandleJMSMessage() {
         try {
-            getLog().debug(id + " Wait for a message in JMS Queue");
-            handleMessage((ObjectMessage) messageConsumer.receive());
-        } catch (final IllegalStateException e) {
-            getLog().error("JMS in bad State", e);
-            System.exit(-1);
-        } catch (final JMSException e) {
-            getLog().warn(id + " Fail to receive message in JMS Queue : ", e);
+            getLog().debug(id + " Wait for a message in message consumer");
+            handleMessage(serverBridgeConsumer.receive());
+        } catch (final ServerBridgeException e) {
+            getLog().warn(id + " Fail to receive message", e);
             try {
-                messageConsumer.close();
-            } catch (final JMSException e1) {
-                getLog().warn(id + " Fail to close messageConsumer Queue : ", e1);
+                serverBridgeConsumer.close();
+            } catch (final ServerBridgeException e1) {
+                getLog().warn(id + " Fail to close messageConsumer : ", e1);
             }
             buildMessageConsumer();
         }
     }
+
 }

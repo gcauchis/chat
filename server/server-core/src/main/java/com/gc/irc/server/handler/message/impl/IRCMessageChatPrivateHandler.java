@@ -6,8 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.protocol.chat.IRCMessageChatPrivate;
+import com.gc.irc.server.bridge.api.IServerBridgeProducer;
+import com.gc.irc.server.bridge.api.ServerBridgeException;
 import com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler;
-import com.gc.irc.server.jms.api.IJMSProducer;
 
 /**
  * The Class IRCMessageChatPrivateHandler.
@@ -15,13 +16,13 @@ import com.gc.irc.server.jms.api.IJMSProducer;
 @Component
 public class IRCMessageChatPrivateHandler extends AbstractServerMessageHandler<IRCMessageChatPrivate> {
 
-    /** The ijms producer. */
-    @Autowired
-    private IJMSProducer jmsProducer;
-
     /** The num passage max. */
     @Value("${nbMessageMaxPassage:10}")
     private int numPassageMax = 10;
+
+    /** The ijms producer. */
+    @Autowired
+    private IServerBridgeProducer serverBridgeProducer;
 
     /*
      * (non-Javadoc)
@@ -43,7 +44,11 @@ public class IRCMessageChatPrivateHandler extends AbstractServerMessageHandler<I
                 final int numPassage = message.numPassage();
                 if (numPassage < numPassageMax) {
                     getLog().debug("Send again the private message in JMS. Passage number {}", numPassage);
-                    jmsProducer.postInJMS(message);
+                    try {
+                        serverBridgeProducer.post(message);
+                    } catch (final ServerBridgeException e) {
+                        getLog().error("Fail to resend private message", e);
+                    }
                 } else {
                     getLog().debug("Message passed to much time in the server (more than {}). Trash it !", numPassageMax);
                 }
@@ -60,8 +65,8 @@ public class IRCMessageChatPrivateHandler extends AbstractServerMessageHandler<I
      * @param jmsProducer
      *            the new jms producer
      */
-    public void setjmsProducer(final IJMSProducer jmsProducer) {
-        this.jmsProducer = jmsProducer;
+    public void setjmsProducer(final IServerBridgeProducer jmsProducer) {
+        serverBridgeProducer = jmsProducer;
     }
 
     /**

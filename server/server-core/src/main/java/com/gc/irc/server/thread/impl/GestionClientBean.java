@@ -21,10 +21,11 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeLogin;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeRegister;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeServerMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
+import com.gc.irc.server.bridge.api.IServerBridgeProducer;
+import com.gc.irc.server.bridge.api.ServerBridgeException;
 import com.gc.irc.server.core.ServerCore;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.exception.ServerException;
-import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.service.api.IAuthenticationService;
 import com.gc.irc.server.service.api.IUserPictureService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
@@ -65,11 +66,11 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     /** The is identify. */
     private boolean isIdentify = false;
 
-    /** The jms producer. */
-    private IJMSProducer jmsProducer;
-
     /** The out object. */
     private ObjectOutputStream outObject;
+
+    /** The jms producer. */
+    private IServerBridgeProducer serverBridgeProducer;
 
     /** The user. */
     private IRCUser user;
@@ -141,7 +142,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             getLog().debug(id + " Inform all other client that the client " + user.getNickName() + " is deconnected.");
             synchronized (user) {
                 user.setUserStatus(UserStatus.OFFLINE);
-                postInJMS(new IRCMessageNoticeContactInfo(user.getCopy()));
+                post(new IRCMessageNoticeContactInfo(user.getCopy()));
                 authenticationService.getUser(user.getId()).diconnected();
             }
         }
@@ -194,9 +195,13 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * @param objectMessage
      *            the object message
      */
-    private void postInJMS(final IRCMessage objectMessage) {
-        getLog().debug(id + " Send a message in JMS Queue.");
-        jmsProducer.postInJMS(objectMessage);
+    private void post(final IRCMessage objectMessage) {
+        getLog().debug("Send a message");
+        try {
+            serverBridgeProducer.post(objectMessage);
+        } catch (final ServerBridgeException e) {
+            getLog().error("Fail to post message", e);
+        }
     }
 
     /**
@@ -299,7 +304,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                      */
                     messageInit = new IRCMessageNoticeContactInfo(user);
                     getLog().debug(id + " Send notice ContactInfo");
-                    postInJMS(messageInit);
+                    post(messageInit);
 
                     /**
                      * Send list connected users.
@@ -325,7 +330,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                         getLog().debug(id + " Send user's pictur to all others Users");
                         final IRCMessageItemPicture picture = userPictureService.getPictureOf(user.getId());
                         if (picture != null) {
-                            postInJMS(picture);
+                            post(picture);
                         }
                     }
 
@@ -417,7 +422,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             /**
              * Post Message in JMS
              */
-            postInJMS(messageClient);
+            post(messageClient);
 
         }
         disconnectUser();
@@ -426,7 +431,9 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket (com.gc.irc.common.protocol.IRCMessage)
+     * @see
+     * com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket
+     * (com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
     public void sendMessageObjetInSocket(final IRCMessage message) {
@@ -466,13 +473,13 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     }
 
     /**
-     * Sets the jms producer.
+     * Sets the server bridge producer.
      * 
-     * @param jmsProducer
-     *            the new jms producer
+     * @param serverBridgeProducer
+     *            the server bridge producer
      */
-    public void setJmsProducer(final IJMSProducer jmsProducer) {
-        this.jmsProducer = jmsProducer;
+    public void setServerBridgeProducer(final IServerBridgeProducer serverBridgeProducer) {
+        this.serverBridgeProducer = serverBridgeProducer;
     }
 
     /**
@@ -494,7 +501,8 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     }
 
     /**
-     * Test if the socket is already open. If socket is closed or a problem is remark the thread is finalize.
+     * Test if the socket is already open. If socket is closed or a problem is
+     * remark the thread is finalize.
      */
     private void socketAlive() {
         getLog().info(id + " Test if the socket have no problem.");

@@ -1,4 +1,6 @@
-package com.gc.irc.server.jms.utils;
+package com.gc.irc.server.bridge.jms.utils;
+
+import java.util.Map;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -8,11 +10,12 @@ import javax.jms.MessageConsumer;
 import javax.jms.Queue;
 import javax.jms.Session;
 
+import javolution.util.FastMap;
+
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.Logger;
 
 import com.gc.irc.common.utils.LoggerUtils;
-import com.gc.irc.server.conf.ServerConf;
 
 /**
  * Initialize JMS.
@@ -23,7 +26,7 @@ import com.gc.irc.server.conf.ServerConf;
 public final class JMSConnectionUtils {
 
     /** The connection. */
-    private static Connection connection;
+    private static Map<String, Connection> connections = new FastMap<String, Connection>();
 
     /** The Constant logger. */
     private static final Logger LOGGER = LoggerUtils.getLogger(JMSConnectionUtils.class);
@@ -41,8 +44,8 @@ public final class JMSConnectionUtils {
      * @throws JMSException
      *             the jMS exception
      */
-    public static MessageConsumer createConsumer() throws JMSException {
-        return getSession().createConsumer(getQueue());
+    public static MessageConsumer createConsumer(final String brokerUrl) throws JMSException {
+        return getSession(brokerUrl).createConsumer(getQueue());
     }
 
     /**
@@ -50,16 +53,17 @@ public final class JMSConnectionUtils {
      * 
      * @return the connection
      */
-    public static Connection getConnection() {
+    public static Connection getConnection(final String brokerUrl) {
+        Connection connection = connections.get(brokerUrl);
         if (connection == null) {
             // Create a ConnectionFactory
-            final ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ServerConf
-                    .getProperty(ServerConf.JMS_SERVER_URL, "tcp://localhost:61616"));
+            final ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerUrl);
 
             // Create a Connection
             try {
                 connection = connectionFactory.createConnection();
                 connection.start();
+                connections.put(brokerUrl, connection);
             } catch (final IllegalStateException e) {
                 LOGGER.error("JMS in bad State", e);
                 System.exit(-1);
@@ -94,11 +98,11 @@ public final class JMSConnectionUtils {
      * 
      * @return the session
      */
-    public static Session getSession() {
+    public static Session getSession(final String brokerUrl) {
         if (session == null) {
             // Create a Session
             try {
-                session = getConnection().createSession(false, Session.AUTO_ACKNOWLEDGE);
+                session = getConnection(brokerUrl).createSession(false, Session.AUTO_ACKNOWLEDGE);
             } catch (final JMSException e) {
                 LOGGER.error("Failt to create a Session JMS", e);
             }

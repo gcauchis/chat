@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>server</artifactId>
@@ -23,14 +21,14 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<!--<forkMode>pertest</forkMode>-->
+					<!--<forkMode>pertest</forkMode> -->
 					<argLine>-Xms512M -Xmx1024M -XX:PermSize=64M -XX:MaxPermSize=128M</argLine>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
-	<profiles>	
+	<profiles>
 		<profile>
 			<id>delivery</id>
 			<activation>
@@ -132,7 +130,8 @@
 								<option>-keepclassmembernames class * {java.lang.Class class$(java.lang.String); java.lang.Class class$(java.lang.String, boolean);}</option>
 								<option>-keepclassmembernames class * {com.common.license.LicenseService licenseService; com.common.license.LicenseSessionStore licenseSessionStore;}</option>
 								<option>-keepclassmembers enum * {public static **[] values(); public static ** valueOf(java.lang.String);}</option>
-								<option>-keepclassmembers class * implements java.io.Serializable { static final long serialVersionUID; private static final java.io.ObjectStreamField[] serialPersistentFields; private void writeObject(java.io.ObjectOutputStream); private void readObject(java.io.ObjectInputStream); java.lang.Object writeReplace(); java.lang.Object readResolve();}</option>
+								<option>-keepclassmembers class * implements java.io.Serializable { static final long serialVersionUID; private static final java.io.ObjectStreamField[] serialPersistentFields; private void writeObject(java.io.ObjectOutputStream); private void readObject(java.io.ObjectInputStream);
+									java.lang.Object writeReplace(); java.lang.Object readResolve();}</option>
 								<option>-keep @org.springframework.stereotype.Controller class *</option>
 								<option>-keep @org.springframework.stereotype.Component class *</option>
 								<option>-keepclassmembers class * { @org.springframework.beans.factory.annotation.Autowired *; }</option>
@@ -158,20 +157,12 @@
 			<artifactId>server-service-impl-file</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.activemq</groupId>
-			<artifactId>apache-activemq</artifactId>
-			<version>${activemq.version}</version>
-			<type>pom</type>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.activemq</groupId>
-					<artifactId>activemq-all</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+			<groupId>com.gc.irc</groupId>
+			<artifactId>server-bridge-api</artifactId>
+	   </dependency>
 		<dependency>
-			<groupId>javax.jms</groupId>
-			<artifactId>jms</artifactId>
+			<groupId>com.gc.irc</groupId>
+			<artifactId>server-bridge-impl-jms</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.wapmx.native</groupId>

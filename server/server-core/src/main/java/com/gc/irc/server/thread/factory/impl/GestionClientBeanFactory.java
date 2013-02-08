@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.server.bridge.api.IServerBridgeProducer;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
-import com.gc.irc.server.jms.api.IJMSProducer;
 import com.gc.irc.server.service.api.IAuthenticationService;
 import com.gc.irc.server.service.api.IUserPictureService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
@@ -28,7 +28,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
 
     /** The jms producer. */
     @Autowired
-    private IJMSProducer jmsProducer;
+    private IServerBridgeProducer serverBridgeProducer;
 
     /** The user picture service. */
     @Autowired
@@ -48,7 +48,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
     public IGestionClientBean getGestionClientBean(final Socket clientSocket) {
         final GestionClientBean gestionClientBean = new GestionClientBean(clientSocket);
         gestionClientBean.setUsersConnectionsManagement(usersConnectionsManagement);
-        gestionClientBean.setJmsProducer(jmsProducer);
+        gestionClientBean.setServerBridgeProducer(serverBridgeProducer);
         gestionClientBean.setAuthenticationService(authenticationService);
         gestionClientBean.setUserPictureService(userPictureService);
         return gestionClientBean;
@@ -70,8 +70,8 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      * @param jmsProducer
      *            the new jms producer
      */
-    public void setJmsProducer(final IJMSProducer jmsProducer) {
-        this.jmsProducer = jmsProducer;
+    public void setJmsProducer(final IServerBridgeProducer jmsProducer) {
+        this.serverBridgeProducer = jmsProducer;
     }
 
     /**

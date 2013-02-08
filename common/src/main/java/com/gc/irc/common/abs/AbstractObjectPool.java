@@ -3,41 +3,29 @@ package com.gc.irc.common.abs;
 import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
 
+/**
+ * The Class AbstractObjectPool.
+ * 
+ * @param <T>
+ *            the generic type
+ */
 public abstract class AbstractObjectPool<T> extends AbstractLoggable {
 
     /** The pool. */
-    private GenericObjectPool pool;
+    private GenericObjectPool<T> pool;
 
     /**
-     * Free producer.
+     * Free pooled object.
      * 
-     * @param messageProducer
+     * @param pooledObject
      *            the message producer
      */
-    protected final void freePoolableObject(T messageProducer) {
+    protected final void freePooledObject(final T pooledObject) {
         try {
-            getPool().returnObject(messageProducer);
-        } catch (Exception e) {
+            getPool().returnObject(pooledObject);
+        } catch (final Exception e) {
             getLog().error("Fail to return poolable Object", e);
         }
-    }
-
-    /**
-     * Gets the producer.
-     * 
-     * @param messageProducer
-     *            the message producer
-     * @return the producer
-     */
-    @SuppressWarnings("unchecked")
-    protected final T getPollableObject() {
-        T messageProducer = null;
-        try {
-            messageProducer = (T) getPool().borrowObject();
-        } catch (Exception e) {
-            getLog().error("Fail to build poolable Object", e);
-        }
-        return messageProducer;
     }
 
     /**
@@ -45,9 +33,9 @@ public abstract class AbstractObjectPool<T> extends AbstractLoggable {
      * 
      * @return the pool
      */
-    private GenericObjectPool getPool() {
+    private GenericObjectPool<T> getPool() {
         if (pool == null) {
-            pool = new GenericObjectPool(getPoolableObjectFactory());
+            pool = new GenericObjectPool<T>(getPoolableObjectFactory());
         }
         return pool;
     }
@@ -57,7 +45,22 @@ public abstract class AbstractObjectPool<T> extends AbstractLoggable {
      * 
      * @return the poolable object factory
      */
-    protected abstract PoolableObjectFactory getPoolableObjectFactory();
+    protected abstract PoolableObjectFactory<T> getPoolableObjectFactory();
+
+    /**
+     * Gets the pooled object.
+     * 
+     * @return the pooled object
+     */
+    protected final T getPooledObject() {
+        T pooledObject = null;
+        try {
+            pooledObject = getPool().borrowObject();
+        } catch (final Exception e) {
+            getLog().error("Fail to build poolable Object", e);
+        }
+        return pooledObject;
+    }
 
     /**
      * Sets the max pool size.
@@ -65,7 +68,7 @@ public abstract class AbstractObjectPool<T> extends AbstractLoggable {
      * @param maxPoolSize
      *            the new max pool size
      */
-    public void setMaxPoolSize(int maxPoolSize) {
+    public void setMaxPoolSize(final int maxPoolSize) {
         getPool().setMaxActive(maxPoolSize);
     }
 

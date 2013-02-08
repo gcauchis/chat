@@ -2,9 +2,7 @@ package com.gc.irc.server.api;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import org.apache.activemq.broker.BrokerService;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.slf4j.Logger;
@@ -20,7 +18,6 @@ import com.gc.irc.common.protocol.command.IRCMessageCommandRegister;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeServerMessage;
 import com.gc.irc.common.utils.LoggerUtils;
 import com.gc.irc.server.ServerStarter;
-import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.test.handler.IMessageHandlerTester;
 import com.gc.irc.server.test.handler.LoginMessageHandler;
 import com.gc.irc.server.test.handler.SimpleMessageHandler;
@@ -30,9 +27,6 @@ import com.gc.irc.server.test.utils.entity.UserContextEntity;
  * The Class AbstractServerTest.
  */
 public abstract class AbstractServerTest extends AbstractLoggable {
-
-    /** The jms broker. */
-    private static BrokerService jmsBroker;
 
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerUtils.getLogger(AbstractServerTest.class);
@@ -55,14 +49,6 @@ public abstract class AbstractServerTest extends AbstractLoggable {
         if (starterThread != null) {
             starterThread.interrupt();
         }
-        if (jmsBroker != null) {
-            try {
-                jmsBroker.stop();
-            } catch (final Exception e) {
-                LOGGER.error("Fail to stop jms broker: ", e);
-                fail();
-            }
-        }
     }
 
     /**
@@ -73,18 +59,6 @@ public abstract class AbstractServerTest extends AbstractLoggable {
      */
     @BeforeClass
     public static synchronized void lauchServer() throws InterruptedException {
-        LOGGER.info("Start jms broker");
-        if (jmsBroker == null) {
-            jmsBroker = new BrokerService();
-            try {
-                jmsBroker.setPersistent(false);
-                jmsBroker.addConnector(ServerConf.getProperty(ServerConf.JMS_SERVER_URL, "tcp://localhost:61616"));
-                jmsBroker.start();
-                LOGGER.info("end start jms broker");
-            } catch (final Exception e) {
-                LOGGER.error("Fail to initialize/start jms broker: ", e);
-            }
-        }
         LOGGER.info("Start Server");
         if (starter == null) {
             starter = new ServerStarter();

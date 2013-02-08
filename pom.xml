@@ -102,6 +102,16 @@
 				<version>${irc.version}</version>
 			</dependency>
 			<dependency>
+                <groupId>com.gc.irc</groupId>
+                <artifactId>server-bridge-api</artifactId>
+                <version>${irc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gc.irc</groupId>
+                <artifactId>server-bridge-impl-jms</artifactId>
+                <version>${irc.version}</version>
+            </dependency>
+			<dependency>
 				<groupId>com.gc.irc</groupId>
 				<artifactId>server-model</artifactId>
 				<version>${irc.version}</version>
