@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.server.conf.ServerConf;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.thread.api.IServeurMBean;
 import com.gc.irc.server.thread.factory.api.IGestionClientBeanFactory;
@@ -34,9 +33,6 @@ public class ServerCore extends AbstractLoggable {
 
     /** The message acceuil. */
     private static String messageAcceuil = "Welcome on our server.";
-
-    /** The nb thread serveur. */
-    private static int nbThreadServeur = Integer.parseInt(ServerConf.getConfProperty(ServerConf.NB_CONSUMER_THREAD, "1"));
 
     /** The server socket. */
     private static ServerSocket serverSocket = null;
@@ -63,6 +59,10 @@ public class ServerCore extends AbstractLoggable {
     /** The gestion client bean factory. */
     @Autowired
     private IGestionClientBeanFactory gestionClientBeanFactory;
+
+    /** The nb thread serveur. */
+    @Value("${nbConsumerThread}")
+    private int nbThreadServeur = 1;
 
     /** The port. */
     @Value("${server.port}")
@@ -185,6 +185,14 @@ public class ServerCore extends AbstractLoggable {
     }
 
     /**
+     * @param nbThreadServeur
+     *            the nbThreadServeur to set
+     */
+    public void setNbThreadServeur(final int nbThreadServeur) {
+        this.nbThreadServeur = nbThreadServeur;
+    }
+
+    /**
      * Change the listening port
      * 
      * Don't forget to use initServer() after use this method.
@@ -215,6 +223,14 @@ public class ServerCore extends AbstractLoggable {
      */
     public void setUserConnectionsManagement(final IUsersConnectionsManagement userConnectionsManagement) {
         usersConnectionsManagement = userConnectionsManagement;
+    }
+
+    /**
+     * @param usersConnectionsManagement
+     *            the usersConnectionsManagement to set
+     */
+    public void setUsersConnectionsManagement(final IUsersConnectionsManagement usersConnectionsManagement) {
+        this.usersConnectionsManagement = usersConnectionsManagement;
     }
 
     /**
