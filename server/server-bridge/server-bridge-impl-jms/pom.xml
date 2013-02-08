@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>server-bridge</artifactId>
 		<groupId>com.gc.irc</groupId>
-		<version>0.0.3-SNAPSHOT</version>
+		<version>0.0.4-SNAPSHOT</version>
 	</parent>
 	<artifactId>server-bridge-impl-jms</artifactId>
 	<name>server-bridge-impl-jms</name>
