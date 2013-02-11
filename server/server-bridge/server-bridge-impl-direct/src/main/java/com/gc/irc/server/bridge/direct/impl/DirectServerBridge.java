@@ -78,7 +78,7 @@ public class DirectServerBridge extends AbstractLoggable implements IServerBridg
     @Override
     public IRCMessage receive() throws ServerBridgeException {
         try {
-            getLog().debug("Wait for message in");
+            getLog().debug("Wait for message in bridge");
             lockConsumer.acquire();
         } catch (final InterruptedException e) {
             throw new ServerBridgeException("Fail to acquire lock", e);

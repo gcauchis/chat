@@ -24,17 +24,50 @@ import com.gc.irc.server.model.UserInformations;
 public final class UserInformationScanner extends AbstractLoggable {
 
     /** The last id. */
-    private static int lastId = 0;
+    private int lastId = 0;
+
+    /** The m document. */
+    private org.w3c.dom.Document mDocument;
 
     /** The list users. */
-    private static Map<Integer, UserInformations> users = new ConcurrentHashMap<Integer, UserInformations>();
+    private Map<Integer, UserInformations> users = new ConcurrentHashMap<Integer, UserInformations>();
+
+    /**
+     * Instantiates a new user imformation scanner.
+     * 
+     * @param document
+     *            the document
+     */
+    public UserInformationScanner(final org.w3c.dom.Document document) {
+        mDocument = document;
+        visitDocument();
+    }
+
+    /**
+     * Instantiates a new user imformation scanner.
+     * 
+     * @param file
+     *            the file
+     * @throws ParserConfigurationException
+     *             the parser configuration exception
+     * @throws SAXException
+     *             the sAX exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    public UserInformationScanner(final String file) throws ParserConfigurationException, SAXException, IOException {
+        final DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+        final DocumentBuilder builder = builderFactory.newDocumentBuilder();
+        mDocument = builder.parse(new InputSource(new File(file).toURI().toString()));
+        visitDocument();
+    }
 
     /**
      * Gets the last id.
      * 
      * @return the last id
      */
-    public static int getLastId() {
+    public int getLastId() {
         return lastId;
     }
 
@@ -43,8 +76,18 @@ public final class UserInformationScanner extends AbstractLoggable {
      * 
      * @return the list user infomation
      */
-    public static Map<Integer, UserInformations> getListUserInfomation() {
+    public Map<Integer, UserInformations> getListUserInfomation() {
         return users;
+    }
+
+    /**
+     * Scan through org.w3c.dom.Document mDocument.
+     */
+    public void visitDocument() {
+        final org.w3c.dom.Element element = mDocument.getDocumentElement();
+        if ((element != null) && element.getTagName().equals("IRCUsers")) {
+            visitElementIRCUsers(element);
+        }
     }
 
     /**
@@ -54,7 +97,7 @@ public final class UserInformationScanner extends AbstractLoggable {
      *            the element
      * @return the iRC user informations
      */
-    private static UserInformations visitElementIRCUserInfo(final org.w3c.dom.Element element) {
+    private UserInformations visitElementIRCUserInfo(final org.w3c.dom.Element element) {
         int id = -1;
         String nickname = "";
         String login = "";
@@ -102,7 +145,7 @@ public final class UserInformationScanner extends AbstractLoggable {
      * @param element
      *            the element
      */
-    private static void visitElementIRCUsers(final org.w3c.dom.Element element) {
+    private void visitElementIRCUsers(final org.w3c.dom.Element element) {
         final org.w3c.dom.NamedNodeMap attrs = element.getAttributes();
         for (int i = 0; i < attrs.getLength(); i++) {
             final org.w3c.dom.Attr attr = (org.w3c.dom.Attr) attrs.item(i);
@@ -127,51 +170,6 @@ public final class UserInformationScanner extends AbstractLoggable {
             case org.w3c.dom.Node.PROCESSING_INSTRUCTION_NODE:
                 break;
             }
-        }
-    }
-
-    /** The m document. */
-    private org.w3c.dom.Document mDocument;
-
-    /**
-     * Instantiates a new user imformation scanner.
-     * 
-     * @param document
-     *            the document
-     */
-    public UserInformationScanner(final org.w3c.dom.Document document) {
-        mDocument = document;
-        users = new ConcurrentHashMap<Integer, UserInformations>();
-        visitDocument();
-    }
-
-    /**
-     * Instantiates a new user imformation scanner.
-     * 
-     * @param file
-     *            the file
-     * @throws ParserConfigurationException
-     *             the parser configuration exception
-     * @throws SAXException
-     *             the sAX exception
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
-     */
-    public UserInformationScanner(final String file) throws ParserConfigurationException, SAXException, IOException {
-        final DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-        final DocumentBuilder builder = builderFactory.newDocumentBuilder();
-        mDocument = builder.parse(new InputSource(new File(file).toURI().toString()));
-        users = new ConcurrentHashMap<Integer, UserInformations>();
-        visitDocument();
-    }
-
-    /**
-     * Scan through org.w3c.dom.Document mDocument.
-     */
-    public void visitDocument() {
-        final org.w3c.dom.Element element = mDocument.getDocumentElement();
-        if ((element != null) && element.getTagName().equals("IRCUsers")) {
-            visitElementIRCUsers(element);
         }
     }
 }

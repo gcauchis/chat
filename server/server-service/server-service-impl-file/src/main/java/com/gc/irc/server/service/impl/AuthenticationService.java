@@ -32,17 +32,7 @@ import com.gc.irc.server.service.utils.UserInformationScanner;
 public class AuthenticationService extends AbstractLoggable implements IAuthenticationService {
 
     /** The last id. */
-    private static int lastId;
-
-    /**
-     * Sets the last id.
-     * 
-     * @param lastId
-     *            the new last id
-     */
-    private static void setLastId(final int lastId) {
-        AuthenticationService.lastId = lastId;
-    }
+    private int lastId;
 
     /** The path fichier. */
     private final String pathFichier = "auth.xml";
@@ -52,7 +42,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
     private IUserPictureService userPictureService;
 
     /** The list users. */
-    private final Map<Integer, UserInformations> users;
+    private Map<Integer, UserInformations> users;
 
     /**
      * Read the Users data.
@@ -60,7 +50,10 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
     private AuthenticationService() {
         getLog().debug("Read the Users data.");
         try {
-            new UserInformationScanner(pathFichier);
+            final UserInformationScanner informationScanner = new UserInformationScanner(pathFichier);
+            setLastId(informationScanner.getLastId());
+            users = informationScanner.getListUserInfomation();
+            getLog().debug("End init auth.");
         } catch (final ParserConfigurationException e) {
             getLog().warn("Fail to parse xml.", e);
         } catch (final SAXException e) {
@@ -68,9 +61,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
         } catch (final IOException e) {
             getLog().warn("Fail to read xml file. If file didn't exist yet, don't worry with this error", e);
         }
-        setLastId(UserInformationScanner.getLastId());
-        users = UserInformationScanner.getListUserInfomation();
-        getLog().debug("End init auth.");
+
     }
 
     /*
@@ -185,6 +176,16 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
                 }
             }
         }
+    }
+
+    /**
+     * Sets the last id.
+     * 
+     * @param lastId
+     *            the new last id
+     */
+    private void setLastId(final int lastId) {
+        this.lastId = lastId;
     }
 
     /**
