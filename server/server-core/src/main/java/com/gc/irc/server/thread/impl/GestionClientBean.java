@@ -1,5 +1,6 @@
 package com.gc.irc.server.thread.impl;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -384,6 +385,9 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             checkMessage(message);
         } catch (final ClassNotFoundException e) {
             getLog().warn(id + " Fail to receive a message : ", e);
+            socketAlive();
+        } catch (final EOFException e) {
+            getLog().warn("{} Fail to receive a message {}", id, e.getMessage());
             socketAlive();
         } catch (final IOException e) {
             getLog().warn(id + " Fail to receive a message : ", e);

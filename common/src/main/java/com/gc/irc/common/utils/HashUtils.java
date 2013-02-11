@@ -4,31 +4,24 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
 /**
  * The Class HashUtils.
  */
 public final class HashUtils {
 
-    /** The LOGGER of HashUtils. */
-    private static final transient Logger LOGGER = Logger.getLogger(HashUtils.class);
-
-    /** The Constant SALT. */
-    public static final String SALT = "_IRC_SALT";
+    /** The Constant CHARSET_NAME. */
+    public static final String CHARSET_NAME = "UTF-8";
 
     /** The Constant ENCODING_HASH_TYPE. */
     public static final String ENCODING_HASH_TYPE = "SHA-512";
 
-    /** The Constant CHARSET_NAME. */
-    public static final String CHARSET_NAME = "UTF-8";
+    /** The LOGGER of HashUtils. */
+    private static final transient Logger LOGGER = LoggerUtils.getLogger(HashUtils.class);
 
-    /**
-     * Instantiates a new hash utils.
-     */
-    private HashUtils() {
-        super();
-    }
+    /** The Constant SALT. */
+    public static final String SALT = "_IRC_SALT";
 
     /**
      * Encode password.
@@ -70,6 +63,13 @@ public final class HashUtils {
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Instantiates a new hash utils.
+     */
+    private HashUtils() {
+        super();
     }
 
 }

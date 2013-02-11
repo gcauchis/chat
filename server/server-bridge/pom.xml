@@ -13,5 +13,6 @@
 	<modules>
 		<module>server-bridge-api</module>
 		<module>server-bridge-impl-jms</module>
+		<module>server-bridge-impl-direct</module>
 	</modules>
 </project>

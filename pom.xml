@@ -1,6 +1,4 @@
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gc.irc</groupId>
 	<artifactId>irc</artifactId>
@@ -102,13 +100,18 @@
 				<version>${irc.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>com.gc.irc</groupId>
+				<artifactId>server-bridge-api</artifactId>
+				<version>${irc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gc.irc</groupId>
+				<artifactId>server-bridge-impl-jms</artifactId>
+				<version>${irc.version}</version>
+			</dependency>
+			<dependency>
                 <groupId>com.gc.irc</groupId>
-                <artifactId>server-bridge-api</artifactId>
-                <version>${irc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.gc.irc</groupId>
-                <artifactId>server-bridge-impl-jms</artifactId>
+                <artifactId>server-bridge-impl-direct</artifactId>
                 <version>${irc.version}</version>
             </dependency>
 			<dependency>
@@ -198,15 +201,23 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-jdk14</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -249,37 +260,37 @@
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>		
+					<artifactId>maven-surefire-plugin</artifactId>
 					<version>2.13</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>		
+					<artifactId>maven-release-plugin</artifactId>
 					<version>2.4</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-antrun-plugin</artifactId>		
+					<artifactId>maven-antrun-plugin</artifactId>
 					<version>1.7</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-clean-plugin</artifactId>		
+					<artifactId>maven-clean-plugin</artifactId>
 					<version>2.5</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-deploy-plugin</artifactId>		
+					<artifactId>maven-deploy-plugin</artifactId>
 					<version>2.7</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-install-plugin</artifactId>		
+					<artifactId>maven-install-plugin</artifactId>
 					<version>2.4</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-site-plugin</artifactId>		
+					<artifactId>maven-site-plugin</artifactId>
 					<version>3.2</version>
 				</plugin>
 			</plugins>
@@ -292,24 +303,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>2.6</version>
-				<!--				<reportSets> 
-					<reportSet> 
-						<reports> 
-							<report>index</report>
-							<report>project-team</report> 
-							<report>mailing-list</report>
-							<report>cim</report>
-							<report>modules</report>
-							<report>plugins</report>
-							<report>plugin-management</report>
-							<report>dependency</report> 
-							<report>dependency-info</report>
-							<report>dependency-convergence</report>
-							<report>dependency-management</report> 
-							<report>summary</report>
-						</reports> 
-					</reportSet> 
-				</reportSets>-->
+				<!-- <reportSets> <reportSet> <reports> <report>index</report> <report>project-team</report> <report>mailing-list</report> <report>cim</report> <report>modules</report> <report>plugins</report> <report>plugin-management</report> <report>dependency</report> <report>dependency-info</report> <report>dependency-convergence</report> 
+					<report>dependency-management</report> <report>summary</report> </reports> </reportSet> </reportSets> -->
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

@@ -3,6 +3,7 @@ package com.gc.irc.server.bridge.jms.impl;
 import javax.jms.JMSException;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
@@ -14,6 +15,7 @@ import com.gc.irc.server.bridge.jms.utils.JMSConnectionUtils;
  * The Class JMSConsumerFactory.
  */
 @Component
+@Scope("singleton")
 public class JMSConsumerFactory extends AbstractLoggable implements IServerBridgeConsumerFactory {
 
     @Value("${jms.server.url}")

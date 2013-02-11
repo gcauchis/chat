@@ -162,7 +162,8 @@
 	   </dependency>
 		<dependency>
 			<groupId>com.gc.irc</groupId>
-			<artifactId>server-bridge-impl-jms</artifactId>
+<!-- 			<artifactId>server-bridge-impl-jms</artifactId> -->
+			<artifactId>server-bridge-impl-direct</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.wapmx.native</groupId>
