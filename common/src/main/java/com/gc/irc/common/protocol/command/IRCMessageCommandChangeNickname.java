@@ -9,6 +9,7 @@ public class IRCMessageCommandChangeNickname extends IRCMessageCommand {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 4197111507731979380L;
+
     /** The nickname. */
     private String nickname;
 
@@ -19,7 +20,7 @@ public class IRCMessageCommandChangeNickname extends IRCMessageCommand {
      *            the user
      */
     public IRCMessageCommandChangeNickname(final IRCUser user) {
-        super(user.getId(), IRCMessageCommandType.CHANGE_NICKNAME);
+        super(user.getId());
         nickname = user.getNickName();
     }
 
@@ -40,7 +41,7 @@ public class IRCMessageCommandChangeNickname extends IRCMessageCommand {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("IRCMessageCommandChangeNickname [nickname=").append(nickname).append("]");
+        builder.append("IRCMessageCommandChangeNickname [").append(super.toString()).append(", nickname=").append(nickname).append("]");
         return builder.toString();
     }
 

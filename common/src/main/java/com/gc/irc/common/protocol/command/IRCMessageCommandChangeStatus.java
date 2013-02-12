@@ -22,7 +22,7 @@ public class IRCMessageCommandChangeStatus extends IRCMessageCommand {
      *            the new status
      */
     public IRCMessageCommandChangeStatus(final int userId, final UserStatus newStatus) {
-        super(userId, IRCMessageCommandType.CHANGE_STATUS);
+        super(userId);
         this.newStatus = newStatus;
     }
 
@@ -43,7 +43,7 @@ public class IRCMessageCommandChangeStatus extends IRCMessageCommand {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("IRCMessageCommandChangeStatus [newStatus=").append(newStatus).append("]");
+        builder.append("IRCMessageCommandChangeStatus [").append(super.toString()).append(", newStatus=").append(newStatus).append("]");
         return builder.toString();
     }
 

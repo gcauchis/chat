@@ -16,19 +16,11 @@ public class IRCMessageNoticeServerMessage extends IRCMessageNotice {
 
     /**
      * Instantiates a new iRC message notice server message.
-     */
-    private IRCMessageNoticeServerMessage() {
-        super(IRCMessageNoticeType.SERVER_MESSAGE);
-    }
-
-    /**
-     * Instantiates a new iRC message notice server message.
      * 
      * @param message
      *            the message
      */
     public IRCMessageNoticeServerMessage(final String message) {
-        this();
         this.message = message;
     }
 
@@ -49,7 +41,7 @@ public class IRCMessageNoticeServerMessage extends IRCMessageNotice {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("IRCMessageNoticeServerMessage [message=").append(message).append("]");
+        builder.append("IRCMessageNoticeServerMessage [").append(super.toString()).append(", message=").append(message).append("]");
         return builder.toString();
     }
 }

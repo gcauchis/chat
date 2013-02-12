@@ -18,20 +18,21 @@ public class IRCMessageNoticeLogin extends IRCMessageNotice {
 
     /**
      * Instantiates a new iRC message notice login.
-     */
-    private IRCMessageNoticeLogin() {
-        super(IRCMessageNoticeType.LOGIN);
-    }
-
-    /**
-     * Instantiates a new iRC message notice login.
      * 
      * @param user
      *            the user
      */
     public IRCMessageNoticeLogin(final IRCUser user) {
-        this();
         this.user = user;
+    }
+
+    /**
+     * Gets the user.
+     * 
+     * @return the user
+     */
+    public IRCUser getUser() {
+        return user;
     }
 
     /**
@@ -46,15 +47,6 @@ public class IRCMessageNoticeLogin extends IRCMessageNotice {
         return true;
     }
 
-    /**
-     * Gets the user.
-     * 
-     * @return the user
-     */
-    public IRCUser getUser() {
-        return user;
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -63,7 +55,7 @@ public class IRCMessageNoticeLogin extends IRCMessageNotice {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("IRCMessageNoticeLogin [user=").append(user).append("]");
+        builder.append("IRCMessageNoticeLogin [").append(super.toString()).append(", user=").append(user).append("]");
         return builder.toString();
     }
 

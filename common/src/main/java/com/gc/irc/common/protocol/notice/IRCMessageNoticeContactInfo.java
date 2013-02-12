@@ -18,19 +18,12 @@ public class IRCMessageNoticeContactInfo extends IRCMessageNotice {
 
     /**
      * Instantiates a new iRC message notice contact info.
-     */
-    private IRCMessageNoticeContactInfo() {
-        super(IRCMessageNoticeType.CONTACT_INFO);
-    }
-
-    /**
-     * Instantiates a new iRC message notice contact info.
      * 
      * @param user
      *            the user
      */
     public IRCMessageNoticeContactInfo(final IRCUser user) {
-        this();
+        super();
         this.user = user;
         setFromId(user.getId());
     }
@@ -52,7 +45,7 @@ public class IRCMessageNoticeContactInfo extends IRCMessageNotice {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("IRCMessageNoticeContactInfo [user=").append(user).append("]");
+        builder.append("IRCMessageNoticeContactInfo [").append(super.toString()).append(", user=").append(user).append("]");
         return builder.toString();
     }
 

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.gc.irc.common.message.api.IClientMessageLine;
 import com.gc.irc.common.protocol.IRCMessage;
-import com.gc.irc.common.protocol.IRCMessageType;
 
 /**
  * The seri.
@@ -15,9 +14,6 @@ public class IRCMessageChat extends IRCMessage {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 6599297905344621111L;
-
-    /** The chat message type. */
-    private IRCMessageChatType chatMessageType = IRCMessageChatType.GLOBAL;
 
     /** The lines. */
     private List<IClientMessageLine> lines;
@@ -33,17 +29,8 @@ public class IRCMessageChat extends IRCMessage {
      *            the text color
      */
     public IRCMessageChat(final int userID, final List<IClientMessageLine> lines) {
-        super(userID, IRCMessageType.CHATMESSAGE);
+        super(userID);
         this.lines = lines;
-    }
-
-    /**
-     * Gets the chat message type.
-     * 
-     * @return the chat message type
-     */
-    public IRCMessageChatType getChatMessageType() {
-        return chatMessageType;
     }
 
     /**
@@ -53,16 +40,6 @@ public class IRCMessageChat extends IRCMessage {
      */
     public List<IClientMessageLine> getLines() {
         return lines;
-    }
-
-    /**
-     * Sets the chat message type.
-     * 
-     * @param chatMessageType
-     *            the new chat message type
-     */
-    protected void setChatMessageType(final IRCMessageChatType chatMessageType) {
-        this.chatMessageType = chatMessageType;
     }
 
     /**
@@ -78,11 +55,13 @@ public class IRCMessageChat extends IRCMessage {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.common.protocol.IRCMessage#toString()
+     * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
-        return "IRCMessageChat(" + super.toString() + ") [chatMessageType=" + chatMessageType + ", lines=" + lines + "]";
+        final StringBuilder builder = new StringBuilder();
+        builder.append("IRCMessageChat [").append(super.toString()).append(", lines=").append(lines).append("]");
+        return builder.toString();
     }
 
 }

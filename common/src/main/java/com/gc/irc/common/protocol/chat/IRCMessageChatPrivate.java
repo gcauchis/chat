@@ -30,7 +30,6 @@ public class IRCMessageChatPrivate extends IRCMessageChat {
      */
     public IRCMessageChatPrivate(final int userID, final List<IClientMessageLine> lines) {
         super(userID, lines);
-        setChatMessageType(IRCMessageChatType.PRIVATE);
     }
 
     /**
@@ -71,11 +70,14 @@ public class IRCMessageChatPrivate extends IRCMessageChat {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.common.protocol.chat.IRCMessageChat#toString()
+     * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
-        return "IRCMessageChatPrivate(" + super.toString() + ") [cptPersist=" + cptPersist + ", toId=" + toId + "]";
+        final StringBuilder builder = new StringBuilder();
+        builder.append("IRCMessageChatPrivate [").append(super.toString()).append(", cptPersist=").append(cptPersist).append(", toId=").append(toId)
+                .append("]");
+        return builder.toString();
     }
 
 }

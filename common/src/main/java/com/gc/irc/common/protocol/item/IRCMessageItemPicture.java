@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 
 import com.gc.irc.common.entity.SerializableBufferedImage;
 import com.gc.irc.common.protocol.IRCMessage;
-import com.gc.irc.common.protocol.IRCMessageType;
 
 /**
  * Message use to send picture.
@@ -29,7 +28,7 @@ public class IRCMessageItemPicture extends IRCMessage {
      *            the image
      */
     public IRCMessageItemPicture(final int userId, final BufferedImage image) {
-        super(userId, IRCMessageType.ITEM);
+        super(userId);
         imageData = new SerializableBufferedImage(image);
     }
 
@@ -50,7 +49,7 @@ public class IRCMessageItemPicture extends IRCMessage {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("IRCMessageItemPicture [imageData=").append(imageData).append("]");
+        builder.append("IRCMessageItemPicture [").append(super.toString()).append(", imageData=").append(imageData).append("]");
         return builder.toString();
     }
 }

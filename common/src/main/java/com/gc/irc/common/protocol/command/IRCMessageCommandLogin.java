@@ -23,7 +23,7 @@ public class IRCMessageCommandLogin extends IRCMessageCommand {
      *            the password
      */
     public IRCMessageCommandLogin(final String login, final String password) {
-        super(-1, IRCMessageCommandType.LOGIN);
+        super(-1);
         this.login = login;
         this.password = password;
     }
@@ -54,7 +54,7 @@ public class IRCMessageCommandLogin extends IRCMessageCommand {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("IRCMessageCommandLogin [login=").append(login).append(", password=").append(password).append("]");
+        builder.append("IRCMessageCommandLogin [").append(super.toString()).append(", login=").append(login).append(", password=").append(password).append("]");
         return builder.toString();
     }
 

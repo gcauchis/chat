@@ -20,19 +20,11 @@ public class IRCMessageNoticeContactsList extends IRCMessageNotice {
 
     /**
      * Instantiates a new iRC message notice contacts list.
-     */
-    private IRCMessageNoticeContactsList() {
-        super(IRCMessageNoticeType.CONTACTS_LIST);
-    }
-
-    /**
-     * Instantiates a new iRC message notice contacts list.
      * 
      * @param listeUsers
      *            the liste users
      */
     public IRCMessageNoticeContactsList(final List<IRCUser> listeUsers) {
-        this();
         this.listeUsers = listeUsers;
     }
 
@@ -53,7 +45,7 @@ public class IRCMessageNoticeContactsList extends IRCMessageNotice {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("IRCMessageNoticeContactsList [listeUsers=").append(listeUsers).append("]");
+        builder.append("IRCMessageNoticeContactsList [").append(super.toString()).append(", listeUsers=").append(listeUsers).append("]");
         return builder.toString();
     }
 }

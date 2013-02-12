@@ -11,7 +11,6 @@ import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.entity.UserStatus;
 import com.gc.irc.common.exception.security.InvalidSenderException;
 import com.gc.irc.common.protocol.IRCMessage;
-import com.gc.irc.common.protocol.IRCMessageType;
 import com.gc.irc.common.protocol.command.IRCMessageCommand;
 import com.gc.irc.common.protocol.command.IRCMessageCommandLogin;
 import com.gc.irc.common.protocol.command.IRCMessageCommandRegister;
@@ -248,31 +247,23 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             /**
              * Answer to the client
              */
-            getLog().debug(id + " Type : " + messageInit.getType());
-            if (messageInit.getType() == IRCMessageType.COMMAND) {
+            getLog().debug(id + " message : " + messageInit);
+            if (messageInit instanceof IRCMessageCommand) {
                 final IRCMessageCommand messagecmd = (IRCMessageCommand) messageInit;
 
                 boolean registration = false;
-                getLog().debug(id + " type : " + messagecmd.getCommandType());
 
-                switch (messagecmd.getCommandType()) {
-                case LOGIN:
-                    getLog().debug(id + " Login Message receive");
-                    final IRCMessageCommandLogin messageLogin = (IRCMessageCommandLogin) messagecmd;
-                    user = authenticationService.logUser(messageLogin.getLogin(), messageLogin.getPassword());
-                    break;
-
-                case REGISTER:
+                if (messagecmd instanceof IRCMessageCommandRegister) {
                     getLog().debug(id + " Register Message receive");
                     registration = true;
                     final IRCMessageCommandRegister messageRegister = (IRCMessageCommandRegister) messagecmd;
                     if (authenticationService.addUser(messageRegister.getLogin(), messageRegister.getPassword(), messageRegister.getLogin())) {
                         user = authenticationService.logUser(messageRegister.getLogin(), messageRegister.getPassword());
                     }
-                    break;
-
-                default:
-                    break;
+                } else if (messagecmd instanceof IRCMessageCommandLogin) {
+                    getLog().debug(id + " Login Message receive");
+                    final IRCMessageCommandLogin messageLogin = (IRCMessageCommandLogin) messagecmd;
+                    user = authenticationService.logUser(messageLogin.getLogin(), messageLogin.getPassword());
                 }
 
                 if (user != null) {
@@ -435,7 +426,9 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket (com.gc.irc.common.protocol.IRCMessage)
+     * @see
+     * com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket
+     * (com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
     public void sendMessageObjetInSocket(final IRCMessage message) {
@@ -503,7 +496,8 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     }
 
     /**
-     * Test if the socket is already open. If socket is closed or a problem is remark the thread is finalize.
+     * Test if the socket is already open. If socket is closed or a problem is
+     * remark the thread is finalize.
      */
     private void socketAlive() {
         getLog().info(id + " Test if the socket have no problem.");
