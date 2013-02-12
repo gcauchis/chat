@@ -7,7 +7,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.slf4j.Logger;
 
-import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.common.api.ILoggable;
 import com.gc.irc.common.connector.ConnectionHandler;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.message.api.IIRCMessageSender;
@@ -26,7 +26,7 @@ import com.gc.irc.server.test.utils.entity.UserContextEntity;
 /**
  * The Class AbstractServerTest.
  */
-public abstract class AbstractServerTest extends AbstractLoggable {
+public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements ILoggable {
 
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerUtils.getLogger(AbstractServerTest.class);
@@ -72,6 +72,9 @@ public abstract class AbstractServerTest extends AbstractLoggable {
         }
     }
 
+    /** The impl logger. */
+    private Logger implLogger;
+
     /**
      * Gets the connected user.
      * 
@@ -111,6 +114,19 @@ public abstract class AbstractServerTest extends AbstractLoggable {
         assertTrue("" + messageHandler.getLastReceivedMessage(), messageHandler.getLastReceivedMessage() instanceof IRCMessageNoticeServerMessage);
 
         return connectionHandler;
+    }
+
+    /**
+     * Gets the log.
+     * 
+     * @return the log
+     */
+    @Override
+    public Logger getLog() {
+        if (implLogger == null) {
+            implLogger = LoggerUtils.getLogger(getClass());
+        }
+        return implLogger;
     }
 
     /**

@@ -166,7 +166,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                 clientSocket.close();
             }
         } catch (final IOException e) {
-            getLog().warn(id + " Fail to close Client's connection " + clientSocket.getInetAddress() + " : ", e);
+            getLog().warn(id + " Fail to close Client's connection " + clientSocket.getInetAddress() + " : " + e.getMessage());
         }
     }
 
@@ -435,9 +435,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket
-     * (com.gc.irc.common.protocol.IRCMessage)
+     * @see com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket (com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
     public void sendMessageObjetInSocket(final IRCMessage message) {
@@ -505,8 +503,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     }
 
     /**
-     * Test if the socket is already open. If socket is closed or a problem is
-     * remark the thread is finalize.
+     * Test if the socket is already open. If socket is closed or a problem is remark the thread is finalize.
      */
     private void socketAlive() {
         getLog().info(id + " Test if the socket have no problem.");

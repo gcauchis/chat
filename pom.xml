@@ -215,11 +215,11 @@
 				<artifactId>easymockclassextension</artifactId>
 				<version>${easymock.version}</version>
 			</dependency>
-			<!--<dependency>
-				<groupId>org.unitils</groupId>
-				<artifactId>unitils-spring</artifactId>
-				<version>3.3</version>
-			</dependency>-->
+<!--			<dependency>-->
+<!--				<groupId>org.unitils</groupId>-->
+<!--				<artifactId>unitils-spring</artifactId>-->
+<!--				<version>3.2</version>-->
+<!--			</dependency>-->
 		</dependencies>
 	</dependencyManagement>
 
@@ -229,11 +229,11 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!--<dependency>
-			<groupId>org.unitils</groupId>
-			<artifactId>unitils-spring</artifactId>
-			<scope>test</scope>
-		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.unitils</groupId>-->
+<!--			<artifactId>unitils-spring</artifactId>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
