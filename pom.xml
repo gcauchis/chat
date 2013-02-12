@@ -27,9 +27,9 @@
 		<url>https://github.com/gcauchis/irc.git</url>
 	</scm>
 
-	<prerequisites>
-		<maven>3.0.4</maven>
-	</prerequisites>
+	<!--	<prerequisites>-->
+	<!--		<maven>3.0.4</maven>-->
+	<!--	</prerequisites>-->
 
 	<modules>
 		<module>common</module>
@@ -42,6 +42,7 @@
 		<spring.version>3.2.1.RELEASE</spring.version>
 		<slf4j.version>1.7.2</slf4j.version>
 		<activemq.version>5.7.0</activemq.version>
+		<easymock.version>3.1</easymock.version>
 
 		<java.build.version>1.6</java.build.version>
 	</properties>
@@ -204,6 +205,21 @@
 				<artifactId>mx-native-loader</artifactId>
 				<version>1.8</version>
 			</dependency>
+			<dependency>
+				<groupId>org.easymock</groupId>
+				<artifactId>easymock</artifactId>
+				<version>${easymock.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.easymock</groupId>
+				<artifactId>easymockclassextension</artifactId>
+				<version>${easymock.version}</version>
+			</dependency>
+			<!--<dependency>
+				<groupId>org.unitils</groupId>
+				<artifactId>unitils-spring</artifactId>
+				<version>3.3</version>
+			</dependency>-->
 		</dependencies>
 	</dependencyManagement>
 
@@ -213,12 +229,20 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.unitils</groupId>
-			<artifactId>unitils</artifactId>
-			<version>3.3</version>
+			<artifactId>unitils-spring</artifactId>
 			<scope>test</scope>
-			<type>pom</type>
+		</dependency>-->
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymockclassextension</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

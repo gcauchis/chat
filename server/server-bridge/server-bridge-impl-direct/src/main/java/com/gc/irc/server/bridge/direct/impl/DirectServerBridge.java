@@ -1,8 +1,7 @@
 package com.gc.irc.server.bridge.direct.impl;
 
-import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.Semaphore;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -21,14 +20,8 @@ import com.gc.irc.server.bridge.api.ServerBridgeException;
 @Scope("singleton")
 public class DirectServerBridge extends AbstractLoggable implements IServerBridgeProducer, IServerBridgeConsumer, IServerBridgeConsumerFactory {
 
-    /** The lock consumer. */
-    private Semaphore lockConsumer = new Semaphore(0, true);
-
-    /** The lock producer. */
-    private Semaphore lockProducer = new Semaphore(1, true);
-
     /** The messages queue. */
-    private Queue<IRCMessage> messagesQueue = new LinkedBlockingQueue<IRCMessage>();
+    private final BlockingQueue<IRCMessage> messagesQueue = new LinkedBlockingQueue<IRCMessage>();
 
     /*
      * (non-Javadoc)
@@ -43,8 +36,7 @@ public class DirectServerBridge extends AbstractLoggable implements IServerBridg
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.gc.irc.server.bridge.api.IServerBridgeConsumerFactory#getInstance()
+     * @see com.gc.irc.server.bridge.api.IServerBridgeConsumerFactory#getInstance()
      */
     @Override
     public IServerBridgeConsumer getInstance() throws ServerBridgeException {
@@ -54,20 +46,16 @@ public class DirectServerBridge extends AbstractLoggable implements IServerBridg
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.gc.irc.server.bridge.api.IServerBridgeProducer#post(com.gc.irc.common
-     * .protocol.IRCMessage)
+     * @see com.gc.irc.server.bridge.api.IServerBridgeProducer#post(com.gc.irc.common .protocol.IRCMessage)
      */
     @Override
     public void post(final IRCMessage message) throws ServerBridgeException {
         getLog().debug("post message in bridge: {}", message);
         try {
-            lockProducer.acquire();
+            messagesQueue.put(message);
         } catch (final InterruptedException e) {
-            throw new ServerBridgeException("Fail to acquire lock", e);
+            throw new ServerBridgeException("Fail to put message in queue", e);
         }
-        messagesQueue.add(message);
-        lockConsumer.release();
     }
 
     /*
@@ -77,15 +65,12 @@ public class DirectServerBridge extends AbstractLoggable implements IServerBridg
      */
     @Override
     public IRCMessage receive() throws ServerBridgeException {
+        IRCMessage result = null;
         try {
-            getLog().debug("Wait for message in bridge");
-            lockConsumer.acquire();
+            result = messagesQueue.take();
         } catch (final InterruptedException e) {
-            throw new ServerBridgeException("Fail to acquire lock", e);
+            throw new ServerBridgeException("Fail to take message from queue", e);
         }
-        final IRCMessage result = messagesQueue.poll();
-        getLog().debug("poped message: {}", result);
-        lockProducer.release();
         return result;
     }
 

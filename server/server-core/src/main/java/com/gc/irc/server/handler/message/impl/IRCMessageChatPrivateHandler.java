@@ -27,8 +27,7 @@ public class IRCMessageChatPrivateHandler extends AbstractServerMessageHandler<I
     /*
      * (non-Javadoc)
      * 
-     * @see com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler#
-     * internalHandle(com.gc.irc.common.protocol.IRCMessage)
+     * @see com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler# internalHandle(com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
     protected void internalHandle(final IRCMessageChatPrivate message) {
@@ -60,16 +59,6 @@ public class IRCMessageChatPrivateHandler extends AbstractServerMessageHandler<I
     }
 
     /**
-     * Sets the jms producer.
-     * 
-     * @param jmsProducer
-     *            the new jms producer
-     */
-    public void setjmsProducer(final IServerBridgeProducer jmsProducer) {
-        serverBridgeProducer = jmsProducer;
-    }
-
-    /**
      * Sets the num passage max.
      * 
      * @param numPassageMax
@@ -77,6 +66,16 @@ public class IRCMessageChatPrivateHandler extends AbstractServerMessageHandler<I
      */
     public void setNumPassageMax(final int numPassageMax) {
         this.numPassageMax = numPassageMax;
+    }
+
+    /**
+     * Sets the server bridge producer.
+     * 
+     * @param serverBridgeProducer
+     *            the new server bridge producer
+     */
+    public void setServerBridgeProducer(IServerBridgeProducer serverBridgeProducer) {
+        this.serverBridgeProducer = serverBridgeProducer;
     }
 
 }
