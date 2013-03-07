@@ -1,2 +1,2 @@
-mvn clean install && mvn sonar:sonar && mvn site:site && stageSite.sh > mvn.log &
+mvn clean install > mvn.log && mvn sonar:sonar >> mvn.log && mvn site:site >> mvn.log && stageSite.sh >> mvn.log &
 tailColor.sh mvn.log
