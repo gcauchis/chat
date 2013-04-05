@@ -6,7 +6,6 @@ import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactsList;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeLogin;
 import com.gc.irc.common.protocol.notice.IRCMessageNoticeRegister;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class LoginMessageHandler.
  */

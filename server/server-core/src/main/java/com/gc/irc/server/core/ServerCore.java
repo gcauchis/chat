@@ -17,7 +17,6 @@ import com.gc.irc.server.thread.api.IServeurMBean;
 import com.gc.irc.server.thread.factory.api.IGestionClientBeanFactory;
 import com.gc.irc.server.thread.factory.api.IServeurMBeanFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * Main class.
  * 

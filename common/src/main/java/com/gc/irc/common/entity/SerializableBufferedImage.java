@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 
 import com.gc.irc.common.utils.LoggerUtils;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SerializableBufferedImage.
  */
