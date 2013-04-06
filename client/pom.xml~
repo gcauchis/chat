@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>irc</artifactId>
+		<groupId>com.gc.irc</groupId>
+		<version>0.0.4-SNAPSHOT</version>
+	</parent>
+	<artifactId>server</artifactId>
+	<packaging>pom</packaging>
+	<name>server</name>
+	<url>http://maven.apache.org</url>
+
+	<modules>
+		<module>server-core</module>
+		<module>server-service</module>
+		<module>server-model</module>
+		<module>server-bridge</module>
+	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.gc.irc</groupId>
+			<artifactId>common</artifactId>
+		</dependency>
+	</dependencies>
+
+
+</project>
