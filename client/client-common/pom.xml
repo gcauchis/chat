@@ -5,7 +5,5 @@
 		<groupId>com.gc.irc</groupId>
 		<version>0.0.4-SNAPSHOT</version>
 	</parent>
-	<groupId>com.gc.irc</groupId>
 	<artifactId>client-common</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
 </project>
