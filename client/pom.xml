@@ -13,7 +13,7 @@
 	<url>http://maven.apache.org</url>
 
 	<modules>
-		
+		<module>client-common</module>
 	</modules>
 
 	<dependencies>
