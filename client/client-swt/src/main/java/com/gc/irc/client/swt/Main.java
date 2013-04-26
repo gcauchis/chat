@@ -2,7 +2,7 @@ package com.gc.irc.client.swt;
 
 import org.eclipse.swt.widgets.Display;
 
-import com.gc.irc.client.swt.ui.ClientUI;
+import com.gc.irc.client.swt.ui.LoginUI;
 
 /**
  * The Class Main.
@@ -17,7 +17,8 @@ public class Main {
      */
     public static void main(final String[] args) {
         final Display display = new Display();
-        new ClientUI(display);
+        // new ClientUI(display);
+        new LoginUI(display);
         display.dispose();
     }
 

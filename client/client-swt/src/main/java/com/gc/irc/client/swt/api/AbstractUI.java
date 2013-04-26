@@ -4,6 +4,7 @@
  */
 package com.gc.irc.client.swt.api;
 
+import com.gc.irc.common.abs.AbstractLoggable;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
@@ -12,7 +13,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  * @author gcauchis
  */
-public abstract class AbstractUI {
+public abstract class AbstractUI extends AbstractLoggable {
 
     /** The shell. */
     private Shell shell;
