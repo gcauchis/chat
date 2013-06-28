@@ -11,7 +11,7 @@ import com.gc.irc.server.handler.message.abs.AbstractServerCommandMessageHandler
  * The Class IRCMessageCommandChangeStatusHandler.
  */
 @Component
-public class IRCMessageCommandChangeStatusHandler extends AbstractServerCommandMessageHandler<IRCMessageCommandChangeStatus> {
+public class MessageCommandChangeStatusHandler extends AbstractServerCommandMessageHandler<IRCMessageCommandChangeStatus> {
 
     /*
      * (non-Javadoc)

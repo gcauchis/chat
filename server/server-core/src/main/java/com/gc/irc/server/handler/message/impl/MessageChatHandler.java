@@ -10,7 +10,7 @@ import com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler;
  * The Class IRCMessageChatHandler.
  */
 @Component
-public class IRCMessageChatHandler extends AbstractServerMessageHandler<IRCMessageChat> {
+public class MessageChatHandler extends AbstractServerMessageHandler<IRCMessageChat> {
 
     /*
      * (non-Javadoc)

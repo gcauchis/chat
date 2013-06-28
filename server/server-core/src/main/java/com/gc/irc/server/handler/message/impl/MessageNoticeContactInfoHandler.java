@@ -10,7 +10,7 @@ import com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler;
  * The Class IRCMessageNoticeContactInfoHandler.
  */
 @Component
-public class IRCMessageNoticeContactInfoHandler extends AbstractServerMessageHandler<IRCMessageNoticeContactInfo> {
+public class MessageNoticeContactInfoHandler extends AbstractServerMessageHandler<IRCMessageNoticeContactInfo> {
 
     /*
      * (non-Javadoc)

@@ -10,7 +10,7 @@ import com.gc.irc.server.model.UserInformations;
  * The Class IRCMessageItemPictureHandler.
  */
 @Component
-public class IRCMessageItemPictureHandler extends AbstractServerCommandMessageHandler<IRCMessageItemPicture> {
+public class MessageItemPictureHandler extends AbstractServerCommandMessageHandler<IRCMessageItemPicture> {
 
     /*
      * (non-Javadoc)

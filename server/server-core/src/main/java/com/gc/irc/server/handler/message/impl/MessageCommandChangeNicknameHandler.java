@@ -11,7 +11,7 @@ import com.gc.irc.server.handler.message.abs.AbstractServerCommandMessageHandler
  * The Class IRCMessageCommandChangeNicknameHandler.
  */
 @Component
-public class IRCMessageCommandChangeNicknameHandler extends AbstractServerCommandMessageHandler<IRCMessageCommandChangeNickname> {
+public class MessageCommandChangeNicknameHandler extends AbstractServerCommandMessageHandler<IRCMessageCommandChangeNickname> {
 
     /*
      * (non-Javadoc)

@@ -19,7 +19,7 @@ import com.gc.irc.server.handler.message.test.api.AbstractIRCMessageHandlerTest;
 /**
  * The Class IRCMessageChatPrivateHandlerTest.
  */
-public class IRCMessageChatPrivateHandlerTest extends AbstractIRCMessageHandlerTest<IRCMessageChatPrivateHandler, IRCMessageChatPrivate> {
+public class IRCMessageChatPrivateHandlerTest extends AbstractIRCMessageHandlerTest<MessageChatPrivateHandler, IRCMessageChatPrivate> {
 
     /** The server bridge producer. */
     private IServerBridgeProducer serverBridgeProducer;
@@ -153,7 +153,7 @@ public class IRCMessageChatPrivateHandlerTest extends AbstractIRCMessageHandlerT
      */
     @Before
     public void init() {
-        final IRCMessageChatPrivateHandler ircMessageChatPrivateHandler = new IRCMessageChatPrivateHandler();
+        final MessageChatPrivateHandler ircMessageChatPrivateHandler = new MessageChatPrivateHandler();
         usersConnectionsManagement = createMock(IUsersConnectionsManagement.class);
         ircMessageChatPrivateHandler.setUsersConnectionsManagement(usersConnectionsManagement);
         serverBridgeProducer = createMock(IServerBridgeProducer.class);

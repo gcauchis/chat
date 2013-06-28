@@ -16,7 +16,7 @@ import com.gc.irc.server.handler.message.test.api.AbstractIRCMessageHandlerTest;
 /**
  * The Class IRCMessageChatHandlerTest.
  */
-public class IRCMessageChatHandlerTest extends AbstractIRCMessageHandlerTest<IRCMessageChatHandler, IRCMessageChat> {
+public class IRCMessageChatHandlerTest extends AbstractIRCMessageHandlerTest<MessageChatHandler, IRCMessageChat> {
 
     /** The users connections management. */
     private IUsersConnectionsManagement usersConnectionsManagement;
@@ -70,7 +70,7 @@ public class IRCMessageChatHandlerTest extends AbstractIRCMessageHandlerTest<IRC
      */
     @Before
     public void init() {
-        IRCMessageChatHandler ircMessageChatHandler = new IRCMessageChatHandler();
+        MessageChatHandler ircMessageChatHandler = new MessageChatHandler();
         usersConnectionsManagement = createMock(IUsersConnectionsManagement.class);
         ircMessageChatHandler.setUsersConnectionsManagement(usersConnectionsManagement);
         setMessageHandler(ircMessageChatHandler);

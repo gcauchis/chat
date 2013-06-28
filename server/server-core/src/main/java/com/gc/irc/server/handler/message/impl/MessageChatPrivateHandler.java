@@ -14,7 +14,7 @@ import com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler;
  * The Class IRCMessageChatPrivateHandler.
  */
 @Component
-public class IRCMessageChatPrivateHandler extends AbstractServerMessageHandler<IRCMessageChatPrivate> {
+public class MessageChatPrivateHandler extends AbstractServerMessageHandler<IRCMessageChatPrivate> {
 
     /** The num passage max. */
     @Value("${nbMessageMaxPassage:10}")
