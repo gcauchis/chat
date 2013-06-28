@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.entity.IRCUser;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.handler.message.api.IServerMessageHandler;
 
 /**
  * The Class AbstractServerMessageHandler.
  */
-public abstract class AbstractServerMessageHandler<MSG extends IRCMessage> extends AbstractLoggable implements IServerMessageHandler {
+public abstract class AbstractServerMessageHandler<MSG extends Message> extends AbstractLoggable implements IServerMessageHandler {
 
     /** The msg class. */
     private Class<MSG> msgClass;
@@ -42,7 +42,7 @@ public abstract class AbstractServerMessageHandler<MSG extends IRCMessage> exten
      *            the message
      * @return the sender
      */
-    protected final IRCUser getSender(final IRCMessage message) {
+    protected final IRCUser getSender(final Message message) {
         return getUser(message.getFromId());
     }
 
@@ -64,7 +64,7 @@ public abstract class AbstractServerMessageHandler<MSG extends IRCMessage> exten
      */
     @SuppressWarnings("unchecked")
     @Override
-    public final void handle(final IRCMessage message) {
+    public final void handle(final Message message) {
         if (isHandled(message)) {
             getLog().debug("Handle {}", message);
             internalHandle((MSG) message);
@@ -85,7 +85,7 @@ public abstract class AbstractServerMessageHandler<MSG extends IRCMessage> exten
      * @see com.gc.irc.server.handler.message.api.IServerMessageHandler#isHandled (com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
-    public final boolean isHandled(final IRCMessage message) {
+    public final boolean isHandled(final Message message) {
         return message.getClass() == msgClass;
     }
 
@@ -97,7 +97,7 @@ public abstract class AbstractServerMessageHandler<MSG extends IRCMessage> exten
      * @param toId
      *            the to id
      */
-    protected final void sendTo(final IRCMessage message, final int toId) {
+    protected final void sendTo(final Message message, final int toId) {
         usersConnectionsManagement.sendTo(message, toId);
     }
 
@@ -107,7 +107,7 @@ public abstract class AbstractServerMessageHandler<MSG extends IRCMessage> exten
      * @param message
      *            the message
      */
-    protected final void sendToAllUsers(final IRCMessage message) {
+    protected final void sendToAllUsers(final Message message) {
         usersConnectionsManagement.sendMessageToAllUsers(message);
     }
 

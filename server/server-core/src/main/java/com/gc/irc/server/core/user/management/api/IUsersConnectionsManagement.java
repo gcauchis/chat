@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.gc.irc.common.api.ILoggable;
 import com.gc.irc.common.entity.IRCUser;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 
 public interface IUsersConnectionsManagement extends ILoggable {
@@ -68,7 +68,7 @@ public interface IUsersConnectionsManagement extends ILoggable {
      * @param message
      *            the message
      */
-    void sendMessageToAllUsers(final IRCMessage message);
+    void sendMessageToAllUsers(final Message message);
 
     /**
      * Send to.
@@ -78,5 +78,5 @@ public interface IUsersConnectionsManagement extends ILoggable {
      * @param toId
      *            the to id
      */
-    void sendTo(final IRCMessage message, final int toId);
+    void sendTo(final Message message, final int toId);
 }

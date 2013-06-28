@@ -1,7 +1,7 @@
 package com.gc.irc.server.test.handler;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 
 /**
  * The Class AbstractMessageHandler.
@@ -9,7 +9,7 @@ import com.gc.irc.common.protocol.IRCMessage;
 public abstract class AbstractMessageHandlerTester extends AbstractLoggable implements IMessageHandlerTester {
 
     /** The last received message. */
-    private IRCMessage lastReceivedMessage;
+    private Message lastReceivedMessage;
 
     /**
      * Instantiates a new abstract message handler.
@@ -24,7 +24,7 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
      * @return the last received message
      */
     @Override
-    public IRCMessage getLastReceivedMessage() {
+    public Message getLastReceivedMessage() {
         return lastReceivedMessage;
     }
 
@@ -34,7 +34,7 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
      * @see com.gc.irc.common.message.api.IIRCMessageHandler#handle(com.gc.irc.common .protocol.IRCMessage)
      */
     @Override
-    public void handle(final IRCMessage message) {
+    public void handle(final Message message) {
         getLog().info("Message recived: " + message);
         lastReceivedMessage = message;
         handleInternal(message);
@@ -46,7 +46,7 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
      * @param message
      *            the message
      */
-    protected abstract void handleInternal(final IRCMessage message);
+    protected abstract void handleInternal(final Message message);
 
     /*
      * (non-Javadoc)

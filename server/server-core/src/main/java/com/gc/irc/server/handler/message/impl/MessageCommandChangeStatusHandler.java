@@ -3,15 +3,15 @@ package com.gc.irc.server.handler.message.impl;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.entity.IRCUser;
-import com.gc.irc.common.protocol.command.IRCMessageCommandChangeStatus;
-import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
+import com.gc.irc.common.protocol.command.MessageCommandChangeStatus;
+import com.gc.irc.common.protocol.notice.MessageNoticeContactInfo;
 import com.gc.irc.server.handler.message.abs.AbstractServerCommandMessageHandler;
 
 /**
  * The Class IRCMessageCommandChangeStatusHandler.
  */
 @Component
-public class MessageCommandChangeStatusHandler extends AbstractServerCommandMessageHandler<IRCMessageCommandChangeStatus> {
+public class MessageCommandChangeStatusHandler extends AbstractServerCommandMessageHandler<MessageCommandChangeStatus> {
 
     /*
      * (non-Javadoc)
@@ -19,12 +19,12 @@ public class MessageCommandChangeStatusHandler extends AbstractServerCommandMess
      * @see com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler#internalHandle(com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
-    protected void internalHandle(IRCMessageCommandChangeStatus message) {
+    protected void internalHandle(MessageCommandChangeStatus message) {
         final IRCUser user = getSender(message);
         if (user != null) {
             getLog().debug(user.getNickName() + " change status to " + message.getNewStatus());
             user.setUserStatus(message.getNewStatus());
-            sendToAllUsers(new IRCMessageNoticeContactInfo(user));
+            sendToAllUsers(new MessageNoticeContactInfo(user));
         }
 
     }

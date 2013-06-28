@@ -14,7 +14,7 @@ import org.xml.sax.SAXException;
 
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.entity.IRCUser;
-import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
+import com.gc.irc.common.protocol.item.MessageItemPicture;
 import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.common.utils.IOUtils;
 import com.gc.irc.server.model.UserInformations;
@@ -172,7 +172,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      */
     @Override
     public synchronized void sendUsersPicture(final ObjectOutputStream outObject) {
-        IRCMessageItemPicture messagePicture;
+        MessageItemPicture messagePicture;
         for (final Map.Entry<Integer, UserInformations> entry : users.entrySet()) {
             if (entry.getValue().isConnected() && entry.getValue().hasPictur()) {
                 messagePicture = userPictureService.getPictureOf(entry.getValue().getId());

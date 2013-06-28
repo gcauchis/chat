@@ -7,7 +7,7 @@ import java.io.Serializable;
  * 
  * @author Colin, Gabriel
  */
-public class IRCMessage implements Serializable {
+public class Message implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -60278983013467149L;
@@ -23,7 +23,7 @@ public class IRCMessage implements Serializable {
      * @param type
      *            the type
      */
-    public IRCMessage(final int fromId) {
+    public Message(final int fromId) {
         this.fromId = fromId;
     }
 

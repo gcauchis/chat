@@ -5,7 +5,7 @@ import com.gc.irc.common.entity.UserStatus;
 /**
  * The Class IRCMessageCommandChangeStatus.
  */
-public class IRCMessageCommandChangeStatus extends IRCMessageCommand {
+public class MessageCommandChangeStatus extends MessageCommand {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 764526201848393990L;
@@ -21,7 +21,7 @@ public class IRCMessageCommandChangeStatus extends IRCMessageCommand {
      * @param newStatus
      *            the new status
      */
-    public IRCMessageCommandChangeStatus(final int userId, final UserStatus newStatus) {
+    public MessageCommandChangeStatus(final int userId, final UserStatus newStatus) {
         super(userId);
         this.newStatus = newStatus;
     }

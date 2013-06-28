@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.gc.irc.common.abs.AbstractRunnable;
 import com.gc.irc.common.entity.IRCUser;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.bridge.api.IServerBridgeConsumer;
 import com.gc.irc.server.bridge.api.IServerBridgeConsumerFactory;
 import com.gc.irc.server.bridge.api.ServerBridgeException;
@@ -130,7 +130,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
      * @param message
      *            Message received.
      */
-    private void handleMessage(final IRCMessage message) {
+    private void handleMessage(final Message message) {
 
         /**
          * Update of the number of messages.

@@ -10,12 +10,12 @@ import org.slf4j.Logger;
 import com.gc.irc.common.api.ILoggable;
 import com.gc.irc.common.connector.ConnectionHandler;
 import com.gc.irc.common.entity.IRCUser;
-import com.gc.irc.common.message.api.IIRCMessageSender;
-import com.gc.irc.common.protocol.IRCMessage;
-import com.gc.irc.common.protocol.command.IRCMessageCommand;
-import com.gc.irc.common.protocol.command.IRCMessageCommandLogin;
-import com.gc.irc.common.protocol.command.IRCMessageCommandRegister;
-import com.gc.irc.common.protocol.notice.IRCMessageNoticeServerMessage;
+import com.gc.irc.common.message.api.IMessageSender;
+import com.gc.irc.common.protocol.Message;
+import com.gc.irc.common.protocol.command.MessageCommand;
+import com.gc.irc.common.protocol.command.MessageCommandLogin;
+import com.gc.irc.common.protocol.command.MessageCommandRegister;
+import com.gc.irc.common.protocol.notice.MessageNoticeServerMessage;
 import com.gc.irc.common.utils.LoggerUtils;
 import com.gc.irc.server.ServerStarter;
 import com.gc.irc.server.test.handler.IMessageHandlerTester;
@@ -111,7 +111,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
 
         getLog().info("connectionHandler up");
         waitForMessageInHandler(messageHandler);
-        assertTrue("" + messageHandler.getLastReceivedMessage(), messageHandler.getLastReceivedMessage() instanceof IRCMessageNoticeServerMessage);
+        assertTrue("" + messageHandler.getLastReceivedMessage(), messageHandler.getLastReceivedMessage() instanceof MessageNoticeServerMessage);
 
         return connectionHandler;
     }
@@ -143,7 +143,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
      *             the interrupted exception
      */
     protected final IRCUser login(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
-        return sendCommandMessageForLogin(connectionThread, new IRCMessageCommandLogin(login, password));
+        return sendCommandMessageForLogin(connectionThread, new MessageCommandLogin(login, password));
     }
 
     /**
@@ -180,7 +180,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
      *             the interrupted exception
      */
     protected final IRCUser register(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
-        return sendCommandMessageForLogin(connectionThread, new IRCMessageCommandRegister(login, password));
+        return sendCommandMessageForLogin(connectionThread, new MessageCommandRegister(login, password));
     }
 
     /**
@@ -194,7 +194,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
      * @throws InterruptedException
      *             the interrupted exception
      */
-    private IRCUser sendCommandMessageForLogin(final ConnectionHandler connectionThread, final IRCMessageCommand messageCommand) throws InterruptedException {
+    private IRCUser sendCommandMessageForLogin(final ConnectionHandler connectionThread, final MessageCommand messageCommand) throws InterruptedException {
         final LoginMessageHandler messageHandler = new LoginMessageHandler();
         connectionThread.setMessageHandler(messageHandler);
         messageHandler.reset();
@@ -212,7 +212,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
      * @param message
      *            the message
      */
-    protected final void sendMessage(final IIRCMessageSender messageSender, final IRCMessage message) {
+    protected final void sendMessage(final IMessageSender messageSender, final Message message) {
         messageSender.send(message);
     }
 

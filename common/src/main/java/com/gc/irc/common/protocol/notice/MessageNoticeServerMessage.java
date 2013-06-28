@@ -6,7 +6,7 @@ package com.gc.irc.common.protocol.notice;
  * @author gcauchis
  * 
  */
-public class IRCMessageNoticeServerMessage extends IRCMessageNotice {
+public class MessageNoticeServerMessage extends MessageNotice {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 9085335438335989213L;
@@ -20,7 +20,7 @@ public class IRCMessageNoticeServerMessage extends IRCMessageNotice {
      * @param message
      *            the message
      */
-    public IRCMessageNoticeServerMessage(final String message) {
+    public MessageNoticeServerMessage(final String message) {
         this.message = message;
     }
 

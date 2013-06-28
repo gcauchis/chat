@@ -7,7 +7,7 @@ import com.gc.irc.common.message.api.IClientMessageLine;
 /**
  * The Class IRCMessageChatPrivate.
  */
-public class IRCMessageChatPrivate extends IRCMessageChat {
+public class MessageChatPrivate extends MessageChat {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -6494361960510331113L;
@@ -28,7 +28,7 @@ public class IRCMessageChatPrivate extends IRCMessageChat {
      * @param textColor
      *            the text color
      */
-    public IRCMessageChatPrivate(final int userID, final List<IClientMessageLine> lines) {
+    public MessageChatPrivate(final int userID, final List<IClientMessageLine> lines) {
         super(userID, lines);
     }
 
@@ -44,7 +44,7 @@ public class IRCMessageChatPrivate extends IRCMessageChat {
      * @param textColor
      *            the text color
      */
-    public IRCMessageChatPrivate(final int userID, final List<IClientMessageLine> lines, final int toId) {
+    public MessageChatPrivate(final int userID, final List<IClientMessageLine> lines, final int toId) {
         this(userID, lines);
         this.toId = toId;
     }

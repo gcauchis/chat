@@ -3,14 +3,14 @@ package com.gc.irc.common.protocol.chat;
 import java.util.List;
 
 import com.gc.irc.common.message.api.IClientMessageLine;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 
 /**
  * The seri.
  * 
  * @author Colin
  */
-public class IRCMessageChat extends IRCMessage {
+public class MessageChat extends Message {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 6599297905344621111L;
@@ -28,7 +28,7 @@ public class IRCMessageChat extends IRCMessage {
      * @param textColor
      *            the text color
      */
-    public IRCMessageChat(final int userID, final List<IClientMessageLine> lines) {
+    public MessageChat(final int userID, final List<IClientMessageLine> lines) {
         super(userID);
         this.lines = lines;
     }

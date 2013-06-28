@@ -1,7 +1,7 @@
 package com.gc.irc.server.service.api;
 
 import com.gc.irc.common.api.ILoggable;
-import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
+import com.gc.irc.common.protocol.item.MessageItemPicture;
 
 /**
  * Inteface to use Picture.
@@ -20,7 +20,7 @@ public interface IUserPictureService extends ILoggable {
      *            New Image
      * @return True if the Picture is Save successfully
      */
-    boolean newPicture(int idUser, IRCMessageItemPicture image);
+    boolean newPicture(int idUser, MessageItemPicture image);
 
     /**
      * Get the Picture of the Designed User.
@@ -29,6 +29,6 @@ public interface IUserPictureService extends ILoggable {
      *            Id of the User
      * @return The Picture of the user.
      */
-    IRCMessageItemPicture getPictureOf(int idUser);
+    MessageItemPicture getPictureOf(int idUser);
 
 }

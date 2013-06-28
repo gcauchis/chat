@@ -1,16 +1,16 @@
 package com.gc.irc.server.test.handler;
 
-import com.gc.irc.common.message.api.IIRCMessageHandler;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.message.api.IMessageHandler;
+import com.gc.irc.common.protocol.Message;
 
-public interface IMessageHandlerTester extends IIRCMessageHandler {
+public interface IMessageHandlerTester extends IMessageHandler {
 
     /**
      * Gets the last received message.
      * 
      * @return the last received message
      */
-    IRCMessage getLastReceivedMessage();
+    Message getLastReceivedMessage();
 
     /**
      * Checks if is message recieved.

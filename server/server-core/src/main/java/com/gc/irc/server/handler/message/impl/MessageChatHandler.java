@@ -3,14 +3,14 @@ package com.gc.irc.server.handler.message.impl;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.entity.IRCUser;
-import com.gc.irc.common.protocol.chat.IRCMessageChat;
+import com.gc.irc.common.protocol.chat.MessageChat;
 import com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler;
 
 /**
  * The Class IRCMessageChatHandler.
  */
 @Component
-public class MessageChatHandler extends AbstractServerMessageHandler<IRCMessageChat> {
+public class MessageChatHandler extends AbstractServerMessageHandler<MessageChat> {
 
     /*
      * (non-Javadoc)
@@ -19,7 +19,7 @@ public class MessageChatHandler extends AbstractServerMessageHandler<IRCMessageC
      * internalHandle(com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
-    protected void internalHandle(final IRCMessageChat message) {
+    protected void internalHandle(final MessageChat message) {
         final IRCUser sender = getSender(message);
         if (sender == null) {
             getLog().warn("inexisting sender id");

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.entity.IRCUser;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.persistance.PersiteUsers;
 import com.gc.irc.server.service.api.IAuthenticationService;
@@ -172,7 +172,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * #sendMessageToAllUsers(com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
-    public void sendMessageToAllUsers(final IRCMessage message) {
+    public void sendMessageToAllUsers(final Message message) {
         final List<IGestionClientBean> clientConnected = getClientConnected();
 
         if (authenticationService.getUser(message.getFromId()) != null) {
@@ -204,7 +204,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * #sendTo(com.gc.irc.common.protocol.IRCMessage, int)
      */
     @Override
-    public void sendTo(final IRCMessage message, final int toId) {
+    public void sendTo(final Message message, final int toId) {
         final IGestionClientBean clientCible = getGestionClientBeanOfUser(toId);
         if (clientCible != null) {
             clientCible.sendMessageObjetInSocket(message);

@@ -1,7 +1,7 @@
 package com.gc.irc.server.handler.message.api;
 
 import com.gc.irc.common.api.ILoggable;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 
 /**
  * The Interface IServerMessageHandler.
@@ -14,7 +14,7 @@ public interface IServerMessageHandler extends ILoggable {
      * @param message
      *            the message
      */
-    void handle(IRCMessage message);
+    void handle(Message message);
 
     /**
      * Checks if is handled.
@@ -23,6 +23,6 @@ public interface IServerMessageHandler extends ILoggable {
      *            the message
      * @return true, if is handled
      */
-    boolean isHandled(IRCMessage message);
+    boolean isHandled(Message message);
 
 }

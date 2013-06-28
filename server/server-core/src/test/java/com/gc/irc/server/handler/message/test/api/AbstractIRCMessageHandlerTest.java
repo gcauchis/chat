@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.handler.message.api.IServerMessageHandler;
 
 /**
@@ -17,7 +17,7 @@ import com.gc.irc.server.handler.message.api.IServerMessageHandler;
  *            the generic type
  */
 // @SpringApplicationContext("classpath*:spring-application-config.xml")
-public abstract class AbstractIRCMessageHandlerTest<MSGH extends IServerMessageHandler, MSG extends IRCMessage> /* extends UnitilsJUnit4 */{
+public abstract class AbstractIRCMessageHandlerTest<MSGH extends IServerMessageHandler, MSG extends Message> /* extends UnitilsJUnit4 */{
 
     /** The message handler. */
     private MSGH messageHandler;

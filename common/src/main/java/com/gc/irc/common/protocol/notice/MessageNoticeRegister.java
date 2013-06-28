@@ -9,7 +9,7 @@ import com.gc.irc.common.entity.IRCUser;
  * @author gcauchis
  * 
  */
-public class IRCMessageNoticeRegister extends IRCMessageNoticeLogin {
+public class MessageNoticeRegister extends MessageNoticeLogin {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -5439320167316655514L;
@@ -20,7 +20,7 @@ public class IRCMessageNoticeRegister extends IRCMessageNoticeLogin {
      * @param user
      *            the user
      */
-    public IRCMessageNoticeRegister(final IRCUser user) {
+    public MessageNoticeRegister(final IRCUser user) {
         super(user);
     }
 

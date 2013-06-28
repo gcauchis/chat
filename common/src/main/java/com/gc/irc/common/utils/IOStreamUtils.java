@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 
 import org.slf4j.Logger;
 
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 
 public final class IOStreamUtils {
 
@@ -24,10 +24,10 @@ public final class IOStreamUtils {
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
-    public static IRCMessage receiveMessage(final ObjectInputStream inObject) throws ClassNotFoundException, IOException {
+    public static Message receiveMessage(final ObjectInputStream inObject) throws ClassNotFoundException, IOException {
 
         LOGGER.debug("Wait for a message in the Stream.");
-        final IRCMessage message = (IRCMessage) inObject.readObject();
+        final Message message = (Message) inObject.readObject();
         LOGGER.debug("Message receive : " + message);
 
         return message;
@@ -41,7 +41,7 @@ public final class IOStreamUtils {
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
-    public static void sendMessage(final ObjectOutputStream outObject, final IRCMessage message) throws IOException {
+    public static void sendMessage(final ObjectOutputStream outObject, final Message message) throws IOException {
         LOGGER.debug("Send the Message : " + message);
         outObject.writeObject(message);
         outObject.flush();

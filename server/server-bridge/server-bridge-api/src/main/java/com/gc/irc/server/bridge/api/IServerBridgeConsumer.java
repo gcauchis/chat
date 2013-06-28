@@ -1,7 +1,7 @@
 package com.gc.irc.server.bridge.api;
 
 import com.gc.irc.common.api.ILoggable;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 
 /**
  * The Interface IServerBridgeConsumer.
@@ -18,6 +18,6 @@ public interface IServerBridgeConsumer extends ILoggable {
      * 
      * @return the IRC message
      */
-    IRCMessage receive() throws ServerBridgeException;
+    Message receive() throws ServerBridgeException;
 
 }

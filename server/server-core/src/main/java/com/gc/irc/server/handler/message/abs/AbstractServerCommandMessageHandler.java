@@ -2,7 +2,7 @@ package com.gc.irc.server.handler.message.abs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.service.api.IAuthenticationService;
 import com.gc.irc.server.service.api.IUserPictureService;
 
@@ -12,7 +12,7 @@ import com.gc.irc.server.service.api.IUserPictureService;
  * @param <MSG>
  *            the generic type
  */
-public abstract class AbstractServerCommandMessageHandler<MSG extends IRCMessage> extends AbstractServerMessageHandler<MSG> {
+public abstract class AbstractServerCommandMessageHandler<MSG extends Message> extends AbstractServerMessageHandler<MSG> {
 
     /** The authentication service. */
     @Autowired

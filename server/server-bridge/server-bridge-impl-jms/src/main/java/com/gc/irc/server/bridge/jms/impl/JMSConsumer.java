@@ -6,7 +6,7 @@ import javax.jms.MessageConsumer;
 import javax.jms.ObjectMessage;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.bridge.api.IServerBridgeConsumer;
 import com.gc.irc.server.bridge.api.ServerBridgeException;
 
@@ -50,7 +50,7 @@ public class JMSConsumer extends AbstractLoggable implements IServerBridgeConsum
      * @see com.gc.irc.server.bridge.api.IServerBridgeConsumer#receive()
      */
     @Override
-    public IRCMessage receive() throws ServerBridgeException {
+    public Message receive() throws ServerBridgeException {
 
         ObjectMessage message = null;
 
@@ -64,10 +64,10 @@ public class JMSConsumer extends AbstractLoggable implements IServerBridgeConsum
             throw new ServerBridgeException("Fail to receive message", e);
         }
 
-        IRCMessage messageObj = null;
+        Message messageObj = null;
         try {
             getLog().debug("Extract Message receive in JMS");
-            messageObj = (IRCMessage) message.getObject();
+            messageObj = (Message) message.getObject();
         } catch (final JMSException e) {
             throw new ServerBridgeException("Fail final to extract Message final receive in JMS : ", e);
         }

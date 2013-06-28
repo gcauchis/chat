@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.entity.IRCUser;
-import com.gc.irc.common.protocol.chat.IRCMessageChatPrivate;
+import com.gc.irc.common.protocol.chat.MessageChatPrivate;
 import com.gc.irc.server.bridge.api.IServerBridgeProducer;
 import com.gc.irc.server.bridge.api.ServerBridgeException;
 import com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler;
@@ -14,7 +14,7 @@ import com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler;
  * The Class IRCMessageChatPrivateHandler.
  */
 @Component
-public class MessageChatPrivateHandler extends AbstractServerMessageHandler<IRCMessageChatPrivate> {
+public class MessageChatPrivateHandler extends AbstractServerMessageHandler<MessageChatPrivate> {
 
     /** The num passage max. */
     @Value("${nbMessageMaxPassage:10}")
@@ -30,7 +30,7 @@ public class MessageChatPrivateHandler extends AbstractServerMessageHandler<IRCM
      * @see com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler# internalHandle(com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
-    protected void internalHandle(final IRCMessageChatPrivate message) {
+    protected void internalHandle(final MessageChatPrivate message) {
         final IRCUser sender = getSender(message);
         if (sender != null) {
             final IRCUser receiver = getUser(message.getToId());

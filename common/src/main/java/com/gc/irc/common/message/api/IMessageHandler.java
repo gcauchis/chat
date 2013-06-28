@@ -1,12 +1,12 @@
 package com.gc.irc.common.message.api;
 
 import com.gc.irc.common.api.ILoggable;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 
 /**
  * The Interface IMessageHandler.
  */
-public interface IIRCMessageHandler extends ILoggable {
+public interface IMessageHandler extends ILoggable {
 
     /**
      * Handle.
@@ -14,5 +14,5 @@ public interface IIRCMessageHandler extends ILoggable {
      * @param message
      *            the message
      */
-    void handle(IRCMessage message);
+    void handle(Message message);
 }

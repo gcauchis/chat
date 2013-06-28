@@ -3,7 +3,7 @@ package com.gc.irc.common.protocol.command;
 /**
  * The Class IRCMessageCommandLogin.
  */
-public class IRCMessageCommandLogin extends IRCMessageCommand {
+public class MessageCommandLogin extends MessageCommand {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -2201862402731895159L;
@@ -22,7 +22,7 @@ public class IRCMessageCommandLogin extends IRCMessageCommand {
      * @param password
      *            the password
      */
-    public IRCMessageCommandLogin(final String login, final String password) {
+    public MessageCommandLogin(final String login, final String password) {
         super(-1);
         this.login = login;
         this.password = password;

@@ -1,6 +1,6 @@
 package com.gc.irc.server.test.handler;
 
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 
 /**
  * The Class SimpleMessageHandler.
@@ -15,7 +15,7 @@ public class SimpleMessageHandler extends AbstractMessageHandlerTester {
      * com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
-    protected void handleInternal(final IRCMessage message) {
+    protected void handleInternal(final Message message) {
     }
 
     /*

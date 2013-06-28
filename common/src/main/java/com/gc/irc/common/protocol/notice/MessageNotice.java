@@ -1,6 +1,6 @@
 package com.gc.irc.common.protocol.notice;
 
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 
 /**
  * Represent notification message.
@@ -8,7 +8,7 @@ import com.gc.irc.common.protocol.IRCMessage;
  * @author gcauchis
  * 
  */
-public class IRCMessageNotice extends IRCMessage {
+public class MessageNotice extends Message {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 7286654418377130362L;
@@ -16,7 +16,7 @@ public class IRCMessageNotice extends IRCMessage {
     /**
      * Instantiates a new iRC message notice.
      */
-    public IRCMessageNotice() {
+    public MessageNotice() {
         super(0);
     }
 

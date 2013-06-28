@@ -1,11 +1,11 @@
 package com.gc.irc.common.protocol.command;
 
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 
 /**
  * The Class IRCMessageCommand.
  */
-public class IRCMessageCommand extends IRCMessage {
+public class MessageCommand extends Message {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 3322674812721397858L;
@@ -16,7 +16,7 @@ public class IRCMessageCommand extends IRCMessage {
      * @param userId
      *            the user id
      */
-    protected IRCMessageCommand(final int userId) {
+    protected MessageCommand(final int userId) {
         super(userId);
     }
 

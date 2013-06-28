@@ -3,7 +3,7 @@ package com.gc.irc.common.protocol.item;
 import java.awt.image.BufferedImage;
 
 import com.gc.irc.common.entity.SerializableBufferedImage;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 
 /**
  * Message use to send picture.
@@ -11,7 +11,7 @@ import com.gc.irc.common.protocol.IRCMessage;
  * @author gcauchis
  * 
  */
-public class IRCMessageItemPicture extends IRCMessage {
+public class MessageItemPicture extends Message {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 4751207637000120876L;
@@ -27,7 +27,7 @@ public class IRCMessageItemPicture extends IRCMessage {
      * @param image
      *            the image
      */
-    public IRCMessageItemPicture(final int userId, final BufferedImage image) {
+    public MessageItemPicture(final int userId, final BufferedImage image) {
         super(userId);
         imageData = new SerializableBufferedImage(image);
     }

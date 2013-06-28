@@ -18,10 +18,10 @@ import org.junit.Test;
 
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.entity.UserStatus;
-import com.gc.irc.common.protocol.IRCMessage;
-import com.gc.irc.common.protocol.command.IRCMessageCommandChangeNickname;
-import com.gc.irc.common.protocol.command.IRCMessageCommandChangeStatus;
-import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
+import com.gc.irc.common.protocol.Message;
+import com.gc.irc.common.protocol.command.MessageCommandChangeNickname;
+import com.gc.irc.common.protocol.command.MessageCommandChangeStatus;
+import com.gc.irc.common.protocol.notice.MessageNoticeContactInfo;
 import com.gc.irc.server.test.handler.IMessageHandlerTester;
 import com.gc.irc.server.test.handler.LoginContactInfoMessageHandler;
 import com.gc.irc.server.test.handler.SimpleMessageHandler;
@@ -58,13 +58,13 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
         UserContextEntity senderContext = getRandomUserContext();
         IRCUser user = senderContext.getUser();
         user.setNickName("ChangeNickName-" + user.getId() + "-" + testId);
-        IRCMessage changeNickNameMessage = new IRCMessageCommandChangeNickname(user);
-        List<IRCMessage> receivedMessages = sendMessageAndWaitForResponse(senderContext.getConnectionUser(),
+        Message changeNickNameMessage = new MessageCommandChangeNickname(user);
+        List<Message> receivedMessages = sendMessageAndWaitForResponse(senderContext.getConnectionUser(),
                 getMessageHandlers(getContextListWithout(senderContext)), changeNickNameMessage);
         assertEquals(getNbUserConnected() - 1, receivedMessages.size());
-        for (IRCMessage receivedMessage : receivedMessages) {
-            assertTrue(receivedMessage instanceof IRCMessageNoticeContactInfo);
-            IRCMessageNoticeContactInfo message = (IRCMessageNoticeContactInfo) receivedMessage;
+        for (Message receivedMessage : receivedMessages) {
+            assertTrue(receivedMessage instanceof MessageNoticeContactInfo);
+            MessageNoticeContactInfo message = (MessageNoticeContactInfo) receivedMessage;
             assertEquals(user.getId(), message.getFromId());
             assertEquals(user.getId(), message.getUser().getId());
             assertEquals(user.getNickName(), message.getUser().getNickName());
@@ -102,13 +102,13 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
      *             the interrupted exception
      */
     private void changeStatus(UserContextEntity senderContext, IRCUser user, UserStatus newStatus) throws InterruptedException {
-        IRCMessage changeStatusMessage = new IRCMessageCommandChangeStatus(user.getId(), newStatus);
-        List<IRCMessage> receivedMessages = sendMessageAndWaitForResponse(senderContext.getConnectionUser(),
+        Message changeStatusMessage = new MessageCommandChangeStatus(user.getId(), newStatus);
+        List<Message> receivedMessages = sendMessageAndWaitForResponse(senderContext.getConnectionUser(),
                 getMessageHandlers(getContextListWithout(senderContext)), changeStatusMessage);
         assertEquals(getNbUserConnected() - 1, receivedMessages.size());
-        for (IRCMessage receivedMessage : receivedMessages) {
-            assertTrue(receivedMessage instanceof IRCMessageNoticeContactInfo);
-            IRCMessageNoticeContactInfo message = (IRCMessageNoticeContactInfo) receivedMessage;
+        for (Message receivedMessage : receivedMessages) {
+            assertTrue(receivedMessage instanceof MessageNoticeContactInfo);
+            MessageNoticeContactInfo message = (MessageNoticeContactInfo) receivedMessage;
             assertEquals(user.getId(), message.getFromId());
             assertEquals(user.getId(), message.getUser().getId());
             assertEquals(newStatus, message.getUser().getUserStatus());
@@ -263,7 +263,7 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
                 getLog().info(i + " => " + contactInfoMessageHandler.getNbContactInfoReceived());
                 assertTrue("Too much time waiting to inform other users", ++cptWait < 15);
             }
-            for (IRCMessageNoticeContactInfo messageNoticeContactInfo : contactInfoMessageHandler.getMessageNoticeContactInfos()) {
+            for (MessageNoticeContactInfo messageNoticeContactInfo : contactInfoMessageHandler.getMessageNoticeContactInfos()) {
                 assertNotNull(messageNoticeContactInfo.getUser());
                 assertEquals(context.getUser().getId(), messageNoticeContactInfo.getUser().getId());
             }

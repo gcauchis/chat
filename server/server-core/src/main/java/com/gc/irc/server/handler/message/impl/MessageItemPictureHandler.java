@@ -2,7 +2,7 @@ package com.gc.irc.server.handler.message.impl;
 
 import org.springframework.stereotype.Component;
 
-import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
+import com.gc.irc.common.protocol.item.MessageItemPicture;
 import com.gc.irc.server.handler.message.abs.AbstractServerCommandMessageHandler;
 import com.gc.irc.server.model.UserInformations;
 
@@ -10,7 +10,7 @@ import com.gc.irc.server.model.UserInformations;
  * The Class IRCMessageItemPictureHandler.
  */
 @Component
-public class MessageItemPictureHandler extends AbstractServerCommandMessageHandler<IRCMessageItemPicture> {
+public class MessageItemPictureHandler extends AbstractServerCommandMessageHandler<MessageItemPicture> {
 
     /*
      * (non-Javadoc)
@@ -18,7 +18,7 @@ public class MessageItemPictureHandler extends AbstractServerCommandMessageHandl
      * @see com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler#internalHandle(com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
-    protected void internalHandle(IRCMessageItemPicture message) {
+    protected void internalHandle(MessageItemPicture message) {
         getUserPictureService().newPicture(message.getFromId(), message);
 
         final UserInformations userInfo = getAuthenticationService().getUser(message.getFromId());

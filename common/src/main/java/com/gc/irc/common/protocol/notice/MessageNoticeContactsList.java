@@ -10,7 +10,7 @@ import com.gc.irc.common.entity.IRCUser;
  * @author gcauchis
  * 
  */
-public class IRCMessageNoticeContactsList extends IRCMessageNotice {
+public class MessageNoticeContactsList extends MessageNotice {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -2553210158579009868L;
@@ -24,7 +24,7 @@ public class IRCMessageNoticeContactsList extends IRCMessageNotice {
      * @param listeUsers
      *            the liste users
      */
-    public IRCMessageNoticeContactsList(final List<IRCUser> listeUsers) {
+    public MessageNoticeContactsList(final List<IRCUser> listeUsers) {
         this.listeUsers = listeUsers;
     }
 

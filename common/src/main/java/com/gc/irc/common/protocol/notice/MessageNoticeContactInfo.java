@@ -3,27 +3,29 @@ package com.gc.irc.common.protocol.notice;
 import com.gc.irc.common.entity.IRCUser;
 
 /**
- * Notification used to inform the success or the failed of the client login.
+ * Notification use to send the information of an user.
  * 
  * @author gcauchis
  * 
  */
-public class IRCMessageNoticeLogin extends IRCMessageNotice {
+public class MessageNoticeContactInfo extends MessageNotice {
 
     /** The Constant serialVersionUID. */
-    private static final long serialVersionUID = -3882302853245775759L;
+    private static final long serialVersionUID = -177593849550243088L;
 
     /** The user. */
     private IRCUser user;
 
     /**
-     * Instantiates a new iRC message notice login.
+     * Instantiates a new iRC message notice contact info.
      * 
      * @param user
      *            the user
      */
-    public IRCMessageNoticeLogin(final IRCUser user) {
+    public MessageNoticeContactInfo(final IRCUser user) {
+        super();
         this.user = user;
+        setFromId(user.getId());
     }
 
     /**
@@ -35,18 +37,6 @@ public class IRCMessageNoticeLogin extends IRCMessageNotice {
         return user;
     }
 
-    /**
-     * Checks if is succed.
-     * 
-     * @return true, if is succed
-     */
-    public boolean isSucced() {
-        if (user == null) {
-            return false;
-        }
-        return true;
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -55,7 +45,7 @@ public class IRCMessageNoticeLogin extends IRCMessageNotice {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("IRCMessageNoticeLogin [").append(super.toString()).append(", user=").append(user).append("]");
+        builder.append("IRCMessageNoticeContactInfo [").append(super.toString()).append(", user=").append(user).append("]");
         return builder.toString();
     }
 

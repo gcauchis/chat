@@ -1,7 +1,7 @@
 package com.gc.irc.server.bridge.api;
 
 import com.gc.irc.common.api.ILoggable;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 
 /**
  * The Interface IServerBridgeProducer.
@@ -19,6 +19,6 @@ public interface IServerBridgeProducer extends ILoggable {
      * @param objectMessage
      *            the object message
      */
-    void post(final IRCMessage objectMessage) throws ServerBridgeException;
+    void post(final Message objectMessage) throws ServerBridgeException;
 
 }

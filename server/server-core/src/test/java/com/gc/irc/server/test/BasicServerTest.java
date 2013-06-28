@@ -11,8 +11,8 @@ import org.junit.Test;
 import com.gc.irc.common.connector.ConnectionHandler;
 import com.gc.irc.common.message.api.IClientMessageLine;
 import com.gc.irc.common.message.impl.BasicClientMessageLine;
-import com.gc.irc.common.protocol.IRCMessage;
-import com.gc.irc.common.protocol.chat.IRCMessageChat;
+import com.gc.irc.common.protocol.Message;
+import com.gc.irc.common.protocol.chat.MessageChat;
 import com.gc.irc.server.api.AbstractServerTest;
 
 /**
@@ -36,8 +36,8 @@ public class BasicServerTest extends AbstractServerTest {
      * 
      * @return the basic message
      */
-    private IRCMessage getBasicMessage() {
-        return new IRCMessageChat(0, Arrays.asList((IClientMessageLine) new BasicClientMessageLine("message")));
+    private Message getBasicMessage() {
+        return new MessageChat(0, Arrays.asList((IClientMessageLine) new BasicClientMessageLine("message")));
     }
 
     /**

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.bridge.api.IServerBridgeConsumer;
 import com.gc.irc.server.bridge.api.IServerBridgeConsumerFactory;
 import com.gc.irc.server.bridge.api.IServerBridgeProducer;
@@ -21,7 +21,7 @@ import com.gc.irc.server.bridge.api.ServerBridgeException;
 public class DirectServerBridge extends AbstractLoggable implements IServerBridgeProducer, IServerBridgeConsumer, IServerBridgeConsumerFactory {
 
     /** The messages queue. */
-    private final BlockingQueue<IRCMessage> messagesQueue = new LinkedBlockingQueue<IRCMessage>();
+    private final BlockingQueue<Message> messagesQueue = new LinkedBlockingQueue<Message>();
 
     /*
      * (non-Javadoc)
@@ -49,7 +49,7 @@ public class DirectServerBridge extends AbstractLoggable implements IServerBridg
      * @see com.gc.irc.server.bridge.api.IServerBridgeProducer#post(com.gc.irc.common .protocol.IRCMessage)
      */
     @Override
-    public void post(final IRCMessage message) throws ServerBridgeException {
+    public void post(final Message message) throws ServerBridgeException {
         getLog().debug("post message in bridge: {}", message);
         try {
             messagesQueue.put(message);
@@ -64,8 +64,8 @@ public class DirectServerBridge extends AbstractLoggable implements IServerBridg
      * @see com.gc.irc.server.bridge.api.IServerBridgeConsumer#receive()
      */
     @Override
-    public IRCMessage receive() throws ServerBridgeException {
-        IRCMessage result = null;
+    public Message receive() throws ServerBridgeException {
+        Message result = null;
         try {
             result = messagesQueue.take();
         } catch (final InterruptedException e) {

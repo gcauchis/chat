@@ -1,10 +1,10 @@
 package com.gc.irc.server.test.handler;
 
 import com.gc.irc.common.entity.IRCUser;
-import com.gc.irc.common.protocol.IRCMessage;
-import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactsList;
-import com.gc.irc.common.protocol.notice.IRCMessageNoticeLogin;
-import com.gc.irc.common.protocol.notice.IRCMessageNoticeRegister;
+import com.gc.irc.common.protocol.Message;
+import com.gc.irc.common.protocol.notice.MessageNoticeContactsList;
+import com.gc.irc.common.protocol.notice.MessageNoticeLogin;
+import com.gc.irc.common.protocol.notice.MessageNoticeRegister;
 
 /**
  * The Class LoginMessageHandler.
@@ -36,20 +36,20 @@ public class LoginMessageHandler extends AbstractMessageHandlerTester {
      *            the message
      */
     @Override
-    protected void handleInternal(final IRCMessage message) {
-        if (message instanceof IRCMessageNoticeLogin) {
-            login = ((IRCMessageNoticeLogin) message).getUser();
+    protected void handleInternal(final Message message) {
+        if (message instanceof MessageNoticeLogin) {
+            login = ((MessageNoticeLogin) message).getUser();
             if (login != null) {
                 loginValidated = true;
                 getLog().info("USER : " + login.toStringXML(""));
             }
-        } else if (message instanceof IRCMessageNoticeRegister) {
-            login = ((IRCMessageNoticeRegister) message).getUser();
+        } else if (message instanceof MessageNoticeRegister) {
+            login = ((MessageNoticeRegister) message).getUser();
             if (login != null) {
                 loginValidated = true;
                 getLog().info("REGISTER USER : " + login.toStringXML(""));
             }
-        } else if (message instanceof IRCMessageNoticeContactsList) {
+        } else if (message instanceof MessageNoticeContactsList) {
             contactListReceived = true;
             getLog().info("Contact list received : " + message);
         }

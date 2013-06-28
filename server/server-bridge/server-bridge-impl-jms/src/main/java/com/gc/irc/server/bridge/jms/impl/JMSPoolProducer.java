@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractObjectPool;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.bridge.api.IServerBridgeProducer;
 import com.gc.irc.server.bridge.api.ServerBridgeException;
 
@@ -49,7 +49,7 @@ public final class JMSPoolProducer extends AbstractObjectPool<IServerBridgeProdu
      * .IRCMessage)
      */
     @Override
-    public void post(final IRCMessage objectMessage) throws ServerBridgeException {
+    public void post(final Message objectMessage) throws ServerBridgeException {
         final IServerBridgeProducer messageProducer = getPooledObject();
 
         if (messageProducer != null) {

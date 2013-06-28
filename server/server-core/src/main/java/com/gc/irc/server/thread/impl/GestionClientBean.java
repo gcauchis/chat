@@ -10,16 +10,16 @@ import com.gc.irc.common.abs.AbstractRunnable;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.entity.UserStatus;
 import com.gc.irc.common.exception.security.InvalidSenderException;
-import com.gc.irc.common.protocol.IRCMessage;
-import com.gc.irc.common.protocol.command.IRCMessageCommand;
-import com.gc.irc.common.protocol.command.IRCMessageCommandLogin;
-import com.gc.irc.common.protocol.command.IRCMessageCommandRegister;
-import com.gc.irc.common.protocol.item.IRCMessageItemPicture;
-import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactInfo;
-import com.gc.irc.common.protocol.notice.IRCMessageNoticeContactsList;
-import com.gc.irc.common.protocol.notice.IRCMessageNoticeLogin;
-import com.gc.irc.common.protocol.notice.IRCMessageNoticeRegister;
-import com.gc.irc.common.protocol.notice.IRCMessageNoticeServerMessage;
+import com.gc.irc.common.protocol.Message;
+import com.gc.irc.common.protocol.command.MessageCommand;
+import com.gc.irc.common.protocol.command.MessageCommandLogin;
+import com.gc.irc.common.protocol.command.MessageCommandRegister;
+import com.gc.irc.common.protocol.item.MessageItemPicture;
+import com.gc.irc.common.protocol.notice.MessageNoticeContactInfo;
+import com.gc.irc.common.protocol.notice.MessageNoticeContactsList;
+import com.gc.irc.common.protocol.notice.MessageNoticeLogin;
+import com.gc.irc.common.protocol.notice.MessageNoticeRegister;
+import com.gc.irc.common.protocol.notice.MessageNoticeServerMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.server.bridge.api.IServerBridgeProducer;
 import com.gc.irc.server.bridge.api.ServerBridgeException;
@@ -109,7 +109,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * @param message
      *            the message
      */
-    private void checkMessage(final IRCMessage message) {
+    private void checkMessage(final Message message) {
         if (message != null && user.getId() != message.getFromId()) {
             throw new InvalidSenderException("Message from " + message.getFromId() + " instead of " + user.getId());
         }
@@ -142,7 +142,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             getLog().debug(id + " Inform all other client that the client " + user.getNickName() + " is deconnected.");
             synchronized (user) {
                 user.setUserStatus(UserStatus.OFFLINE);
-                post(new IRCMessageNoticeContactInfo(user.getCopy()));
+                post(new MessageNoticeContactInfo(user.getCopy()));
                 authenticationService.getUser(user.getId()).diconnected();
             }
         }
@@ -195,7 +195,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * @param objectMessage
      *            the object message
      */
-    private void post(final IRCMessage objectMessage) {
+    private void post(final Message objectMessage) {
         getLog().debug("Send a message");
         try {
             serverBridgeProducer.post(objectMessage);
@@ -212,7 +212,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      */
     private void protocoleDAuthentification() throws ServerException {
         getLog().debug("Start Login protocol");
-        IRCMessage messageInit = new IRCMessageNoticeServerMessage(ServerCore.getMessageAcceuil());
+        Message messageInit = new MessageNoticeServerMessage(ServerCore.getMessageAcceuil());
         /**
          * Send welcome message
          */
@@ -248,21 +248,21 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
              * Answer to the client
              */
             getLog().debug(id + " message : " + messageInit);
-            if (messageInit instanceof IRCMessageCommand) {
-                final IRCMessageCommand messagecmd = (IRCMessageCommand) messageInit;
+            if (messageInit instanceof MessageCommand) {
+                final MessageCommand messagecmd = (MessageCommand) messageInit;
 
                 boolean registration = false;
 
-                if (messagecmd instanceof IRCMessageCommandRegister) {
+                if (messagecmd instanceof MessageCommandRegister) {
                     getLog().debug(id + " Register Message receive");
                     registration = true;
-                    final IRCMessageCommandRegister messageRegister = (IRCMessageCommandRegister) messagecmd;
+                    final MessageCommandRegister messageRegister = (MessageCommandRegister) messagecmd;
                     if (authenticationService.addUser(messageRegister.getLogin(), messageRegister.getPassword(), messageRegister.getLogin())) {
                         user = authenticationService.logUser(messageRegister.getLogin(), messageRegister.getPassword());
                     }
-                } else if (messagecmd instanceof IRCMessageCommandLogin) {
+                } else if (messagecmd instanceof MessageCommandLogin) {
                     getLog().debug(id + " Login Message receive");
-                    final IRCMessageCommandLogin messageLogin = (IRCMessageCommandLogin) messagecmd;
+                    final MessageCommandLogin messageLogin = (MessageCommandLogin) messagecmd;
                     user = authenticationService.logUser(messageLogin.getLogin(), messageLogin.getPassword());
                 }
 
@@ -272,9 +272,9 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                      */
                     getLog().debug(id + " User " + user.getNickName() + " just loggin");
                     if (registration) {
-                        messageInit = new IRCMessageNoticeRegister(user);
+                        messageInit = new MessageNoticeRegister(user);
                     } else {
-                        messageInit = new IRCMessageNoticeLogin(user);
+                        messageInit = new MessageNoticeLogin(user);
                     }
 
                     try {
@@ -294,14 +294,14 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                     /**
                      * Inform connected Users
                      */
-                    messageInit = new IRCMessageNoticeContactInfo(user);
+                    messageInit = new MessageNoticeContactInfo(user);
                     getLog().debug(id + " Send notice ContactInfo");
                     post(messageInit);
 
                     /**
                      * Send list connected users.
                      */
-                    messageInit = new IRCMessageNoticeContactsList(usersConnectionsManagement.getAllUsers());
+                    messageInit = new MessageNoticeContactsList(usersConnectionsManagement.getAllUsers());
 
                     try {
                         getLog().debug(id + " Send list connected users.");
@@ -320,7 +320,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                      */
                     if (user.hasPictur()) {
                         getLog().debug(id + " Send user's pictur to all others Users");
-                        final IRCMessageItemPicture picture = userPictureService.getPictureOf(user.getId());
+                        final MessageItemPicture picture = userPictureService.getPictureOf(user.getId());
                         if (picture != null) {
                             post(picture);
                         }
@@ -343,9 +343,9 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                      * Fail to login
                      */
                     if (registration) {
-                        messageInit = new IRCMessageNoticeRegister(null);
+                        messageInit = new MessageNoticeRegister(null);
                     } else {
-                        messageInit = new IRCMessageNoticeLogin(null);
+                        messageInit = new MessageNoticeLogin(null);
                     }
                     try {
                         synchronized (inObject) {
@@ -368,8 +368,8 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * 
      * @return Message received.
      */
-    private IRCMessage receiveMessage() {
-        IRCMessage message = null;
+    private Message receiveMessage() {
+        Message message = null;
         try {
             getLog().debug(id + " Wait for a message in the socket.");
             message = IOStreamUtils.receiveMessage(inObject);
@@ -402,7 +402,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             getLog().warn(id + " Fail to autentificate the Client : ", e);
         }
 
-        IRCMessage messageClient;
+        Message messageClient;
         while (isIdentify) {
             /**
              * Wait for a Message
@@ -431,7 +431,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * (com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
-    public void sendMessageObjetInSocket(final IRCMessage message) {
+    public void sendMessageObjetInSocket(final Message message) {
         try {
             /**
              * Synchronize the socket.

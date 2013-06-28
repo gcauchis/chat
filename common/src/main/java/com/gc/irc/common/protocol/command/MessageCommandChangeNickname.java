@@ -5,7 +5,7 @@ import com.gc.irc.common.entity.IRCUser;
 /**
  * The Class IRCMessageCommandChangeNickname.
  */
-public class IRCMessageCommandChangeNickname extends IRCMessageCommand {
+public class MessageCommandChangeNickname extends MessageCommand {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 4197111507731979380L;
@@ -19,7 +19,7 @@ public class IRCMessageCommandChangeNickname extends IRCMessageCommand {
      * @param user
      *            the user
      */
-    public IRCMessageCommandChangeNickname(final IRCUser user) {
+    public MessageCommandChangeNickname(final IRCUser user) {
         super(user.getId());
         nickname = user.getNickName();
     }

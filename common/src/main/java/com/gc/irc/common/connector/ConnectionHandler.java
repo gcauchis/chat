@@ -11,9 +11,9 @@ import java.net.UnknownHostException;
 import org.apache.commons.lang3.StringUtils;
 
 import com.gc.irc.common.abs.AbstractRunnable;
-import com.gc.irc.common.message.api.IIRCMessageHandler;
-import com.gc.irc.common.message.api.IIRCMessageSender;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.message.api.IMessageHandler;
+import com.gc.irc.common.message.api.IMessageSender;
+import com.gc.irc.common.protocol.Message;
 import com.gc.irc.common.utils.IOStreamUtils;
 
 /**
@@ -21,7 +21,7 @@ import com.gc.irc.common.utils.IOStreamUtils;
  * objects wich are transmitted (they are defined in the com.irc.share.protocol
  * package)
  */
-public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSender {
+public class ConnectionHandler extends AbstractRunnable implements IMessageSender {
 
     /** The authenticated. */
     private boolean authenticated = false;
@@ -42,7 +42,7 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
     private boolean manualDisconnection = false;
 
     /** The message handler. */
-    private IIRCMessageHandler messageHandler;
+    private IMessageHandler messageHandler;
 
     /** The out object. */
     private ObjectOutputStream outObject;
@@ -220,7 +220,7 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
                      * Reception du message.
                      */
                     getLog().debug("Waiting for an object message");
-                    IRCMessage messageObject = null;
+                    Message messageObject = null;
                     try {
                         messageObject = IOStreamUtils.receiveMessage(inObject);
                     } catch (final ClassNotFoundException e) {
@@ -268,7 +268,7 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
      * .IRCMessage)
      */
     @Override
-    public void send(final IRCMessage message) {
+    public void send(final Message message) {
         try {
             /**
              * Synchronize the socket.
@@ -301,7 +301,7 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
      * @param message
      *            the IRC message to send
      */
-    public void sendIRCMessage(final IRCMessage message) {
+    public void sendIRCMessage(final Message message) {
         try {
             synchronized (inObject) {
                 synchronized (outObject) {
@@ -348,7 +348,7 @@ public class ConnectionHandler extends AbstractRunnable implements IIRCMessageSe
      * @param messageHandler
      *            the new message handler
      */
-    public void setMessageHandler(final IIRCMessageHandler messageHandler) {
+    public void setMessageHandler(final IMessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 

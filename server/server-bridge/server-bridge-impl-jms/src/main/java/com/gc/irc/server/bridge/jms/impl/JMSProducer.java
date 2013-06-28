@@ -6,7 +6,7 @@ import javax.jms.ObjectMessage;
 import javax.jms.Session;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.common.protocol.IRCMessage;
+import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.bridge.api.IServerBridgeProducer;
 import com.gc.irc.server.bridge.api.ServerBridgeException;
 import com.gc.irc.server.bridge.jms.utils.JMSConnectionUtils;
@@ -77,7 +77,7 @@ public class JMSProducer extends AbstractLoggable implements IServerBridgeProduc
      * .IRCMessage)
      */
     @Override
-    public void post(final IRCMessage objectMessage) throws ServerBridgeException {
+    public void post(final Message objectMessage) throws ServerBridgeException {
         getLog().debug(id + " Send a message in JMS Queue.");
         ObjectMessage message = null;
         /**

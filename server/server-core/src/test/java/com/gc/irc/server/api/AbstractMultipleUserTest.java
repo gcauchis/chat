@@ -13,9 +13,9 @@ import com.gc.irc.common.connector.ConnectionHandler;
 import com.gc.irc.common.entity.IRCUser;
 import com.gc.irc.common.message.api.IClientMessageLine;
 import com.gc.irc.common.message.impl.BasicClientMessageLine;
-import com.gc.irc.common.protocol.IRCMessage;
-import com.gc.irc.common.protocol.chat.IRCMessageChat;
-import com.gc.irc.common.protocol.chat.IRCMessageChatPrivate;
+import com.gc.irc.common.protocol.Message;
+import com.gc.irc.common.protocol.chat.MessageChat;
+import com.gc.irc.common.protocol.chat.MessageChatPrivate;
 import com.gc.irc.server.test.handler.IMessageHandlerTester;
 import com.gc.irc.server.test.utils.entity.UserContextEntity;
 
@@ -30,8 +30,8 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      *            the message
      * @return the iRC message
      */
-    protected final IRCMessage buildSimpleMessage(final IRCUser user, final String message) {
-        return new IRCMessageChat(user.getId(), Arrays.asList((IClientMessageLine) new BasicClientMessageLine(message)));
+    protected final Message buildSimpleMessage(final IRCUser user, final String message) {
+        return new MessageChat(user.getId(), Arrays.asList((IClientMessageLine) new BasicClientMessageLine(message)));
     }
 
     /**
@@ -45,8 +45,8 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      *            the to id
      * @return the iRC message
      */
-    protected final IRCMessage buildSimplePrivateMessage(final IRCUser user, final String message, final int toId) {
-        return new IRCMessageChatPrivate(user.getId(), Arrays.asList((IClientMessageLine) new BasicClientMessageLine(message)), toId);
+    protected final Message buildSimplePrivateMessage(final IRCUser user, final String message, final int toId) {
+        return new MessageChatPrivate(user.getId(), Arrays.asList((IClientMessageLine) new BasicClientMessageLine(message)), toId);
     }
 
     /**
@@ -59,7 +59,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      * @param receivedChatMessage
      *            the received chat message
      */
-    protected final void checkMessageReceived(final IRCUser userSources, final String messageStr, final IRCMessageChat receivedChatMessage) {
+    protected final void checkMessageReceived(final IRCUser userSources, final String messageStr, final MessageChat receivedChatMessage) {
         checkMessageReceived(userSources, messageStr, Arrays.asList(receivedChatMessage));
     }
 
@@ -73,8 +73,8 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      * @param receivedChatMessages
      *            the received chat messages
      */
-    protected final void checkMessageReceived(final IRCUser userSources, final String messageStr, final List<IRCMessageChat> receivedChatMessages) {
-        for (final IRCMessageChat receivedChatMessage : receivedChatMessages) {
+    protected final void checkMessageReceived(final IRCUser userSources, final String messageStr, final List<MessageChat> receivedChatMessages) {
+        for (final MessageChat receivedChatMessage : receivedChatMessages) {
             assertEquals(userSources.getId(), receivedChatMessage.getFromId());
             assertNotNull(receivedChatMessage.getLines());
             assertEquals(1, receivedChatMessage.getLines().size());
@@ -113,8 +113,8 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      * @throws InterruptedException
      *             the interrupted exception
      */
-    protected final IRCMessage sendMessageAndWaitForResponse(final ConnectionHandler connectionThreadSender,
-            final IMessageHandlerTester messageHandlerUserDestination, final IRCMessage sendedMessage) throws InterruptedException {
+    protected final Message sendMessageAndWaitForResponse(final ConnectionHandler connectionThreadSender,
+            final IMessageHandlerTester messageHandlerUserDestination, final Message sendedMessage) throws InterruptedException {
         return sendMessageAndWaitForResponse(connectionThreadSender, Arrays.asList(messageHandlerUserDestination), sendedMessage).get(0);
     }
 
@@ -131,18 +131,18 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      * @throws InterruptedException
      *             the interrupted exception
      */
-    protected final List<IRCMessage> sendMessageAndWaitForResponse(final ConnectionHandler connectionThreadSender,
-            final List<IMessageHandlerTester> messageHandlerUserDestination, final IRCMessage sendedMessage) throws InterruptedException {
+    protected final List<Message> sendMessageAndWaitForResponse(final ConnectionHandler connectionThreadSender,
+            final List<IMessageHandlerTester> messageHandlerUserDestination, final Message sendedMessage) throws InterruptedException {
 
         if (messageHandlerUserDestination == null || messageHandlerUserDestination.isEmpty()) {
             return null;
         }
         resetMessageHandlers(messageHandlerUserDestination);
         sendMessage(connectionThreadSender, sendedMessage);
-        final List<IRCMessage> receivedMessages = new ArrayList<IRCMessage>();
+        final List<Message> receivedMessages = new ArrayList<Message>();
         for (final IMessageHandlerTester messageHandler : messageHandlerUserDestination) {
             waitForMessageInHandler(messageHandler);
-            final IRCMessage receivedMessage = messageHandler.getLastReceivedMessage();
+            final Message receivedMessage = messageHandler.getLastReceivedMessage();
             assertNotNull(receivedMessage);
             receivedMessages.add(receivedMessage);
         }
@@ -166,12 +166,12 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      */
     protected final void sendMessageToGlobal(final IRCUser userSrc, final ConnectionHandler connectionThreadSrc, final String messageStr,
             final List<IMessageHandlerTester> messageHandlerUserDest) throws InterruptedException {
-        final IRCMessage currentSendedMessage = buildSimpleMessage(userSrc, messageStr);
-        final List<IRCMessage> receivedMessages = sendMessageAndWaitForResponse(connectionThreadSrc, messageHandlerUserDest, currentSendedMessage);
-        final List<IRCMessageChat> receivedMessagesToCheck = new ArrayList<IRCMessageChat>();
-        for (final IRCMessage receivedMessage : receivedMessages) {
-            assertTrue("" + receivedMessage, receivedMessage instanceof IRCMessageChat);
-            receivedMessagesToCheck.add((IRCMessageChat) receivedMessage);
+        final Message currentSendedMessage = buildSimpleMessage(userSrc, messageStr);
+        final List<Message> receivedMessages = sendMessageAndWaitForResponse(connectionThreadSrc, messageHandlerUserDest, currentSendedMessage);
+        final List<MessageChat> receivedMessagesToCheck = new ArrayList<MessageChat>();
+        for (final Message receivedMessage : receivedMessages) {
+            assertTrue("" + receivedMessage, receivedMessage instanceof MessageChat);
+            receivedMessagesToCheck.add((MessageChat) receivedMessage);
         }
         assertEquals(messageHandlerUserDest.size(), receivedMessagesToCheck.size());
         checkMessageReceived(userSrc, messageStr, receivedMessagesToCheck);
@@ -223,11 +223,11 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
     protected final void sendPrivateMessage(final IRCUser userSource, final ConnectionHandler connectionThreadSource, final String messageStr,
             final IMessageHandlerTester messageHandlerUserDestination, final IRCUser userDestination,
             final List<IMessageHandlerTester> otherUsersMessageHandlers) throws InterruptedException {
-        final IRCMessage currentSendedMessage = buildSimplePrivateMessage(userSource, messageStr, userDestination.getId());
+        final Message currentSendedMessage = buildSimplePrivateMessage(userSource, messageStr, userDestination.getId());
         resetMessageHandlers(otherUsersMessageHandlers);
-        final IRCMessage receivedMessage = sendMessageAndWaitForResponse(connectionThreadSource, messageHandlerUserDestination, currentSendedMessage);
-        assertTrue("" + receivedMessage, receivedMessage instanceof IRCMessageChatPrivate);
-        final IRCMessageChatPrivate receivedChatMessage = (IRCMessageChatPrivate) receivedMessage;
+        final Message receivedMessage = sendMessageAndWaitForResponse(connectionThreadSource, messageHandlerUserDestination, currentSendedMessage);
+        assertTrue("" + receivedMessage, receivedMessage instanceof MessageChatPrivate);
+        final MessageChatPrivate receivedChatMessage = (MessageChatPrivate) receivedMessage;
         assertEquals(userDestination.getId(), receivedChatMessage.getToId());
         checkMessageReceived(userSource, messageStr, receivedChatMessage);
         // wait and verify no private massage to other users
