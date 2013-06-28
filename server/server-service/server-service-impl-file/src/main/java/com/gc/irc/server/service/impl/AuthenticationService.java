@@ -2,6 +2,7 @@ package com.gc.irc.server.service.impl;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -60,6 +61,9 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
             getLog().warn("Fail to parse xml.", e);
         } catch (final IOException e) {
             getLog().warn("Fail to read xml file. If file didn't exist yet, don't worry with this error", e);
+        }
+        if (users == null) {
+        	users = new HashMap<Integer, UserInformations>();
         }
 
     }
