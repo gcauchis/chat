@@ -65,11 +65,14 @@ public interface IAuthenticationService {
      * @return The user if login succeed. Null if login fail.
      */
     IRCUser logUser(String login, String password);
-
+    
+    
     /**
-     * Save modification.
+     * Update.
+     *
+     * @param userInformations the user informations
      */
-    void saveModification();
+    void update(UserInformations userInformations);
 
     /**
      * Send in the ObjectOutputStream the Picture of all the connected Users.

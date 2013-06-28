@@ -144,17 +144,24 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gc.irc.server.auth.IAuthentificationService#saveModification()
+    /**
+     * Save modification.
      */
-    @Override
-    public void saveModification() {
+    private void saveModification() {
         synchronized (users) {
             IOUtils.writeFile(pathFichier, generateXML());
         }
     }
+    
+
+	/* (non-Javadoc)
+	 * @see com.gc.irc.server.service.api.IAuthenticationService#update(com.gc.irc.server.model.UserInformations)
+	 */
+	@Override
+	public void update(UserInformations userInformations) {
+		users.put(userInformations.getId(), userInformations);
+		saveModification();
+	}
 
     /*
      * (non-Javadoc)
@@ -249,4 +256,5 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
         }
         return false;
     }
+
 }

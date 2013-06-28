@@ -24,7 +24,7 @@ public class IRCMessageItemPictureHandler extends AbstractServerCommandMessageHa
         final UserInformations userInfo = getAuthenticationService().getUser(message.getFromId());
         if (userInfo != null) {
             userInfo.setHasPicture(true);
-            getAuthenticationService().saveModification();
+            getAuthenticationService().update(userInfo);
         } else {
             getLog().warn("User null");
         }
