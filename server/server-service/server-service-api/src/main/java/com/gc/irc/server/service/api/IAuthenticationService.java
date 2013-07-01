@@ -2,7 +2,7 @@ package com.gc.irc.server.service.api;
 
 import java.io.ObjectOutputStream;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.server.model.UserInformations;
 
 /**
@@ -64,7 +64,7 @@ public interface IAuthenticationService {
      *            User's Password.
      * @return The user if login succeed. Null if login fail.
      */
-    IRCUser logUser(String login, String password);
+    User logUser(String login, String password);
     
     
     /**

@@ -3,7 +3,7 @@ package com.gc.irc.server.thread.impl;
 import java.util.List;
 
 import com.gc.irc.common.abs.AbstractRunnable;
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.bridge.api.IServerBridgeConsumer;
 import com.gc.irc.server.bridge.api.IServerBridgeConsumerFactory;
@@ -117,7 +117,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     public String getUserList() {
         String result = "";
 
-        for (final IRCUser u : usersConnectionsManagement.getAllUsers()) {
+        for (final User u : usersConnectionsManagement.getAllUsers()) {
             result += u.getId() + " : " + u.getNickName() + " | ";
         }
 

@@ -2,7 +2,7 @@ package com.gc.irc.common.protocol.notice;
 
 import java.util.List;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 
 /**
  * Notification used to send the list of all the connected client.
@@ -16,7 +16,7 @@ public class MessageNoticeContactsList extends MessageNotice {
     private static final long serialVersionUID = -2553210158579009868L;
 
     /** The liste users. */
-    private List<IRCUser> listeUsers;
+    private List<User> listeUsers;
 
     /**
      * Instantiates a new iRC message notice contacts list.
@@ -24,7 +24,7 @@ public class MessageNoticeContactsList extends MessageNotice {
      * @param listeUsers
      *            the liste users
      */
-    public MessageNoticeContactsList(final List<IRCUser> listeUsers) {
+    public MessageNoticeContactsList(final List<User> listeUsers) {
         this.listeUsers = listeUsers;
     }
 
@@ -33,7 +33,7 @@ public class MessageNoticeContactsList extends MessageNotice {
      * 
      * @return the liste users
      */
-    public List<IRCUser> getListeUsers() {
+    public List<User> getListeUsers() {
         return listeUsers;
     }
 

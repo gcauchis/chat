@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import com.gc.irc.common.abs.AbstractRunnable;
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.entity.UserStatus;
 import com.gc.irc.common.exception.security.InvalidSenderException;
 import com.gc.irc.common.protocol.Message;
@@ -73,7 +73,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     private IServerBridgeProducer serverBridgeProducer;
 
     /** The user. */
-    private IRCUser user;
+    private User user;
 
     /** The user picture service. */
     private IUserPictureService userPictureService;
@@ -185,7 +185,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * @see com.gc.irc.server.thread.impl.IGestionClientBean#getUser()
      */
     @Override
-    public IRCUser getUser() {
+    public User getUser() {
         return user;
     }
 

@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.persistance.PersiteUsers;
@@ -36,7 +36,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
     private final Map<Integer, IGestionClientBean> listThreadClientByIdUser = new ConcurrentHashMap<Integer, IGestionClientBean>();
 
     /** The list user by id. */
-    private final Map<Integer, IRCUser> listUserById = new ConcurrentHashMap<Integer, IRCUser>();
+    private final Map<Integer, User> listUserById = new ConcurrentHashMap<Integer, User>();
 
     /*
      * (non-Javadoc)
@@ -90,10 +90,10 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * #getAllUsers()
      */
     @Override
-    public List<IRCUser> getAllUsers() {
-        List<IRCUser> list = null;
+    public List<User> getAllUsers() {
+        List<User> list = null;
         synchronized (listUserById) {
-            list = new ArrayList<IRCUser>(listUserById.values());
+            list = new ArrayList<User>(listUserById.values());
         }
         return list;
     }
@@ -130,7 +130,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * #getUser(int)
      */
     @Override
-    public IRCUser getUser(final int id) {
+    public User getUser(final int id) {
         return listUserById.get(id);
     }
 

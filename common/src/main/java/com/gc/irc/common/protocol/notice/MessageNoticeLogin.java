@@ -1,6 +1,6 @@
 package com.gc.irc.common.protocol.notice;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 
 /**
  * Notification used to inform the success or the failed of the client login.
@@ -14,7 +14,7 @@ public class MessageNoticeLogin extends MessageNotice {
     private static final long serialVersionUID = -3882302853245775759L;
 
     /** The user. */
-    private IRCUser user;
+    private User user;
 
     /**
      * Instantiates a new iRC message notice login.
@@ -22,7 +22,7 @@ public class MessageNoticeLogin extends MessageNotice {
      * @param user
      *            the user
      */
-    public MessageNoticeLogin(final IRCUser user) {
+    public MessageNoticeLogin(final User user) {
         this.user = user;
     }
 
@@ -31,7 +31,7 @@ public class MessageNoticeLogin extends MessageNotice {
      * 
      * @return the user
      */
-    public IRCUser getUser() {
+    public User getUser() {
         return user;
     }
 

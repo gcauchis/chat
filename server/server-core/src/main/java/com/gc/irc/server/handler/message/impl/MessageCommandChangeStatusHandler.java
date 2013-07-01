@@ -2,7 +2,7 @@ package com.gc.irc.server.handler.message.impl;
 
 import org.springframework.stereotype.Component;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.command.MessageCommandChangeStatus;
 import com.gc.irc.common.protocol.notice.MessageNoticeContactInfo;
 import com.gc.irc.server.handler.message.abs.AbstractServerCommandMessageHandler;
@@ -20,7 +20,7 @@ public class MessageCommandChangeStatusHandler extends AbstractServerCommandMess
      */
     @Override
     protected void internalHandle(MessageCommandChangeStatus message) {
-        final IRCUser user = getSender(message);
+        final User user = getSender(message);
         if (user != null) {
             getLog().debug(user.getNickName() + " change status to " + message.getNewStatus());
             user.setUserStatus(message.getNewStatus());

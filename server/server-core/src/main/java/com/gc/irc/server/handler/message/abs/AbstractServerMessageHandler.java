@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.handler.message.api.IServerMessageHandler;
@@ -42,7 +42,7 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
      *            the message
      * @return the sender
      */
-    protected final IRCUser getSender(final Message message) {
+    protected final User getSender(final Message message) {
         return getUser(message.getFromId());
     }
 
@@ -53,7 +53,7 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
      *            the id
      * @return the user
      */
-    protected final IRCUser getUser(final int id) {
+    protected final User getUser(final int id) {
         return usersConnectionsManagement.getUser(id);
     }
 

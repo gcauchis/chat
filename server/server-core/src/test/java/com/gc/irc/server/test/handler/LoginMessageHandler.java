@@ -1,6 +1,6 @@
 package com.gc.irc.server.test.handler;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.common.protocol.notice.MessageNoticeContactsList;
 import com.gc.irc.common.protocol.notice.MessageNoticeLogin;
@@ -15,7 +15,7 @@ public class LoginMessageHandler extends AbstractMessageHandlerTester {
     boolean contactListReceived = false;
 
     /** The login. */
-    private IRCUser login;
+    private User login;
 
     /** The login validated. */
     boolean loginValidated = false;
@@ -25,7 +25,7 @@ public class LoginMessageHandler extends AbstractMessageHandlerTester {
      * 
      * @return the login
      */
-    public IRCUser getLogin() {
+    public User getLogin() {
         return login;
     }
 

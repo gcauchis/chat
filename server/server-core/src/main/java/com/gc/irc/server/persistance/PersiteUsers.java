@@ -2,7 +2,7 @@ package com.gc.irc.server.persistance;
 
 import java.util.List;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.utils.IOUtils;
 
 /**
@@ -14,7 +14,7 @@ import com.gc.irc.common.utils.IOUtils;
 public class PersiteUsers extends Thread {
 
     /** The list users. */
-    private List<IRCUser> listUsers;
+    private List<User> listUsers;
 
     /**
      * Start a Thread to persist.
@@ -22,7 +22,7 @@ public class PersiteUsers extends Thread {
      * @param listUsers
      *            List to persist.
      */
-    public static void persistListUser(final List<IRCUser> listUsers) {
+    public static void persistListUser(final List<User> listUsers) {
         final PersiteUsers persisteUser = new PersiteUsers(listUsers);
         persisteUser.start();
     }
@@ -33,7 +33,7 @@ public class PersiteUsers extends Thread {
      * @param listUsers
      *            the list users
      */
-    public PersiteUsers(final List<IRCUser> listUsers) {
+    public PersiteUsers(final List<User> listUsers) {
         this.listUsers = listUsers;
     }
 
@@ -57,7 +57,7 @@ public class PersiteUsers extends Thread {
     private String generateXML() {
         String result = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\" ?>\n\n";
         result += "<listeUsers>\n";
-        for (final IRCUser user : listUsers) {
+        for (final User user : listUsers) {
             result += user.toStringXML("\t");
         }
 

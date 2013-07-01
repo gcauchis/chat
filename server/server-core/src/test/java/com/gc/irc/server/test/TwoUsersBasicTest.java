@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.gc.irc.common.connector.ConnectionHandler;
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.server.api.AbstractMultipleUserTest;
 import com.gc.irc.server.test.handler.IMessageHandlerTester;
 import com.gc.irc.server.test.handler.SimpleMessageHandler;
@@ -97,7 +97,7 @@ public class TwoUsersBasicTest extends AbstractMultipleUserTest {
      * @throws InterruptedException
      *             the interrupted exception
      */
-    private void sendMessageToGlobal(final IRCUser userA, final ConnectionHandler connectionThreadA, final String messageStr,
+    private void sendMessageToGlobal(final User userA, final ConnectionHandler connectionThreadA, final String messageStr,
             final IMessageHandlerTester messageHandlerUserB) throws InterruptedException {
         sendMessageToGlobal(userA, connectionThreadA, messageStr, Arrays.asList(messageHandlerUserB));
 
@@ -119,8 +119,8 @@ public class TwoUsersBasicTest extends AbstractMultipleUserTest {
      * @throws InterruptedException
      *             the interrupted exception
      */
-    private void sendPrivateMessage(final IRCUser userSource, final ConnectionHandler connectionThreadSource, final String messageStr,
-            final IMessageHandlerTester messageHandlerUserDestination, final IRCUser userDestination) throws InterruptedException {
+    private void sendPrivateMessage(final User userSource, final ConnectionHandler connectionThreadSource, final String messageStr,
+            final IMessageHandlerTester messageHandlerUserDestination, final User userDestination) throws InterruptedException {
         sendPrivateMessage(userSource, connectionThreadSource, messageStr, messageHandlerUserDestination, userDestination, null);
     }
 

@@ -1,6 +1,6 @@
 package com.gc.irc.common.protocol.notice;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 
 /**
  * Notification use to send the information of an user.
@@ -14,7 +14,7 @@ public class MessageNoticeContactInfo extends MessageNotice {
     private static final long serialVersionUID = -177593849550243088L;
 
     /** The user. */
-    private IRCUser user;
+    private User user;
 
     /**
      * Instantiates a new iRC message notice contact info.
@@ -22,7 +22,7 @@ public class MessageNoticeContactInfo extends MessageNotice {
      * @param user
      *            the user
      */
-    public MessageNoticeContactInfo(final IRCUser user) {
+    public MessageNoticeContactInfo(final User user) {
         super();
         this.user = user;
         setFromId(user.getId());
@@ -33,7 +33,7 @@ public class MessageNoticeContactInfo extends MessageNotice {
      * 
      * @return the user
      */
-    public IRCUser getUser() {
+    public User getUser() {
         return user;
     }
 

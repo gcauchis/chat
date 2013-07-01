@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.chat.MessageChatPrivate;
 import com.gc.irc.server.bridge.api.IServerBridgeProducer;
 import com.gc.irc.server.bridge.api.ServerBridgeException;
@@ -31,9 +31,9 @@ public class MessageChatPrivateHandler extends AbstractServerMessageHandler<Mess
      */
     @Override
     protected void internalHandle(final MessageChatPrivate message) {
-        final IRCUser sender = getSender(message);
+        final User sender = getSender(message);
         if (sender != null) {
-            final IRCUser receiver = getUser(message.getToId());
+            final User receiver = getUser(message.getToId());
             if (receiver != null) {
                 getLog().debug(" Private Message from {} to {}", sender.getNickName(), receiver.getNickName());
                 sendTo(message, message.getToId());

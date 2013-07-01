@@ -1,6 +1,6 @@
 package com.gc.irc.server.thread.api;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;
 
 public interface IGestionClientBean extends Runnable {
@@ -25,7 +25,7 @@ public interface IGestionClientBean extends Runnable {
      * 
      * @return User connected to this Thread.
      */
-    IRCUser getUser();
+    User getUser();
 
     /**
      * Send message objet in socket.

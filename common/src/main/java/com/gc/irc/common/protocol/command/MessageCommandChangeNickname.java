@@ -1,6 +1,6 @@
 package com.gc.irc.common.protocol.command;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 
 /**
  * The Class IRCMessageCommandChangeNickname.
@@ -19,7 +19,7 @@ public class MessageCommandChangeNickname extends MessageCommand {
      * @param user
      *            the user
      */
-    public MessageCommandChangeNickname(final IRCUser user) {
+    public MessageCommandChangeNickname(final User user) {
         super(user.getId());
         nickname = user.getNickName();
     }

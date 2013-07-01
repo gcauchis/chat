@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.item.MessageItemPicture;
 import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.common.utils.IOUtils;
@@ -132,7 +132,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * , java.lang.String)
      */
     @Override
-    public IRCUser logUser(final String login, final String password) {
+    public User logUser(final String login, final String password) {
         for (final Map.Entry<Integer, UserInformations> entry : users.entrySet()) {
             if (entry.getValue().getLogin().equals(login) && entry.getValue().getPassword().equals(password)) {
                 if (entry.getValue().isConnected()) {

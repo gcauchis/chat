@@ -2,7 +2,7 @@ package com.gc.irc.server.handler.message.impl;
 
 import org.springframework.stereotype.Component;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.chat.MessageChat;
 import com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler;
 
@@ -20,7 +20,7 @@ public class MessageChatHandler extends AbstractServerMessageHandler<MessageChat
      */
     @Override
     protected void internalHandle(final MessageChat message) {
-        final IRCUser sender = getSender(message);
+        final User sender = getSender(message);
         if (sender == null) {
             getLog().warn("inexisting sender id");
         } else {

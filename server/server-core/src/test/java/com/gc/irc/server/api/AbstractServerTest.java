@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 
 import com.gc.irc.common.api.ILoggable;
 import com.gc.irc.common.connector.ConnectionHandler;
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.message.api.IMessageSender;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.common.protocol.command.MessageCommand;
@@ -84,7 +84,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
     protected final UserContextEntity getConnectedUser(final String login, final String password) throws InterruptedException {
         final ConnectionHandler connection = getConnectionToServer();
         assertNotNull(connection);
-        final IRCUser user = loginAndRegister(connection, login, password);
+        final User user = loginAndRegister(connection, login, password);
         assertNotNull(user);
         final UserContextEntity context = new UserContextEntity(user, connection);
         context.cleanMessageHandler();
@@ -142,7 +142,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
      * @throws InterruptedException
      *             the interrupted exception
      */
-    protected final IRCUser login(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
+    protected final User login(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
         return sendCommandMessageForLogin(connectionThread, new MessageCommandLogin(login, password));
     }
 
@@ -158,8 +158,8 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
      * @throws InterruptedException
      *             the interrupted exception
      */
-    protected final IRCUser loginAndRegister(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
-        IRCUser user = login(connectionThread, login, password);
+    protected final User loginAndRegister(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
+        User user = login(connectionThread, login, password);
         if (user == null) {
             user = register(connectionThread, login, password);
         }
@@ -179,7 +179,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
      * @throws InterruptedException
      *             the interrupted exception
      */
-    protected final IRCUser register(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
+    protected final User register(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
         return sendCommandMessageForLogin(connectionThread, new MessageCommandRegister(login, password));
     }
 
@@ -194,7 +194,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
      * @throws InterruptedException
      *             the interrupted exception
      */
-    private IRCUser sendCommandMessageForLogin(final ConnectionHandler connectionThread, final MessageCommand messageCommand) throws InterruptedException {
+    private User sendCommandMessageForLogin(final ConnectionHandler connectionThread, final MessageCommand messageCommand) throws InterruptedException {
         final LoginMessageHandler messageHandler = new LoginMessageHandler();
         connectionThread.setMessageHandler(messageHandler);
         messageHandler.reset();

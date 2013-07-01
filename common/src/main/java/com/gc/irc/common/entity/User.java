@@ -7,7 +7,7 @@ import com.gc.irc.common.abs.AbstractLoggable;
 /**
  * The Class IRCUser.
  */
-public class IRCUser extends AbstractLoggable implements Serializable {
+public class User extends AbstractLoggable implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -7180427709043943598L;
@@ -32,7 +32,7 @@ public class IRCUser extends AbstractLoggable implements Serializable {
      * @param nickName
      *            User's NickName.
      */
-    public IRCUser(final int id, final String nickName) {
+    public User(final int id, final String nickName) {
         this.id = id;
         this.nickName = nickName;
 
@@ -49,7 +49,7 @@ public class IRCUser extends AbstractLoggable implements Serializable {
      * @param hasPicture
      *            True if User has a picture.
      */
-    public IRCUser(final int id, final String nickName, final boolean hasPicture) {
+    public User(final int id, final String nickName, final boolean hasPicture) {
         this(id, nickName);
         hasPictur = hasPicture;
     }
@@ -59,9 +59,9 @@ public class IRCUser extends AbstractLoggable implements Serializable {
      * 
      * @return A copy.
      */
-    public IRCUser getCopy() {
+    public User getCopy() {
         getLog().debug("build copy");
-        final IRCUser userCopy = new IRCUser(id, nickName, hasPictur);
+        final User userCopy = new User(id, nickName, hasPictur);
         userCopy.setUserStatus(userStatus);
         return userCopy;
     }

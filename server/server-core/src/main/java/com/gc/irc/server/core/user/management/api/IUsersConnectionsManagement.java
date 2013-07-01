@@ -3,7 +3,7 @@ package com.gc.irc.server.core.user.management.api;
 import java.util.List;
 
 import com.gc.irc.common.api.ILoggable;
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 
@@ -27,7 +27,7 @@ public interface IUsersConnectionsManagement extends ILoggable {
      * 
      * @return The list of all the connected users.
      */
-    List<IRCUser> getAllUsers();
+    List<User> getAllUsers();
 
     /**
      * Get the Thread list of connected client.
@@ -52,7 +52,7 @@ public interface IUsersConnectionsManagement extends ILoggable {
      *            User's Id.
      * @return The User selected or null if not find.
      */
-    IRCUser getUser(final int id);
+    User getUser(final int id);
 
     /**
      * Add the login client to the Client's list.

@@ -1,7 +1,7 @@
 package com.gc.irc.server.model;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 
 /**
  * Represent a Client.
@@ -27,7 +27,7 @@ public class UserInformations extends AbstractLoggable {
     private String password;
 
     /** The user. */
-    private IRCUser user = null;
+    private User user = null;
 
     /**
      * Class Builder.
@@ -118,9 +118,9 @@ public class UserInformations extends AbstractLoggable {
      * 
      * @return An User.
      */
-    public synchronized IRCUser getUser() {
+    public synchronized User getUser() {
         if (user == null) {
-            user = new IRCUser(id, nickname, hasPictur);
+            user = new User(id, nickname, hasPictur);
         }
         return user;
     }

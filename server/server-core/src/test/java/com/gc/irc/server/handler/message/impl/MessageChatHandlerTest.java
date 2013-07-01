@@ -8,15 +8,15 @@ import static org.easymock.EasyMock.verify;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.chat.MessageChat;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
-import com.gc.irc.server.handler.message.test.api.AbstractIRCMessageHandlerTest;
+import com.gc.irc.server.handler.message.test.api.AbstractMessageHandlerTest;
 
 /**
  * The Class IRCMessageChatHandlerTest.
  */
-public class IRCMessageChatHandlerTest extends AbstractIRCMessageHandlerTest<MessageChatHandler, MessageChat> {
+public class MessageChatHandlerTest extends AbstractMessageHandlerTest<MessageChatHandler, MessageChat> {
 
     /** The users connections management. */
     private IUsersConnectionsManagement usersConnectionsManagement;
@@ -40,7 +40,7 @@ public class IRCMessageChatHandlerTest extends AbstractIRCMessageHandlerTest<Mes
      */
     @Test
     public void handle() {
-        IRCUser sender = new IRCUser(1, "test");
+        User sender = new User(1, "test");
         MessageChat messageChat = buildMessageInstance(1);
         expect(usersConnectionsManagement.getUser(1)).andReturn(sender);
         usersConnectionsManagement.sendMessageToAllUsers(messageChat);

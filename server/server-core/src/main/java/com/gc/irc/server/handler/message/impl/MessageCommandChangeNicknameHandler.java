@@ -2,7 +2,7 @@ package com.gc.irc.server.handler.message.impl;
 
 import org.springframework.stereotype.Component;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.command.MessageCommandChangeNickname;
 import com.gc.irc.common.protocol.notice.MessageNoticeContactInfo;
 import com.gc.irc.server.handler.message.abs.AbstractServerCommandMessageHandler;
@@ -20,7 +20,7 @@ public class MessageCommandChangeNicknameHandler extends AbstractServerCommandMe
      */
     @Override
     protected void internalHandle(MessageCommandChangeNickname message) {
-        IRCUser sender = getSender(message);
+        User sender = getSender(message);
         if (sender != null) {
             getAuthenticationService().updateUserNickName(message.getFromId(), message.getNewNickname());
             sendToAllUsers(new MessageNoticeContactInfo(getAuthenticationService().getUser(message.getFromId()).getUser()));

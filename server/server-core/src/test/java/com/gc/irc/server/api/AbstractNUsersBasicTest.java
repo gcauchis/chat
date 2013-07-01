@@ -16,7 +16,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.entity.UserStatus;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.common.protocol.command.MessageCommandChangeNickname;
@@ -56,7 +56,7 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
     @Test
     public final void changeNickName() throws InterruptedException {
         UserContextEntity senderContext = getRandomUserContext();
-        IRCUser user = senderContext.getUser();
+        User user = senderContext.getUser();
         user.setNickName("ChangeNickName-" + user.getId() + "-" + testId);
         Message changeNickNameMessage = new MessageCommandChangeNickname(user);
         List<Message> receivedMessages = sendMessageAndWaitForResponse(senderContext.getConnectionUser(),
@@ -80,7 +80,7 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
     @Test
     public final void changeStatus() throws InterruptedException {
         UserContextEntity senderContext = getRandomUserContext();
-        IRCUser user = senderContext.getUser();
+        User user = senderContext.getUser();
         UserStatus newStatus = UserStatus.BUSY;
         changeStatus(senderContext, user, newStatus);
         newStatus = UserStatus.ABSENT;
@@ -101,7 +101,7 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
      * @throws InterruptedException
      *             the interrupted exception
      */
-    private void changeStatus(UserContextEntity senderContext, IRCUser user, UserStatus newStatus) throws InterruptedException {
+    private void changeStatus(UserContextEntity senderContext, User user, UserStatus newStatus) throws InterruptedException {
         Message changeStatusMessage = new MessageCommandChangeStatus(user.getId(), newStatus);
         List<Message> receivedMessages = sendMessageAndWaitForResponse(senderContext.getConnectionUser(),
                 getMessageHandlers(getContextListWithout(senderContext)), changeStatusMessage);

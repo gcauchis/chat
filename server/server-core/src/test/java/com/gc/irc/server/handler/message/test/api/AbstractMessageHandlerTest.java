@@ -17,7 +17,7 @@ import com.gc.irc.server.handler.message.api.IServerMessageHandler;
  *            the generic type
  */
 // @SpringApplicationContext("classpath*:spring-application-config.xml")
-public abstract class AbstractIRCMessageHandlerTest<MSGH extends IServerMessageHandler, MSG extends Message> /* extends UnitilsJUnit4 */{
+public abstract class AbstractMessageHandlerTest<MSGH extends IServerMessageHandler, MSG extends Message> /* extends UnitilsJUnit4 */{
 
     /** The message handler. */
     private MSGH messageHandler;

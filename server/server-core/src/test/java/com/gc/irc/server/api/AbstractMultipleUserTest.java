@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.gc.irc.common.connector.ConnectionHandler;
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 import com.gc.irc.common.message.api.IClientMessageLine;
 import com.gc.irc.common.message.impl.BasicClientMessageLine;
 import com.gc.irc.common.protocol.Message;
@@ -30,7 +30,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      *            the message
      * @return the iRC message
      */
-    protected final Message buildSimpleMessage(final IRCUser user, final String message) {
+    protected final Message buildSimpleMessage(final User user, final String message) {
         return new MessageChat(user.getId(), Arrays.asList((IClientMessageLine) new BasicClientMessageLine(message)));
     }
 
@@ -45,7 +45,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      *            the to id
      * @return the iRC message
      */
-    protected final Message buildSimplePrivateMessage(final IRCUser user, final String message, final int toId) {
+    protected final Message buildSimplePrivateMessage(final User user, final String message, final int toId) {
         return new MessageChatPrivate(user.getId(), Arrays.asList((IClientMessageLine) new BasicClientMessageLine(message)), toId);
     }
 
@@ -59,7 +59,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      * @param receivedChatMessage
      *            the received chat message
      */
-    protected final void checkMessageReceived(final IRCUser userSources, final String messageStr, final MessageChat receivedChatMessage) {
+    protected final void checkMessageReceived(final User userSources, final String messageStr, final MessageChat receivedChatMessage) {
         checkMessageReceived(userSources, messageStr, Arrays.asList(receivedChatMessage));
     }
 
@@ -73,7 +73,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      * @param receivedChatMessages
      *            the received chat messages
      */
-    protected final void checkMessageReceived(final IRCUser userSources, final String messageStr, final List<MessageChat> receivedChatMessages) {
+    protected final void checkMessageReceived(final User userSources, final String messageStr, final List<MessageChat> receivedChatMessages) {
         for (final MessageChat receivedChatMessage : receivedChatMessages) {
             assertEquals(userSources.getId(), receivedChatMessage.getFromId());
             assertNotNull(receivedChatMessage.getLines());
@@ -164,7 +164,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      * @throws InterruptedException
      *             the interrupted exception
      */
-    protected final void sendMessageToGlobal(final IRCUser userSrc, final ConnectionHandler connectionThreadSrc, final String messageStr,
+    protected final void sendMessageToGlobal(final User userSrc, final ConnectionHandler connectionThreadSrc, final String messageStr,
             final List<IMessageHandlerTester> messageHandlerUserDest) throws InterruptedException {
         final Message currentSendedMessage = buildSimpleMessage(userSrc, messageStr);
         final List<Message> receivedMessages = sendMessageAndWaitForResponse(connectionThreadSrc, messageHandlerUserDest, currentSendedMessage);
@@ -220,8 +220,8 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      * @throws InterruptedException
      *             the interrupted exception
      */
-    protected final void sendPrivateMessage(final IRCUser userSource, final ConnectionHandler connectionThreadSource, final String messageStr,
-            final IMessageHandlerTester messageHandlerUserDestination, final IRCUser userDestination,
+    protected final void sendPrivateMessage(final User userSource, final ConnectionHandler connectionThreadSource, final String messageStr,
+            final IMessageHandlerTester messageHandlerUserDestination, final User userDestination,
             final List<IMessageHandlerTester> otherUsersMessageHandlers) throws InterruptedException {
         final Message currentSendedMessage = buildSimplePrivateMessage(userSource, messageStr, userDestination.getId());
         resetMessageHandlers(otherUsersMessageHandlers);

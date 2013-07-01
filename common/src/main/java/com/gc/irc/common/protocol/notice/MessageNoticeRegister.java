@@ -1,6 +1,6 @@
 package com.gc.irc.common.protocol.notice;
 
-import com.gc.irc.common.entity.IRCUser;
+import com.gc.irc.common.entity.User;
 
 /**
  * Notification used to inform the success or the failed of the client
@@ -20,7 +20,7 @@ public class MessageNoticeRegister extends MessageNoticeLogin {
      * @param user
      *            the user
      */
-    public MessageNoticeRegister(final IRCUser user) {
+    public MessageNoticeRegister(final User user) {
         super(user);
     }
 
