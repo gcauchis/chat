@@ -1,4 +1,4 @@
-package com.acp.vision.service.core.crypto.impl;
+package com.gc.common.service.core.crypto.impl;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -29,20 +29,20 @@ import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.acp.vision.crypto.dal.service.IDekDalService;
-import com.acp.vision.crypto.dal.service.IKekDalService;
-import com.acp.vision.dal.exception.DTOAlreadyExistsException;
-import com.acp.vision.dal.exception.DTONullPropertyException;
-import com.acp.vision.dto.external.UIPublicKey;
-import com.acp.vision.exception.ServiceException;
-import com.acp.vision.exception.ServiceException.EServiceExceptionType;
-import com.acp.vision.model.Dek;
-import com.acp.vision.model.Kek;
-import com.acp.vision.model.ref.EDekAlgo;
-import com.acp.vision.model.ref.EDekStatus;
-import com.acp.vision.model.ref.EKekStatus;
-import com.acp.vision.service.core.crypto.ICryptoService;
-import com.acp.vision.service.core.crypto.IKeystoreService;
+import com.gc.common.crypto.dal.service.IDekDalService;
+import com.gc.common.crypto.dal.service.IKekDalService;
+import com.gc.common.dal.exception.DTOAlreadyExistsException;
+import com.gc.common.dal.exception.DTONullPropertyException;
+import com.gc.common.dto.external.UIPublicKey;
+import com.gc.common.exception.ServiceException;
+import com.gc.common.exception.ServiceException.EServiceExceptionType;
+import com.gc.common.model.Dek;
+import com.gc.common.model.Kek;
+import com.gc.common.model.ref.EDekAlgo;
+import com.gc.common.model.ref.EDekStatus;
+import com.gc.common.model.ref.EKekStatus;
+import com.gc.common.service.core.crypto.ICryptoService;
+import com.gc.common.service.core.crypto.IKeystoreService;
 
 /**
  * CryptoService.
@@ -87,7 +87,7 @@ public class CryptoService implements ICryptoService {
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.service.core.crypto.ICryptoService#encryptData(java.lang.String, com.acp.vision.model.ref.EDekAlgo)
+     * @see com.gc.common.service.core.crypto.ICryptoService#encryptData(java.lang.String, com.gc.common.model.ref.EDekAlgo)
      */
     public String encryptData(String data, EDekAlgo algo) {
         return encryptData(data, this.chooseDekForEncryption(algo), this.chooseAlgoForEncryption(algo));
@@ -95,7 +95,7 @@ public class CryptoService implements ICryptoService {
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.service.core.crypto.ICryptoService#decryptData(java.lang.String, com.acp.vision.model.ref.EDekAlgo)
+     * @see com.gc.common.service.core.crypto.ICryptoService#decryptData(java.lang.String, com.gc.common.model.ref.EDekAlgo)
      */
     public String decryptData(String data, EDekAlgo algo) {
         return decryptData(data, this.chooseDekForEncryption(algo), this.chooseAlgoForEncryption(algo));
@@ -103,7 +103,7 @@ public class CryptoService implements ICryptoService {
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.service.core.crypto.ICryptoService#decryptDataAsymmetric(java.lang.String)
+     * @see com.gc.common.service.core.crypto.ICryptoService#decryptDataAsymmetric(java.lang.String)
      */
     public String decryptDataAsymmetric(String encryptedData) {
         return decrypteDataAsymmetricHex(encryptedData);
@@ -111,7 +111,7 @@ public class CryptoService implements ICryptoService {
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.service.core.crypto.ICryptoService#encryptDataAsymmetric(java.lang.String)
+     * @see com.gc.common.service.core.crypto.ICryptoService#encryptDataAsymmetric(java.lang.String)
      */
     public String encryptDataAsymmetric(String data) {
         return encryptDataAsymmetricHex(data);
@@ -119,7 +119,7 @@ public class CryptoService implements ICryptoService {
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.service.core.crypto.ICryptoService#loadKey()
+     * @see com.gc.common.service.core.crypto.ICryptoService#loadKey()
      */
     public void loadKey() throws ServiceException, NoSuchAlgorithmException, InvalidKeySpecException {
         getLog().info("load keys");
@@ -174,7 +174,7 @@ public class CryptoService implements ICryptoService {
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.service.core.crypto.ICryptoService#initKey()
+     * @see com.gc.common.service.core.crypto.ICryptoService#initKey()
      */
     public void initKey() throws ServiceException, DTONullPropertyException, DTOAlreadyExistsException, NoSuchAlgorithmException, InvalidKeySpecException {
         getLog().info("initKey");
@@ -417,7 +417,7 @@ public class CryptoService implements ICryptoService {
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.service.ILoggable#getLog()
+     * @see com.gc.common.service.ILoggable#getLog()
      */
     public Logger getLog() {
         return LOGGER;
@@ -470,7 +470,7 @@ public class CryptoService implements ICryptoService {
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.service.core.crypto.ICryptoService#initialized()
+     * @see com.gc.common.service.core.crypto.ICryptoService#initialized()
      */
     @Override
     public Boolean initialized() {
@@ -488,7 +488,7 @@ public class CryptoService implements ICryptoService {
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.service.core.crypto.ICryptoService#archiveActiveKeysAndActiveCreated()
+     * @see com.gc.common.service.core.crypto.ICryptoService#archiveActiveKeysAndActiveCreated()
      */
     @Override
     public void archiveActiveKeysAndActiveCreated() throws ServiceException {
@@ -500,7 +500,7 @@ public class CryptoService implements ICryptoService {
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.service.core.crypto.ICryptoService#createNewKeys()
+     * @see com.gc.common.service.core.crypto.ICryptoService#createNewKeys()
      */
     @Override
     public void createNewKeys() throws ServiceException {
