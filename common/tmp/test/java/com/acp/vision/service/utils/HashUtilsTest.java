@@ -1,4 +1,4 @@
-package com.acp.vision.service.utils;
+package com.gc.common.service.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

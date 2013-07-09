@@ -49,7 +49,7 @@ public final class CryptoUtils {
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.service.IPasswordCryptoService#decrypt(java.lang.String)
+     * @see com.gc.common.service.IPasswordCryptoService#decrypt(java.lang.String)
      */
     public static String decrypt(final String str) {
 
@@ -94,7 +94,7 @@ public final class CryptoUtils {
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.service.IPasswordCryptoService#encrypt(java.lang.String)
+     * @see com.gc.common.service.IPasswordCryptoService#encrypt(java.lang.String)
      */
     public static String encrypt(final String str) {
 

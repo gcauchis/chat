@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
 
-import com.acp.vision.dal.dao.api.IGenericDAO;
-import com.acp.vision.dal.exception.DTOAlreadyExistsException;
-import com.acp.vision.dal.exception.DTONotFoundException;
-import com.acp.vision.dal.exception.DTONullPropertyException;
-import com.acp.vision.exception.ServiceException;
-import com.acp.vision.model.api.IID;
-import com.acp.vision.service.IService;
+import com.gc.common.dal.dao.api.IGenericDAO;
+import com.gc.common.dal.exception.DTOAlreadyExistsException;
+import com.gc.common.dal.exception.DTONotFoundException;
+import com.gc.common.dal.exception.DTONullPropertyException;
+import com.gc.common.exception.ServiceException;
+import com.gc.common.model.api.IID;
+import com.gc.common.service.IService;
 
 /**
  * The Interface ICRUDSService.

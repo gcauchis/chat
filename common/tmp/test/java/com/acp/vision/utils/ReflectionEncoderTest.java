@@ -1,4 +1,4 @@
-package com.acp.vision.utils;
+package com.gc.common.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -21,11 +21,11 @@ import com.acp.provider.message.aggregate.CardInfo;
 import com.acp.provider.message.aggregate.ContractHolder;
 import com.acp.provider.message.crypto.encrypter.CardInfoEncrypter;
 import com.acp.provider.message.crypto.encrypter.ContractHolderEncrypter;
-import com.acp.vision.encoder.AbstractObjectEncoder;
-import com.acp.vision.encoder.IReflectionEncoder;
-import com.acp.vision.encoder.impl.ReflectionEncoder;
-import com.acp.vision.utils.test.entities.ObjectToEncode;
-import com.acp.vision.utils.test.entities.SpecificObjectToEncodeEncoder;
+import com.gc.common.encoder.AbstractObjectEncoder;
+import com.gc.common.encoder.IReflectionEncoder;
+import com.gc.common.encoder.impl.ReflectionEncoder;
+import com.gc.common.utils.test.entities.ObjectToEncode;
+import com.gc.common.utils.test.entities.SpecificObjectToEncodeEncoder;
 
 public class ReflectionEncoderTest {
 

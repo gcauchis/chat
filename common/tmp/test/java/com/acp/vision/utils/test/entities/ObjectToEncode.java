@@ -1,4 +1,4 @@
-package com.acp.vision.utils.test.entities;
+package com.gc.common.utils.test.entities;
 
 /**
  * The Class ObjectToEncode.

@@ -9,16 +9,16 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.acp.vision.dal.dao.api.IGenericDAO;
-import com.acp.vision.dal.exception.DAOException;
-import com.acp.vision.dal.exception.DTOAlreadyExistsException;
-import com.acp.vision.dal.exception.DTONotFoundException;
-import com.acp.vision.dal.exception.DTONullPropertyException;
-import com.acp.vision.dal.service.ICRUDSService;
-import com.acp.vision.exception.ServiceException;
-import com.acp.vision.exception.ServiceException.EServiceExceptionType;
-import com.acp.vision.model.api.AbstractID;
-import com.acp.vision.model.api.IID;
+import com.gc.common.dal.dao.api.IGenericDAO;
+import com.gc.common.dal.exception.DAOException;
+import com.gc.common.dal.exception.DTOAlreadyExistsException;
+import com.gc.common.dal.exception.DTONotFoundException;
+import com.gc.common.dal.exception.DTONullPropertyException;
+import com.gc.common.dal.service.ICRUDSService;
+import com.gc.common.exception.ServiceException;
+import com.gc.common.exception.ServiceException.EServiceExceptionType;
+import com.gc.common.model.api.AbstractID;
+import com.gc.common.model.api.IID;
 
 /**
  * The Class AbstractCRUDSService.
@@ -58,7 +58,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.service.ILoggable#getLog()
+     * @see com.gc.common.service.ILoggable#getLog()
      */
     public Logger getLog() {
         if (log == null) {
@@ -70,7 +70,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#create(com.acp.vision.model.api.IID)
+     * @see com.gc.common.dal.service.ICRUDSService#create(com.gc.common.model.api.IID)
      */
     public void create(ID id) throws DTONullPropertyException, DTOAlreadyExistsException, ServiceException {
         getLog().debug("Creating '{}' [{}]", idClass.toString(), id.toString());
@@ -85,7 +85,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#delete(com.acp.vision.model.api.IID)
+     * @see com.gc.common.dal.service.ICRUDSService#delete(com.gc.common.model.api.IID)
      */
     public void delete(ID id) throws DTONullPropertyException, DTONotFoundException, ServiceException {
         if (id != null) {
@@ -101,7 +101,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#getAO()
+     * @see com.gc.common.dal.service.ICRUDSService#getAO()
      */
     public IGenericDAO < ID, ID_TYPE > getAO() {
         return this.idAO;
@@ -110,7 +110,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#getAll()
+     * @see com.gc.common.dal.service.ICRUDSService#getAll()
      */
     public List < ID > getAll() throws ServiceException {
         getLog().debug("Getting all '{}'", idClass.toString());
@@ -125,7 +125,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#getAll(int, int)
+     * @see com.gc.common.dal.service.ICRUDSService#getAll(int, int)
      */
     public List < ID > getAll(int firstResult, int maxResults) throws ServiceException {
         getLog().debug("Getting all '{}'", idClass.toString());
@@ -139,7 +139,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#getAllId()
+     * @see com.gc.common.dal.service.ICRUDSService#getAllId()
      */
     public List < ID_TYPE > getAllId() throws ServiceException {
         return getAO().getAllId();
@@ -148,7 +148,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#getAllNumber()
+     * @see com.gc.common.dal.service.ICRUDSService#getAllNumber()
      */
     public long getAllNumber() throws ServiceException {
         getLog().debug("Getting number of row for '{}'", idClass.toString());
@@ -162,7 +162,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#getFromExample(com.acp.vision.model.api.IID)
+     * @see com.gc.common.dal.service.ICRUDSService#getFromExample(com.gc.common.model.api.IID)
      */
     public List < ID > getFromExample(ID example) throws ServiceException {
         getLog().debug("Getting '{}' by example", idClass.toString());
@@ -176,7 +176,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#getFromExample(com.acp.vision.model.api.IID,
+     * @see com.gc.common.dal.service.ICRUDSService#getFromExample(com.gc.common.model.api.IID,
      *      int, int)
      */
     public List < ID > getFromExample(ID example, int firstResult, int maxResults) throws ServiceException {
@@ -191,7 +191,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#getFromExampleNumber(com.acp.vision.model.api.IID)
+     * @see com.gc.common.dal.service.ICRUDSService#getFromExampleNumber(com.gc.common.model.api.IID)
      */
     public long getFromExampleNumber(ID example) throws ServiceException {
         getLog().debug("Getting number of row for '{}' using example '{}'", idClass.toString(), example.toString());
@@ -205,7 +205,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#getFromID(java.io.Serializable)
+     * @see com.gc.common.dal.service.ICRUDSService#getFromID(java.io.Serializable)
      */
     public ID getFromID(ID_TYPE id) throws ServiceException {
         getLog().debug("Getting '{}' with ID '{}'", idClass.toString(), id);
@@ -219,7 +219,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#setAO(com.acp.vision.dal.dao.api.IGenericDAO)
+     * @see com.gc.common.dal.service.ICRUDSService#setAO(com.gc.common.dal.dao.api.IGenericDAO)
      */
     public void setAO(IGenericDAO < ID, ID_TYPE > idAO) {
         this.idAO = idAO;
@@ -228,7 +228,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#update(com.acp.vision.model.api.IID)
+     * @see com.gc.common.dal.service.ICRUDSService#update(com.gc.common.model.api.IID)
      */
     public void update(ID id) throws DTONullPropertyException, DTONotFoundException, ServiceException {
         getLog().debug("Updating '{}' [{}]", idClass.toString(), id.toString());
@@ -242,14 +242,14 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#buildTO()
+     * @see com.gc.common.dal.service.ICRUDSService#buildTO()
      */
     public abstract ID buildTO();
 
     /**
      * {@inheritDoc}
      * 
-     * @see com.acp.vision.dal.service.ICRUDSService#evict(com.acp.vision.model.api.IID)
+     * @see com.gc.common.dal.service.ICRUDSService#evict(com.gc.common.model.api.IID)
      */
     public void evict(ID id) {
         this.getAO().evict(id);
@@ -274,7 +274,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.dal.service.ICRUDSService#searchAllFromCriteria(org.hibernate.criterion.DetachedCriteria)
+     * @see com.gc.common.dal.service.ICRUDSService#searchAllFromCriteria(org.hibernate.criterion.DetachedCriteria)
      */
     public List < ID > searchAllFromCriteria(DetachedCriteria criteria) {
         List < ID > liste = getAO().searchByCriteria(criteria);
@@ -286,7 +286,7 @@ public abstract class AbstractCRUDSService < ID extends IID < ID_TYPE >, ID_TYPE
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.dal.service.ICRUDSService#searchFromCriteria(org.hibernate.criterion.DetachedCriteria)
+     * @see com.gc.common.dal.service.ICRUDSService#searchFromCriteria(org.hibernate.criterion.DetachedCriteria)
      */
     public ID searchFromCriteria(DetachedCriteria criteria) {
         List < ID > liste = getAO().searchByCriteria(criteria);

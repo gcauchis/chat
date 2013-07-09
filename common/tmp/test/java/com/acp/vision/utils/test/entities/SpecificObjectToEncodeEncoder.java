@@ -1,4 +1,4 @@
-package com.acp.vision.utils.test.entities;
+package com.gc.common.utils.test.entities;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -13,7 +13,7 @@ public class SpecificObjectToEncodeEncoder
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.utils.test.entities.AbstractObjectToEncodeEncoder#spcificEncodeObject(com.acp.vision.utils.test.entities.ObjectToEncode, com.acp.common.crypto.api.IStringEncoder)
+     * @see com.gc.common.utils.test.entities.AbstractObjectToEncodeEncoder#spcificEncodeObject(com.gc.common.utils.test.entities.ObjectToEncode, com.acp.common.crypto.api.IStringEncoder)
      */
     @Override
     protected ObjectToEncode spcificEncodeObject(ObjectToEncode obj, IStringEncoder stringEncoder) throws EncoderException {

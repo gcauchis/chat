@@ -144,7 +144,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * (non-Javadoc)
      * 
      * @see
-     * com.acp.vision.encoder.IReflectionEncoder#addInterfacesToBlackList(java
+     * com.gc.common.encoder.IReflectionEncoder#addInterfacesToBlackList(java
      * .util.Collection)
      */
     @Override
@@ -157,7 +157,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * (non-Javadoc)
      * 
      * @see
-     * com.acp.vision.encoder.IReflectionEncoder#addToBlackList(java.util.Collection
+     * com.gc.common.encoder.IReflectionEncoder#addToBlackList(java.util.Collection
      * )
      */
     @Override
@@ -188,7 +188,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * (non-Javadoc)
      * 
      * @see
-     * com.acp.vision.encoder.IReflectionEncoder#encodeByReflection(java.lang
+     * com.gc.common.encoder.IReflectionEncoder#encodeByReflection(java.lang
      * .Object)
      */
     @Override
@@ -286,7 +286,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * (non-Javadoc)
      * 
      * @see
-     * com.acp.vision.encoder.IReflectionEncoder#encodeString(java.lang.String)
+     * com.gc.common.encoder.IReflectionEncoder#encodeString(java.lang.String)
      */
     @Override
     public String encodeString(final String value) {

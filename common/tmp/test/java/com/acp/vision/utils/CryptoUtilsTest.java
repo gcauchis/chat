@@ -1,4 +1,4 @@
-package com.acp.vision.utils;
+package com.gc.common.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;

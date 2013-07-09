@@ -1,10 +1,10 @@
-package com.acp.vision.utils.test.entities;
+package com.gc.common.utils.test.entities;
 
 import org.apache.commons.lang.StringUtils;
 
 import com.acp.common.crypto.api.IStringEncoder;
 import com.acp.common.crypto.exception.EncoderException;
-import com.acp.vision.encoder.AbstractObjectEncoder;
+import com.gc.common.encoder.AbstractObjectEncoder;
 
 /**
  * The Class AbstractObjectToEncodeEncoder.
@@ -14,7 +14,7 @@ public abstract class AbstractObjectToEncodeEncoder
 
     /*
      * (non-Javadoc)
-     * @see com.acp.vision.encoder.AbstractObjectEncoder#internalEncodeObject(java.lang.Object, com.acp.common.crypto.api.IStringEncoder)
+     * @see com.gc.common.encoder.AbstractObjectEncoder#internalEncodeObject(java.lang.Object, com.acp.common.crypto.api.IStringEncoder)
      */
     @Override
     protected ObjectToEncode internalEncodeObject(ObjectToEncode obj, IStringEncoder stringEncoder) throws EncoderException {

@@ -13,7 +13,7 @@ import org.springframework.orm.hibernate3.HibernateSystemException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.acp.common.api.IDataTransfertObject;
-import com.acp.vision.dal.exception.DAOException;
+import com.gc.common.dal.exception.DAOException;
 
 /**
  * The Class AbstractGenericHibernateDAO.
@@ -52,7 +52,7 @@ public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObje
   /**
    * {@inheritDoc}
    * 
-   * @see com.acp.vision.dal.dao.api.IGenericDAO#searchById(java.io.Serializable)
+   * @see com.gc.common.dal.dao.api.IGenericDAO#searchById(java.io.Serializable)
    */
   @SuppressWarnings("unchecked")
   public DTO searchById(ID id)
@@ -79,7 +79,7 @@ public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObje
   /**
    * {@inheritDoc}
    * 
-   * @see com.acp.vision.dal.dao.api.IGenericDAO#searchByCriteria(org.hibernate.criterion.DetachedCriteria)
+   * @see com.gc.common.dal.dao.api.IGenericDAO#searchByCriteria(org.hibernate.criterion.DetachedCriteria)
    */
   @SuppressWarnings("unchecked")
   public List<DTO> searchByCriteria(DetachedCriteria criteria) {
@@ -91,7 +91,7 @@ public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObje
   
   /**
    * {@inheritDoc}
-   * @see com.acp.vision.dal.dao.api.IGenericDAO#searchByProjectionCriteria(org.hibernate.criterion.DetachedCriteria)
+   * @see com.gc.common.dal.dao.api.IGenericDAO#searchByProjectionCriteria(org.hibernate.criterion.DetachedCriteria)
    */
   @SuppressWarnings("unchecked")
   public List<Object[]> searchByProjectionCriteria(DetachedCriteria criteria) {
@@ -104,7 +104,7 @@ public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObje
   /**
    * {@inheritDoc}
    * 
-   * @see com.acp.vision.dal.dao.api.IGenericDAO#searchByExample(com.acp.vision.model.api.IDataTransfertObject)
+   * @see com.gc.common.dal.dao.api.IGenericDAO#searchByExample(com.gc.common.model.api.IDataTransfertObject)
    */
   public List<DTO> searchByExample(final DTO dto)
       throws DAOException {
@@ -114,7 +114,7 @@ public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObje
   /**
    * {@inheritDoc}
    * 
-   * @see com.acp.vision.dal.dao.api.IGenericDAO#getSearchByExampleNumber(com.acp.vision.model.api.IDataTransfertObject)
+   * @see com.gc.common.dal.dao.api.IGenericDAO#getSearchByExampleNumber(com.gc.common.model.api.IDataTransfertObject)
    */
   public int getSearchByExampleNumber(final DTO dto) {
     getLog().debug("Gets number of result for '{}' using example '{}'", getDtoClass().getName(), dto.toString());
@@ -136,7 +136,7 @@ public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObje
   /**
    * {@inheritDoc}
    * 
-   * @see com.acp.vision.dal.dao.api.IGenericDAO#searchByExample(com.acp.vision.model.api.IDataTransfertObject, int, int)
+   * @see com.gc.common.dal.dao.api.IGenericDAO#searchByExample(com.gc.common.model.api.IDataTransfertObject, int, int)
    */
   @SuppressWarnings("unchecked")
   public List<DTO> searchByExample(final DTO dto, int firstResult, int maxResults)
@@ -161,7 +161,7 @@ public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObje
   /**
    * {@inheritDoc}
    * 
-   * @see com.acp.vision.dal.dao.api.IGenericDAO#searchAll()
+   * @see com.gc.common.dal.dao.api.IGenericDAO#searchAll()
    */
   @SuppressWarnings("unchecked")
   public List<DTO> searchAll() {
@@ -172,7 +172,7 @@ public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObje
   /**
    * {@inheritDoc}
    * 
-   * @see com.acp.vision.dal.dao.api.IGenericDAO#searchAll(int, int)
+   * @see com.gc.common.dal.dao.api.IGenericDAO#searchAll(int, int)
    */
   @SuppressWarnings("unchecked")
   public List<DTO> searchAll(int firstResult, int maxResults) {
@@ -195,7 +195,7 @@ public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObje
   /**
    * {@inheritDoc}
    * 
-   * @see com.acp.vision.dal.dao.api.IGenericDAO#getSearchAllNumber()
+   * @see com.gc.common.dal.dao.api.IGenericDAO#getSearchAllNumber()
    */
   public int getSearchAllNumber() {
     getLog().debug("Gets number of result for '{}'", getDtoClass().getName());
@@ -216,7 +216,7 @@ public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObje
   /**
    * {@inheritDoc}
    * 
-   * @see com.acp.vision.dal.dao.api.IGenericDAO#delete(java.io.Serializable)
+   * @see com.gc.common.dal.dao.api.IGenericDAO#delete(java.io.Serializable)
    */
   public void delete(ID id)
       throws DAOException {
@@ -226,7 +226,7 @@ public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObje
   /**
    * {@inheritDoc}
    * 
-   * @see com.acp.vision.dal.dao.api.IGenericDAO#delete(com.acp.vision.model.api.IDataTransfertObject)
+   * @see com.gc.common.dal.dao.api.IGenericDAO#delete(com.gc.common.model.api.IDataTransfertObject)
    */
   public void delete(DTO dto)
       throws DAOException {
@@ -247,7 +247,7 @@ public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObje
   /**
    * {@inheritDoc}
    * 
-   * @see com.acp.vision.dal.dao.api.IGenericDAO#createOrUpdate(com.acp.vision.model.api.IDataTransfertObject)
+   * @see com.gc.common.dal.dao.api.IGenericDAO#createOrUpdate(com.gc.common.model.api.IDataTransfertObject)
    */
   public void createOrUpdate(DTO dto)
       throws DAOException {
@@ -272,7 +272,7 @@ public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObje
   /**
    * {@inheritDoc}
    * 
-   * @see com.acp.vision.dal.dao.api.IGenericDAO#getAllId()
+   * @see com.gc.common.dal.dao.api.IGenericDAO#getAllId()
    */
   @SuppressWarnings("unchecked")
   public List<ID> getAllId() {
@@ -306,7 +306,7 @@ public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObje
   /**
    * {@inheritDoc}
    * 
-   * @see com.acp.vision.dal.dao.api.IGenericDAO#evict(com.acp.vision.model.api.IDataTransfertObject)
+   * @see com.gc.common.dal.dao.api.IGenericDAO#evict(com.gc.common.model.api.IDataTransfertObject)
    */
   public void evict(DTO dto) {
     this.getHibernateTemplate().evict(dto);
