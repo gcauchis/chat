@@ -178,6 +178,7 @@
         <dependency>
             <groupId>com.gc.irc</groupId>
             <artifactId>server-service-impl-file</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.gc.irc</groupId>
@@ -187,6 +188,7 @@
             <groupId>com.gc.irc</groupId>
 <!-- 			<artifactId>server-bridge-impl-jms</artifactId> -->
             <artifactId>server-bridge-impl-direct</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.wapmx.native</groupId>
