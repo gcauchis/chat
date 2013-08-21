@@ -30,7 +30,7 @@ public final class UserInformationScanner extends AbstractLoggable {
     private org.w3c.dom.Document mDocument;
 
     /** The list users. */
-    private Map<Integer, UserInformations> users = new ConcurrentHashMap<Integer, UserInformations>();
+    private Map<Long, UserInformations> users = new ConcurrentHashMap<Long, UserInformations>();
 
     /**
      * Instantiates a new user imformation scanner.
@@ -76,7 +76,7 @@ public final class UserInformationScanner extends AbstractLoggable {
      * 
      * @return the list user infomation
      */
-    public Map<Integer, UserInformations> getListUserInfomation() {
+    public Map<Long, UserInformations> getListUserInfomation() {
         return users;
     }
 

@@ -45,7 +45,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      *            the to id
      * @return the iRC message
      */
-    protected final Message buildSimplePrivateMessage(final User user, final String message, final int toId) {
+    protected final Message buildSimplePrivateMessage(final User user, final String message, final long toId) {
         return new MessageChatPrivate(user.getId(), Arrays.asList((IClientMessageLine) new BasicClientMessageLine(message)), toId);
     }
 

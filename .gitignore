@@ -6,4 +6,5 @@ Temp/
 activemq-data/
 mvn.log
 *.swp
+server/server-core/data/
 

@@ -28,7 +28,7 @@ public class MessageChat extends Message {
      * @param textColor
      *            the text color
      */
-    public MessageChat(final int userID, final List<IClientMessageLine> lines) {
+    public MessageChat(final long userID, final List<IClientMessageLine> lines) {
         super(userID);
         this.lines = lines;
     }

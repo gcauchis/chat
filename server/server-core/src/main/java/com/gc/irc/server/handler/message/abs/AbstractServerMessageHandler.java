@@ -57,7 +57,7 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
      *            the id
      * @return the user
      */
-    protected final User getUser(final int id) {
+    protected final User getUser(final long id) {
         return userManagement.getUser(id);
     }
 
@@ -101,7 +101,7 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
      * @param toId
      *            the to id
      */
-    protected final void sendTo(final Message message, final int toId) {
+    protected final void sendTo(final Message message, final long toId) {
         usersConnectionsManagement.sendTo(message, toId);
     }
 

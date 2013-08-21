@@ -27,13 +27,13 @@ import com.gc.irc.server.service.utils.UserInformationScanner;
 public class AuthenticationService extends AbstractLoggable implements IAuthenticationService {
 
     /** The last id. */
-    private int lastId;
+    private long lastId;
 
     /** The path fichier. */
     private final String pathFichier = "auth.xml";
 
     /** The list users. */
-    private Map<Integer, UserInformations> users;
+    private Map<Long, UserInformations> users;
 
     /**
      * Read the Users data.
@@ -53,7 +53,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
             getLog().warn("Fail to read xml file. If file didn't exist yet, don't worry with this error", e);
         }
         if (users == null) {
-        	users = new HashMap<Integer, UserInformations>();
+        	users = new HashMap<Long, UserInformations>();
         }
 
     }
@@ -71,7 +71,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
             getLog().info("Login already exist");
             return false;
         }
-        final int newId = getNewId();
+        final long newId = getNewId();
         users.put(newId, new UserInformations(newId, nickname, login, password));
         saveModification();
         return true;
@@ -85,7 +85,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
     private String generateXML() {
         String result = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\" ?>\n\n";
         result += "<IRCUsers lastId=\"" + lastId + "\">\n";
-        for (final Map.Entry<Integer, UserInformations> entry : users.entrySet()) {
+        for (final Map.Entry<Long, UserInformations> entry : users.entrySet()) {
             result += entry.getValue().toStringXML("\t");
         }
 
@@ -99,7 +99,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * 
      * @return the new id
      */
-    private int getNewId() {
+    private long getNewId() {
         lastId++;
         return lastId;
     }
@@ -110,7 +110,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * @see com.gc.irc.server.auth.AuthentificationInterface#getUser(int)
      */
     @Override
-    public UserInformations getUser(final int id) {
+    public UserInformations getUser(final long id) {
         return users.get(id);
     }
 
@@ -123,7 +123,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      */
     @Override
     public UserInformations logUser(final String login, final String password) {
-        for (final Map.Entry<Integer, UserInformations> entry : users.entrySet()) {
+        for (final Map.Entry<Long, UserInformations> entry : users.entrySet()) {
             if (entry.getValue().getLogin().equals(login) && entry.getValue().getPassword().equals(password)) {
                 return entry.getValue();
             }
@@ -167,7 +167,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * java.lang.String)
      */
     @Override
-    public void updateUserNickName(final int id, final String nickname) {
+    public void updateUserNickName(final long id, final String nickname) {
         final UserInformations user = getUser(id);
         if (user != null) {
             user.setNickname(nickname);
@@ -183,7 +183,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * java.lang.String)
      */
     @Override
-    public void updateUserPasword(final int id, final String password) {
+    public void updateUserPasword(final long id, final String password) {
         final UserInformations user = getUser(id);
         if (user != null) {
             user.setPassword(password);
@@ -200,7 +200,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      */
     @Override
     public boolean userLoginExist(final String login) {
-        for (final Map.Entry<Integer, UserInformations> entry : users.entrySet()) {
+        for (final Map.Entry<Long, UserInformations> entry : users.entrySet()) {
             if (entry.getValue().loginEquals(login)) {
                 return true;
             }

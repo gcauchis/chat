@@ -101,6 +101,11 @@
 				<artifactId>server-service-impl-file</artifactId>
 				<version>${irc.version}</version>
 			</dependency>
+                        <dependency>
+				<groupId>com.gc.irc</groupId>
+				<artifactId>server-service-impl-neo4j</artifactId>
+				<version>${irc.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>com.gc.irc</groupId>
 				<artifactId>server-bridge-api</artifactId>

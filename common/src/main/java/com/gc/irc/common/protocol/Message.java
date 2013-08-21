@@ -13,7 +13,7 @@ public class Message implements Serializable {
     private static final long serialVersionUID = -60278983013467149L;
 
     /** The from id. */
-    private int fromId; // the id of the user who sends the message
+    private long fromId; // the id of the user who sends the message
 
     /**
      * Instantiates a new iRC message.
@@ -23,7 +23,7 @@ public class Message implements Serializable {
      * @param type
      *            the type
      */
-    public Message(final int fromId) {
+    public Message(final long fromId) {
         this.fromId = fromId;
     }
 
@@ -32,7 +32,7 @@ public class Message implements Serializable {
      * 
      * @return the from id
      */
-    public int getFromId() {
+    public long getFromId() {
         return fromId;
     }
 
@@ -42,7 +42,7 @@ public class Message implements Serializable {
      * @param fromId
      *            the new from id
      */
-    protected void setFromId(final int fromId) {
+    protected void setFromId(final long fromId) {
         this.fromId = fromId;
     }
 

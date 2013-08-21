@@ -14,7 +14,7 @@ public class UserInformations extends AbstractLoggable {
     private boolean hasPictur = false;
 
     /** The id. */
-    private final int id;
+    private long id;
 
     /** The login. */
     private String login;
@@ -37,12 +37,19 @@ public class UserInformations extends AbstractLoggable {
      * @param password
      *            User's Password.
      */
-    public UserInformations(final int id, final String nickname, final String login, final String password) {
+    public UserInformations(final long id, final String nickname, final String login, final String password) {
         this.id = id;
         this.login = login;
         this.nickname = nickname;
         this.password = password;
         getLog().debug("New users " + id + ": login : " + login);
+    }
+    
+     public UserInformations(final String nickname, final String login, final String password) {
+        this.login = login;
+        this.nickname = nickname;
+        this.password = password;
+        getLog().debug("New users " + login);
     }
 
     /**
@@ -59,7 +66,7 @@ public class UserInformations extends AbstractLoggable {
      * @param hasPicture
      *            True if User have a Picture.
      */
-    public UserInformations(final int id, final String nickname, final String login, final String password, final boolean hasPicture) {
+    public UserInformations(final long id, final String nickname, final String login, final String password, final boolean hasPicture) {
         this(id, nickname, login, password);
         hasPictur = hasPicture;
     }
@@ -69,7 +76,7 @@ public class UserInformations extends AbstractLoggable {
      * 
      * @return the id
      */
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -175,6 +182,14 @@ public class UserInformations extends AbstractLoggable {
     public void setPassword(final String password) {
         getLog().debug("Change password " + this.password + " to " + password);
         this.password = password;
+    }
+
+    public void setHasPictur(boolean hasPictur) {
+        this.hasPictur = hasPictur;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**

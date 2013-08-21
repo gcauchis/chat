@@ -28,7 +28,7 @@ public class UserPictureService extends AbstractLoggable implements IUserPicture
      * com.gc.irc.server.persistance.GestionPictureInterface#getPictureOf(int)
      */
     @Override
-    public synchronized MessageItemPicture getPictureOf(final int idUser) {
+    public synchronized MessageItemPicture getPictureOf(final long idUser) {
         getLog().debug("Get pictur of " + idUser);
         MessageItemPicture image = null;
         ObjectInputStream ois = null;
@@ -60,7 +60,7 @@ public class UserPictureService extends AbstractLoggable implements IUserPicture
      * com.gc.irc.common.protocol.item.IRCMessageItemPicture)
      */
     @Override
-    public synchronized boolean newPicture(final int idUser, final MessageItemPicture image) {
+    public synchronized boolean newPicture(final long idUser, final MessageItemPicture image) {
         getLog().debug("Add pictur");
         try {
             final FileOutputStream fichier = new FileOutputStream(idUser + ".ser");

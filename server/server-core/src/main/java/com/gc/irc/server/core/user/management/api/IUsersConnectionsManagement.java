@@ -36,7 +36,7 @@ public interface IUsersConnectionsManagement extends ILoggable {
      *            User's Id.
      * @return The Designed User's Thread.
      */
-    IGestionClientBean getGestionClientBeanOfUser(final int id);
+    IGestionClientBean getGestionClientBeanOfUser(final long id);
 
     /**
      * Add the login client to the Client's list.
@@ -62,5 +62,5 @@ public interface IUsersConnectionsManagement extends ILoggable {
      * @param toId
      *            the to id
      */
-    void sendTo(final Message message, final int toId);
+    void sendTo(final Message message, final long toId);
 }

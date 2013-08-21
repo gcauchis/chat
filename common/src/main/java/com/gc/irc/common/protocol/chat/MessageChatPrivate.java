@@ -16,7 +16,7 @@ public class MessageChatPrivate extends MessageChat {
     private int cptPersist = 0;
 
     /** The to id. */
-    private int toId = -1;
+    private long toId = -1;
 
     /**
      * Instantiates a new iRC message chat private.
@@ -28,7 +28,7 @@ public class MessageChatPrivate extends MessageChat {
      * @param textColor
      *            the text color
      */
-    public MessageChatPrivate(final int userID, final List<IClientMessageLine> lines) {
+    public MessageChatPrivate(final long userID, final List<IClientMessageLine> lines) {
         super(userID, lines);
     }
 
@@ -44,7 +44,7 @@ public class MessageChatPrivate extends MessageChat {
      * @param textColor
      *            the text color
      */
-    public MessageChatPrivate(final int userID, final List<IClientMessageLine> lines, final int toId) {
+    public MessageChatPrivate(final long userID, final List<IClientMessageLine> lines, final long toId) {
         this(userID, lines);
         this.toId = toId;
     }
@@ -54,7 +54,7 @@ public class MessageChatPrivate extends MessageChat {
      * 
      * @return the to id
      */
-    public int getToId() {
+    public long getToId() {
         return toId;
     }
 

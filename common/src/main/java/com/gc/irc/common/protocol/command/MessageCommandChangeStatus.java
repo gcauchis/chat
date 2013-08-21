@@ -21,7 +21,7 @@ public class MessageCommandChangeStatus extends MessageCommand {
      * @param newStatus
      *            the new status
      */
-    public MessageCommandChangeStatus(final int userId, final UserStatus newStatus) {
+    public MessageCommandChangeStatus(final long userId, final UserStatus newStatus) {
         super(userId);
         this.newStatus = newStatus;
     }

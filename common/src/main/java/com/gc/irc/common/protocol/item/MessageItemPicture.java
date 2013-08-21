@@ -27,7 +27,7 @@ public class MessageItemPicture extends Message {
      * @param image
      *            the image
      */
-    public MessageItemPicture(final int userId, final BufferedImage image) {
+    public MessageItemPicture(final long userId, final BufferedImage image) {
         super(userId);
         imageData = new SerializableBufferedImage(image);
     }

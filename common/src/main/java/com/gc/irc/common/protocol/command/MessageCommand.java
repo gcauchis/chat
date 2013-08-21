@@ -16,7 +16,7 @@ public class MessageCommand extends Message {
      * @param userId
      *            the user id
      */
-    protected MessageCommand(final int userId) {
+    protected MessageCommand(final long userId) {
         super(userId);
     }
 

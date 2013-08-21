@@ -35,7 +35,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
     private final List<IGestionClientBean> clientConnected = new LinkedList<IGestionClientBean>();
 
     /** The list thread client by id user. */
-    private final Map<Integer, IGestionClientBean> listThreadClientByIdUser = new ConcurrentHashMap<Integer, IGestionClientBean>();
+    private final Map<Long, IGestionClientBean> listThreadClientByIdUser = new ConcurrentHashMap<Long, IGestionClientBean>();
 
     /** The user management */
     private IUserManagement userManagement;
@@ -96,7 +96,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * #getGestionClientBeanOfUser(int)
      */
     @Override
-    public IGestionClientBean getGestionClientBeanOfUser(final int id) {
+    public IGestionClientBean getGestionClientBeanOfUser(final long id) {
         return listThreadClientByIdUser.get(id);
     }
 
@@ -162,7 +162,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * #sendTo(com.gc.irc.common.protocol.IRCMessage, int)
      */
     @Override
-    public void sendTo(final Message message, final int toId) {
+    public void sendTo(final Message message, final long toId) {
         final IGestionClientBean clientCible = getGestionClientBeanOfUser(toId);
         if (clientCible != null) {
             clientCible.sendMessageObjetInSocket(message);

@@ -16,7 +16,7 @@ public class User extends AbstractLoggable implements Serializable {
     private boolean hasPictur = false;
 
     /** The id. */
-    private final int id;
+    private final long id;
 
     /** The nick name. */
     private String nickName;
@@ -32,7 +32,7 @@ public class User extends AbstractLoggable implements Serializable {
      * @param nickName
      *            User's NickName.
      */
-    public User(final int id, final String nickName) {
+    public User(final long id, final String nickName) {
         this.id = id;
         this.nickName = nickName;
 
@@ -49,7 +49,7 @@ public class User extends AbstractLoggable implements Serializable {
      * @param hasPicture
      *            True if User has a picture.
      */
-    public User(final int id, final String nickName, final boolean hasPicture) {
+    public User(final long id, final String nickName, final boolean hasPicture) {
         this(id, nickName);
         hasPictur = hasPicture;
     }
@@ -71,7 +71,7 @@ public class User extends AbstractLoggable implements Serializable {
      * 
      * @return the id
      */
-    public int getId() {
+    public long getId() {
         return id;
     }
 

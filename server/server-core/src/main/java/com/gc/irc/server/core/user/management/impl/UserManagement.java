@@ -15,25 +15,26 @@ import com.gc.irc.server.persistance.PersiteUsers;
 
 @Component("userManagement")
 @Scope("singleton")
-public class UserManagement extends AbstractLoggable implements IUserManagement{
-	
-	 /** The list user by id. */
-    private final Map<Integer, User> listUserById = new ConcurrentHashMap<Integer, User>();
-    
-    public void disconnect(int id) {
-    	getLog().info("disconnect id={}", id);
-    	listUserById.remove(id);
-    	 persistStatus();
+public class UserManagement extends AbstractLoggable implements IUserManagement {
+
+    /** The list user by id. */
+    private final Map<Long, User> listUserById = new ConcurrentHashMap<Long, User>();
+
+    @Override
+    public void disconnect(long id) {
+        getLog().info("disconnect id={}", id);
+        listUserById.remove(id);
+        persistStatus();
     }
 
-	private void persistStatus() {
-		//TODO: Asynchronous
-		/**
+    private void persistStatus() {
+        //TODO: Asynchronous
+        /**
          * Persist the change.
          */
         PersiteUsers.persistListUser(getAllUsers());
-	}
-    
+    }
+
     @Override
     public List<User> getAllUsers() {
         List<User> list = null;
@@ -42,36 +43,35 @@ public class UserManagement extends AbstractLoggable implements IUserManagement{
         }
         return list;
     }
-    
+
     @Override
-    public User getUser(final int id) {
+    public User getUser(final long id) {
         return listUserById.get(id);
     }
 
-	@Override
-	public void newUserConnected(User user) {
-		listUserById.put(user.getId(), user);
-		persistStatus();
-	}
+    @Override
+    public void newUserConnected(User user) {
+        listUserById.put(user.getId(), user);
+        persistStatus();
+    }
 
-	@Override
-	public User changeUserNickname(int id, String nickname) {
-		User user = getUser(id);
-		user.setNickName(nickname);
-		persistStatus();
-		return user;
-	}
+    @Override
+    public User changeUserNickname(long id, String nickname) {
+        User user = getUser(id);
+        user.setNickName(nickname);
+        persistStatus();
+        return user;
+    }
 
-	@Override
-	public boolean isLogged(int id) {
-		return getUser(id) != null;
-	}
+    @Override
+    public boolean isLogged(long id) {
+        return getUser(id) != null;
+    }
 
-	@Override
-	public void changeUserHasPicture(int id) {
-		User user = getUser(id);
-		user.setHasPictur(true);
-		persistStatus();
-	}
-
+    @Override
+    public void changeUserHasPicture(long id) {
+        User user = getUser(id);
+        user.setHasPictur(true);
+        persistStatus();
+    }
 }

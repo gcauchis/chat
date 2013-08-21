@@ -184,7 +184,8 @@
         </dependency>
         <dependency>
             <groupId>com.gc.irc</groupId>
-            <artifactId>server-service-impl-file</artifactId>
+<!--            <artifactId>server-service-impl-file</artifactId>-->
+            <artifactId>server-service-impl-neo4j</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>

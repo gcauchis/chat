@@ -20,7 +20,7 @@ public interface IUserPictureService extends ILoggable {
      *            New Image
      * @return True if the Picture is Save successfully
      */
-    boolean newPicture(int idUser, MessageItemPicture image);
+    boolean newPicture(long idUser, MessageItemPicture image);
 
     /**
      * Get the Picture of the Designed User.
@@ -29,6 +29,6 @@ public interface IUserPictureService extends ILoggable {
      *            Id of the User
      * @return The Picture of the user.
      */
-    MessageItemPicture getPictureOf(int idUser);
+    MessageItemPicture getPictureOf(long idUser);
 
 }

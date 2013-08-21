@@ -1,5 +1,6 @@
 package com.gc.irc.server.service.neo4j.impl;
 
+import com.gc.irc.common.abs.AbstractLoggable;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -7,22 +8,16 @@ import com.gc.irc.common.protocol.item.MessageItemPicture;
 import com.gc.irc.server.service.api.IUserPictureService;
 
 @Service("userPictureManagement")
-public class UserPictureService implements IUserPictureService {
+public class UserPictureService extends AbstractLoggable implements IUserPictureService {
 
 	@Override
-	public Logger getLog() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean newPicture(int idUser, MessageItemPicture image) {
+	public boolean newPicture(long idUser, MessageItemPicture image) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public MessageItemPicture getPictureOf(int idUser) {
+	public MessageItemPicture getPictureOf(long idUser) {
 		// TODO Auto-generated method stub
 		return null;
 	}
