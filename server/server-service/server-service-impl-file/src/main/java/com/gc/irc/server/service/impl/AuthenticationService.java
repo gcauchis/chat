@@ -38,10 +38,6 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
     /** The path fichier. */
     private final String pathFichier = "auth.xml";
 
-    /** The user picture service. */
-    @Autowired
-    private IUserPictureService userPictureService;
-
     /** The list users. */
     private Map<Integer, UserInformations> users;
 
@@ -76,7 +72,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * , java.lang.String, java.lang.String)
      */
     @Override
-    public boolean addUser(final String login, final String password, final String nickname) {
+    public boolean addNewUser(final String login, final String password, final String nickname) {
         if (userLoginExist(login)) {
             getLog().info("Login already exist");
             return false;
@@ -132,13 +128,10 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * , java.lang.String)
      */
     @Override
-    public User logUser(final String login, final String password) {
+    public UserInformations logUser(final String login, final String password) {
         for (final Map.Entry<Integer, UserInformations> entry : users.entrySet()) {
             if (entry.getValue().getLogin().equals(login) && entry.getValue().getPassword().equals(password)) {
-                if (entry.getValue().isConnected()) {
-                    return null;
-                }
-                return entry.getValue().getUser();
+                return entry.getValue();
             }
         }
         return null;
@@ -163,32 +156,6 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
 		saveModification();
 	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.gc.irc.server.auth.AuthentificationInterface#sendUsersPicture(java
-     * .io.ObjectOutputStream)
-     */
-    @Override
-    public synchronized void sendUsersPicture(final ObjectOutputStream outObject) {
-        MessageItemPicture messagePicture;
-        for (final Map.Entry<Integer, UserInformations> entry : users.entrySet()) {
-            if (entry.getValue().isConnected() && entry.getValue().hasPictur()) {
-                messagePicture = userPictureService.getPictureOf(entry.getValue().getId());
-                if (messagePicture != null) {
-                    try {
-                        IOStreamUtils.sendMessage(outObject, messagePicture);
-                    } catch (final IOException e) {
-                        getLog().warn("Fail to send the picture of " + entry.getValue().getNickname() + " : ", e);
-                    }
-                } else {
-                    getLog().warn("Fail to open the picture of {}", entry.getValue().getNickname());
-                }
-            }
-        }
-    }
-
     /**
      * Sets the last id.
      * 
@@ -197,16 +164,6 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      */
     private void setLastId(final int lastId) {
         this.lastId = lastId;
-    }
-
-    /**
-     * Sets the user picture service.
-     * 
-     * @param userPictureService
-     *            the new user picture service
-     */
-    public void setUserPictureService(final IUserPictureService userPictureService) {
-        this.userPictureService = userPictureService;
     }
 
     /*

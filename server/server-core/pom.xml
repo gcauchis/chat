@@ -29,6 +29,13 @@
                 <configuration>
                     <!--<forkMode>pertest</forkMode> -->
                     <argLine>-Xms512M -Xmx1024M -XX:PermSize=64M -XX:MaxPermSize=128M</argLine>
+                    <systemproperties>  
+				         <property>  
+					           <!-- Specific log4j config for tests -->  
+					           <name>log4j.configuration</name>  
+					           <value>test-log4j.xml</value>  
+				         </property>  
+			       </systemproperties>  
                 </configuration>
             </plugin>
             <plugin>

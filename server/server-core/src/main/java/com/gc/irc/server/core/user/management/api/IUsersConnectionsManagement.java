@@ -23,13 +23,6 @@ public interface IUsersConnectionsManagement extends ILoggable {
     void disconnectClient(final IGestionClientBean client);
 
     /**
-     * Get the users Connected list.
-     * 
-     * @return The list of all the connected users.
-     */
-    List<User> getAllUsers();
-
-    /**
      * Get the Thread list of connected client.
      * 
      * @return Client's thread list.
@@ -44,15 +37,6 @@ public interface IUsersConnectionsManagement extends ILoggable {
      * @return The Designed User's Thread.
      */
     IGestionClientBean getGestionClientBeanOfUser(final int id);
-
-    /**
-     * Get the user demand if he is connected.
-     * 
-     * @param id
-     *            User's Id.
-     * @return The User selected or null if not find.
-     */
-    User getUser(final int id);
 
     /**
      * Add the login client to the Client's list.

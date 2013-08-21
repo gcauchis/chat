@@ -25,6 +25,7 @@ public class MessageItemPictureHandler extends AbstractServerCommandMessageHandl
         if (userInfo != null) {
             userInfo.setHasPicture(true);
             getAuthenticationService().update(userInfo);
+            getUserManagement().changeUserHasPicture(message.getFromId());
         } else {
             getLog().warn("User null");
         }

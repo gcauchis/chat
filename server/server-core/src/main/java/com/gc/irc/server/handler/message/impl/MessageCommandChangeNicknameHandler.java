@@ -22,8 +22,9 @@ public class MessageCommandChangeNicknameHandler extends AbstractServerCommandMe
     protected void internalHandle(MessageCommandChangeNickname message) {
         User sender = getSender(message);
         if (sender != null) {
-            getAuthenticationService().updateUserNickName(message.getFromId(), message.getNewNickname());
-            sendToAllUsers(new MessageNoticeContactInfo(getAuthenticationService().getUser(message.getFromId()).getUser()));
+            getAuthenticationService().updateUserNickName(sender.getId(), message.getNewNickname());
+            sender = getUserManagement().changeUserNickname(sender.getId(),  message.getNewNickname());
+            sendToAllUsers(new MessageNoticeContactInfo(sender));
         } else {
             getLog().warn("user doesn't exist.");
         }

@@ -8,13 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;
+import com.gc.irc.server.core.user.management.api.IUserManagement;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
+import com.gc.irc.server.core.user.management.api.UserManagementAware;
 import com.gc.irc.server.handler.message.api.IServerMessageHandler;
 
 /**
  * The Class AbstractServerMessageHandler.
  */
-public abstract class AbstractServerMessageHandler<MSG extends Message> extends AbstractLoggable implements IServerMessageHandler {
+public abstract class AbstractServerMessageHandler<MSG extends Message> extends AbstractLoggable implements IServerMessageHandler, UserManagementAware {
 
     /** The msg class. */
     private Class<MSG> msgClass;
@@ -22,6 +24,8 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
     /** The users connections management. */
     @Autowired
     private IUsersConnectionsManagement usersConnectionsManagement;
+    
+    private IUserManagement userManagement;
 
     /**
      * Instantiates a new abstract server message handler.
@@ -45,7 +49,7 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
     protected final User getSender(final Message message) {
         return getUser(message.getFromId());
     }
-
+    
     /**
      * Gets the user.
      * 
@@ -54,7 +58,7 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
      * @return the user
      */
     protected final User getUser(final int id) {
-        return usersConnectionsManagement.getUser(id);
+        return userManagement.getUser(id);
     }
 
     /*
@@ -118,5 +122,15 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
     public final void setUsersConnectionsManagement(final IUsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
+    
+    @Override
+	@Autowired
+	public void setUserManagement(IUserManagement userManagement) {
+		this.userManagement = userManagement;
+	}
+    
+    protected IUserManagement getUserManagement() {
+		return userManagement;
+	}
 
 }

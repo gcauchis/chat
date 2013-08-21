@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;
+import com.gc.irc.server.core.user.management.api.IUserManagement;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
+import com.gc.irc.server.core.user.management.api.UserManagementAware;
 import com.gc.irc.server.persistance.PersiteUsers;
 import com.gc.irc.server.service.api.IAuthenticationService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
@@ -23,7 +25,7 @@ import com.gc.irc.server.thread.api.IGestionClientBean;
  */
 @Component("usersConnectionsManagement")
 @Scope("singleton")
-public class UsersConnectionsManagement extends AbstractLoggable implements IUsersConnectionsManagement {
+public class UsersConnectionsManagement extends AbstractLoggable implements IUsersConnectionsManagement, UserManagementAware {
 
     /** The authentication service. */
     @Autowired
@@ -35,8 +37,8 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
     /** The list thread client by id user. */
     private final Map<Integer, IGestionClientBean> listThreadClientByIdUser = new ConcurrentHashMap<Integer, IGestionClientBean>();
 
-    /** The list user by id. */
-    private final Map<Integer, User> listUserById = new ConcurrentHashMap<Integer, User>();
+    /** The user management */
+    private IUserManagement userManagement;
 
     /*
      * (non-Javadoc)
@@ -63,39 +65,15 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
     public void disconnectClient(final IGestionClientBean client) {
         getLog().debug("Delete the deconnected Client : " + client.getUser().getNickName());
         synchronized (clientConnected) {
-            synchronized (listUserById) {
-                synchronized (listThreadClientByIdUser) {
-                    getLog().debug("Remove from list clientConnecter");
-                    clientConnected.remove(client);
-                    getLog().debug("Remove from listUserConnectedById");
-                    listUserById.remove(client.getUser().getId());
-                    getLog().debug("Remove from lisThreadClientByIdUser");
-                    listThreadClientByIdUser.remove(client.getUser().getId());
-                }
+            synchronized (listThreadClientByIdUser) {
+                getLog().debug("Remove from list clientConnecter");
+                clientConnected.remove(client);
+                getLog().debug("Remove from listUserConnectedById");
+                userManagement.disconnect(client.getUser().getId());
+                getLog().debug("Remove from lisThreadClientByIdUser");
+                listThreadClientByIdUser.remove(client.getUser().getId());
             }
         }
-
-        /**
-         * Persist the change.
-         */
-        PersiteUsers.persistListUser(getAllUsers());
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.gc.irc.server.core.user.management.api.IUserConnectionsManagement
-     * #getAllUsers()
-     */
-    @Override
-    public List<User> getAllUsers() {
-        List<User> list = null;
-        synchronized (listUserById) {
-            list = new ArrayList<User>(listUserById.values());
-        }
-        return list;
     }
 
     /*
@@ -122,17 +100,6 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
         return listThreadClientByIdUser.get(id);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.gc.irc.server.core.user.management.api.IUserConnectionsManagement
-     * #getUser(int)
-     */
-    @Override
-    public User getUser(final int id) {
-        return listUserById.get(id);
-    }
 
     /*
      * (non-Javadoc)
@@ -145,23 +112,15 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
     public void newClientConnected(final IGestionClientBean client) {
         getLog().debug("Add a new Connected Client : " + client.getUser().getNickName());
         synchronized (clientConnected) {
-            synchronized (listUserById) {
-                synchronized (listThreadClientByIdUser) {
-                    getLog().debug("Add to clientConnecter");
-                    clientConnected.add(client);
-                    getLog().debug("Add to listThreadClientByIdUser");
-                    listThreadClientByIdUser.put(client.getUser().getId(), client);
-                    getLog().debug("Add to listUserById");
-                    listUserById.put(client.getUser().getId(), client.getUser());
-                }
+            synchronized (listThreadClientByIdUser) {
+                getLog().debug("Add to clientConnecter");
+                clientConnected.add(client);
+                getLog().debug("Add to listThreadClientByIdUser");
+                listThreadClientByIdUser.put(client.getUser().getId(), client);
+                getLog().debug("Add to listUserById");
+                userManagement.newUserConnected(client.getUser());
             }
         }
-
-        /**
-         * Persist the change.
-         */
-        PersiteUsers.persistListUser(getAllUsers());
-
     }
 
     /*
@@ -193,7 +152,6 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
         } else {
             getLog().warn(" Inexisting source ID");
         }
-
     }
 
     /*
@@ -209,7 +167,6 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
         if (clientCible != null) {
             clientCible.sendMessageObjetInSocket(message);
         }
-
     }
 
     /**
@@ -219,5 +176,11 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
     public void setAuthenticationService(final IAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
+
+	@Override
+	@Autowired
+	public void setUserManagement(IUserManagement userManagement) {
+		this.userManagement = userManagement;
+	}
 
 }

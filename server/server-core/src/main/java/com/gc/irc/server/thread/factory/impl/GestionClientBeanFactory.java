@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.server.bridge.api.IServerBridgeProducer;
+import com.gc.irc.server.core.user.management.api.IUserManagement;
+import com.gc.irc.server.core.user.management.api.IUserPicturesManagement;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
+import com.gc.irc.server.core.user.management.api.UserManagementAware;
 import com.gc.irc.server.service.api.IAuthenticationService;
 import com.gc.irc.server.service.api.IUserPictureService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
@@ -20,7 +23,7 @@ import com.gc.irc.server.thread.impl.GestionClientBean;
  */
 @Component("gestionClientBeanFactory")
 @Scope("singleton")
-public class GestionClientBeanFactory extends AbstractLoggable implements IGestionClientBeanFactory {
+public class GestionClientBeanFactory extends AbstractLoggable implements IGestionClientBeanFactory, UserManagementAware {
 
     /** The authentication service. */
     @Autowired
@@ -37,6 +40,13 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
     /** The users connections management. */
     @Autowired
     private IUsersConnectionsManagement usersConnectionsManagement;
+    
+    /** The users pictures management. */
+    @Autowired
+    private IUserPicturesManagement userPicturesManagement;
+    
+    /** The user management */
+    private IUserManagement userManagement;
 
     /*
      * (non-Javadoc)
@@ -51,6 +61,8 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
         gestionClientBean.setServerBridgeProducer(serverBridgeProducer);
         gestionClientBean.setAuthenticationService(authenticationService);
         gestionClientBean.setUserPictureService(userPictureService);
+        gestionClientBean.setUserManagement(userManagement);
+        gestionClientBean.setUserPicturesManagement(userPicturesManagement);
         return gestionClientBean;
     }
 
@@ -101,5 +113,15 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
     public void setUsersConnectionsManagement(final IUsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
+    
+    @Override
+	@Autowired
+	public void setUserManagement(IUserManagement userManagement) {
+		this.userManagement = userManagement;
+	}
+
+	public void setUserPicturesManagement(IUserPicturesManagement userPicturesManagement) {
+		this.userPicturesManagement = userPicturesManagement;
+	}
 
 }

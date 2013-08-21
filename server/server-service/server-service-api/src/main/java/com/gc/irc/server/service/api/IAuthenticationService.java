@@ -2,7 +2,6 @@ package com.gc.irc.server.service.api;
 
 import java.io.ObjectOutputStream;
 
-import com.gc.irc.common.entity.User;
 import com.gc.irc.server.model.UserInformations;
 
 /**
@@ -24,7 +23,7 @@ public interface IAuthenticationService {
      *            User's NickName
      * @return If user add true, else false.
      */
-    boolean addUser(String login, String password, String nickname);
+    boolean addNewUser(String login, String password, String nickname);
 
     /**
      * Change the Nickname of the User.
@@ -64,8 +63,7 @@ public interface IAuthenticationService {
      *            User's Password.
      * @return The user if login succeed. Null if login fail.
      */
-    User logUser(String login, String password);
-    
+    UserInformations logUser(String login, String password);
     
     /**
      * Update.
@@ -73,14 +71,6 @@ public interface IAuthenticationService {
      * @param userInformations the user informations
      */
     void update(UserInformations userInformations);
-
-    /**
-     * Send in the ObjectOutputStream the Picture of all the connected Users.
-     * 
-     * @param outObject
-     *            ObjectOutputStream of the new Client.
-     */
-    void sendUsersPicture(ObjectOutputStream outObject);
 
     /**
      * Test if new login is free.

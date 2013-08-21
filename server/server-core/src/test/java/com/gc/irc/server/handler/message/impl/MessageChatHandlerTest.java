@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.chat.MessageChat;
+import com.gc.irc.server.core.user.management.api.IUserManagement;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.handler.message.test.api.AbstractMessageHandlerTest;
 
@@ -20,6 +21,9 @@ public class MessageChatHandlerTest extends AbstractMessageHandlerTest<MessageCh
 
     /** The users connections management. */
     private IUsersConnectionsManagement usersConnectionsManagement;
+    
+    /** The user management */
+    private IUserManagement userManagement;
 
     /*
      * (non-Javadoc)
@@ -42,13 +46,13 @@ public class MessageChatHandlerTest extends AbstractMessageHandlerTest<MessageCh
     public void handle() {
         User sender = new User(1, "test");
         MessageChat messageChat = buildMessageInstance(1);
-        expect(usersConnectionsManagement.getUser(1)).andReturn(sender);
+        expect(userManagement.getUser(1)).andReturn(sender);
         usersConnectionsManagement.sendMessageToAllUsers(messageChat);
-        replay(usersConnectionsManagement);
+        replay(usersConnectionsManagement, userManagement);
 
         getMessageHandler().handle(messageChat);
 
-        verify(usersConnectionsManagement);
+        verify(usersConnectionsManagement, userManagement);
     }
 
     /**
@@ -57,12 +61,12 @@ public class MessageChatHandlerTest extends AbstractMessageHandlerTest<MessageCh
     @Test
     public void handleUserNotExit() {
         MessageChat messageChat = buildMessageInstance(1);
-        expect(usersConnectionsManagement.getUser(1)).andReturn(null);
-        replay(usersConnectionsManagement);
+        expect(userManagement.getUser(1)).andReturn(null);
+        replay(userManagement);
 
         getMessageHandler().handle(messageChat);
 
-        verify(usersConnectionsManagement);
+        verify(userManagement);
     }
 
     /**
@@ -73,6 +77,8 @@ public class MessageChatHandlerTest extends AbstractMessageHandlerTest<MessageCh
         MessageChatHandler ircMessageChatHandler = new MessageChatHandler();
         usersConnectionsManagement = createMock(IUsersConnectionsManagement.class);
         ircMessageChatHandler.setUsersConnectionsManagement(usersConnectionsManagement);
+        userManagement = createMock(IUserManagement.class);
+        ircMessageChatHandler.setUserManagement(userManagement);
         setMessageHandler(ircMessageChatHandler);
     }
 

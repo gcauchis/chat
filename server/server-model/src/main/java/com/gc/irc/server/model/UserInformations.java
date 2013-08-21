@@ -1,7 +1,6 @@
 package com.gc.irc.server.model;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.common.entity.User;
 
 /**
  * Represent a Client.
@@ -25,9 +24,6 @@ public class UserInformations extends AbstractLoggable {
 
     /** The password. */
     private String password;
-
-    /** The user. */
-    private User user = null;
 
     /**
      * Class Builder.
@@ -69,15 +65,6 @@ public class UserInformations extends AbstractLoggable {
     }
 
     /**
-     * Deconnected.
-     */
-    public void diconnected() {
-        getLog().debug(nickname + " is disconnected.");
-        user = null;
-
-    }
-
-    /**
      * Gets the id.
      * 
      * @return the id
@@ -114,33 +101,12 @@ public class UserInformations extends AbstractLoggable {
     }
 
     /**
-     * Get the User object use to communicate with the other client.
-     * 
-     * @return An User.
-     */
-    public synchronized User getUser() {
-        if (user == null) {
-            user = new User(id, nickname, hasPictur);
-        }
-        return user;
-    }
-
-    /**
      * Inform if user have a personal Picture.
      * 
      * @return True if have a picture.
      */
     public boolean hasPictur() {
         return hasPictur;
-    }
-
-    /**
-     * Checks if is connecte.
-     * 
-     * @return true, if is connecte
-     */
-    public boolean isConnected() {
-        return user != null;
     }
 
     /**
@@ -176,9 +142,6 @@ public class UserInformations extends AbstractLoggable {
     public void setHasPicture(final boolean havePicture) {
         getLog().debug("Change havePicture " + hasPictur + " to " + havePicture);
         hasPictur = havePicture;
-        if (user != null) {
-            user.setHasPictur(havePicture);
-        }
     }
 
     /**
@@ -201,9 +164,6 @@ public class UserInformations extends AbstractLoggable {
     public void setNickname(final String nickname) {
         getLog().debug("Change nickname " + this.nickname + " to " + nickname);
         this.nickname = nickname;
-        if (user != null) {
-            user.setNickName(nickname);
-        }
     }
 
     /**

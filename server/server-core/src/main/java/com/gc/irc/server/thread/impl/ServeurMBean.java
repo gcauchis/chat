@@ -2,13 +2,17 @@ package com.gc.irc.server.thread.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.gc.irc.common.abs.AbstractRunnable;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.bridge.api.IServerBridgeConsumer;
 import com.gc.irc.server.bridge.api.IServerBridgeConsumerFactory;
 import com.gc.irc.server.bridge.api.ServerBridgeException;
+import com.gc.irc.server.core.user.management.api.IUserManagement;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
+import com.gc.irc.server.core.user.management.api.UserManagementAware;
 import com.gc.irc.server.handler.message.api.IServerMessageHandler;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 import com.gc.irc.server.thread.api.IServeurMBean;
@@ -19,7 +23,7 @@ import com.gc.irc.server.thread.api.IServeurMBean;
  * @author gcauchis
  * 
  */
-public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
+public class ServeurMBean extends AbstractRunnable implements IServeurMBean,UserManagementAware {
 
     /** The nb message. */
     private static Long nbMessage = 0L;
@@ -51,6 +55,9 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
 
     /** The parent. */
     private IUsersConnectionsManagement usersConnectionsManagement;
+    
+    /** The user management */
+    private IUserManagement userManagement;
 
     /**
      * Builds the message consumer.
@@ -116,8 +123,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
     @Override
     public String getUserList() {
         String result = "";
-
-        for (final User u : usersConnectionsManagement.getAllUsers()) {
+        for (final User u : userManagement.getAllUsers()) {
             result += u.getId() + " : " + u.getNickName() + " | ";
         }
 
@@ -244,5 +250,11 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean {
             buildMessageConsumer();
         }
     }
+    
+    @Override
+	@Autowired
+	public void setUserManagement(IUserManagement userManagement) {
+		this.userManagement = userManagement;
+	}
 
 }

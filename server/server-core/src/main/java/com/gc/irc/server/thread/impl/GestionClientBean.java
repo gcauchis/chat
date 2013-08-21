@@ -6,6 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.gc.irc.common.abs.AbstractRunnable;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.entity.UserStatus;
@@ -24,8 +26,12 @@ import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.server.bridge.api.IServerBridgeProducer;
 import com.gc.irc.server.bridge.api.ServerBridgeException;
 import com.gc.irc.server.core.ServerCore;
+import com.gc.irc.server.core.user.management.api.IUserManagement;
+import com.gc.irc.server.core.user.management.api.IUserPicturesManagement;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
+import com.gc.irc.server.core.user.management.api.UserManagementAware;
 import com.gc.irc.server.exception.ServerException;
+import com.gc.irc.server.model.UserInformations;
 import com.gc.irc.server.service.api.IAuthenticationService;
 import com.gc.irc.server.service.api.IUserPictureService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
@@ -36,7 +42,7 @@ import com.gc.irc.server.thread.api.IGestionClientBean;
  * @author gcauchis
  * 
  */
-public class GestionClientBean extends AbstractRunnable implements IGestionClientBean {
+public class GestionClientBean extends AbstractRunnable implements IGestionClientBean, UserManagementAware {
 
     /** The nb thread. */
     private static int nbThread = 0;
@@ -53,6 +59,9 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
 
     /** The authentication service. */
     private IAuthenticationService authenticationService;
+    
+    /** The user management */
+    private IUserManagement userManagement;
 
     /** The client socket. */
     private final Socket clientSocket;
@@ -80,6 +89,9 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
 
     /** The users connections management. */
     private IUsersConnectionsManagement usersConnectionsManagement;
+    
+    /** The users pictures management. */
+    private IUserPicturesManagement userPicturesManagement;
 
     /**
      * Builder who initialize the TCP connection.
@@ -143,7 +155,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             synchronized (user) {
                 user.setUserStatus(UserStatus.OFFLINE);
                 post(new MessageNoticeContactInfo(user.getCopy()));
-                authenticationService.getUser(user.getId()).diconnected();
+                userManagement.disconnect(user.getId());
             }
         }
 
@@ -257,13 +269,13 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                     getLog().debug(id + " Register Message receive");
                     registration = true;
                     final MessageCommandRegister messageRegister = (MessageCommandRegister) messagecmd;
-                    if (authenticationService.addUser(messageRegister.getLogin(), messageRegister.getPassword(), messageRegister.getLogin())) {
-                        user = authenticationService.logUser(messageRegister.getLogin(), messageRegister.getPassword());
+                    if (authenticationService.addNewUser(messageRegister.getLogin(), messageRegister.getPassword(), messageRegister.getLogin())) {
+                    	checkLogin(messageRegister);
                     }
                 } else if (messagecmd instanceof MessageCommandLogin) {
                     getLog().debug(id + " Login Message receive");
                     final MessageCommandLogin messageLogin = (MessageCommandLogin) messagecmd;
-                    user = authenticationService.logUser(messageLogin.getLogin(), messageLogin.getPassword());
+                    checkLogin(messageLogin);
                 }
 
                 if (user != null) {
@@ -301,7 +313,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                     /**
                      * Send list connected users.
                      */
-                    messageInit = new MessageNoticeContactsList(usersConnectionsManagement.getAllUsers());
+                    messageInit = new MessageNoticeContactsList(userManagement.getAllUsers());
 
                     try {
                         getLog().debug(id + " Send list connected users.");
@@ -326,15 +338,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                         }
                     }
 
-                    /**
-                     * Send all users pictur
-                     */
-                    getLog().debug(id + " Send all users pictur");
-                    synchronized (inObject) {
-                        synchronized (outObject) {
-                            authenticationService.sendUsersPicture(outObject);
-                        }
-                    }
+                    sendAllUsersPicturs();
 
                     isLogin = true;
                     isIdentify = true;
@@ -362,6 +366,28 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
         }
         getLog().debug(id + " End protocole.");
     }
+
+	private void sendAllUsersPicturs() {
+		/**
+		 * Send all users pictur
+		 */
+		getLog().debug(id + " Send all users pictur");
+		synchronized (inObject) {
+		    synchronized (outObject) {
+		        userPicturesManagement.sendUsersPictures(outObject);
+		    }
+		}
+	}
+
+	private void checkLogin(final MessageCommandLogin messageLogin) {
+		UserInformations userInfo = authenticationService.logUser(messageLogin.getLogin(), messageLogin.getPassword());
+		if (userInfo != null) {
+			if (!userManagement.isLogged(userInfo.getId())) {
+				user = new User(userInfo.getId(), userInfo.getNickname(), userInfo.hasPictur());
+				userManagement.newUserConnected(user);
+			}
+		}
+	}
 
     /**
      * Wait and Receive a message send by the client.
@@ -496,6 +522,16 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
     }
 
     /**
+     * Sets the users pictures management.
+     * 
+     * @param usersPicturesManagement
+     *            the new users pictures management
+     */
+    public void setUserPicturesManagement(IUserPicturesManagement userPicturesManagement) {
+		this.userPicturesManagement = userPicturesManagement;
+	}
+
+	/**
      * Test if the socket is already open. If socket is closed or a problem is
      * remark the thread is finalize.
      */
@@ -507,4 +543,10 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
             disconnectUser();
         }
     }
+
+	@Override
+	@Autowired
+	public void setUserManagement(IUserManagement userManagement) {
+		this.userManagement = userManagement;
+	}
 }

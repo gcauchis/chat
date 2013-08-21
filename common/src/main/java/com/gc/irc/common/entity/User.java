@@ -54,7 +54,7 @@ public class User extends AbstractLoggable implements Serializable {
         hasPictur = hasPicture;
     }
 
-    /**
+	/**
      * Get a copy of the user.
      * 
      * @return A copy.

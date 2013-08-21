@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+<log4j:configuration>
+	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %5p [%t] %c - %m%n" /> -->
+			<!-- good for information but bad for performance : -->
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %5p [%t] %c.%M (%F:%L) - %m%n" />
+		</layout>
+	</appender>
+	
+	<logger name="com.gc.irc.server.bridge.direct">
+		<level value="warn" />
+	</logger
+	
+	<root>
+		<priority value="warn" />
+		<appender-ref ref="stdout" />
+	</root>
+</log4j:configuration>

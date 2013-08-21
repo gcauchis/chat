@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
 import com.gc.irc.server.bridge.api.IServerBridgeConsumerFactory;
+import com.gc.irc.server.core.user.management.api.IUserManagement;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
+import com.gc.irc.server.core.user.management.api.UserManagementAware;
 import com.gc.irc.server.handler.message.api.IServerMessageHandler;
 import com.gc.irc.server.thread.api.IServeurMBean;
 import com.gc.irc.server.thread.factory.api.IServeurMBeanFactory;
@@ -19,7 +21,7 @@ import com.gc.irc.server.thread.impl.ServeurMBean;
  */
 @Component("ServeurMBeanFactory")
 @Scope("singleton")
-public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBeanFactory {
+public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBeanFactory, UserManagementAware {
 
     /** The server bridge consumer factory. */
     @Autowired
@@ -32,6 +34,9 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
     /** The users connections management. */
     @Autowired
     private IUsersConnectionsManagement usersConnectionsManagement;
+    
+    /** The user management */
+    private IUserManagement userManagement;
 
     /*
      * (non-Javadoc)
@@ -46,6 +51,7 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
         serveurMBean.setUsersConnectionsManagement(usersConnectionsManagement);
         serveurMBean.setServerMessageHandlers(serverMessageHandlers);
         serveurMBean.setServerBridgeConsumerFactory(serverBridgeConsumerFactory);
+        serveurMBean.setUserManagement(userManagement);
         return serveurMBean;
     }
 
@@ -78,5 +84,11 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
     public void setUsersConnectionsManagement(final IUsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
+    
+    @Override
+	@Autowired
+	public void setUserManagement(IUserManagement userManagement) {
+		this.userManagement = userManagement;
+	}
 
 }
