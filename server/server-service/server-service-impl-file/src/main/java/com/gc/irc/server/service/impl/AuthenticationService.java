@@ -1,25 +1,19 @@
 package com.gc.irc.server.service.impl;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.common.entity.User;
-import com.gc.irc.common.protocol.item.MessageItemPicture;
-import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.common.utils.IOUtils;
 import com.gc.irc.server.model.UserInformations;
 import com.gc.irc.server.service.api.IAuthenticationService;
-import com.gc.irc.server.service.api.IUserPictureService;
 import com.gc.irc.server.service.utils.UserInformationScanner;
 
 /**

@@ -2,6 +2,7 @@ package com.gc.irc.server.service.impl;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -30,14 +31,23 @@ public class UserPictureService extends AbstractLoggable implements IUserPicture
     public synchronized MessageItemPicture getPictureOf(final int idUser) {
         getLog().debug("Get pictur of " + idUser);
         MessageItemPicture image = null;
+        ObjectInputStream ois = null;
         try {
             final FileInputStream fichier = new FileInputStream(idUser + ".ser");
-            final ObjectInputStream ois = new ObjectInputStream(fichier);
+            ois = new ObjectInputStream(fichier);
             image = (MessageItemPicture) ois.readObject();
         } catch (final java.io.IOException e) {
-            getLog().warn("Fail to read pictur:", e);
-        } catch (final ClassNotFoundException e) {
-            getLog().warn("Fail to read object:", e);
+			getLog().warn("Fail to read pictur:", e);
+		} catch (final ClassNotFoundException e) {
+			getLog().warn("Fail to read object:", e);
+		} finally {
+			if (ois != null) {
+				try {
+					ois.close();
+				} catch (IOException e) {
+					getLog().warn("Fail to close object:", e);
+				}
+			}
         }
         return image;
     }
