@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
@@ -89,4 +90,12 @@ public class SerializableBufferedImage implements Serializable {
         }
         return new byte[0];
     }
+
+	public byte[] getByteImage() {
+		return Arrays.copyOf(byteImage, byteImage.length);
+	}
+
+	public void setByteImage(byte[] byteImage) {
+		this.byteImage = Arrays.copyOf(byteImage, byteImage.length);
+	}
 }
