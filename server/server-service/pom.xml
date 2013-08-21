@@ -13,5 +13,6 @@
 	<modules>
 		<module>server-service-api</module>
 		<module>server-service-impl-file</module>
+		<module>server-service-impl-neo4j</module>
 	</modules>
 </project>

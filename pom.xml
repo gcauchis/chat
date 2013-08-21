@@ -447,6 +447,10 @@
 			<name>apache activemq</name>
 			<url>https://repository.apache.org/content/repositories/snapshots/</url>
 		</repository>
+		<repository>
+			<id>neo4j</id>
+			<url>http://m2.neo4j.org/content/repositories/releases/</url>
+		</repository>
 	</repositories>
 
 	<distributionManagement>
