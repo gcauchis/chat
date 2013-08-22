@@ -15,6 +15,9 @@ public class ModelConversionUtils {
     private ModelConversionUtils(){};
     
     public static UserInformations convert(UserInformationEntity userInformationEntity) {
+    	if (userInformationEntity == null) {
+    		return null;
+    	}
         return new UserInformations(userInformationEntity.getId(), userInformationEntity.getNick(),
                 userInformationEntity.getLog(), userInformationEntity.getPwd(), userInformationEntity.getPict() != null);
     }

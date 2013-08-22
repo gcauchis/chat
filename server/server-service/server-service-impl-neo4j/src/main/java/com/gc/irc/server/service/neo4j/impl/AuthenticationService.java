@@ -37,7 +37,8 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
     public boolean addNewUser(final String login, final String password, final String nickname) {
     	Node node = graphDatabaseService.createNode();
     	node.setProperty("__type__", "usr");
-        return userInformationRepository.save(new UserInformationEntity(new UserInformations(node.getId(),nickname, login, password))) != null;
+    	UserInformationEntity user = userInformationRepository.save(new UserInformationEntity(new UserInformations(node.getId(),nickname, login, password)));
+        return user != null;
     }
 
     /*
@@ -74,7 +75,11 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      */
     @Override
     public UserInformations logUser(final String login, final String password) {
-        return null;
+    	UserInformationEntity user = userInformationRepository.findByPropertyValue("log", login);
+    	if (user == null || !user.getPwd().equals(password)) {
+    		return null;
+    	}
+        return ModelConversionUtils.convert(user);
     }
 
     @Autowired
