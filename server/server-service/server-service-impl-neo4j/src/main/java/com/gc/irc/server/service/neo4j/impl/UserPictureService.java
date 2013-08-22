@@ -1,7 +1,6 @@
 package com.gc.irc.server.service.neo4j.impl;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.gc.irc.common.protocol.item.MessageItemPicture;

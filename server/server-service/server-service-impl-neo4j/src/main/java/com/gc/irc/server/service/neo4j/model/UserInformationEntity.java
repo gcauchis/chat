@@ -14,7 +14,7 @@ import org.springframework.data.neo4j.annotation.NodeEntity;
  * @author gcauchis
  */
 @NodeEntity
-@TypeAlias("UserInformation")
+@TypeAlias("usr")
 public class UserInformationEntity {
     
     /** The id. */
@@ -22,24 +22,24 @@ public class UserInformationEntity {
     private Long id;
 
     /** The login. */
-    private String login;
+    private String log;
 
     /** The nickname. */
-    private String nickname;
+    private String nick;
 
     /** The password. */
-    private String password;
+    private String pwd;
     
-    private byte[] picture;
+    private byte[] pict;
 
     public UserInformationEntity() {
     }
     
     public UserInformationEntity(UserInformations userInformations) {
         id = userInformations.getId();
-        login = userInformations.getLogin();
-        nickname = userInformations.getNickname();
-        password = userInformations.getPassword();
+        log = userInformations.getLogin();
+        nick = userInformations.getNickname();
+        pwd = userInformations.getPassword();
     }
 
     public Long getId() {
@@ -50,36 +50,36 @@ public class UserInformationEntity {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getLog() {
+        return log;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setLog(String log) {
+        this.log = log;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getNick() {
+        return nick;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setNick(String nick) {
+        this.nick = nick;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPwd() {
+        return pwd;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 
-    public byte[] getPicture() {
-        return picture;
+    public byte[] getPict() {
+        return pict;
     }
 
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
+    public void setPict(byte[] pict) {
+        this.pict = pict;
     }
     
 }

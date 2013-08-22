@@ -1,8 +1,7 @@
 package com.gc.irc.server.service.neo4j.impl;
 
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.neo4j.repository.GraphRepository;
-import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,19 +10,19 @@ import com.gc.irc.server.model.UserInformations;
 import com.gc.irc.server.service.api.IAuthenticationService;
 import com.gc.irc.server.service.neo4j.model.UserInformationEntity;
 import com.gc.irc.server.service.neo4j.model.utils.ModelConversionUtils;
+import com.gc.irc.server.service.neo4j.repository.UserInformationRepository;
 
 /**
  * The Class AuthenticationService.
  */
 @Service("authenticationService")
-@Transactional
 public class AuthenticationService extends AbstractLoggable implements IAuthenticationService {
 
     /** The repository. */
-    private GraphRepository<UserInformationEntity> repository;
-
-    /** The template. */
-    private Neo4jTemplate template;
+    private UserInformationRepository userInformationRepository;
+    
+    @Autowired
+    GraphDatabaseService graphDatabaseService;
 
     /*
      * (non-Javadoc)
@@ -33,8 +32,10 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * lang.String, java.lang.String, java.lang.String)
      */
     @Override
+    @Transactional
     public boolean addNewUser(final String login, final String password, final String nickname) {
-        return repository.save(new UserInformationEntity(new UserInformations(nickname, login, password))) != null;
+    	graphDatabaseService.createNode();
+        return userInformationRepository.save(new UserInformationEntity(new UserInformations(nickname, login, password))) != null;
     }
 
     /*
@@ -59,7 +60,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * @return the user info
      */
     private UserInformationEntity getUserInfo(final long id) {
-        return repository.findOne(id);
+        return userInformationRepository.findOne(id);
     }
 
     /*
@@ -74,19 +75,12 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
         return null;
     }
 
-    /**
-     * Sets the template.
-     * 
-     * @param template
-     *            the new template
-     */
     @Autowired
-    public void setTemplate(final Neo4jTemplate template) {
-        this.template = template;
-        repository = template.repositoryFor(UserInformationEntity.class);
-    }
+    public void setUserInformationRepository(UserInformationRepository userInformationRepository) {
+		this.userInformationRepository = userInformationRepository;
+	}
 
-    /*
+	/*
      * (non-Javadoc)
      * 
      * @see
@@ -94,12 +88,13 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * .server.model.UserInformations)
      */
     @Override
+    @Transactional
     public void update(final UserInformations userInformations) {
         final UserInformationEntity userInformationEntity = getUserInfo(userInformations.getId());
         if (userInformationEntity != null) {
-            userInformationEntity.setLogin(userInformations.getLogin());
-            userInformationEntity.setNickname(userInformations.getNickname());
-            userInformationEntity.setPassword(userInformations.getPassword());
+            userInformationEntity.setLog(userInformations.getLogin());
+            userInformationEntity.setNick(userInformations.getNickname());
+            userInformationEntity.setPwd(userInformations.getPassword());
         }
     }
 
@@ -111,11 +106,12 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * (long, java.lang.String)
      */
     @Override
+    @Transactional
     public void updateUserNickName(final long id, final String nickname) {
         final UserInformationEntity userInformationEntity = getUserInfo(id);
         if (userInformationEntity != null) {
-            userInformationEntity.setNickname(nickname);
-            repository.save(userInformationEntity);
+            userInformationEntity.setNick(nickname);
+            userInformationRepository.save(userInformationEntity);
         }
     }
 
@@ -127,11 +123,12 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * (long, java.lang.String)
      */
     @Override
+    @Transactional
     public void updateUserPasword(final long id, final String password) {
         final UserInformationEntity userInformationEntity = getUserInfo(id);
         if (userInformationEntity != null) {
-            userInformationEntity.setPassword(password);
-            repository.save(userInformationEntity);
+            userInformationEntity.setPwd(password);
+            userInformationRepository.save(userInformationEntity);
         }
     }
 
@@ -144,7 +141,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      */
     @Override
     public boolean userLoginExist(final String login) {
-        return repository.findByPropertyValue("login", login) != null;
+        return userInformationRepository.findByPropertyValue("login", login) != null;
     }
 
 }

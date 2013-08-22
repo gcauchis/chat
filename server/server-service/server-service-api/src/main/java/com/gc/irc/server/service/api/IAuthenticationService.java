@@ -1,7 +1,5 @@
 package com.gc.irc.server.service.api;
 
-import java.io.ObjectOutputStream;
-
 import com.gc.irc.server.model.UserInformations;
 
 /**
