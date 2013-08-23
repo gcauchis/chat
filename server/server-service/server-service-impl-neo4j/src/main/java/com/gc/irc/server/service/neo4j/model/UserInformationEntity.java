@@ -7,6 +7,7 @@ package com.gc.irc.server.service.neo4j.model;
 import com.gc.irc.server.model.UserInformations;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 
 /**
@@ -22,6 +23,7 @@ public class UserInformationEntity {
     private Long id;
 
     /** The login. */
+    @Indexed(unique=true)
     private String log;
 
     /** The nickname. */
@@ -42,44 +44,44 @@ public class UserInformationEntity {
         pwd = userInformations.getPassword();
     }
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getLog() {
-        return log;
-    }
+	public String getLog() {
+		return log;
+	}
 
-    public void setLog(String log) {
-        this.log = log;
-    }
+	public void setLog(String log) {
+		this.log = log;
+	}
 
-    public String getNick() {
-        return nick;
-    }
+	public String getNick() {
+		return nick;
+	}
 
-    public void setNick(String nick) {
-        this.nick = nick;
-    }
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
 
-    public String getPwd() {
-        return pwd;
-    }
+	public String getPwd() {
+		return pwd;
+	}
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
-    }
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
 
-    public byte[] getPict() {
-        return pict;
-    }
+	public byte[] getPict() {
+		return pict;
+	}
 
-    public void setPict(byte[] pict) {
-        this.pict = pict;
-    }
-    
+	public void setPict(byte[] pict) {
+		this.pict = pict;
+	}
+
 }

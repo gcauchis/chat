@@ -4,6 +4,7 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gc.irc.common.abs.AbstractLoggable;
@@ -33,12 +34,12 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public boolean addNewUser(final String login, final String password, final String nickname) {
     	Node node = graphDatabaseService.createNode();
     	node.setProperty("__type__", "usr");
     	UserInformationEntity user = userInformationRepository.save(new UserInformationEntity(new UserInformations(node.getId(),nickname, login, password)));
-        return user != null;
+    	return user != null;
     }
 
     /*
