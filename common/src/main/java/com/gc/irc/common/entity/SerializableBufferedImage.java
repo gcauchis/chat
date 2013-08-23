@@ -37,6 +37,10 @@ public class SerializableBufferedImage implements Serializable {
     public SerializableBufferedImage(final BufferedImage bufferedImage) {
         byteImage = toByteArray(bufferedImage);
     }
+    
+    public SerializableBufferedImage(final byte[] byteImage) {
+        this.byteImage = byteImage;
+    }
 
     /**
      * From byte array.

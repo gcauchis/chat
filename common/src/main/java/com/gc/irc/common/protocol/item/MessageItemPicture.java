@@ -31,6 +31,11 @@ public class MessageItemPicture extends Message {
         super(userId);
         imageData = new SerializableBufferedImage(image);
     }
+    
+    public MessageItemPicture(final long userId, final SerializableBufferedImage image) {
+        super(userId);
+        imageData = image;
+    }
 
     /**
      * Gets the image data.
@@ -39,6 +44,10 @@ public class MessageItemPicture extends Message {
      */
     public BufferedImage getImageData() {
         return imageData.getBufferedImage();
+    }
+    
+    public SerializableBufferedImage getImageBuffer() {
+        return imageData;
     }
 
     /*
