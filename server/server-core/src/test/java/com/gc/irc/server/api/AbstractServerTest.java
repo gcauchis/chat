@@ -259,5 +259,26 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
     	assertTrue(message instanceof MessageNoticeServerMessage);
     	assertEquals("DELETE"+contextEntity.getUser().getId(), ((MessageNoticeServerMessage)message).getMessage());
     }
+    
+    /**
+     * 
+     * @param user
+     * @param connectionUser
+     * @throws InterruptedException
+     */
+    protected final void removeTestUser(final User user, final ConnectionHandler connectionUser) throws InterruptedException {
+    	removeTestUser(new UserContextEntity(user, connectionUser));
+    }
+    
+    /**
+     * 
+     * @param contextUser
+     * @throws InterruptedException
+     */
+    protected final void finalizeTestContext(UserContextEntity contextUser) throws InterruptedException {
+		removeTestUser(contextUser);
+		contextUser.cleanMessageHandler();
+        contextUser.disconnect();
+	}
 
 }

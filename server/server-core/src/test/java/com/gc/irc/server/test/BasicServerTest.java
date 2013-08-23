@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.gc.irc.common.connector.ConnectionHandler;
@@ -51,7 +52,9 @@ public class BasicServerTest extends AbstractServerTest {
      */
     @Test
     public void login0() throws InterruptedException {
-        assertNotNull(loginAndRegister(connectionThread, "test", "test"));
+    	User user = loginAndRegister(connectionThread, "test", "test");
+    	assertNotNull(user);
+    	removeTestUser(user, connectionThread);
     }
 
     /**
@@ -61,8 +64,11 @@ public class BasicServerTest extends AbstractServerTest {
      *             the interrupted exception
      */
     @Test
+    @Ignore
     public void login1() throws InterruptedException {
-        assertNotNull(loginAndRegister(connectionThread, "test1", "test"));
+    	User user = loginAndRegister(connectionThread, "test1", "test1");
+    	assertNotNull(user);
+    	removeTestUser(user, connectionThread);
     }
 
     /**
@@ -72,8 +78,11 @@ public class BasicServerTest extends AbstractServerTest {
      *             the interrupted exception
      */
     @Test
+    @Ignore
     public void login2() throws InterruptedException {
-        assertNotNull(loginAndRegister(connectionThread, "test2", "test"));
+    	User user = loginAndRegister(connectionThread, "test2", "test2");
+    	assertNotNull(user);
+    	removeTestUser(user, connectionThread);
     }
 
     /**

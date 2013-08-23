@@ -26,11 +26,12 @@ public class TwoUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Clean.
+     * @throws InterruptedException 
      */
     @After
-    public void clean() {
-        contextUser1.disconnect();
-        contextUser2.disconnect();
+    public void clean() throws InterruptedException {
+    	finalizeTestContext(contextUser1);
+    	finalizeTestContext(contextUser2);
     }
 
     /**
