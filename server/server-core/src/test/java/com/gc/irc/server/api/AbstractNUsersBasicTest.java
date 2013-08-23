@@ -117,12 +117,12 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Clean.
+     * @throws InterruptedException 
      */
     @After
-    public final void clean() {
+    public final void clean() throws InterruptedException {
         for (UserContextEntity context : contexts) {
-            context.cleanMessageHandler();
-            context.disconnect();
+        	finalizeTestContext(context);
         }
         contexts.clear();
         contexts = null;
