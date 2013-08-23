@@ -1,6 +1,5 @@
 package com.gc.irc.server.core.user.management.impl;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +10,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.abs.AbstractLoggable;
-import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.core.user.management.api.IUserManagement;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.api.UserManagementAware;
-import com.gc.irc.server.persistance.PersiteUsers;
 import com.gc.irc.server.service.api.IAuthenticationService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 

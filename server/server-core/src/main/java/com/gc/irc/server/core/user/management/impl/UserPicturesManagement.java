@@ -2,7 +2,6 @@ package com.gc.irc.server.core.user.management.impl;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,6 @@ import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.server.core.user.management.api.IUserManagement;
 import com.gc.irc.server.core.user.management.api.IUserPicturesManagement;
 import com.gc.irc.server.core.user.management.api.UserManagementAware;
-import com.gc.irc.server.model.UserInformations;
 import com.gc.irc.server.service.api.IUserPictureService;
 
 @Component("userPicturesManagement")
