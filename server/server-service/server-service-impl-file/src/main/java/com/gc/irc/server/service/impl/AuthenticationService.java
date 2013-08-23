@@ -208,4 +208,10 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
         return false;
     }
 
+	@Override
+	public void delete(long id) {
+		users.remove(id);
+		saveModification();
+	}
+
 }

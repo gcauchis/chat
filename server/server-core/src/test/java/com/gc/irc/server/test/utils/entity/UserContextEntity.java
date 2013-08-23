@@ -46,7 +46,7 @@ public class UserContextEntity {
         super();
         this.user = user;
         this.connectionUser = connectionUser;
-        this.messageHandler = messageHandler;
+        setMessageHandler(messageHandler);
     }
 
     /**
@@ -102,7 +102,7 @@ public class UserContextEntity {
      * @param messageHandler
      *            the messageHandler to set
      */
-    public void setMessageHandler(final IMessageHandlerTester messageHandler) {
+    public final void setMessageHandler(final IMessageHandlerTester messageHandler) {
         this.messageHandler = messageHandler;
         connectionUser.setMessageHandler(messageHandler);
     }

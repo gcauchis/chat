@@ -147,7 +147,13 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      */
     @Override
     public boolean userLoginExist(final String login) {
-        return userInformationRepository.findByPropertyValue("login", login) != null;
+        return userInformationRepository.findByPropertyValue("log", login) != null;
     }
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public void delete(long id) {
+		userInformationRepository.delete(id);
+	}
 
 }

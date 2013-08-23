@@ -51,6 +51,12 @@ public interface IAuthenticationService {
      * @return The User if exist. Else null.
      */
     UserInformations getUser(long id);
+    
+    /**
+     * Delete the user.
+     * @param id the user id.
+     */
+    void delete(long id);
 
     /**
      * Log an user.

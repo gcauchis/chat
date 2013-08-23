@@ -2,6 +2,7 @@ package com.gc.irc.server.api;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -21,6 +22,8 @@ import com.gc.irc.server.ServerStarter;
 import com.gc.irc.server.test.handler.IMessageHandlerTester;
 import com.gc.irc.server.test.handler.LoginMessageHandler;
 import com.gc.irc.server.test.handler.SimpleMessageHandler;
+import com.gc.irc.server.test.handler.message.impl.MessageCommandTestDeleteUserHandler;
+import com.gc.irc.server.test.protocol.command.MessageCommandTestDeleteUser;
 import com.gc.irc.server.test.utils.entity.UserContextEntity;
 
 /**
@@ -198,8 +201,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
         final LoginMessageHandler messageHandler = new LoginMessageHandler();
         connectionThread.setMessageHandler(messageHandler);
         messageHandler.reset();
-        sendMessage(connectionThread, messageCommand);
-        waitForMessageInHandler(messageHandler);
+        sendAndWaitForMessageInHandler(messageHandler, connectionThread, messageCommand);
         connectionThread.setMessageHandler(null);
         return messageHandler.getLogin();
     }
@@ -228,6 +230,34 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
         while (!messageHandler.isMessageRecieved()) {
             Thread.sleep(300);
         }
+    }
+    
+    /**
+     * 
+     * @param messageHandler
+     * @param messageSender
+     * @param message
+     * @return
+     * @throws InterruptedException
+     */
+    protected final Message sendAndWaitForMessageInHandler(final IMessageHandlerTester messageHandler, final IMessageSender messageSender, final Message message) throws InterruptedException {
+    	sendMessage(messageSender, message);
+        waitForMessageInHandler(messageHandler);
+        return messageHandler.getLastReceivedMessage();
+    }
+    
+    /**
+     * 
+     * @param user
+     * @throws InterruptedException 
+     */
+    protected final void removeTestUser(UserContextEntity contextEntity) throws InterruptedException {
+    	final IMessageHandlerTester messageHandler = new SimpleMessageHandler();
+    	contextEntity.setMessageHandler(messageHandler);
+    	Message message = sendAndWaitForMessageInHandler(contextEntity.getMessageHandler(), contextEntity.getConnectionUser(), new MessageCommandTestDeleteUser(contextEntity.getUser().getId()));
+    	assertNotNull(message);
+    	assertTrue(message instanceof MessageNoticeServerMessage);
+    	assertEquals("DELETE"+contextEntity.getUser().getId(), ((MessageNoticeServerMessage)message).getMessage());
     }
 
 }

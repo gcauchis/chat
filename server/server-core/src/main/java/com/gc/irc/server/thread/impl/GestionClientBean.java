@@ -269,7 +269,9 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
                     getLog().debug(id + " Register Message receive");
                     registration = true;
                     final MessageCommandRegister messageRegister = (MessageCommandRegister) messagecmd;
-                    if (authenticationService.addNewUser(messageRegister.getLogin(), messageRegister.getPassword(), messageRegister.getLogin())) {
+                    if (authenticationService.userLoginExist(messageRegister.getLogin())) {
+                    	getLog().warn("User {} already exist !", messageRegister.getLogin());
+                    } else if (authenticationService.addNewUser(messageRegister.getLogin(), messageRegister.getPassword(), messageRegister.getLogin())) {
                     	checkLogin(messageRegister);
                     }
                 } else if (messagecmd instanceof MessageCommandLogin) {
