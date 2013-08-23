@@ -18,6 +18,7 @@ import com.gc.irc.server.service.neo4j.repository.UserInformationRepository;
  * The Class AuthenticationService.
  */
 @Service("authenticationService")
+@Transactional
 public class AuthenticationService extends AbstractLoggable implements IAuthenticationService {
 
     /** The repository. */
@@ -96,7 +97,6 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * .server.model.UserInformations)
      */
     @Override
-    @Transactional
     public void update(final UserInformations userInformations) {
         final UserInformationEntity userInformationEntity = getUserInfo(userInformations.getId());
         if (userInformationEntity != null) {
@@ -114,7 +114,6 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * (long, java.lang.String)
      */
     @Override
-    @Transactional
     public void updateUserNickName(final long id, final String nickname) {
         final UserInformationEntity userInformationEntity = getUserInfo(id);
         if (userInformationEntity != null) {
@@ -131,7 +130,6 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * (long, java.lang.String)
      */
     @Override
-    @Transactional
     public void updateUserPasword(final long id, final String password) {
         final UserInformationEntity userInformationEntity = getUserInfo(id);
         if (userInformationEntity != null) {
