@@ -13,8 +13,13 @@
     <properties>
         <delivery.jar.name>${project.artifactId}-${project.version}</delivery.jar.name>
         <configuration.file.path>${basedir}/src/ext</configuration.file.path>
+		
+		<!--<bridge.mode>jms</bridge.mode>-->
+		<bridge.mode>direct</bridge.mode>
+		<!--<service.mode>file</service.mode>-->
+		<service.mode>neo4j</service.mode>
     </properties>
-
+            
     <build>
         <finalName>${delivery.jar.name}</finalName>
         <resources>
@@ -184,8 +189,7 @@
         </dependency>
         <dependency>
             <groupId>com.gc.irc</groupId>
-<!--            <artifactId>server-service-impl-file</artifactId>-->
-            <artifactId>server-service-impl-neo4j</artifactId>
+			<artifactId>server-service-impl-${service.mode}</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -194,8 +198,7 @@
         </dependency>
         <dependency>
             <groupId>com.gc.irc</groupId>
-<!-- 			<artifactId>server-bridge-impl-jms</artifactId> -->
-            <artifactId>server-bridge-impl-direct</artifactId>
+            <artifactId>server-bridge-impl-${bridge.mode}</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
