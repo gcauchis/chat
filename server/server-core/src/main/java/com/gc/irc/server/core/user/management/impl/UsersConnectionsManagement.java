@@ -14,7 +14,7 @@ import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.core.user.management.api.IUserManagement;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.api.UserManagementAware;
-import com.gc.irc.server.service.api.IAuthenticationService;
+import com.gc.irc.server.service.IAuthenticationService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 
 /**

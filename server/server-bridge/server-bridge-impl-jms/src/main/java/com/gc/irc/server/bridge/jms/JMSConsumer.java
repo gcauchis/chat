@@ -1,4 +1,4 @@
-package com.gc.irc.server.bridge.jms.impl;
+package com.gc.irc.server.bridge.jms;
 
 import javax.jms.IllegalStateException;
 import javax.jms.JMSException;
@@ -7,8 +7,8 @@ import javax.jms.ObjectMessage;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.bridge.api.IServerBridgeConsumer;
-import com.gc.irc.server.bridge.api.ServerBridgeException;
+import com.gc.irc.server.bridge.IServerBridgeConsumer;
+import com.gc.irc.server.bridge.ServerBridgeException;
 
 /**
  * The Class JMSConsumer.

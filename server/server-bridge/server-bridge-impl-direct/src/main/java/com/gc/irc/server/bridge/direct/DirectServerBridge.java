@@ -1,4 +1,4 @@
-package com.gc.irc.server.bridge.direct.impl;
+package com.gc.irc.server.bridge.direct;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.bridge.api.IServerBridgeConsumer;
-import com.gc.irc.server.bridge.api.IServerBridgeConsumerFactory;
-import com.gc.irc.server.bridge.api.IServerBridgeProducer;
-import com.gc.irc.server.bridge.api.ServerBridgeException;
+import com.gc.irc.server.bridge.IServerBridgeConsumer;
+import com.gc.irc.server.bridge.IServerBridgeConsumerFactory;
+import com.gc.irc.server.bridge.IServerBridgeProducer;
+import com.gc.irc.server.bridge.ServerBridgeException;
 
 /**
  * The Class DirectServerBridge.

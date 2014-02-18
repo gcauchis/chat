@@ -1,4 +1,4 @@
-package com.gc.irc.server.bridge.jms.impl;
+package com.gc.irc.server.bridge.jms;
 
 import org.apache.commons.pool.PoolableObjectFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractObjectPool;
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.bridge.api.IServerBridgeProducer;
-import com.gc.irc.server.bridge.api.ServerBridgeException;
+import com.gc.irc.server.bridge.IServerBridgeProducer;
+import com.gc.irc.server.bridge.ServerBridgeException;
 
 /**
  * The Class IRCJMSPoolProducer.

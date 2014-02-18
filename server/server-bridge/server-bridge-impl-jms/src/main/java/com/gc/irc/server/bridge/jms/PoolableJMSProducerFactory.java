@@ -1,8 +1,8 @@
-package com.gc.irc.server.bridge.jms.impl;
+package com.gc.irc.server.bridge.jms;
 
 import org.apache.commons.pool.BasePoolableObjectFactory;
 
-import com.gc.irc.server.bridge.api.IServerBridgeProducer;
+import com.gc.irc.server.bridge.IServerBridgeProducer;
 
 /**
  * A factory for creating PoolableJMSProducer objects.

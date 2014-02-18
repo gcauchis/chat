@@ -23,8 +23,8 @@ import com.gc.irc.common.protocol.notice.MessageNoticeLogin;
 import com.gc.irc.common.protocol.notice.MessageNoticeRegister;
 import com.gc.irc.common.protocol.notice.MessageNoticeServerMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
-import com.gc.irc.server.bridge.api.IServerBridgeProducer;
-import com.gc.irc.server.bridge.api.ServerBridgeException;
+import com.gc.irc.server.bridge.IServerBridgeProducer;
+import com.gc.irc.server.bridge.ServerBridgeException;
 import com.gc.irc.server.core.ServerCore;
 import com.gc.irc.server.core.user.management.api.IUserManagement;
 import com.gc.irc.server.core.user.management.api.IUserPicturesManagement;
@@ -32,8 +32,8 @@ import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.api.UserManagementAware;
 import com.gc.irc.server.exception.ServerException;
 import com.gc.irc.server.model.UserInformations;
-import com.gc.irc.server.service.api.IAuthenticationService;
-import com.gc.irc.server.service.api.IUserPictureService;
+import com.gc.irc.server.service.IAuthenticationService;
+import com.gc.irc.server.service.IUserPictureService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 
 /**

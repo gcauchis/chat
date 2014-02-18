@@ -1,4 +1,4 @@
-package com.gc.irc.server.service.impl;
+package com.gc.irc.server.service;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import org.xml.sax.SAXException;
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.utils.IOUtils;
 import com.gc.irc.server.model.UserInformations;
-import com.gc.irc.server.service.api.IAuthenticationService;
+import com.gc.irc.server.service.IAuthenticationService;
 import com.gc.irc.server.service.utils.UserInformationScanner;
 
 /**

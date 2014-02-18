@@ -1,4 +1,4 @@
-package com.gc.irc.server.service.api;
+package com.gc.irc.server.service;
 
 import com.gc.irc.server.model.UserInformations;
 

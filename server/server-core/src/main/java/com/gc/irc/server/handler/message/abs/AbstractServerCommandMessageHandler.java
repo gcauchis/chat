@@ -3,8 +3,8 @@ package com.gc.irc.server.handler.message.abs;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.service.api.IAuthenticationService;
-import com.gc.irc.server.service.api.IUserPictureService;
+import com.gc.irc.server.service.IAuthenticationService;
+import com.gc.irc.server.service.IUserPictureService;
 
 /**
  * The Class AbstractServerCommandMessageHandler.

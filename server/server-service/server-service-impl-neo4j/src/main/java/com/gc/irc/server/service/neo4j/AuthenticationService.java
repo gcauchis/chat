@@ -1,4 +1,4 @@
-package com.gc.irc.server.service.neo4j.impl;
+package com.gc.irc.server.service.neo4j;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.server.model.UserInformations;
-import com.gc.irc.server.service.api.IAuthenticationService;
+import com.gc.irc.server.service.IAuthenticationService;
 import com.gc.irc.server.service.neo4j.model.UserInformationEntity;
 import com.gc.irc.server.service.neo4j.model.utils.ModelConversionUtils;
 import com.gc.irc.server.service.neo4j.repository.UserInformationRepository;

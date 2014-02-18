@@ -1,4 +1,4 @@
-package com.gc.irc.server.bridge.jms.impl;
+package com.gc.irc.server.bridge.jms;
 
 import javax.jms.JMSException;
 
@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
-import com.gc.irc.server.bridge.api.IServerBridgeConsumer;
-import com.gc.irc.server.bridge.api.IServerBridgeConsumerFactory;
+import com.gc.irc.server.bridge.IServerBridgeConsumer;
+import com.gc.irc.server.bridge.IServerBridgeConsumerFactory;
 import com.gc.irc.server.bridge.jms.utils.JMSConnectionUtils;
 
 /**

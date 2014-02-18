@@ -1,4 +1,4 @@
-package com.gc.irc.server.service.impl;
+package com.gc.irc.server.service;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.protocol.item.MessageItemPicture;
-import com.gc.irc.server.service.api.IUserPictureService;
+import com.gc.irc.server.service.IUserPictureService;
 
 /**
  * Manage the Users's Pictures.

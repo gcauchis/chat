@@ -1,4 +1,4 @@
-package com.gc.irc.server.bridge.jms.impl;
+package com.gc.irc.server.bridge.jms;
 
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
@@ -7,8 +7,8 @@ import javax.jms.Session;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.bridge.api.IServerBridgeProducer;
-import com.gc.irc.server.bridge.api.ServerBridgeException;
+import com.gc.irc.server.bridge.IServerBridgeProducer;
+import com.gc.irc.server.bridge.ServerBridgeException;
 import com.gc.irc.server.bridge.jms.utils.JMSConnectionUtils;
 
 /**

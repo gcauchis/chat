@@ -13,7 +13,7 @@ import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.server.core.user.management.api.IUserManagement;
 import com.gc.irc.server.core.user.management.api.IUserPicturesManagement;
 import com.gc.irc.server.core.user.management.api.UserManagementAware;
-import com.gc.irc.server.service.api.IUserPictureService;
+import com.gc.irc.server.service.IUserPictureService;
 
 @Component("userPicturesManagement")
 public class UserPicturesManagement extends AbstractLoggable implements IUserPicturesManagement, UserManagementAware {

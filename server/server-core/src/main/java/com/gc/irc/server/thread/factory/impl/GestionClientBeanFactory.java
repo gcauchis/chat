@@ -7,13 +7,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
-import com.gc.irc.server.bridge.api.IServerBridgeProducer;
+import com.gc.irc.server.bridge.IServerBridgeProducer;
 import com.gc.irc.server.core.user.management.api.IUserManagement;
 import com.gc.irc.server.core.user.management.api.IUserPicturesManagement;
 import com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.api.UserManagementAware;
-import com.gc.irc.server.service.api.IAuthenticationService;
-import com.gc.irc.server.service.api.IUserPictureService;
+import com.gc.irc.server.service.IAuthenticationService;
+import com.gc.irc.server.service.IUserPictureService;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 import com.gc.irc.server.thread.factory.api.IGestionClientBeanFactory;
 import com.gc.irc.server.thread.impl.GestionClientBean;

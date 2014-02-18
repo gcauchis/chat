@@ -1,4 +1,4 @@
-package com.gc.irc.server.bridge.api;
+package com.gc.irc.server.bridge;
 
 import com.gc.irc.common.ILoggable;
 
