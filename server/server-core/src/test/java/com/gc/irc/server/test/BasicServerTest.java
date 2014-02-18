@@ -16,7 +16,7 @@ import com.gc.irc.common.message.BasicClientMessageLine;
 import com.gc.irc.common.message.IClientMessageLine;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.common.protocol.chat.MessageChat;
-import com.gc.irc.server.api.AbstractServerTest;
+import com.gc.irc.server.AbstractServerTest;
 import com.gc.irc.server.test.utils.entity.UserContextEntity;
 
 /**

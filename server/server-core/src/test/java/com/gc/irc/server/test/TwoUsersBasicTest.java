@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.gc.irc.common.connector.ConnectionHandler;
 import com.gc.irc.common.entity.User;
-import com.gc.irc.server.api.AbstractMultipleUserTest;
+import com.gc.irc.server.AbstractMultipleUserTest;
 import com.gc.irc.server.test.handler.IMessageHandlerTester;
 import com.gc.irc.server.test.handler.SimpleMessageHandler;
 import com.gc.irc.server.test.utils.entity.UserContextEntity;
