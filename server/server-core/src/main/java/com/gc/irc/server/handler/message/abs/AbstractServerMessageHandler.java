@@ -5,7 +5,7 @@ import java.lang.reflect.Type;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.core.user.management.api.IUserManagement;

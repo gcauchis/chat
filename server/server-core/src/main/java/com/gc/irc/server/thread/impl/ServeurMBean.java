@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gc.irc.common.abs.AbstractRunnable;
+import com.gc.irc.common.AbstractRunnable;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.bridge.api.IServerBridgeConsumer;

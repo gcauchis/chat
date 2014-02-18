@@ -1,4 +1,4 @@
-package com.gc.irc.common.abs;
+package com.gc.irc.common;
 
 import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;

@@ -1,6 +1,6 @@
 package com.gc.irc.server.model;
 
-import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.common.AbstractLoggable;
 
 /**
  * Represent a Client.

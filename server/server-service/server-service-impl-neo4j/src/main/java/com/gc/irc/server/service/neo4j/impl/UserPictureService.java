@@ -1,6 +1,6 @@
 package com.gc.irc.server.service.neo4j.impl;
 
-import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.entity.SerializableBufferedImage;
 
 import org.springframework.beans.factory.annotation.Autowired;

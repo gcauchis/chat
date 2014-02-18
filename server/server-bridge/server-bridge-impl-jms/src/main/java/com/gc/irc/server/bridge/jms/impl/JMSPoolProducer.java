@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.gc.irc.common.abs.AbstractObjectPool;
+import com.gc.irc.common.AbstractObjectPool;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.bridge.api.IServerBridgeProducer;
 import com.gc.irc.server.bridge.api.ServerBridgeException;

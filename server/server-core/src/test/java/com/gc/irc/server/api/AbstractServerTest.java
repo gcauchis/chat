@@ -8,10 +8,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.slf4j.Logger;
 
-import com.gc.irc.common.api.ILoggable;
+import com.gc.irc.common.ILoggable;
 import com.gc.irc.common.connector.ConnectionHandler;
 import com.gc.irc.common.entity.User;
-import com.gc.irc.common.message.api.IMessageSender;
+import com.gc.irc.common.message.IMessageSender;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.common.protocol.command.MessageCommand;
 import com.gc.irc.common.protocol.command.MessageCommandLogin;

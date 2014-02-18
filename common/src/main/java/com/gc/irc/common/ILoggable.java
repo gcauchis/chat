@@ -1,4 +1,4 @@
-package com.gc.irc.common.api;
+package com.gc.irc.common;
 
 import org.slf4j.Logger;
 

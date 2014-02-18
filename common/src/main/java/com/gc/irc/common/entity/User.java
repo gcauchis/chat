@@ -2,7 +2,7 @@ package com.gc.irc.common.entity;
 
 import java.io.Serializable;
 
-import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.common.AbstractLoggable;
 
 /**
  * The Class IRCUser.

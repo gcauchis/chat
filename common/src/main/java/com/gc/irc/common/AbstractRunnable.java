@@ -1,4 +1,4 @@
-package com.gc.irc.common.abs;
+package com.gc.irc.common;
 
 /**
  * The Class AbstractRunnable.

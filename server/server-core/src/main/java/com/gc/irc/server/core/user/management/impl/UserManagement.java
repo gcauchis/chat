@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.server.core.user.management.api.IUserManagement;
 import com.gc.irc.server.persistance.PersiteUsers;

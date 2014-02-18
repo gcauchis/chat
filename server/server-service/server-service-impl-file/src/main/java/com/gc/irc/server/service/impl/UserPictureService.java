@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 
 import org.springframework.stereotype.Service;
 
-import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.protocol.item.MessageItemPicture;
 import com.gc.irc.server.service.api.IUserPictureService;
 

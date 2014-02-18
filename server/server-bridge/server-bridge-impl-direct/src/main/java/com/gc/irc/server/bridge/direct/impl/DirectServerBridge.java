@@ -6,7 +6,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.bridge.api.IServerBridgeConsumer;
 import com.gc.irc.server.bridge.api.IServerBridgeConsumerFactory;

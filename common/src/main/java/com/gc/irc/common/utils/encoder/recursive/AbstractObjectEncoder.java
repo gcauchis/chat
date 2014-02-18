@@ -1,4 +1,4 @@
-package com.gc.irc.common.utils.encoder.recursive.abs;
+package com.gc.irc.common.utils.encoder.recursive;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gc.irc.common.exception.utils.EncoderException;
-import com.gc.irc.common.utils.encoder.recursive.api.IObjectEncoder;
-import com.gc.irc.common.utils.encoder.recursive.api.IStringEncoder;
 
 /**
  * The Class AbstractObjectEncoder.

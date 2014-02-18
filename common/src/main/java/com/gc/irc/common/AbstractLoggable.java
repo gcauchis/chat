@@ -1,8 +1,7 @@
-package com.gc.irc.common.abs;
+package com.gc.irc.common;
 
 import org.slf4j.Logger;
 
-import com.gc.irc.common.api.ILoggable;
 import com.gc.irc.common.utils.LoggerUtils;
 
 /**

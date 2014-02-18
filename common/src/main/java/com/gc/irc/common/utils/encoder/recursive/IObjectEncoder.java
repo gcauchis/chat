@@ -1,6 +1,6 @@
-package com.gc.irc.common.utils.encoder.recursive.api;
+package com.gc.irc.common.utils.encoder.recursive;
 
-import com.gc.irc.common.api.ILoggable;
+import com.gc.irc.common.ILoggable;
 import com.gc.irc.common.exception.utils.EncoderException;
 
 /**

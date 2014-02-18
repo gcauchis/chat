@@ -1,6 +1,6 @@
 package com.gc.irc.server.service.api;
 
-import com.gc.irc.common.api.ILoggable;
+import com.gc.irc.common.ILoggable;
 import com.gc.irc.common.protocol.item.MessageItemPicture;
 
 /**

@@ -2,7 +2,7 @@ package com.gc.irc.server.core.user.management.api;
 
 import java.util.List;
 
-import com.gc.irc.common.api.ILoggable;
+import com.gc.irc.common.ILoggable;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.thread.api.IGestionClientBean;
 

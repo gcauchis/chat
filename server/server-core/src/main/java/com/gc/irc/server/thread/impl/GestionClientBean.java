@@ -8,7 +8,7 @@ import java.net.Socket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gc.irc.common.abs.AbstractRunnable;
+import com.gc.irc.common.AbstractRunnable;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.entity.UserStatus;
 import com.gc.irc.common.exception.security.InvalidSenderException;

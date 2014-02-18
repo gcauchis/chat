@@ -1,8 +1,8 @@
-package com.gc.irc.common.utils.encoder.recursive.api;
+package com.gc.irc.common.utils.encoder.recursive;
 
 import java.util.Collection;
 
-import com.gc.irc.common.api.ILoggable;
+import com.gc.irc.common.ILoggable;
 
 public interface IReflectionEncoder extends ILoggable {
 

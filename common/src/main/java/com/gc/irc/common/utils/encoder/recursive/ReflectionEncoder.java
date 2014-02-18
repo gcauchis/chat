@@ -1,4 +1,4 @@
-package com.gc.irc.common.utils.encoder.recursive.imp;
+package com.gc.irc.common.utils.encoder.recursive;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
@@ -23,9 +23,6 @@ import org.slf4j.Logger;
 
 import com.gc.irc.common.exception.utils.EncoderException;
 import com.gc.irc.common.utils.LoggerUtils;
-import com.gc.irc.common.utils.encoder.recursive.api.IObjectEncoder;
-import com.gc.irc.common.utils.encoder.recursive.api.IReflectionEncoder;
-import com.gc.irc.common.utils.encoder.recursive.api.IStringEncoder;
 
 /**
  * The Class ReflectionEncoder.

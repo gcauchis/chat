@@ -1,4 +1,4 @@
-package com.gc.irc.common.message.api;
+package com.gc.irc.common.message;
 
 import java.io.Serializable;
 

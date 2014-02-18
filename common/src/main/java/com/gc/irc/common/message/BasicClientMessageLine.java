@@ -1,6 +1,5 @@
-package com.gc.irc.common.message.impl;
+package com.gc.irc.common.message;
 
-import com.gc.irc.common.message.api.IClientMessageLine;
 
 /**
  * The Class BasicClientMessage.

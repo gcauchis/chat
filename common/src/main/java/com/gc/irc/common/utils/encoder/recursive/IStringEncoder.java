@@ -1,4 +1,4 @@
-package com.gc.irc.common.utils.encoder.recursive.api;
+package com.gc.irc.common.utils.encoder.recursive;
 
 /**
  * The Interface IStringEncoder.

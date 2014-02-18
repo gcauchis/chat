@@ -1,6 +1,6 @@
 package com.gc.irc.server.test.handler;
 
-import com.gc.irc.common.message.api.IMessageHandler;
+import com.gc.irc.common.message.IMessageHandler;
 import com.gc.irc.common.protocol.Message;
 
 public interface IMessageHandlerTester extends IMessageHandler {

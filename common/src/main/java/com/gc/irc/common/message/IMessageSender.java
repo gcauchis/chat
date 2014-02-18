@@ -1,6 +1,6 @@
-package com.gc.irc.common.message.api;
+package com.gc.irc.common.message;
 
-import com.gc.irc.common.api.ILoggable;
+import com.gc.irc.common.ILoggable;
 import com.gc.irc.common.protocol.Message;
 
 /**

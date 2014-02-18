@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.item.MessageItemPicture;
 import com.gc.irc.common.utils.IOStreamUtils;

@@ -1,6 +1,6 @@
 package com.gc.irc.server.bridge.api;
 
-import com.gc.irc.common.api.ILoggable;
+import com.gc.irc.common.ILoggable;
 
 /**
  * The Interface IServerBridgeConsumerFactory.
