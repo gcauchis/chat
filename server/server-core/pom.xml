@@ -16,8 +16,8 @@
 		
 		<!--<bridge.mode>jms</bridge.mode>-->
 		<bridge.mode>direct</bridge.mode>
-		<!--<service.mode>file</service.mode>-->
-		<service.mode>neo4j</service.mode>
+		<service.mode>file</service.mode>
+<!-- 		<service.mode>neo4j</service.mode> -->
     </properties>
             
     <build>

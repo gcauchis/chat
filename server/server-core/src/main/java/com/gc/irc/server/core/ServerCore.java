@@ -127,42 +127,6 @@ public class ServerCore extends AbstractLoggable {
         }
         getLog().info("Server initialize. Listen port " + port);
 
-        /**
-         * Start thread server pull. The first thread is registered as a MBean.
-         */
-
-        // // Get the Platform MBean Server
-        // MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-        //
-        // // Construct the ObjectName for the MBean we will register
-        // ObjectName name = null;
-        // try {
-        // name = new ObjectName("com.irc.server.thread:type=ThreadServeurIRC");
-        // } catch (MalformedObjectNameException e) {
-        // getLog().fatal("Malformed Object Name (JMX MBean Server).");
-        // e.printStackTrace();
-        // System.exit(-1);
-        // } catch (NullPointerException e) {
-        // getLog().fatal("Can not register the object ThreadServerIRC (JMX MBean Server).");
-        // e.printStackTrace();
-        // }
-
-        // Create the Thread
-        // IServeurMBean threadServer = new ServeurMBean(this);
-        // threadServer.start();
-
-        // try {
-        // mbs.registerMBean(threadServer, name);
-        // } catch (InstanceAlreadyExistsException e) {
-        // getLog().fatal("Instance Already Exists (JMX MBean Server).", e);
-        // System.exit(-1);
-        // } catch (MBeanRegistrationException e) {
-        // getLog().fatal("Unable to register MBean (JMX MBean Server).", e);
-        // System.exit(-1);
-        // } catch (NotCompliantMBeanException e) {
-        // getLog().fatal("Not Compliant MBean (JMX MBean Server).", e);
-        // System.exit(-1);
-        // }
 
         for (int i = 0; i < nbThreadServeur; i++) {
             getLog().info("Build serveurMBean {}", i);
