@@ -1,4 +1,4 @@
-package com.gc.irc.server.client.connecter.api;
+package com.gc.irc.server.client.connecter;
 
 /**
  * The Interface ClientListener.
