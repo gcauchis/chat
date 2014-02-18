@@ -1,3 +1,3 @@
 # IRC
 
-***This*** is a **test** __project__.
+***This*** is a chat **test** __project__.

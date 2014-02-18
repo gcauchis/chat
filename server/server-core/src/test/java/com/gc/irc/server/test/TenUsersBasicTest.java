@@ -1,6 +1,6 @@
 package com.gc.irc.server.test;
 
-import com.gc.irc.server.api.AbstractNUsersBasicTest;
+import com.gc.irc.server.AbstractNUsersBasicTest;
 
 /**
  * The Class TenUsersBasicTest.

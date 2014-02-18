@@ -2,7 +2,7 @@ package com.gc.irc.common.protocol.chat;
 
 import java.util.List;
 
-import com.gc.irc.common.message.api.IClientMessageLine;
+import com.gc.irc.common.message.IClientMessageLine;
 
 /**
  * The Class IRCMessageChatPrivate.

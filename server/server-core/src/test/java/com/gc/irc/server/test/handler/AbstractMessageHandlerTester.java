@@ -1,6 +1,6 @@
 package com.gc.irc.server.test.handler;
 
-import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.protocol.Message;
 
 /**
