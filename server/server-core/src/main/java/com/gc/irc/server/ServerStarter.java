@@ -3,7 +3,7 @@ package com.gc.irc.server;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.server.core.ServerCore;
 
 /**

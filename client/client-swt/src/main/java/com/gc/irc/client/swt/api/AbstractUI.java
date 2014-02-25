@@ -4,7 +4,7 @@
  */
 package com.gc.irc.client.swt.api;
 
-import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.common.AbstractLoggable;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 

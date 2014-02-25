@@ -12,7 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.gc.irc.common.abs.AbstractLoggable;
+import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.server.model.UserInformations;
 
 /**

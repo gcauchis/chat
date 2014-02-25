@@ -10,9 +10,9 @@ import java.net.UnknownHostException;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.gc.irc.common.abs.AbstractRunnable;
-import com.gc.irc.common.message.api.IMessageHandler;
-import com.gc.irc.common.message.api.IMessageSender;
+import com.gc.irc.common.AbstractRunnable;
+import com.gc.irc.common.message.IMessageHandler;
+import com.gc.irc.common.message.IMessageSender;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.common.utils.IOStreamUtils;
 
