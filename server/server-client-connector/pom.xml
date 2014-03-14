@@ -12,6 +12,7 @@
 	
 	<modules>
 		<module>server-client-connector-api</module>
+		<module>server-client-connector-objectstream</module>
 	</modules>
 
 </project>

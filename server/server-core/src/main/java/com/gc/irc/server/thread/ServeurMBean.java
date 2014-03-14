@@ -10,6 +10,7 @@ import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.bridge.IServerBridgeConsumer;
 import com.gc.irc.server.bridge.IServerBridgeConsumerFactory;
 import com.gc.irc.server.bridge.ServerBridgeException;
+import com.gc.irc.server.client.connecter.ClientConnection;
 import com.gc.irc.server.core.user.management.IUserManagement;
 import com.gc.irc.server.core.user.management.IUsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.UserManagementAware;
@@ -109,7 +110,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
         /**
          * Get the number of connected client (for JMX)
          */
-        final List<IGestionClientBean> clientConnecter = usersConnectionsManagement.getClientConnected();
+        final List<ClientConnection> clientConnecter = usersConnectionsManagement.getClientConnected();
         return clientConnecter.size();
     }
 
@@ -179,7 +180,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
         /**
          * Kick the user with the ID userID
          */
-        final IGestionClientBean thClient = usersConnectionsManagement.getGestionClientBeanOfUser(userID);
+        final ClientConnection thClient = usersConnectionsManagement.getGestionClientBeanOfUser(userID);
         if (thClient != null) {
             thClient.disconnectUser();
             return "Client successfully kicked";

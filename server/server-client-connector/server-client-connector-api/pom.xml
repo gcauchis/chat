@@ -8,4 +8,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>server-client-connector-api</artifactId>
 	<name>server-client-connector-api</name>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.gc.irc</groupId>
+			<artifactId>common</artifactId>
+		</dependency>
+	</dependencies>
 </project>

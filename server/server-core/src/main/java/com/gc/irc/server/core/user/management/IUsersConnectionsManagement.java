@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.gc.irc.common.ILoggable;
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.thread.IGestionClientBean;
+import com.gc.irc.server.client.connecter.ClientConnection;
 
 public interface IUsersConnectionsManagement extends ILoggable {
 
@@ -19,14 +19,14 @@ public interface IUsersConnectionsManagement extends ILoggable {
      * @param client
      *            Deconnected Client.
      */
-    void disconnectClient(final IGestionClientBean client);
+    void disconnectClient(final ClientConnection client);
 
     /**
      * Get the Thread list of connected client.
      * 
      * @return Client's thread list.
      */
-    List<IGestionClientBean> getClientConnected();
+    List<ClientConnection> getClientConnected();
 
     /**
      * Get the thread of a selected user.
@@ -35,7 +35,7 @@ public interface IUsersConnectionsManagement extends ILoggable {
      *            User's Id.
      * @return The Designed User's Thread.
      */
-    IGestionClientBean getGestionClientBeanOfUser(final long id);
+    ClientConnection getGestionClientBeanOfUser(final long id);
 
     /**
      * Add the login client to the Client's list.
@@ -43,7 +43,7 @@ public interface IUsersConnectionsManagement extends ILoggable {
      * @param client
      *            New Client
      */
-    void newClientConnected(final IGestionClientBean client);
+    void newClientConnected(final ClientConnection client);
 
     /**
      * Send message to all users.

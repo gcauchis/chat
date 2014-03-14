@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.server.bridge.IServerBridgeProducer;
+import com.gc.irc.server.client.connecter.ClientConnection;
 import com.gc.irc.server.core.user.management.IUserManagement;
 import com.gc.irc.server.core.user.management.IUserPicturesManagement;
 import com.gc.irc.server.core.user.management.IUsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.UserManagementAware;
 import com.gc.irc.server.service.IAuthenticationService;
 import com.gc.irc.server.service.IUserPictureService;
-import com.gc.irc.server.thread.GestionClientBean;
-import com.gc.irc.server.thread.IGestionClientBean;
+import com.gc.irc.server.thread.ObjectStreamClientConnection;
 
 /**
  * A factory for creating GestionClientBean objects.
@@ -54,8 +54,8 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      * getGestionClientBean(java.net.Socket, com.gc.irc.server.core.ServerCore)
      */
     @Override
-    public IGestionClientBean getGestionClientBean(final Socket clientSocket) {
-        final GestionClientBean gestionClientBean = new GestionClientBean(clientSocket);
+    public ClientConnection getGestionClientBean(final Socket clientSocket) {
+        final ObjectStreamClientConnection gestionClientBean = new ObjectStreamClientConnection(clientSocket);
         gestionClientBean.setUsersConnectionsManagement(usersConnectionsManagement);
         gestionClientBean.setServerBridgeProducer(serverBridgeProducer);
         gestionClientBean.setAuthenticationService(authenticationService);

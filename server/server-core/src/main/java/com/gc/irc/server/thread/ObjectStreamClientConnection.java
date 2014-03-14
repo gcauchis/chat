@@ -25,6 +25,7 @@ import com.gc.irc.common.protocol.notice.MessageNoticeServerMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.server.bridge.IServerBridgeProducer;
 import com.gc.irc.server.bridge.ServerBridgeException;
+import com.gc.irc.server.client.connecter.ClientConnection;
 import com.gc.irc.server.core.ServerCore;
 import com.gc.irc.server.core.user.management.IUserManagement;
 import com.gc.irc.server.core.user.management.IUserPicturesManagement;
@@ -36,12 +37,12 @@ import com.gc.irc.server.service.IAuthenticationService;
 import com.gc.irc.server.service.IUserPictureService;
 
 /**
- * Communication interface between the Client and the server.
+ * Communication between the Client and the server using an {@link ObjectOutputStream}.
  * 
  * @author gcauchis
  * 
  */
-public class GestionClientBean extends AbstractRunnable implements IGestionClientBean, UserManagementAware {
+public class ObjectStreamClientConnection extends AbstractRunnable implements ClientConnection, UserManagementAware {
 
     /** The nb thread. */
     private static int nbThread = 0;
@@ -98,7 +99,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * @param clientSocket
      *            Client's Socket.
      */
-    public GestionClientBean(final Socket clientSocket) {
+    public ObjectStreamClientConnection(final Socket clientSocket) {
         getLog().info(id + " Initialisation du thread.");
         this.clientSocket = clientSocket;
 
@@ -178,16 +179,6 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
         } catch (final IOException e) {
             getLog().warn(id + " Fail to close Client's connection " + clientSocket.getInetAddress() + " : " + e.getMessage());
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gc.irc.server.thread.impl.IGestionClientBean#getIdThread()
-     */
-    @Override
-    public int getIdThread() {
-        return id;
     }
 
     /*
@@ -458,7 +449,7 @@ public class GestionClientBean extends AbstractRunnable implements IGestionClien
      * (com.gc.irc.common.protocol.IRCMessage)
      */
     @Override
-    public void sendMessageObjetInSocket(final Message message) {
+    public void send(final Message message) {
         try {
             /**
              * Synchronize the socket.

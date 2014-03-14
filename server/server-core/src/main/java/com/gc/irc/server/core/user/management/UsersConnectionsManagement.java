@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.protocol.Message;
+import com.gc.irc.server.client.connecter.ClientConnection;
 import com.gc.irc.server.service.IAuthenticationService;
-import com.gc.irc.server.thread.IGestionClientBean;
 
 /**
  * The Class UserManagement.
@@ -26,10 +26,10 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
     private IAuthenticationService authenticationService;
 
     /** The client connecter. */
-    private final List<IGestionClientBean> clientConnected = new LinkedList<IGestionClientBean>();
+    private final List<ClientConnection> clientConnected = new LinkedList<ClientConnection>();
 
     /** The list thread client by id user. */
-    private final Map<Long, IGestionClientBean> listThreadClientByIdUser = new ConcurrentHashMap<Long, IGestionClientBean>();
+    private final Map<Long, ClientConnection> listThreadClientByIdUser = new ConcurrentHashMap<Long, ClientConnection>();
 
     /** The user management */
     private IUserManagement userManagement;
@@ -43,7 +43,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      */
     @Override
     public void close() {
-        for (final IGestionClientBean thread : clientConnected) {
+        for (final ClientConnection thread : clientConnected) {
             thread.disconnectUser();
         }
     }
@@ -56,7 +56,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * #disconnectClient(com.gc.irc.server.thread.api.IGestionClientBean)
      */
     @Override
-    public void disconnectClient(final IGestionClientBean client) {
+    public void disconnectClient(final ClientConnection client) {
         getLog().debug("Delete the deconnected Client : " + client.getUser().getNickName());
         synchronized (clientConnected) {
             synchronized (listThreadClientByIdUser) {
@@ -78,7 +78,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * #getClientConnected()
      */
     @Override
-    public List<IGestionClientBean> getClientConnected() {
+    public List<ClientConnection> getClientConnected() {
         return clientConnected;
     }
 
@@ -90,7 +90,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * #getGestionClientBeanOfUser(int)
      */
     @Override
-    public IGestionClientBean getGestionClientBeanOfUser(final long id) {
+    public ClientConnection getGestionClientBeanOfUser(final long id) {
         return listThreadClientByIdUser.get(id);
     }
 
@@ -103,7 +103,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * #newClientConnected(com.gc.irc.server.thread.api.IGestionClientBean)
      */
     @Override
-    public void newClientConnected(final IGestionClientBean client) {
+    public void newClientConnected(final ClientConnection client) {
         getLog().debug("Add a new Connected Client : " + client.getUser().getNickName());
         synchronized (clientConnected) {
             synchronized (listThreadClientByIdUser) {
@@ -126,18 +126,18 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      */
     @Override
     public void sendMessageToAllUsers(final Message message) {
-        final List<IGestionClientBean> clientConnected = getClientConnected();
+        final List<ClientConnection> clientConnected = getClientConnected();
 
         if (authenticationService.getUser(message.getFromId()) != null) {
             if (getLog().isDebugEnabled()) {
                 getLog().debug(" Send a message to all connected client from " + authenticationService.getUser(message.getFromId()).getNickname());
             }
             synchronized (clientConnected) {
-                for (final IGestionClientBean client : clientConnected) {
+                for (final ClientConnection client : clientConnected) {
                     if (message.getFromId() != client.getUser().getId()) {
                         synchronized (client) {
                             synchronized (client.getUser()) {
-                                client.sendMessageObjetInSocket(message);
+                                client.send(message);
                             }
                         }
                     }
@@ -157,9 +157,9 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      */
     @Override
     public void sendTo(final Message message, final long toId) {
-        final IGestionClientBean clientCible = getGestionClientBeanOfUser(toId);
+        final ClientConnection clientCible = getGestionClientBeanOfUser(toId);
         if (clientCible != null) {
-            clientCible.sendMessageObjetInSocket(message);
+            clientCible.send(message);
         }
     }
 
