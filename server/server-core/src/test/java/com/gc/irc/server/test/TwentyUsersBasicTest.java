@@ -6,6 +6,10 @@ import com.gc.irc.server.AbstractNUsersBasicTest;
 
 /**
  * The Class TwentyUsersBasicTest.
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
  */
 @Ignore
 public class TwentyUsersBasicTest extends AbstractNUsersBasicTest {
@@ -15,6 +19,7 @@ public class TwentyUsersBasicTest extends AbstractNUsersBasicTest {
      * 
      * @see com.gc.irc.server.api.AbstractNUsersBasicTest#getNbMessageToSend()
      */
+    /** {@inheritDoc} */
     @Override
     protected int getNbMessageToSend() {
         return 25;
@@ -25,6 +30,7 @@ public class TwentyUsersBasicTest extends AbstractNUsersBasicTest {
      * 
      * @see com.gc.irc.server.api.AbstractNUsersBasicTest#getNbUserConnected()
      */
+    /** {@inheritDoc} */
     @Override
     protected int getNbUserConnected() {
         return 20;

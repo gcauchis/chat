@@ -10,11 +10,14 @@ import com.gc.irc.server.handler.message.IServerMessageHandler;
 
 /**
  * The Class AbstractIRCMessageHandlerTest.
- * 
+ *
  * @param <MSGH>
  *            the generic type
  * @param <MSG>
  *            the generic type
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
  */
 // @SpringApplicationContext("classpath*:spring-application-config.xml")
 public abstract class AbstractMessageHandlerTest<MSGH extends IServerMessageHandler, MSG extends Message> /* extends UnitilsJUnit4 */{
@@ -32,14 +35,14 @@ public abstract class AbstractMessageHandlerTest<MSGH extends IServerMessageHand
 
     /**
      * Builds the message instance.
-     * 
+     *
      * @return the mSG
      */
     protected abstract MSG buildMessageInstance();
 
     /**
      * Gets the message handler.
-     * 
+     *
      * @return the message handler
      */
     public MSGH getMessageHandler() {
@@ -56,7 +59,7 @@ public abstract class AbstractMessageHandlerTest<MSGH extends IServerMessageHand
 
     /**
      * Sets the message handler.
-     * 
+     *
      * @param messageHandler
      *            the new message handler
      */

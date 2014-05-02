@@ -5,6 +5,10 @@ import com.gc.irc.common.protocol.Message;
 
 /**
  * The Class AbstractMessageHandler.
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
  */
 public abstract class AbstractMessageHandlerTester extends AbstractLoggable implements IMessageHandlerTester {
 
@@ -19,9 +23,9 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Gets the last received message.
-     * 
-     * @return the last received message
      */
     @Override
     public Message getLastReceivedMessage() {
@@ -33,6 +37,7 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
      * 
      * @see com.gc.irc.common.message.api.IIRCMessageHandler#handle(com.gc.irc.common .protocol.IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     public void handle(final Message message) {
         getLog().info("Message recived: " + message);
@@ -42,7 +47,7 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
 
     /**
      * Handle internal.
-     * 
+     *
      * @param message
      *            the message
      */
@@ -53,6 +58,7 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
      * 
      * @see com.gc.irc.server.test.handler.IMessageHandlerTester#isMessageRecieved()
      */
+    /** {@inheritDoc} */
     @Override
     public boolean isMessageRecieved() {
         return lastReceivedMessage != null;
@@ -63,6 +69,7 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
      * 
      * @see com.gc.irc.server.test.handler.IMessageHandlerTester#reset()
      */
+    /** {@inheritDoc} */
     @Override
     public void reset() {
         getLog().debug("Reset");

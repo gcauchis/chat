@@ -29,6 +29,10 @@ import com.gc.irc.server.test.utils.entity.UserContextEntity;
 
 /**
  * The Class NUsersBasicTest.
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
  */
 public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
@@ -49,8 +53,8 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Change nick name.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @Test
@@ -73,8 +77,8 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Change status.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @Test
@@ -117,7 +121,8 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Clean.
-     * @throws InterruptedException 
+     *
+     * @throws java.lang.InterruptedException if any.
      */
     @After
     public final void clean() throws InterruptedException {
@@ -130,7 +135,7 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Gets the context.
-     * 
+     *
      * @param index
      *            the c
      * @return the context
@@ -169,7 +174,7 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Gets the contexts.
-     * 
+     *
      * @return the contexts
      */
     protected final List<UserContextEntity> getContexts() {
@@ -194,7 +199,7 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Gets the nb message to send.
-     * 
+     *
      * @return the nb message to send
      */
     protected int getNbMessageToSend() {
@@ -203,7 +208,7 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Gets the nb user connected.
-     * 
+     *
      * @return the nb user connected
      */
     protected int getNbUserConnected() {
@@ -212,7 +217,7 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Gets the random user context.
-     * 
+     *
      * @return the random user context
      */
     protected final UserContextEntity getRandomUserContext() {
@@ -221,7 +226,7 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Gets the random user context index.
-     * 
+     *
      * @return the random user context index
      */
     protected final int getRandomUserContextIndex() {
@@ -230,8 +235,8 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Global convers.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @Test
@@ -243,8 +248,8 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Prepare.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @Before
@@ -275,8 +280,8 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Private convers.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @Test
@@ -297,10 +302,10 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Random user send message to global.
-     * 
+     *
      * @param messageStr
      *            the message str
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     protected final void randomUserSendMessageToGlobal(String messageStr) throws InterruptedException {
@@ -309,10 +314,10 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Random user send message to random other one.
-     * 
+     *
      * @param messageStr
      *            the message str
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     protected final void randomUserSendMessageToRandomOtherOne(String messageStr) throws InterruptedException {
@@ -326,12 +331,12 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * User send message to global.
-     * 
+     *
      * @param contextSender
      *            the context sender
      * @param messageStr
      *            the message str
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     protected final void userSendMessageToGlobal(UserContextEntity contextSender, String messageStr) throws InterruptedException {
@@ -341,14 +346,14 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * User send message to other one.
-     * 
+     *
      * @param contextSender
      *            the context sender
      * @param messageStr
      *            the message str
      * @param contextDest
      *            the context dest
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     protected final void userSendMessageToOtherOne(UserContextEntity contextSender, String messageStr, UserContextEntity contextDest)

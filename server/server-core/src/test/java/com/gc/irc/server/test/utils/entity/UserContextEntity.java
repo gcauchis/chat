@@ -6,6 +6,10 @@ import com.gc.irc.server.test.handler.IMessageHandlerTester;
 
 /**
  * The Class UserContextEntity.
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
  */
 public class UserContextEntity {
 
@@ -20,7 +24,7 @@ public class UserContextEntity {
 
     /**
      * Instantiates a new user context entity.
-     * 
+     *
      * @param user
      *            the user
      * @param connectionUser
@@ -34,7 +38,7 @@ public class UserContextEntity {
 
     /**
      * Instantiates a new user context entity.
-     * 
+     *
      * @param user
      *            the user
      * @param connectionUser
@@ -65,7 +69,7 @@ public class UserContextEntity {
 
     /**
      * Gets the connection user.
-     * 
+     *
      * @return the connectionUser
      */
     public ConnectionHandler getConnectionUser() {
@@ -73,6 +77,8 @@ public class UserContextEntity {
     }
 
     /**
+     * <p>Getter for the field <code>messageHandler</code>.</p>
+     *
      * @return the messageHandler
      */
     public IMessageHandlerTester getMessageHandler() {
@@ -81,7 +87,7 @@ public class UserContextEntity {
 
     /**
      * Gets the user.
-     * 
+     *
      * @return the user
      */
     public User getUser() {
@@ -90,7 +96,7 @@ public class UserContextEntity {
 
     /**
      * Sets the connection user.
-     * 
+     *
      * @param connectionUser
      *            the connectionUser to set
      */
@@ -99,6 +105,8 @@ public class UserContextEntity {
     }
 
     /**
+     * <p>Setter for the field <code>messageHandler</code>.</p>
+     *
      * @param messageHandler
      *            the messageHandler to set
      */
@@ -109,7 +117,7 @@ public class UserContextEntity {
 
     /**
      * Sets the user.
-     * 
+     *
      * @param user
      *            the user to set
      */

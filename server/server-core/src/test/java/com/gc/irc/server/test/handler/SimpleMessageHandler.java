@@ -4,6 +4,10 @@ import com.gc.irc.common.protocol.Message;
 
 /**
  * The Class SimpleMessageHandler.
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
  */
 public class SimpleMessageHandler extends AbstractMessageHandlerTester {
 
@@ -14,6 +18,7 @@ public class SimpleMessageHandler extends AbstractMessageHandlerTester {
      * com.gc.irc.server.test.handler.AbstractMessageHandler#handleInternal(
      * com.gc.irc.common.protocol.IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     protected void handleInternal(final Message message) {
     }
@@ -24,6 +29,7 @@ public class SimpleMessageHandler extends AbstractMessageHandlerTester {
      * @see
      * com.gc.irc.server.test.handler.AbstractMessageHandler#resetInsernal()
      */
+    /** {@inheritDoc} */
     @Override
     protected void resetInsernal() {
     }

@@ -20,6 +20,10 @@ import com.gc.irc.server.handler.message.test.AbstractMessageHandlerTest;
 
 /**
  * The Class IRCMessageChatPrivateHandlerTest.
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
  */
 public class MessageChatPrivateHandlerTest extends AbstractMessageHandlerTest<MessageChatPrivateHandler, MessageChatPrivate> {
 
@@ -39,6 +43,7 @@ public class MessageChatPrivateHandlerTest extends AbstractMessageHandlerTest<Me
      * com.gc.irc.server.handler.message.test.api.AbstractIRCMessageHandlerTest
      * #buildMessageInstance()
      */
+    /** {@inheritDoc} */
     @Override
     protected MessageChatPrivate buildMessageInstance() {
         return buildMessageInstance(1, 2);
@@ -77,8 +82,8 @@ public class MessageChatPrivateHandlerTest extends AbstractMessageHandlerTest<Me
 
     /**
      * Handle receiver not exist.
-     * 
-     * @throws ServerBridgeException
+     *
+     * @throws com.gc.irc.server.bridge.ServerBridgeException
      *             the server bridge exception
      */
     @Test
@@ -97,8 +102,8 @@ public class MessageChatPrivateHandlerTest extends AbstractMessageHandlerTest<Me
 
     /**
      * Handle receiver not exist end message stacking.
-     * 
-     * @throws ServerBridgeException
+     *
+     * @throws com.gc.irc.server.bridge.ServerBridgeException
      *             the server bridge exception
      */
     @Test
@@ -120,8 +125,8 @@ public class MessageChatPrivateHandlerTest extends AbstractMessageHandlerTest<Me
 
     /**
      * Handle receiver not exist fail to post in bridge.
-     * 
-     * @throws ServerBridgeException
+     *
+     * @throws com.gc.irc.server.bridge.ServerBridgeException
      *             the server bridge exception
      */
     @Test

@@ -8,6 +8,10 @@ import com.gc.irc.common.protocol.notice.MessageNoticeContactInfo;
 
 /**
  * The Class ContactInfoMessageHandler.
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
  */
 public class LoginContactInfoMessageHandler extends AbstractMessageHandlerTester {
 
@@ -16,7 +20,7 @@ public class LoginContactInfoMessageHandler extends AbstractMessageHandlerTester
 
     /**
      * Gets the message notice contact infos.
-     * 
+     *
      * @return the message notice contact infos
      */
     public List<MessageNoticeContactInfo> getMessageNoticeContactInfos() {
@@ -25,7 +29,7 @@ public class LoginContactInfoMessageHandler extends AbstractMessageHandlerTester
 
     /**
      * Gets the nb contact info received.
-     * 
+     *
      * @return the nb contact info received
      */
     public int getNbContactInfoReceived() {
@@ -37,6 +41,7 @@ public class LoginContactInfoMessageHandler extends AbstractMessageHandlerTester
      * 
      * @see com.gc.irc.server.test.handler.AbstractMessageHandlerTester#handleInternal(com.gc.irc.common.protocol.IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     protected void handleInternal(Message message) {
         if (message instanceof MessageNoticeContactInfo) {
@@ -49,6 +54,7 @@ public class LoginContactInfoMessageHandler extends AbstractMessageHandlerTester
      * 
      * @see com.gc.irc.server.test.handler.AbstractMessageHandlerTester#resetInsernal()
      */
+    /** {@inheritDoc} */
     @Override
     protected void resetInsernal() {
         messageNoticeContactInfos.clear();

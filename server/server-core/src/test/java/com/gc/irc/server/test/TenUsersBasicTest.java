@@ -4,6 +4,10 @@ import com.gc.irc.server.AbstractNUsersBasicTest;
 
 /**
  * The Class TenUsersBasicTest.
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
  */
 public class TenUsersBasicTest extends AbstractNUsersBasicTest {
 
@@ -12,6 +16,7 @@ public class TenUsersBasicTest extends AbstractNUsersBasicTest {
 	 * 
 	 * @see com.gc.irc.server.api.AbstractNUsersBasicTest#getNbMessageToSend()
 	 */
+	/** {@inheritDoc} */
 	@Override
 	protected int getNbMessageToSend() {
 		return 10;
@@ -22,6 +27,7 @@ public class TenUsersBasicTest extends AbstractNUsersBasicTest {
 	 * 
 	 * @see com.gc.irc.server.api.AbstractNUsersBasicTest#getNbUserConnected()
 	 */
+	/** {@inheritDoc} */
 	@Override
 	protected int getNbUserConnected() {
 		return 10;

@@ -15,6 +15,10 @@ import com.gc.irc.server.test.utils.entity.UserContextEntity;
 
 /**
  * The Class TwoUserBasicTestIT.
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
  */
 public class TwoUsersBasicTest extends AbstractMultipleUserTest {
 
@@ -26,7 +30,8 @@ public class TwoUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Clean.
-     * @throws InterruptedException 
+     *
+     * @throws java.lang.InterruptedException if any.
      */
     @After
     public void clean() throws InterruptedException {
@@ -36,8 +41,8 @@ public class TwoUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Basic test.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @Test
@@ -55,8 +60,8 @@ public class TwoUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Prepare.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @Before
@@ -67,8 +72,8 @@ public class TwoUsersBasicTest extends AbstractMultipleUserTest {
 
     /**
      * Private convers.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @Test

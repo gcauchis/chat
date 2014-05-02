@@ -21,6 +21,10 @@ import com.gc.irc.server.test.utils.entity.UserContextEntity;
 
 /**
  * The Class ServerTest.
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
  */
 public class BasicServerTest extends AbstractServerTest {
 
@@ -46,8 +50,8 @@ public class BasicServerTest extends AbstractServerTest {
 
     /**
      * Login0.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @Test
@@ -59,8 +63,8 @@ public class BasicServerTest extends AbstractServerTest {
 
     /**
      * Login1.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @Test
@@ -73,8 +77,8 @@ public class BasicServerTest extends AbstractServerTest {
 
     /**
      * Login2.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @Test
@@ -87,8 +91,8 @@ public class BasicServerTest extends AbstractServerTest {
 
     /**
      * Login rand.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @Test
@@ -114,8 +118,8 @@ public class BasicServerTest extends AbstractServerTest {
 
     /**
      * Prepare.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @Before
@@ -125,8 +129,8 @@ public class BasicServerTest extends AbstractServerTest {
 
     /**
      * Basic test.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @Test

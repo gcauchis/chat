@@ -8,6 +8,10 @@ import com.gc.irc.common.protocol.notice.MessageNoticeRegister;
 
 /**
  * The Class LoginMessageHandler.
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
  */
 public class LoginMessageHandler extends AbstractMessageHandlerTester {
 
@@ -22,7 +26,7 @@ public class LoginMessageHandler extends AbstractMessageHandlerTester {
 
     /**
      * Gets the login.
-     * 
+     *
      * @return the login
      */
     public User getLogin() {
@@ -30,10 +34,9 @@ public class LoginMessageHandler extends AbstractMessageHandlerTester {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Handle internal.
-     * 
-     * @param message
-     *            the message
      */
     @Override
     protected void handleInternal(final Message message) {
@@ -57,14 +60,16 @@ public class LoginMessageHandler extends AbstractMessageHandlerTester {
 
     /**
      * Checks if is login validated.
-     * 
-     * @return true, if is login validated
+     *
+     * @return a boolean.
      */
     public boolean isLoginValidated() {
         return loginValidated && contactListReceived;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Reset insernal.
      */
     @Override

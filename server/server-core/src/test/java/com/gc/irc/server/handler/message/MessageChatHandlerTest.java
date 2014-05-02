@@ -17,6 +17,10 @@ import com.gc.irc.server.handler.message.test.AbstractMessageHandlerTest;
 
 /**
  * The Class IRCMessageChatHandlerTest.
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
  */
 public class MessageChatHandlerTest extends AbstractMessageHandlerTest<MessageChatHandler, MessageChat> {
 
@@ -31,6 +35,7 @@ public class MessageChatHandlerTest extends AbstractMessageHandlerTest<MessageCh
      * 
      * @see com.gc.irc.server.handler.message.test.api.AbstractIRCMessageHandlerTest#buildMessageInstance()
      */
+    /** {@inheritDoc} */
     @Override
     protected MessageChat buildMessageInstance() {
         return buildMessageInstance(-1);

@@ -19,11 +19,18 @@ import com.gc.irc.common.protocol.chat.MessageChatPrivate;
 import com.gc.irc.server.test.handler.IMessageHandlerTester;
 import com.gc.irc.server.test.utils.entity.UserContextEntity;
 
+/**
+ * <p>Abstract AbstractMultipleUserTest class.</p>
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
+ */
 public abstract class AbstractMultipleUserTest extends AbstractServerTest {
 
     /**
      * Builds the simple message.
-     * 
+     *
      * @param user
      *            the user
      * @param message
@@ -36,7 +43,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
 
     /**
      * Builds the simple private message.
-     * 
+     *
      * @param user
      *            the user
      * @param message
@@ -51,7 +58,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
 
     /**
      * Check message receive.
-     * 
+     *
      * @param userSources
      *            the user sources
      * @param messageStr
@@ -65,7 +72,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
 
     /**
      * Check message received.
-     * 
+     *
      * @param userSources
      *            the user sources
      * @param messageStr
@@ -88,7 +95,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
 
     /**
      * Reset message handlers.
-     * 
+     *
      * @param messageHandlers
      *            the message handlers
      */
@@ -102,7 +109,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
 
     /**
      * Send meassage and wait for response.
-     * 
+     *
      * @param connectionThreadSender
      *            the connection thread sender
      * @param messageHandlerUserDestination
@@ -110,7 +117,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      * @param sendedMessage
      *            the sended message
      * @return the iRC message
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     protected final Message sendMessageAndWaitForResponse(final ConnectionHandler connectionThreadSender,
@@ -120,7 +127,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
 
     /**
      * Send message and wait for response.
-     * 
+     *
      * @param connectionThreadSender
      *            the connection thread sender
      * @param messageHandlerUserDestination
@@ -128,7 +135,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      * @param sendedMessage
      *            the sended message
      * @return the list
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     protected final List<Message> sendMessageAndWaitForResponse(final ConnectionHandler connectionThreadSender,
@@ -152,7 +159,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
 
     /**
      * Send message to global.
-     * 
+     *
      * @param userSrc
      *            the user src
      * @param connectionThreadSrc
@@ -161,7 +168,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      *            the message str
      * @param messageHandlerUserDest
      *            the message handler user dest
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     protected final void sendMessageToGlobal(final User userSrc, final ConnectionHandler connectionThreadSrc, final String messageStr,
@@ -179,15 +186,14 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
 
     /**
      * Send message to global.
-     * 
+     *
      * @param contextSrc
      *            the context src
      * @param messageStr
      *            the message str
-     * @param contextsDes
-     *            the contexts des
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
+     * @param contextsDest a {@link java.util.List} object.
      */
     protected final void sendMessageToGlobal(final UserContextEntity contextSrc, final String messageStr, final List<UserContextEntity> contextsDest)
             throws InterruptedException {
@@ -204,7 +210,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
 
     /**
      * Send private message.
-     * 
+     *
      * @param userSource
      *            the user source
      * @param connectionThreadSource
@@ -217,7 +223,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      *            the user destination
      * @param otherUsersMessageHandlers
      *            the other users message handlers
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     protected final void sendPrivateMessage(final User userSource, final ConnectionHandler connectionThreadSource, final String messageStr,
@@ -241,7 +247,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
 
     /**
      * Send private message.
-     * 
+     *
      * @param contextSrc
      *            the context src
      * @param messageStr
@@ -250,7 +256,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      *            the context dest
      * @param otherUsersContexts
      *            the other users contexts
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     protected final void sendPrivateMessage(final UserContextEntity contextSrc, final String messageStr, final UserContextEntity contextDest,

@@ -27,6 +27,10 @@ import com.gc.irc.server.test.utils.entity.UserContextEntity;
 
 /**
  * The Class AbstractServerTest.
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ * @since 0.0.4
  */
 public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements ILoggable {
 
@@ -55,8 +59,8 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
 
     /**
      * Inits the.
-     * 
-     * @throws InterruptedException
+     *
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     @BeforeClass
@@ -79,9 +83,11 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
 
     /**
      * Gets the connected user.
-     * 
+     *
      * @return the connected user
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException if any.
+     * @param login a {@link java.lang.String} object.
+     * @param password a {@link java.lang.String} object.
      */
     protected final UserContextEntity getConnectedUser(final String login, final String password) throws InterruptedException {
         final ConnectionHandler connection = getConnectionToServer();
@@ -95,9 +101,9 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
 
     /**
      * Gets the connection to server.
-     * 
+     *
      * @return the connection to server
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     protected final ConnectionHandler getConnectionToServer() throws InterruptedException {
@@ -119,9 +125,9 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Gets the log.
-     * 
-     * @return the log
      */
     @Override
     public Logger getLog() {
@@ -133,7 +139,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
 
     /**
      * Login.
-     * 
+     *
      * @param connectionThread
      *            the connection thread
      * @param login
@@ -141,7 +147,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
      * @param password
      *            the password
      * @return the iRC user
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     protected final User login(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
@@ -150,15 +156,16 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
 
     /**
      * Login.
-     * 
+     *
      * @param connectionThread
      *            the connection thread
      * @param login
      *            the login
      * @param password
      *            the password
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
+     * @return a {@link com.gc.irc.common.entity.User} object.
      */
     protected final User loginAndRegister(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
         User user = login(connectionThread, login, password);
@@ -170,7 +177,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
 
     /**
      * Register.
-     * 
+     *
      * @param connectionThread
      *            the connection thread
      * @param login
@@ -178,7 +185,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
      * @param password
      *            the password
      * @return the iRC user
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     protected final User register(final ConnectionHandler connectionThread, final String login, final String password) throws InterruptedException {
@@ -207,7 +214,9 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
 
     /**
      * Send message.
-     * 
+     *
+     * @param messageSender
+     *            the message sender
      * @param messageSender
      *            the message sender
      * @param message
@@ -219,10 +228,10 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
 
     /**
      * Wait for message in handler.
-     * 
+     *
      * @param messageHandler
      *            the message handler
-     * @throws InterruptedException
+     * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
     protected final void waitForMessageInHandler(final IMessageHandlerTester messageHandler) throws InterruptedException {
@@ -232,12 +241,15 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
     }
     
     /**
-     * 
+     * <p>sendAndWaitForMessageInHandler.</p>
+     *
+     * @param messageHandler a {@link com.gc.irc.server.test.handler.IMessageHandlerTester} object.
+     * @param messageSender a {@link com.gc.irc.common.message.IMessageSender} object.
      * @param messageHandler
      * @param messageSender
-     * @param message
-     * @return
-     * @throws InterruptedException
+     * @param message a {@link com.gc.irc.common.protocol.Message} object.
+     * @throws java.lang.InterruptedException if any.
+     * @return a {@link com.gc.irc.common.protocol.Message} object.
      */
     protected final Message sendAndWaitForMessageInHandler(final IMessageHandlerTester messageHandler, final IMessageSender messageSender, final Message message) throws InterruptedException {
     	sendMessage(messageSender, message);
@@ -246,9 +258,10 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
     }
     
     /**
-     * 
-     * @param user
-     * @throws InterruptedException 
+     * <p>removeTestUser.</p>
+     *
+     * @throws java.lang.InterruptedException if any.
+     * @param contextEntity a {@link com.gc.irc.server.test.utils.entity.UserContextEntity} object.
      */
     protected final void removeTestUser(UserContextEntity contextEntity) throws InterruptedException {
     	final IMessageHandlerTester messageHandler = new SimpleMessageHandler();
@@ -260,19 +273,21 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
     }
     
     /**
-     * 
-     * @param user
-     * @param connectionUser
-     * @throws InterruptedException
+     * <p>removeTestUser.</p>
+     *
+     * @param user a {@link com.gc.irc.common.entity.User} object.
+     * @param connectionUser a {@link com.gc.irc.common.connector.ConnectionHandler} object.
+     * @throws java.lang.InterruptedException if any.
      */
     protected final void removeTestUser(final User user, final ConnectionHandler connectionUser) throws InterruptedException {
     	removeTestUser(new UserContextEntity(user, connectionUser));
     }
     
     /**
-     * 
-     * @param contextUser
-     * @throws InterruptedException
+     * <p>finalizeTestContext.</p>
+     *
+     * @param contextUser a {@link com.gc.irc.server.test.utils.entity.UserContextEntity} object.
+     * @throws java.lang.InterruptedException if any.
      */
     protected final void finalizeTestContext(UserContextEntity contextUser) throws InterruptedException {
 		removeTestUser(contextUser);
