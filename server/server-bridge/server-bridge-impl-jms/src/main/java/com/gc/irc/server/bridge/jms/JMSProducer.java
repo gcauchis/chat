@@ -13,9 +13,9 @@ import com.gc.irc.server.bridge.jms.utils.JMSConnectionUtils;
 
 /**
  * Contain a JMSProducer to send a message in the JMS Queue.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public class JMSProducer extends AbstractLoggable implements IServerBridgeProducer {
 
@@ -27,7 +27,7 @@ public class JMSProducer extends AbstractLoggable implements IServerBridgeProduc
 
     /**
      * Gets the nb thread.
-     * 
+     *
      * @return the nb thread
      */
     protected static int getNbThread() {
@@ -43,6 +43,8 @@ public class JMSProducer extends AbstractLoggable implements IServerBridgeProduc
 
     /**
      * Instantiates a new iRCJMS producer.
+     *
+     * @param brokerUrl a {@link java.lang.String} object.
      */
     public JMSProducer(final String brokerUrl) {
         session = JMSConnectionUtils.getSession(brokerUrl);
@@ -59,6 +61,7 @@ public class JMSProducer extends AbstractLoggable implements IServerBridgeProduc
      * 
      * @see com.gc.irc.server.bridge.api.IServerBridgeProducer#close()
      */
+    /** {@inheritDoc} */
     @Override
     public void close() throws ServerBridgeException {
         try {
@@ -76,6 +79,7 @@ public class JMSProducer extends AbstractLoggable implements IServerBridgeProduc
      * com.gc.irc.server.jms.IJMSProducer#postInJMS(com.gc.irc.common.protocol
      * .IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     public void post(final Message objectMessage) throws ServerBridgeException {
         getLog().debug(id + " Send a message in JMS Queue.");

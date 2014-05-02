@@ -19,13 +19,13 @@ import com.gc.irc.server.thread.factory.IServeurMBeanFactory;
 
 /**
  * Main class.
- * 
+ *
  * Start the server. Start the ThreadPull.
- * 
+ *
  * When a Client is connected a Thread is start to discuss with.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 @Component("serverCore")
 public class ServerCore extends AbstractLoggable {
@@ -38,7 +38,7 @@ public class ServerCore extends AbstractLoggable {
 
     /**
      * Get the welcome message.
-     * 
+     *
      * @return The welcome message.
      */
     public static String getMessageAcceuil() {
@@ -47,7 +47,7 @@ public class ServerCore extends AbstractLoggable {
 
     /**
      * Used to change the welcoming message.
-     * 
+     *
      * @param messageAcceuil
      *            The new message.
      */
@@ -86,7 +86,7 @@ public class ServerCore extends AbstractLoggable {
 
     /**
      * Instantiates a new server core.
-     * 
+     *
      * @param port
      *            the port
      */
@@ -139,7 +139,7 @@ public class ServerCore extends AbstractLoggable {
 
     /**
      * Sets the gestion client bean factory.
-     * 
+     *
      * @param gestionClientBeanFactory
      *            the new gestion client bean factory
      */
@@ -148,6 +148,8 @@ public class ServerCore extends AbstractLoggable {
     }
 
     /**
+     * <p>Setter for the field <code>nbThreadServeur</code>.</p>
+     *
      * @param nbThreadServeur
      *            the nbThreadServeur to set
      */
@@ -157,9 +159,9 @@ public class ServerCore extends AbstractLoggable {
 
     /**
      * Change the listening port
-     * 
+     *
      * Don't forget to use initServer() after use this method.
-     * 
+     *
      * @param port
      *            New Listening Port.
      */
@@ -170,7 +172,7 @@ public class ServerCore extends AbstractLoggable {
 
     /**
      * Sets the serveur m bean factory.
-     * 
+     *
      * @param serveurMBeanFactory
      *            the new serveur m bean factory
      */
@@ -180,7 +182,7 @@ public class ServerCore extends AbstractLoggable {
 
     /**
      * Sets the user connections management.
-     * 
+     *
      * @param userConnectionsManagement
      *            the new user connections management
      */
@@ -189,6 +191,8 @@ public class ServerCore extends AbstractLoggable {
     }
 
     /**
+     * <p>Setter for the field <code>usersConnectionsManagement</code>.</p>
+     *
      * @param usersConnectionsManagement
      *            the usersConnectionsManagement to set
      */

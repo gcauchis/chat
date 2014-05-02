@@ -12,6 +12,12 @@ import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.server.persistance.PersiteUsers;
 
+/**
+ * <p>UserManagement class.</p>
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ */
 @Component("userManagement")
 @Scope("singleton")
 public class UserManagement extends AbstractLoggable implements IUserManagement {
@@ -19,6 +25,7 @@ public class UserManagement extends AbstractLoggable implements IUserManagement 
     /** The list user by id. */
     private final Map<Long, User> listUserById = new ConcurrentHashMap<Long, User>();
 
+    /** {@inheritDoc} */
     @Override
     public void disconnect(long id) {
         getLog().info("disconnect id={}", id);
@@ -34,6 +41,7 @@ public class UserManagement extends AbstractLoggable implements IUserManagement 
         PersiteUsers.persistListUser(getAllUsers());
     }
 
+    /** {@inheritDoc} */
     @Override
     public List<User> getAllUsers() {
         List<User> list = null;
@@ -43,17 +51,20 @@ public class UserManagement extends AbstractLoggable implements IUserManagement 
         return list;
     }
 
+    /** {@inheritDoc} */
     @Override
     public User getUser(final long id) {
         return listUserById.get(id);
     }
 
+    /** {@inheritDoc} */
     @Override
     public void newUserConnected(User user) {
         listUserById.put(user.getId(), user);
         persistStatus();
     }
 
+    /** {@inheritDoc} */
     @Override
     public User changeUserNickname(long id, String nickname) {
         User user = getUser(id);
@@ -62,11 +73,13 @@ public class UserManagement extends AbstractLoggable implements IUserManagement 
         return user;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean isLogged(long id) {
         return getUser(id) != null;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void changeUserHasPicture(long id) {
         User user = getUser(id);

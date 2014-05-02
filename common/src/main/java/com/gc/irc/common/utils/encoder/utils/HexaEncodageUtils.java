@@ -4,6 +4,9 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * The Class HexaEncodageUtils.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public final class HexaEncodageUtils {
 
@@ -16,7 +19,7 @@ public final class HexaEncodageUtils {
 
     /**
      * Convert an Hexadecimal encoded String into a decoded byte array.
-     * 
+     *
      * @param s
      *            an Hexadecimal encoded String
      * @return a decoded byte array
@@ -35,7 +38,7 @@ public final class HexaEncodageUtils {
 
     /**
      * Hex string to string.
-     * 
+     *
      * @param input
      *            the input
      * @return the string
@@ -46,7 +49,7 @@ public final class HexaEncodageUtils {
 
     /**
      * Convert a byte array into an hexadecimal encoded string.
-     * 
+     *
      * @param b
      *            a byte array
      * @return hexadecimal encoded string
@@ -66,7 +69,7 @@ public final class HexaEncodageUtils {
 
     /**
      * Gets the hex string.
-     * 
+     *
      * @param input
      *            the input
      * @return the hex string

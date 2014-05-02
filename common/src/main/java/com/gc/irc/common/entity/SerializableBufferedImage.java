@@ -16,6 +16,9 @@ import com.gc.irc.common.utils.LoggerUtils;
 
 /**
  * The Class SerializableBufferedImage.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class SerializableBufferedImage implements Serializable {
 
@@ -30,7 +33,7 @@ public class SerializableBufferedImage implements Serializable {
 
     /**
      * Instantiates a new serializable buffered image.
-     * 
+     *
      * @param bufferedImage
      *            the buffered image
      */
@@ -38,6 +41,11 @@ public class SerializableBufferedImage implements Serializable {
         byteImage = toByteArray(bufferedImage);
     }
     
+    /**
+     * <p>Constructor for SerializableBufferedImage.</p>
+     *
+     * @param byteImage an array of byte.
+     */
     public SerializableBufferedImage(final byte[] byteImage) {
         this.byteImage = byteImage;
     }
@@ -62,7 +70,7 @@ public class SerializableBufferedImage implements Serializable {
 
     /**
      * Gets the buffered image.
-     * 
+     *
      * @return the buffered image
      */
     public BufferedImage getBufferedImage() {
@@ -95,10 +103,20 @@ public class SerializableBufferedImage implements Serializable {
         return new byte[0];
     }
 
+	/**
+	 * <p>Getter for the field <code>byteImage</code>.</p>
+	 *
+	 * @return an array of byte.
+	 */
 	public byte[] getByteImage() {
 		return Arrays.copyOf(byteImage, byteImage.length);
 	}
 
+	/**
+	 * <p>Setter for the field <code>byteImage</code>.</p>
+	 *
+	 * @param byteImage an array of byte.
+	 */
 	public void setByteImage(byte[] byteImage) {
 		this.byteImage = Arrays.copyOf(byteImage, byteImage.length);
 	}

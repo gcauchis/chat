@@ -16,6 +16,9 @@ import com.gc.irc.server.service.IAuthenticationService;
 
 /**
  * The Class UserManagement.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 @Component("usersConnectionsManagement")
 @Scope("singleton")
@@ -41,6 +44,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * com.gc.irc.server.core.user.management.api.IUserConnectionsManagement
      * #close()
      */
+    /** {@inheritDoc} */
     @Override
     public void close() {
         for (final ClientConnection thread : clientConnected) {
@@ -55,6 +59,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * com.gc.irc.server.core.user.management.api.IUserConnectionsManagement
      * #disconnectClient(com.gc.irc.server.thread.api.IGestionClientBean)
      */
+    /** {@inheritDoc} */
     @Override
     public void disconnectClient(final ClientConnection client) {
         getLog().debug("Delete the deconnected Client : " + client.getUser().getNickName());
@@ -77,6 +82,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * com.gc.irc.server.core.user.management.api.IUserConnectionsManagement
      * #getClientConnected()
      */
+    /** {@inheritDoc} */
     @Override
     public List<ClientConnection> getClientConnected() {
         return clientConnected;
@@ -89,6 +95,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * com.gc.irc.server.core.user.management.api.IUserConnectionsManagement
      * #getGestionClientBeanOfUser(int)
      */
+    /** {@inheritDoc} */
     @Override
     public ClientConnection getGestionClientBeanOfUser(final long id) {
         return listThreadClientByIdUser.get(id);
@@ -102,6 +109,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * com.gc.irc.server.core.user.management.api.IUserConnectionsManagement
      * #newClientConnected(com.gc.irc.server.thread.api.IGestionClientBean)
      */
+    /** {@inheritDoc} */
     @Override
     public void newClientConnected(final ClientConnection client) {
         getLog().debug("Add a new Connected Client : " + client.getUser().getNickName());
@@ -124,6 +132,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement
      * #sendMessageToAllUsers(com.gc.irc.common.protocol.IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     public void sendMessageToAllUsers(final Message message) {
         final List<ClientConnection> clientConnected = getClientConnected();
@@ -155,6 +164,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
      * com.gc.irc.server.core.user.management.api.IUsersConnectionsManagement
      * #sendTo(com.gc.irc.common.protocol.IRCMessage, int)
      */
+    /** {@inheritDoc} */
     @Override
     public void sendTo(final Message message, final long toId) {
         final ClientConnection clientCible = getGestionClientBeanOfUser(toId);
@@ -164,6 +174,8 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
     }
 
     /**
+     * <p>Setter for the field <code>authenticationService</code>.</p>
+     *
      * @param authenticationService
      *            the authenticationService to set
      */
@@ -171,6 +183,7 @@ public class UsersConnectionsManagement extends AbstractLoggable implements IUse
         this.authenticationService = authenticationService;
     }
 
+	/** {@inheritDoc} */
 	@Override
 	@Autowired
 	public void setUserManagement(IUserManagement userManagement) {

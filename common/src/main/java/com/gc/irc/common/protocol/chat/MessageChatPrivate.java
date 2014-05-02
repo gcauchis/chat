@@ -6,6 +6,9 @@ import com.gc.irc.common.message.IClientMessageLine;
 
 /**
  * The Class IRCMessageChatPrivate.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class MessageChatPrivate extends MessageChat {
 
@@ -20,13 +23,11 @@ public class MessageChatPrivate extends MessageChat {
 
     /**
      * Instantiates a new iRC message chat private.
-     * 
+     *
      * @param userID
      *            the user id
      * @param lines
      *            the lines
-     * @param textColor
-     *            the text color
      */
     public MessageChatPrivate(final long userID, final List<IClientMessageLine> lines) {
         super(userID, lines);
@@ -34,15 +35,13 @@ public class MessageChatPrivate extends MessageChat {
 
     /**
      * Instantiates a new iRC message chat private.
-     * 
+     *
      * @param userID
      *            the user id
      * @param lines
      *            the lines
      * @param toId
      *            the to id
-     * @param textColor
-     *            the text color
      */
     public MessageChatPrivate(final long userID, final List<IClientMessageLine> lines, final long toId) {
         this(userID, lines);
@@ -51,7 +50,7 @@ public class MessageChatPrivate extends MessageChat {
 
     /**
      * Gets the to id.
-     * 
+     *
      * @return the to id
      */
     public long getToId() {
@@ -60,7 +59,7 @@ public class MessageChatPrivate extends MessageChat {
 
     /**
      * Get the number of passage in the handler.
-     * 
+     *
      * @return the int
      */
     public int numPassage() {
@@ -72,6 +71,7 @@ public class MessageChatPrivate extends MessageChat {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

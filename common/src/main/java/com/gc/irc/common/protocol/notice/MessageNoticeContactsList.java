@@ -6,9 +6,9 @@ import com.gc.irc.common.entity.User;
 
 /**
  * Notification used to send the list of all the connected client.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public class MessageNoticeContactsList extends MessageNotice {
 
@@ -20,7 +20,7 @@ public class MessageNoticeContactsList extends MessageNotice {
 
     /**
      * Instantiates a new iRC message notice contacts list.
-     * 
+     *
      * @param listeUsers
      *            the liste users
      */
@@ -30,7 +30,7 @@ public class MessageNoticeContactsList extends MessageNotice {
 
     /**
      * Gets the liste users.
-     * 
+     *
      * @return the liste users
      */
     public List<User> getListeUsers() {
@@ -42,6 +42,7 @@ public class MessageNoticeContactsList extends MessageNotice {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

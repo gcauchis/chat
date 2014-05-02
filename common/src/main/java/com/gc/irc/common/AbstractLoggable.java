@@ -6,6 +6,9 @@ import com.gc.irc.common.utils.LoggerUtils;
 
 /**
  * The Class AbstractLoggable.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public abstract class AbstractLoggable implements ILoggable {
 
@@ -14,7 +17,6 @@ public abstract class AbstractLoggable implements ILoggable {
 
     /**
      * {@inheritDoc}
-     * 
      * @see com.acp.acs.common.api.vision.service.ILoggable#getLog()
      */
     @Override

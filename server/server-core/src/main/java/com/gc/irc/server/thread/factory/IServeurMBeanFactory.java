@@ -5,14 +5,15 @@ import com.gc.irc.server.thread.IServeurMBean;
 
 /**
  * A factory for creating IServeurMBean objects.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public interface IServeurMBeanFactory extends ILoggable {
 
     /**
      * Gets the serveur m bean.
-     * 
-     * @param parent
-     *            the parent
+     *
      * @return the serveur m bean
      */
     IServeurMBean getServeurMBean();

@@ -7,9 +7,9 @@ import com.gc.irc.common.protocol.Message;
 
 /**
  * Message use to send picture.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public class MessageItemPicture extends Message {
 
@@ -21,7 +21,7 @@ public class MessageItemPicture extends Message {
 
     /**
      * Instantiates a new iRC message user picture.
-     * 
+     *
      * @param userId
      *            the user id
      * @param image
@@ -32,6 +32,12 @@ public class MessageItemPicture extends Message {
         imageData = new SerializableBufferedImage(image);
     }
     
+    /**
+     * <p>Constructor for MessageItemPicture.</p>
+     *
+     * @param userId a long.
+     * @param image a {@link com.gc.irc.common.entity.SerializableBufferedImage} object.
+     */
     public MessageItemPicture(final long userId, final SerializableBufferedImage image) {
         super(userId);
         imageData = image;
@@ -39,13 +45,18 @@ public class MessageItemPicture extends Message {
 
     /**
      * Gets the image data.
-     * 
+     *
      * @return the image data
      */
     public BufferedImage getImageData() {
         return imageData.getBufferedImage();
     }
     
+    /**
+     * <p>getImageBuffer.</p>
+     *
+     * @return a {@link com.gc.irc.common.entity.SerializableBufferedImage} object.
+     */
     public SerializableBufferedImage getImageBuffer() {
         return imageData;
     }
@@ -55,6 +66,7 @@ public class MessageItemPicture extends Message {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

@@ -12,6 +12,12 @@ import com.gc.irc.common.protocol.item.MessageItemPicture;
 import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.server.service.IUserPictureService;
 
+/**
+ * <p>UserPicturesManagement class.</p>
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ */
 @Component("userPicturesManagement")
 public class UserPicturesManagement extends AbstractLoggable implements IUserPicturesManagement, UserManagementAware {
 
@@ -22,6 +28,7 @@ public class UserPicturesManagement extends AbstractLoggable implements IUserPic
     /** The user management */
     private IUserManagement userManagement;
 	
+	/** {@inheritDoc} */
 	@Override
 	public void sendUsersPictures(ObjectOutputStream outObject) {
 		 MessageItemPicture messagePicture;
@@ -41,9 +48,9 @@ public class UserPicturesManagement extends AbstractLoggable implements IUserPic
 	        }
 	}
 	
-	/**
+    /**
      * Sets the user picture service.
-     * 
+     *
      * @param userPictureService
      *            the new user picture service
      */
@@ -51,6 +58,7 @@ public class UserPicturesManagement extends AbstractLoggable implements IUserPic
         this.userPictureService = userPictureService;
     }
 
+	/** {@inheritDoc} */
 	@Override
 	@Autowired
 	public void setUserManagement(IUserManagement userManagement) {

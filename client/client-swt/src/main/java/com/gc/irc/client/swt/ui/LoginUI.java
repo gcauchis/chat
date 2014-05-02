@@ -18,14 +18,15 @@ import com.gc.irc.client.swt.utils.SWTUtils;
 
 /**
  * The Class LoginUI.
- * 
+ *
  * @author gcauchis
+ * @version 0.0.4
  */
 public class LoginUI extends AbstractUI {
 
     /**
      * Instantiates a new login ui.
-     * 
+     *
      * @param display
      *            the display
      */
@@ -40,6 +41,7 @@ public class LoginUI extends AbstractUI {
      * com.gc.irc.client.swt.api.AbstractUI#initShell(org.eclipse.swt.widgets
      * .Shell)
      */
+    /** {@inheritDoc} */
     @Override
     protected void initShell(final Shell shell) {
         shell.setText("Login");

@@ -24,7 +24,9 @@ import com.gc.irc.common.utils.LoggerUtils;
 
 /**
  * The Class CryptoUtils.
- * 
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public final class CryptoUtils {
 
@@ -48,8 +50,10 @@ public final class CryptoUtils {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see com.gc.common.service.IPasswordCryptoService#decrypt(java.lang.String)
+     * @param str a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
      */
     public static String decrypt(final String str) {
 
@@ -93,8 +97,10 @@ public final class CryptoUtils {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see com.gc.common.service.IPasswordCryptoService#encrypt(java.lang.String)
+     * @param str a {@link java.lang.String} object.
+     * @return a {@link java.lang.String} object.
      */
     public static String encrypt(final String str) {
 

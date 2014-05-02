@@ -12,6 +12,9 @@ import com.gc.irc.server.bridge.ServerBridgeException;
 
 /**
  * The Class IRCJMSPoolProducer.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 @Component
 @Scope("singleton")
@@ -26,6 +29,7 @@ public final class JMSPoolProducer extends AbstractObjectPool<IServerBridgeProdu
      * 
      * @see com.gc.irc.server.bridge.api.IServerBridgeProducer#close()
      */
+    /** {@inheritDoc} */
     @Override
     public void close() {
 
@@ -36,6 +40,7 @@ public final class JMSPoolProducer extends AbstractObjectPool<IServerBridgeProdu
      * 
      * @see com.gc.irc.common.abs.AbstractObjectPool#getPoolableObjectFactory()
      */
+    /** {@inheritDoc} */
     @Override
     protected PoolableObjectFactory<IServerBridgeProducer> getPoolableObjectFactory() {
         return new PoolableJMSProducerFactory(brokerUrl);
@@ -48,6 +53,7 @@ public final class JMSPoolProducer extends AbstractObjectPool<IServerBridgeProdu
      * com.gc.irc.server.jms.IJMSProducer#postInJMS(com.gc.irc.common.protocol
      * .IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     public void post(final Message objectMessage) throws ServerBridgeException {
         final IServerBridgeProducer messageProducer = getPooledObject();
@@ -62,6 +68,8 @@ public final class JMSPoolProducer extends AbstractObjectPool<IServerBridgeProdu
     }
 
     /**
+     * <p>Setter for the field <code>brokerUrl</code>.</p>
+     *
      * @param brokerUrl
      *            the brokerUrl to set
      */
@@ -74,6 +82,7 @@ public final class JMSPoolProducer extends AbstractObjectPool<IServerBridgeProdu
      * 
      * @see com.gc.irc.common.abs.AbstractObjectPool#setMaxPoolSize(int)
      */
+    /** {@inheritDoc} */
     @Override
     @Value("${jms.pool.size.max}")
     public void setMaxPoolSize(final int maxPoolSize) {

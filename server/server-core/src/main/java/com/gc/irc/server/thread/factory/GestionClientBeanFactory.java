@@ -19,6 +19,9 @@ import com.gc.irc.server.thread.ObjectStreamClientConnection;
 
 /**
  * A factory for creating GestionClientBean objects.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 @Component("gestionClientBeanFactory")
 @Scope("singleton")
@@ -53,6 +56,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      * @see com.gc.irc.server.thread.factory.api.IGestionClientBeanFactory#
      * getGestionClientBean(java.net.Socket, com.gc.irc.server.core.ServerCore)
      */
+    /** {@inheritDoc} */
     @Override
     public ClientConnection getGestionClientBean(final Socket clientSocket) {
         final ObjectStreamClientConnection gestionClientBean = new ObjectStreamClientConnection(clientSocket);
@@ -67,7 +71,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
 
     /**
      * Sets the authentication service.
-     * 
+     *
      * @param authenticationService
      *            the new authentication service
      */
@@ -77,7 +81,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
 
     /**
      * Sets the jms producer.
-     * 
+     *
      * @param jmsProducer
      *            the new jms producer
      */
@@ -87,7 +91,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
 
     /**
      * Sets the user connections management.
-     * 
+     *
      * @param userConnectionsManagement
      *            the new user connections management
      */
@@ -96,6 +100,8 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
     }
 
     /**
+     * <p>Setter for the field <code>userPictureService</code>.</p>
+     *
      * @param userPictureService
      *            the userPictureService to set
      */
@@ -105,7 +111,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
 
     /**
      * Sets the users connections management.
-     * 
+     *
      * @param usersConnectionsManagement
      *            the new users connections management
      */
@@ -113,12 +119,18 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
     
+    /** {@inheritDoc} */
     @Override
 	@Autowired
 	public void setUserManagement(IUserManagement userManagement) {
 		this.userManagement = userManagement;
 	}
 
+	/**
+	 * <p>Setter for the field <code>userPicturesManagement</code>.</p>
+	 *
+	 * @param userPicturesManagement a {@link com.gc.irc.server.core.user.management.IUserPicturesManagement} object.
+	 */
 	public void setUserPicturesManagement(IUserPicturesManagement userPicturesManagement) {
 		this.userPicturesManagement = userPicturesManagement;
 	}

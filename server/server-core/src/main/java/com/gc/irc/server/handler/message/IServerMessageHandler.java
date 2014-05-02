@@ -5,12 +5,15 @@ import com.gc.irc.common.protocol.Message;
 
 /**
  * The Interface IServerMessageHandler.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public interface IServerMessageHandler extends ILoggable {
 
     /**
      * Handle.
-     * 
+     *
      * @param message
      *            the message
      */
@@ -18,10 +21,10 @@ public interface IServerMessageHandler extends ILoggable {
 
     /**
      * Checks if is handled.
-     * 
+     *
      * @param message
      *            the message
-     * @return true, if is handled
+     * @return a boolean.
      */
     boolean isHandled(Message message);
 

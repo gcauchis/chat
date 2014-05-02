@@ -15,6 +15,9 @@ import com.gc.irc.server.bridge.ServerBridgeException;
 
 /**
  * The Class DirectServerBridge.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 @Component
 @Scope("singleton")
@@ -28,6 +31,7 @@ public class DirectServerBridge extends AbstractLoggable implements IServerBridg
      * 
      * @see com.gc.irc.server.bridge.api.IServerBridgeProducer#close()
      */
+    /** {@inheritDoc} */
     @Override
     public void close() throws ServerBridgeException {
 
@@ -38,6 +42,7 @@ public class DirectServerBridge extends AbstractLoggable implements IServerBridg
      * 
      * @see com.gc.irc.server.bridge.api.IServerBridgeConsumerFactory#getInstance()
      */
+    /** {@inheritDoc} */
     @Override
     public IServerBridgeConsumer getInstance() throws ServerBridgeException {
         return this;
@@ -48,6 +53,7 @@ public class DirectServerBridge extends AbstractLoggable implements IServerBridg
      * 
      * @see com.gc.irc.server.bridge.api.IServerBridgeProducer#post(com.gc.irc.common .protocol.IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     public void post(final Message message) throws ServerBridgeException {
         getLog().debug("post message in bridge: {}", message);
@@ -63,6 +69,7 @@ public class DirectServerBridge extends AbstractLoggable implements IServerBridg
      * 
      * @see com.gc.irc.server.bridge.api.IServerBridgeConsumer#receive()
      */
+    /** {@inheritDoc} */
     @Override
     public Message receive() throws ServerBridgeException {
         Message result = null;

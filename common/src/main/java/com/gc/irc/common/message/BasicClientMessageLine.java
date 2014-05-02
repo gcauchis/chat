@@ -3,6 +3,9 @@ package com.gc.irc.common.message;
 
 /**
  * The Class BasicClientMessage.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class BasicClientMessageLine implements IClientMessageLine {
 
@@ -21,7 +24,7 @@ public class BasicClientMessageLine implements IClientMessageLine {
 
     /**
      * Instantiates a new basic client message.
-     * 
+     *
      * @param message
      *            the message
      */
@@ -32,7 +35,7 @@ public class BasicClientMessageLine implements IClientMessageLine {
 
     /**
      * Gets the message.
-     * 
+     *
      * @return the message
      */
     public String getMessage() {
@@ -41,7 +44,7 @@ public class BasicClientMessageLine implements IClientMessageLine {
 
     /**
      * Sets the message.
-     * 
+     *
      * @param message
      *            the new message
      */
@@ -54,6 +57,7 @@ public class BasicClientMessageLine implements IClientMessageLine {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "BasicClientMessageLine(" + super.toString() + ") [message=" + message + "]";

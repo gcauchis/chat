@@ -17,6 +17,9 @@ import com.gc.irc.server.thread.ServeurMBean;
 
 /**
  * A factory for creating ServeurMBean objects.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 @Component("ServeurMBeanFactory")
 @Scope("singleton")
@@ -44,6 +47,7 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
      * com.gc.irc.server.thread.factory.api.IServeurMBeanFactory#getServeurMBean
      * (com.gc.irc.server.core.ServerCore)
      */
+    /** {@inheritDoc} */
     @Override
     public IServeurMBean getServeurMBean() {
         final ServeurMBean serveurMBean = new ServeurMBean();
@@ -56,7 +60,7 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
 
     /**
      * Sets the server bridge consumer factory.
-     * 
+     *
      * @param serverBridgeConsumerFactory
      *            the server bridge consumer factory
      */
@@ -66,7 +70,7 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
 
     /**
      * Sets the server message handlers.
-     * 
+     *
      * @param serverMessageHandlers
      *            the new server message handlers
      */
@@ -76,7 +80,7 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
 
     /**
      * Sets the users connections management.
-     * 
+     *
      * @param usersConnectionsManagement
      *            the new users connections management
      */
@@ -84,6 +88,7 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
     
+    /** {@inheritDoc} */
     @Override
 	@Autowired
 	public void setUserManagement(IUserManagement userManagement) {

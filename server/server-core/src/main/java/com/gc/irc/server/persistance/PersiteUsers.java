@@ -7,9 +7,9 @@ import com.gc.irc.common.utils.IOUtils;
 
 /**
  * Persit the list of Connected users.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public class PersiteUsers extends Thread {
 
@@ -18,7 +18,7 @@ public class PersiteUsers extends Thread {
 
     /**
      * Start a Thread to persist.
-     * 
+     *
      * @param listUsers
      *            List to persist.
      */
@@ -29,7 +29,7 @@ public class PersiteUsers extends Thread {
 
     /**
      * Instantiates a new persite users.
-     * 
+     *
      * @param listUsers
      *            the list users
      */
@@ -42,6 +42,7 @@ public class PersiteUsers extends Thread {
      * 
      * @see java.lang.Thread#run()
      */
+    /** {@inheritDoc} */
     @Override
     public void run() {
         if (listUsers != null && listUsers.size() > 0) {

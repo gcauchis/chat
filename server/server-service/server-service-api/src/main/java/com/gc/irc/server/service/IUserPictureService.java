@@ -5,15 +5,15 @@ import com.gc.irc.common.protocol.item.MessageItemPicture;
 
 /**
  * Inteface to use Picture.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public interface IUserPictureService extends ILoggable {
 
     /**
      * Add a picture for a designed User.
-     * 
+     *
      * @param idUser
      *            Id of the User
      * @param image
@@ -24,7 +24,7 @@ public interface IUserPictureService extends ILoggable {
 
     /**
      * Get the Picture of the Designed User.
-     * 
+     *
      * @param idUser
      *            Id of the User
      * @return The Picture of the user.

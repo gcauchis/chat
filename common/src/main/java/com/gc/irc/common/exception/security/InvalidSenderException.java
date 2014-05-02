@@ -2,6 +2,9 @@ package com.gc.irc.common.exception.security;
 
 /**
  * The Class IRCInvalideSenderException.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class InvalidSenderException extends SecurityException {
 
@@ -10,7 +13,7 @@ public class InvalidSenderException extends SecurityException {
 
     /**
      * Instantiates a new iRC invalide sender exception.
-     * 
+     *
      * @param message
      *            the message
      * @param cause
@@ -22,7 +25,7 @@ public class InvalidSenderException extends SecurityException {
 
     /**
      * Instantiates a new iRC invalide sender exception.
-     * 
+     *
      * @param message
      *            the message
      */

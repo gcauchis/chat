@@ -20,6 +20,9 @@ import com.gc.irc.common.utils.IOStreamUtils;
  * The thread wich connects the client to the server, and manages the serialized
  * objects wich are transmitted (they are defined in the com.irc.share.protocol
  * package)
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class ConnectionHandler extends AbstractRunnable implements IMessageSender {
 
@@ -64,7 +67,7 @@ public class ConnectionHandler extends AbstractRunnable implements IMessageSende
 
     /**
      * Instantiates a new connection thread.
-     * 
+     *
      * @param serverHost
      *            the ip address or name of the server If the server is on
      *            localhost, out an empty string
@@ -125,7 +128,7 @@ public class ConnectionHandler extends AbstractRunnable implements IMessageSende
 
     /**
      * Gets the port.
-     * 
+     *
      * @return the choosen port for the connexion with the server
      */
     public int getPort() {
@@ -134,7 +137,7 @@ public class ConnectionHandler extends AbstractRunnable implements IMessageSende
 
     /**
      * Gets the server name.
-     * 
+     *
      * @return the name or ip address of the remote server
      */
     public String getServerHost() {
@@ -147,8 +150,8 @@ public class ConnectionHandler extends AbstractRunnable implements IMessageSende
 
     /**
      * Is the client currently authenticated on the server ?.
-     * 
-     * @return true, if is authenticated
+     *
+     * @return a boolean.
      */
     public boolean isAuthenticated() {
         return authenticated;
@@ -157,21 +160,26 @@ public class ConnectionHandler extends AbstractRunnable implements IMessageSende
     /**
      * Is the client currently connected on the server ? (the client may not be
      * authenticated).
-     * 
-     * @return true, if is connected to server
+     *
+     * @return a boolean.
      */
     public boolean isConnectedToServer() {
         return connectedToServer;
     }
 
+    /**
+     * <p>isInitialized.</p>
+     *
+     * @return a boolean.
+     */
     public boolean isInitialized() {
         return initialized;
     }
 
     /**
      * Checks if is server disconnection.
-     * 
-     * @return true, if is server disconnection
+     *
+     * @return a boolean.
      */
     public boolean isServerDisconnection() {
         return serverDisconnection;
@@ -179,14 +187,16 @@ public class ConnectionHandler extends AbstractRunnable implements IMessageSende
 
     /**
      * Checks if is waiting for authentication.
-     * 
-     * @return true, if is waiting for authentication
+     *
+     * @return a boolean.
      */
     public boolean isWaitingForAuthentication() {
         return waitingForAuthentication;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * The thread infinite loop. Here, the client will try to connect to the
      * server (opening a socket, and getting input and output streams). Then,
      * the loop will wait for new serialized objects sent by the server, and
@@ -267,6 +277,7 @@ public class ConnectionHandler extends AbstractRunnable implements IMessageSende
      * com.gc.irc.common.api.IIRCMessageSender#send(com.gc.irc.common.protocol
      * .IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     public void send(final Message message) {
         try {
@@ -297,7 +308,7 @@ public class ConnectionHandler extends AbstractRunnable implements IMessageSende
 
     /**
      * Send and IRC Message (will transmit a serialized object to the server).
-     * 
+     *
      * @param message
      *            the IRC message to send
      */
@@ -344,7 +355,7 @@ public class ConnectionHandler extends AbstractRunnable implements IMessageSende
 
     /**
      * Sets the message handler.
-     * 
+     *
      * @param messageHandler
      *            the new message handler
      */
@@ -354,7 +365,7 @@ public class ConnectionHandler extends AbstractRunnable implements IMessageSende
 
     /**
      * Sets the server disconnection.
-     * 
+     *
      * @param serverDisconnection
      *            the new server disconnection
      */
@@ -364,7 +375,7 @@ public class ConnectionHandler extends AbstractRunnable implements IMessageSende
 
     /**
      * Sets the waiting for authentication.
-     * 
+     *
      * @param waitingForAuthentication
      *            the new waiting for authentication
      */

@@ -4,6 +4,9 @@ import com.gc.irc.common.exception.IRCException;
 
 /**
  * The Class ServerBridgeException.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class ServerBridgeException extends IRCException {
 
@@ -19,7 +22,7 @@ public class ServerBridgeException extends IRCException {
 
     /**
      * The Constructor.
-     * 
+     *
      * @param message
      *            the message
      */
@@ -29,7 +32,7 @@ public class ServerBridgeException extends IRCException {
 
     /**
      * The Constructor.
-     * 
+     *
      * @param message
      *            the message
      * @param cause
@@ -41,7 +44,7 @@ public class ServerBridgeException extends IRCException {
 
     /**
      * The Constructor.
-     * 
+     *
      * @param cause
      *            the cause
      */

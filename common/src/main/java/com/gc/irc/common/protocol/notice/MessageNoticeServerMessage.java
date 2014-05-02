@@ -2,9 +2,9 @@ package com.gc.irc.common.protocol.notice;
 
 /**
  * Notification used to send a message from the server.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public class MessageNoticeServerMessage extends MessageNotice {
 
@@ -16,7 +16,7 @@ public class MessageNoticeServerMessage extends MessageNotice {
 
     /**
      * Instantiates a new iRC message notice server message.
-     * 
+     *
      * @param message
      *            the message
      */
@@ -26,7 +26,7 @@ public class MessageNoticeServerMessage extends MessageNotice {
 
     /**
      * Gets the message.
-     * 
+     *
      * @return the message
      */
     public String getMessage() {
@@ -38,6 +38,7 @@ public class MessageNoticeServerMessage extends MessageNotice {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

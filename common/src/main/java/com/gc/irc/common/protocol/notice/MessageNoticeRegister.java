@@ -5,9 +5,9 @@ import com.gc.irc.common.entity.User;
 /**
  * Notification used to inform the success or the failed of the client
  * registration.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public class MessageNoticeRegister extends MessageNoticeLogin {
 
@@ -16,7 +16,7 @@ public class MessageNoticeRegister extends MessageNoticeLogin {
 
     /**
      * Instantiates a new iRC message notice register.
-     * 
+     *
      * @param user
      *            the user
      */
@@ -29,6 +29,7 @@ public class MessageNoticeRegister extends MessageNoticeLogin {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

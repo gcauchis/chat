@@ -8,12 +8,20 @@ import com.gc.irc.server.model.UserInformations;
 import com.gc.irc.server.service.neo4j.model.UserInformationEntity;
 
 /**
+ * <p>ModelConversionUtils class.</p>
  *
  * @author gcauchis
+ * @version 0.0.4
  */
 public class ModelConversionUtils {
     private ModelConversionUtils(){};
     
+    /**
+     * <p>convert.</p>
+     *
+     * @param userInformationEntity a {@link com.gc.irc.server.service.neo4j.model.UserInformationEntity} object.
+     * @return a {@link com.gc.irc.server.model.UserInformations} object.
+     */
     public static UserInformations convert(UserInformationEntity userInformationEntity) {
     	if (userInformationEntity == null) {
     		return null;

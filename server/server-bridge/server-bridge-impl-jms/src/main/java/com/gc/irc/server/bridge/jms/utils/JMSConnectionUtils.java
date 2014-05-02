@@ -19,9 +19,9 @@ import com.gc.irc.common.utils.LoggerUtils;
 
 /**
  * Initialize JMS.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public final class JMSConnectionUtils {
 
@@ -39,10 +39,11 @@ public final class JMSConnectionUtils {
 
     /**
      * Creates the consumer.
-     * 
+     *
      * @return the message consumer
-     * @throws JMSException
+     * @throws javax.jms.JMSException
      *             the jMS exception
+     * @param brokerUrl a {@link java.lang.String} object.
      */
     public static MessageConsumer createConsumer(final String brokerUrl) throws JMSException {
         return getSession(brokerUrl).createConsumer(getQueue());
@@ -50,8 +51,9 @@ public final class JMSConnectionUtils {
 
     /**
      * Gets the connection.
-     * 
+     *
      * @return the connection
+     * @param brokerUrl a {@link java.lang.String} object.
      */
     public static Connection getConnection(final String brokerUrl) {
         Connection connection = connections.get(brokerUrl);
@@ -77,7 +79,7 @@ public final class JMSConnectionUtils {
 
     /**
      * Gets the queue.
-     * 
+     *
      * @return the queue
      */
     public static Queue getQueue() {
@@ -95,8 +97,9 @@ public final class JMSConnectionUtils {
 
     /**
      * Gets the session.
-     * 
+     *
      * @return the session
+     * @param brokerUrl a {@link java.lang.String} object.
      */
     public static Session getSession(final String brokerUrl) {
         if (session == null) {

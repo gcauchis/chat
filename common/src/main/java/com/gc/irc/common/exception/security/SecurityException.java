@@ -4,6 +4,9 @@ import com.gc.irc.common.exception.IRCRuntimeException;
 
 /**
  * The Class IRCSecurityException.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class SecurityException extends IRCRuntimeException {
 
@@ -12,7 +15,7 @@ public class SecurityException extends IRCRuntimeException {
 
     /**
      * Instantiates a new iRC security exception.
-     * 
+     *
      * @param message
      *            the message
      * @param cause
@@ -24,7 +27,7 @@ public class SecurityException extends IRCRuntimeException {
 
     /**
      * Instantiates a new iRC security exception.
-     * 
+     *
      * @param message
      *            the message
      */

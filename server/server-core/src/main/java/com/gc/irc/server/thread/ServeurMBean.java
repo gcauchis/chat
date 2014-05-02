@@ -18,9 +18,9 @@ import com.gc.irc.server.handler.message.IServerMessageHandler;
 
 /**
  * Thread manager.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public class ServeurMBean extends AbstractRunnable implements IServeurMBean,UserManagementAware {
 
@@ -77,6 +77,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
      * 
      * @see com.gc.irc.server.thread.api.IServeurMBean#close()
      */
+    /** {@inheritDoc} */
     @Override
     public void close() {
         getLog().debug("Finalize the Thread");
@@ -92,6 +93,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
      * 
      * @see com.gc.irc.server.thread.api.IServeurMBean#getNbMessages()
      */
+    /** {@inheritDoc} */
     @Override
     public long getNbMessages() {
         /**
@@ -105,6 +107,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
      * 
      * @see com.gc.irc.server.thread.api.IServeurMBean#getNbUser()
      */
+    /** {@inheritDoc} */
     @Override
     public int getNbUser() {
         /**
@@ -115,9 +118,9 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Return the list of online users (for JMX).
-     * 
-     * @return the user list
      */
     @Override
     public String getUserList() {
@@ -175,6 +178,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
      * 
      * @see com.gc.irc.server.thread.api.IServeurMBean#kickUser(int)
      */
+    /** {@inheritDoc} */
     @Override
     public String kickUser(final int userID) {
         /**
@@ -194,6 +198,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
      * 
      * @see java.lang.Thread#run()
      */
+    /** {@inheritDoc} */
     @Override
     public void run() {
         getLog().debug(id + " Start");
@@ -205,6 +210,8 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
     }
 
     /**
+     * <p>Setter for the field <code>serverBridgeConsumerFactory</code>.</p>
+     *
      * @param serverBridgeConsumerFactory
      *            the serverBridgeConsumerFactory to set
      */
@@ -214,7 +221,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
 
     /**
      * Sets the server message handlers.
-     * 
+     *
      * @param serverMessageHandlers
      *            the new server message handlers
      */
@@ -224,7 +231,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
 
     /**
      * Sets the users connections management.
-     * 
+     *
      * @param usersConnectionsManagement
      *            the new users connections management
      */
@@ -250,6 +257,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
         }
     }
     
+    /** {@inheritDoc} */
     @Override
 	@Autowired
 	public void setUserManagement(IUserManagement userManagement) {

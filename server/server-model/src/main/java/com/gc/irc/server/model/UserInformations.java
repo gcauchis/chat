@@ -4,9 +4,9 @@ import com.gc.irc.common.AbstractLoggable;
 
 /**
  * Represent a Client.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public class UserInformations extends AbstractLoggable {
 
@@ -27,7 +27,7 @@ public class UserInformations extends AbstractLoggable {
 
     /**
      * Class Builder.
-     * 
+     *
      * @param id
      *            User's id.
      * @param nickname
@@ -45,6 +45,13 @@ public class UserInformations extends AbstractLoggable {
         getLog().debug("New users " + id + ": login : " + login);
     }
     
+     /**
+      * <p>Constructor for UserInformations.</p>
+      *
+      * @param nickname a {@link java.lang.String} object.
+      * @param login a {@link java.lang.String} object.
+      * @param password a {@link java.lang.String} object.
+      */
      public UserInformations(final String nickname, final String login, final String password) {
         this.login = login;
         this.nickname = nickname;
@@ -54,7 +61,7 @@ public class UserInformations extends AbstractLoggable {
 
     /**
      * Class Builder.
-     * 
+     *
      * @param id
      *            User's id.
      * @param nickname
@@ -73,7 +80,7 @@ public class UserInformations extends AbstractLoggable {
 
     /**
      * Gets the id.
-     * 
+     *
      * @return the id
      */
     public long getId() {
@@ -82,7 +89,7 @@ public class UserInformations extends AbstractLoggable {
 
     /**
      * Gets the login.
-     * 
+     *
      * @return the login
      */
     public String getLogin() {
@@ -91,7 +98,7 @@ public class UserInformations extends AbstractLoggable {
 
     /**
      * Gets the nickname.
-     * 
+     *
      * @return the nickname
      */
     public String getNickname() {
@@ -100,7 +107,7 @@ public class UserInformations extends AbstractLoggable {
 
     /**
      * Gets the password.
-     * 
+     *
      * @return the password
      */
     public String getPassword() {
@@ -109,7 +116,7 @@ public class UserInformations extends AbstractLoggable {
 
     /**
      * Inform if user have a personal Picture.
-     * 
+     *
      * @return True if have a picture.
      */
     public boolean hasPictur() {
@@ -118,7 +125,7 @@ public class UserInformations extends AbstractLoggable {
 
     /**
      * Compare login.
-     * 
+     *
      * @param login
      *            Login to compare.
      * @return If equals true, else false.
@@ -129,7 +136,7 @@ public class UserInformations extends AbstractLoggable {
 
     /**
      * Compare Login and Password.
-     * 
+     *
      * @param login
      *            Login to compare.
      * @param password
@@ -142,7 +149,7 @@ public class UserInformations extends AbstractLoggable {
 
     /**
      * Sets the checks for picture.
-     * 
+     *
      * @param havePicture
      *            the new checks for picture
      */
@@ -153,7 +160,7 @@ public class UserInformations extends AbstractLoggable {
 
     /**
      * Sets the login.
-     * 
+     *
      * @param login
      *            the new login
      */
@@ -164,7 +171,7 @@ public class UserInformations extends AbstractLoggable {
 
     /**
      * Sets the nickname.
-     * 
+     *
      * @param nickname
      *            the new nickname
      */
@@ -175,7 +182,7 @@ public class UserInformations extends AbstractLoggable {
 
     /**
      * Sets the password.
-     * 
+     *
      * @param password
      *            the new password
      */
@@ -184,17 +191,27 @@ public class UserInformations extends AbstractLoggable {
         this.password = password;
     }
 
+    /**
+     * <p>Setter for the field <code>hasPictur</code>.</p>
+     *
+     * @param hasPictur a boolean.
+     */
     public void setHasPictur(boolean hasPictur) {
         this.hasPictur = hasPictur;
     }
 
+    /**
+     * <p>Setter for the field <code>id</code>.</p>
+     *
+     * @param id a int.
+     */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
      * Generate xml.
-     * 
+     *
      * @param tabulation
      *            Indentation.
      * @return xml in a String

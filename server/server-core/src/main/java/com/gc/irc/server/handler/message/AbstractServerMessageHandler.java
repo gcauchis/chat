@@ -14,6 +14,9 @@ import com.gc.irc.server.core.user.management.UserManagementAware;
 
 /**
  * The Class AbstractServerMessageHandler.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public abstract class AbstractServerMessageHandler<MSG extends Message> extends AbstractLoggable implements IServerMessageHandler, UserManagementAware {
 
@@ -40,7 +43,7 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
 
     /**
      * Gets the sender.
-     * 
+     *
      * @param message
      *            the message
      * @return the sender
@@ -51,7 +54,7 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
     
     /**
      * Gets the user.
-     * 
+     *
      * @param id
      *            the id
      * @return the user
@@ -65,6 +68,7 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
      * 
      * @see com.gc.irc.server.handler.message.api.IServerMessageHandler#handle(com .gc.irc.common.protocol.IRCMessage)
      */
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     @Override
     public final void handle(final Message message) {
@@ -76,7 +80,7 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
 
     /**
      * Internal handle.
-     * 
+     *
      * @param message
      *            the message
      */
@@ -87,6 +91,7 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
      * 
      * @see com.gc.irc.server.handler.message.api.IServerMessageHandler#isHandled (com.gc.irc.common.protocol.IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     public final boolean isHandled(final Message message) {
         return message.getClass() == msgClass;
@@ -94,7 +99,7 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
 
     /**
      * Send to.
-     * 
+     *
      * @param message
      *            the message
      * @param toId
@@ -106,7 +111,7 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
 
     /**
      * Send to all users.
-     * 
+     *
      * @param message
      *            the message
      */
@@ -115,6 +120,8 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
     }
 
     /**
+     * <p>Setter for the field <code>usersConnectionsManagement</code>.</p>
+     *
      * @param usersConnectionsManagement
      *            the usersConnectionsManagement to set
      */
@@ -122,12 +129,18 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
     
+    /** {@inheritDoc} */
     @Override
 	@Autowired
 	public void setUserManagement(IUserManagement userManagement) {
 		this.userManagement = userManagement;
 	}
     
+    /**
+     * <p>Getter for the field <code>userManagement</code>.</p>
+     *
+     * @return a {@link com.gc.irc.server.core.user.management.IUserManagement} object.
+     */
     protected IUserManagement getUserManagement() {
 		return userManagement;
 	}

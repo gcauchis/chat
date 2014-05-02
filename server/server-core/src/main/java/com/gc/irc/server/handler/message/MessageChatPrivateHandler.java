@@ -11,6 +11,9 @@ import com.gc.irc.server.bridge.ServerBridgeException;
 
 /**
  * The Class IRCMessageChatPrivateHandler.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 @Component
 public class MessageChatPrivateHandler extends AbstractServerMessageHandler<MessageChatPrivate> {
@@ -28,6 +31,7 @@ public class MessageChatPrivateHandler extends AbstractServerMessageHandler<Mess
      * 
      * @see com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler# internalHandle(com.gc.irc.common.protocol.IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     protected void internalHandle(final MessageChatPrivate message) {
         final User sender = getSender(message);
@@ -59,7 +63,7 @@ public class MessageChatPrivateHandler extends AbstractServerMessageHandler<Mess
 
     /**
      * Sets the num passage max.
-     * 
+     *
      * @param numPassageMax
      *            the new num passage max
      */
@@ -69,7 +73,7 @@ public class MessageChatPrivateHandler extends AbstractServerMessageHandler<Mess
 
     /**
      * Sets the server bridge producer.
-     * 
+     *
      * @param serverBridgeProducer
      *            the new server bridge producer
      */

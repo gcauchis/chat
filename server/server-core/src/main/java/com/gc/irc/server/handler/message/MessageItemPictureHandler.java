@@ -7,6 +7,9 @@ import com.gc.irc.server.model.UserInformations;
 
 /**
  * The Class IRCMessageItemPictureHandler.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 @Component
 public class MessageItemPictureHandler extends AbstractServerCommandMessageHandler<MessageItemPicture> {
@@ -16,6 +19,7 @@ public class MessageItemPictureHandler extends AbstractServerCommandMessageHandl
      * 
      * @see com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler#internalHandle(com.gc.irc.common.protocol.IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     protected void internalHandle(MessageItemPicture message) {
         getUserPictureService().newPicture(message.getFromId(), message);

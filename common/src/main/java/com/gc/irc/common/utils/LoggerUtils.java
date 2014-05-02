@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The Class LoggerUtils.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public final class LoggerUtils {
 
@@ -16,7 +19,7 @@ public final class LoggerUtils {
 
     /**
      * Gets the logger.
-     * 
+     *
      * @param clazz
      *            the clazz
      * @return the logger
@@ -28,7 +31,7 @@ public final class LoggerUtils {
 
     /**
      * Gets the logger.
-     * 
+     *
      * @param logger
      *            the logger
      * @return the logger

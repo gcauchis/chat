@@ -6,6 +6,12 @@ import com.gc.irc.common.ILoggable;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.client.connecter.ClientConnection;
 
+/**
+ * <p>IUsersConnectionsManagement interface.</p>
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ */
 public interface IUsersConnectionsManagement extends ILoggable {
 
     /**
@@ -15,7 +21,7 @@ public interface IUsersConnectionsManagement extends ILoggable {
 
     /**
      * Delete the deconnected Client.
-     * 
+     *
      * @param client
      *            Deconnected Client.
      */
@@ -23,14 +29,14 @@ public interface IUsersConnectionsManagement extends ILoggable {
 
     /**
      * Get the Thread list of connected client.
-     * 
+     *
      * @return Client's thread list.
      */
     List<ClientConnection> getClientConnected();
 
     /**
      * Get the thread of a selected user.
-     * 
+     *
      * @param id
      *            User's Id.
      * @return The Designed User's Thread.
@@ -39,7 +45,7 @@ public interface IUsersConnectionsManagement extends ILoggable {
 
     /**
      * Add the login client to the Client's list.
-     * 
+     *
      * @param client
      *            New Client
      */
@@ -47,7 +53,7 @@ public interface IUsersConnectionsManagement extends ILoggable {
 
     /**
      * Send message to all users.
-     * 
+     *
      * @param message
      *            the message
      */
@@ -55,7 +61,7 @@ public interface IUsersConnectionsManagement extends ILoggable {
 
     /**
      * Send to.
-     * 
+     *
      * @param message
      *            the message
      * @param toId

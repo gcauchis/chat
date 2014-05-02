@@ -4,9 +4,9 @@ import com.gc.irc.common.entity.User;
 
 /**
  * Notification use to send the information of an user.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public class MessageNoticeContactInfo extends MessageNotice {
 
@@ -18,7 +18,7 @@ public class MessageNoticeContactInfo extends MessageNotice {
 
     /**
      * Instantiates a new iRC message notice contact info.
-     * 
+     *
      * @param user
      *            the user
      */
@@ -30,7 +30,7 @@ public class MessageNoticeContactInfo extends MessageNotice {
 
     /**
      * Gets the user.
-     * 
+     *
      * @return the user
      */
     public User getUser() {
@@ -42,6 +42,7 @@ public class MessageNoticeContactInfo extends MessageNotice {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

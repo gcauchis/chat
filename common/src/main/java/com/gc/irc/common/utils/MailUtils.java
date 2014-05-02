@@ -17,6 +17,9 @@ import org.slf4j.Logger;
 
 /**
  * The Class MailUtils.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public final class MailUtils {
 
@@ -30,6 +33,23 @@ public final class MailUtils {
         super();
     }
 
+    /**
+     * <p>sendMailSMTP.</p>
+     *
+     * @param smtpServeur a {@link java.lang.String} object.
+     * @param smtpPort a {@link java.lang.String} object.
+     * @param smtpAuthentication a {@link java.lang.String} object.
+     * @param smtpLogin a {@link java.lang.String} object.
+     * @param smtpPass a {@link java.lang.String} object.
+     * @param smtpSocketPort a {@link java.lang.String} object.
+     * @param smtpSocketFallBack a {@link java.lang.String} object.
+     * @param smtpEnabledSSL a {@link java.lang.String} object.
+     * @param emailFrom a {@link java.lang.String} object.
+     * @param subject a {@link java.lang.String} object.
+     * @param emailTo a {@link java.lang.String} object.
+     * @param messageText a {@link java.lang.String} object.
+     * @return a boolean.
+     */
     public static boolean sendMailSMTP(final String smtpServeur, final String smtpPort, final String smtpAuthentication, final String smtpLogin,
             final String smtpPass, final String smtpSocketPort, final String smtpSocketFallBack, final String smtpEnabledSSL, final String emailFrom,
             final String subject, final String emailTo, final String messageText) {

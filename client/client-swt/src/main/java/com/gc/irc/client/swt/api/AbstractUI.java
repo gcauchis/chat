@@ -10,8 +10,9 @@ import org.eclipse.swt.widgets.Shell;
 
 /**
  * The Class AbstractUI.
- * 
+ *
  * @author gcauchis
+ * @version 0.0.4
  */
 public abstract class AbstractUI extends AbstractLoggable {
 
@@ -20,7 +21,7 @@ public abstract class AbstractUI extends AbstractLoggable {
 
     /**
      * Instantiates a new abstract ui.
-     * 
+     *
      * @param display
      *            the display
      */
@@ -30,7 +31,7 @@ public abstract class AbstractUI extends AbstractLoggable {
 
     /**
      * Gets the shell.
-     * 
+     *
      * @return the shell
      */
     protected Shell getShell() {
@@ -39,7 +40,7 @@ public abstract class AbstractUI extends AbstractLoggable {
 
     /**
      * Inits the shell.
-     * 
+     *
      * @param shell
      *            the shell
      */

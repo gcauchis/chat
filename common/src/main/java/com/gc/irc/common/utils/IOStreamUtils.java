@@ -8,6 +8,12 @@ import org.slf4j.Logger;
 
 import com.gc.irc.common.protocol.Message;
 
+/**
+ * <p>IOStreamUtils class.</p>
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ */
 public final class IOStreamUtils {
 
     /** The Constant logger. */
@@ -15,13 +21,13 @@ public final class IOStreamUtils {
 
     /**
      * Wait and receive a Message.
-     * 
+     *
      * @param inObject
      *            Stream to listen.
      * @return Message Received message.
-     * @throws ClassNotFoundException
+     * @throws java.lang.ClassNotFoundException
      *             the class not found exception
-     * @throws IOException
+     * @throws java.io.IOException
      *             Signals that an I/O exception has occurred.
      */
     public static Message receiveMessage(final ObjectInputStream inObject) throws ClassNotFoundException, IOException {
@@ -35,11 +41,12 @@ public final class IOStreamUtils {
 
     /**
      * Send the message.
-     * 
+     *
      * @param outObject
      *            Stream where is send the message
-     * @throws IOException
+     * @throws java.io.IOException
      *             Signals that an I/O exception has occurred.
+     * @param message a {@link com.gc.irc.common.protocol.Message} object.
      */
     public static void sendMessage(final ObjectOutputStream outObject, final Message message) throws IOException {
         LOGGER.debug("Send the Message : " + message);

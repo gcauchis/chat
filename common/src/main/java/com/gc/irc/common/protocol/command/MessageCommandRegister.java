@@ -2,6 +2,9 @@ package com.gc.irc.common.protocol.command;
 
 /**
  * The Class IRCMessageCommandRegister.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class MessageCommandRegister extends MessageCommandLogin {
 
@@ -10,7 +13,7 @@ public class MessageCommandRegister extends MessageCommandLogin {
 
     /**
      * Instantiates a new iRC message command register.
-     * 
+     *
      * @param login
      *            the login
      * @param password
@@ -25,6 +28,7 @@ public class MessageCommandRegister extends MessageCommandLogin {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

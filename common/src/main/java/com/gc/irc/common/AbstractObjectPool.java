@@ -5,9 +5,11 @@ import org.apache.commons.pool.impl.GenericObjectPool;
 
 /**
  * The Class AbstractObjectPool.
- * 
+ *
  * @param <T>
  *            the generic type
+ * @author gcauchis
+ * @version 0.0.4
  */
 public abstract class AbstractObjectPool<T> extends AbstractLoggable {
 
@@ -16,7 +18,7 @@ public abstract class AbstractObjectPool<T> extends AbstractLoggable {
 
     /**
      * Free pooled object.
-     * 
+     *
      * @param pooledObject
      *            the message producer
      */
@@ -42,14 +44,14 @@ public abstract class AbstractObjectPool<T> extends AbstractLoggable {
 
     /**
      * Gets the poolable object factory.
-     * 
+     *
      * @return the poolable object factory
      */
     protected abstract PoolableObjectFactory<T> getPoolableObjectFactory();
 
     /**
      * Gets the pooled object.
-     * 
+     *
      * @return the pooled object
      */
     protected final T getPooledObject() {
@@ -64,7 +66,7 @@ public abstract class AbstractObjectPool<T> extends AbstractLoggable {
 
     /**
      * Sets the max pool size.
-     * 
+     *
      * @param maxPoolSize
      *            the new max pool size
      */

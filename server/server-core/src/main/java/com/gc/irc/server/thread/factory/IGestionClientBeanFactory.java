@@ -7,16 +7,17 @@ import com.gc.irc.server.client.connecter.ClientConnection;
 
 /**
  * A factory for creating IGestionClientBean objects.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public interface IGestionClientBeanFactory extends ILoggable {
 
     /**
      * Gets the gestion client bean.
-     * 
+     *
      * @param clientSocket
      *            the client socket
-     * @param parent
-     *            the parent
      * @return the gestion client bean
      */
     ClientConnection getGestionClientBean(Socket clientSocket);

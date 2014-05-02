@@ -2,6 +2,9 @@ package com.gc.irc.common.protocol.command;
 
 /**
  * The Class IRCMessageCommandLogin.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class MessageCommandLogin extends MessageCommand {
 
@@ -16,7 +19,7 @@ public class MessageCommandLogin extends MessageCommand {
 
     /**
      * Instantiates a new iRC message command login.
-     * 
+     *
      * @param login
      *            the login
      * @param password
@@ -30,7 +33,7 @@ public class MessageCommandLogin extends MessageCommand {
 
     /**
      * Gets the login.
-     * 
+     *
      * @return the login
      */
     public String getLogin() {
@@ -39,7 +42,7 @@ public class MessageCommandLogin extends MessageCommand {
 
     /**
      * Gets the password.
-     * 
+     *
      * @return the password
      */
     public String getPassword() {
@@ -51,6 +54,7 @@ public class MessageCommandLogin extends MessageCommand {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

@@ -8,6 +8,9 @@ import com.gc.irc.common.protocol.notice.MessageNoticeContactInfo;
 
 /**
  * The Class IRCMessageCommandChangeNicknameHandler.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 @Component
 public class MessageCommandChangeNicknameHandler extends AbstractServerCommandMessageHandler<MessageCommandChangeNickname> {
@@ -17,6 +20,7 @@ public class MessageCommandChangeNicknameHandler extends AbstractServerCommandMe
      * 
      * @see com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler#internalHandle(com.gc.irc.common.protocol.IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     protected void internalHandle(MessageCommandChangeNickname message) {
         User sender = getSender(message);

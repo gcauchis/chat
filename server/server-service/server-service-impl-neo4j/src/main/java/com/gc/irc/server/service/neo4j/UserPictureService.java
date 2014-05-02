@@ -12,6 +12,12 @@ import com.gc.irc.server.service.IUserPictureService;
 import com.gc.irc.server.service.neo4j.model.UserInformationEntity;
 import com.gc.irc.server.service.neo4j.repository.UserInformationRepository;
 
+/**
+ * <p>UserPictureService class.</p>
+ *
+ * @author gcauchis
+ * @version 0.0.4
+ */
 @Service("userPictureManagement")
 @Transactional
 public class UserPictureService extends AbstractLoggable implements
@@ -31,6 +37,7 @@ public class UserPictureService extends AbstractLoggable implements
         return userInformationRepository.findOne(id);
     }
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean newPicture(long idUser, MessageItemPicture image) {
 		UserInformationEntity user = getUserInfo(idUser);
@@ -42,6 +49,7 @@ public class UserPictureService extends AbstractLoggable implements
 		return true;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public MessageItemPicture getPictureOf(long idUser) {
 		UserInformationEntity user = getUserInfo(idUser);
@@ -51,6 +59,11 @@ public class UserPictureService extends AbstractLoggable implements
 		return new MessageItemPicture(user.getId(), new SerializableBufferedImage(user.getPict()));
 	}
 
+	/**
+	 * <p>Setter for the field <code>userInformationRepository</code>.</p>
+	 *
+	 * @param userInformationRepository a {@link com.gc.irc.server.service.neo4j.repository.UserInformationRepository} object.
+	 */
 	@Autowired
 	public void setUserInformationRepository(UserInformationRepository userInformationRepository) {
 		this.userInformationRepository = userInformationRepository;

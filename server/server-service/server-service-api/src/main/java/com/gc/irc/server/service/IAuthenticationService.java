@@ -4,15 +4,15 @@ import com.gc.irc.server.model.UserInformations;
 
 /**
  * Interface use for the login of the users.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public interface IAuthenticationService {
 
     /**
      * Add a new user.
-     * 
+     *
      * @param login
      *            User's Login.
      * @param password
@@ -25,7 +25,7 @@ public interface IAuthenticationService {
 
     /**
      * Change the Nickname of the User.
-     * 
+     *
      * @param id
      *            User's id.
      * @param nickname
@@ -35,7 +35,7 @@ public interface IAuthenticationService {
 
     /**
      * Change the Password of the User.
-     * 
+     *
      * @param id
      *            User's id.
      * @param password
@@ -45,7 +45,7 @@ public interface IAuthenticationService {
 
     /**
      * Get the designed User.
-     * 
+     *
      * @param id
      *            User's id.
      * @return The User if exist. Else null.
@@ -54,13 +54,14 @@ public interface IAuthenticationService {
     
     /**
      * Delete the user.
+     *
      * @param id the user id.
      */
     void delete(long id);
 
     /**
      * Log an user.
-     * 
+     *
      * @param login
      *            User's Login.
      * @param password
@@ -78,7 +79,7 @@ public interface IAuthenticationService {
 
     /**
      * Test if new login is free.
-     * 
+     *
      * @param login
      *            Login to add.
      * @return True if login already exist, else false.

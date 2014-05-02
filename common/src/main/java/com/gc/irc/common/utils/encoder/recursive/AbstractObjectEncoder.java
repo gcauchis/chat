@@ -9,9 +9,11 @@ import com.gc.irc.common.exception.utils.EncoderException;
 
 /**
  * The Class AbstractObjectEncoder.
- * 
+ *
  * @param <OBJ>
  *            the generic type
+ * @author gcauchis
+ * @version 0.0.4
  */
 public abstract class AbstractObjectEncoder<OBJ> implements IObjectEncoder {
 
@@ -49,6 +51,7 @@ public abstract class AbstractObjectEncoder<OBJ> implements IObjectEncoder {
      * @see
      * com.acp.common.crypto.api.IObjectEncoder#encryptClass(java.lang.Class)
      */
+    /** {@inheritDoc} */
     public final boolean encodeClass(final Class<?> clazz) {
         return getGenericObjectClass().equals(clazz);
     }
@@ -60,6 +63,7 @@ public abstract class AbstractObjectEncoder<OBJ> implements IObjectEncoder {
      * com.acp.common.crypto.api.IObjectEncoder#encryptObject(java.lang.Object,
      * com.acp.common.crypto.api.IStringEncoder)
      */
+    /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public final Object encodeObject(final Object value, final IStringEncoder stringEncoder) throws EncoderException {
         if (value == null) {
@@ -77,13 +81,13 @@ public abstract class AbstractObjectEncoder<OBJ> implements IObjectEncoder {
 
     /**
      * Internal encode object.
-     * 
+     *
      * @param obj
      *            the obj
      * @param stringEncoder
      *            the string encoder
      * @return the oBJ
-     * @throws EncoderException
+     * @throws com.gc.irc.common.exception.utils.EncoderException
      *             the encoder exception
      */
     protected abstract OBJ internalEncodeObject(final OBJ obj, final IStringEncoder stringEncoder) throws EncoderException;
@@ -92,6 +96,11 @@ public abstract class AbstractObjectEncoder<OBJ> implements IObjectEncoder {
      * (non-Javadoc)
      * 
      * @see com.gc.irc.common.api.ILoggable#getLog()
+     */
+    /**
+     * <p>getLog.</p>
+     *
+     * @return a {@link org.slf4j.Logger} object.
      */
     public Logger getLog() {
         return LOGGER;

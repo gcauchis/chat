@@ -14,6 +14,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The Class IOUtils.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public final class IOUtils {
 
@@ -22,7 +25,7 @@ public final class IOUtils {
 
     /**
      * Byte to char.
-     * 
+     *
      * @param buffer
      *            the buffer
      * @param size
@@ -45,7 +48,7 @@ public final class IOUtils {
 
     /**
      * Byte to string.
-     * 
+     *
      * @param buffer
      *            the buffer
      * @param size
@@ -63,11 +66,11 @@ public final class IOUtils {
     /**
      * Function wich converts a text file into a String Can be useful to read a
      * configuration file for example.
-     * 
+     *
      * @param f
      *            The file we want to read
      * @return A string containing all the content of the file
-     * @throws IOException
+     * @throws java.io.IOException
      *             Signals that an I/O exception has occurred.
      */
     public static String loadFile(final File f) throws IOException {
@@ -85,7 +88,7 @@ public final class IOUtils {
 
     /**
      * Write file.
-     * 
+     *
      * @param filename
      *            the filename
      * @param content

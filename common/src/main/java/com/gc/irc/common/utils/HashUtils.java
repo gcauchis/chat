@@ -8,6 +8,9 @@ import org.slf4j.Logger;
 
 /**
  * The Class HashUtils.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public final class HashUtils {
 
@@ -25,7 +28,7 @@ public final class HashUtils {
 
     /**
      * Encode password.
-     * 
+     *
      * @param input
      *            the password
      * @return the string

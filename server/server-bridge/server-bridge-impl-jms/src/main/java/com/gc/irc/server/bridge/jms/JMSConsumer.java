@@ -12,6 +12,9 @@ import com.gc.irc.server.bridge.ServerBridgeException;
 
 /**
  * The Class JMSConsumer.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class JMSConsumer extends AbstractLoggable implements IServerBridgeConsumer {
 
@@ -20,7 +23,7 @@ public class JMSConsumer extends AbstractLoggable implements IServerBridgeConsum
 
     /**
      * The Constructor.
-     * 
+     *
      * @param messageConsumer
      *            the message consumer
      */
@@ -34,6 +37,7 @@ public class JMSConsumer extends AbstractLoggable implements IServerBridgeConsum
      * 
      * @see com.gc.irc.server.bridge.api.IServerBridgeConsumer#close()
      */
+    /** {@inheritDoc} */
     @Override
     public void close() throws ServerBridgeException {
         try {
@@ -49,6 +53,7 @@ public class JMSConsumer extends AbstractLoggable implements IServerBridgeConsum
      * 
      * @see com.gc.irc.server.bridge.api.IServerBridgeConsumer#receive()
      */
+    /** {@inheritDoc} */
     @Override
     public Message receive() throws ServerBridgeException {
 

@@ -4,9 +4,9 @@ import com.gc.irc.common.entity.User;
 
 /**
  * Notification used to inform the success or the failed of the client login.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public class MessageNoticeLogin extends MessageNotice {
 
@@ -18,7 +18,7 @@ public class MessageNoticeLogin extends MessageNotice {
 
     /**
      * Instantiates a new iRC message notice login.
-     * 
+     *
      * @param user
      *            the user
      */
@@ -28,7 +28,7 @@ public class MessageNoticeLogin extends MessageNotice {
 
     /**
      * Gets the user.
-     * 
+     *
      * @return the user
      */
     public User getUser() {
@@ -37,8 +37,8 @@ public class MessageNoticeLogin extends MessageNotice {
 
     /**
      * Checks if is succed.
-     * 
-     * @return true, if is succed
+     *
+     * @return a boolean.
      */
     public boolean isSucced() {
         if (user == null) {
@@ -52,6 +52,7 @@ public class MessageNoticeLogin extends MessageNotice {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

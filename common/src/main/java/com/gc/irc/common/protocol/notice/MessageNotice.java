@@ -4,9 +4,9 @@ import com.gc.irc.common.protocol.Message;
 
 /**
  * Represent notification message.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public class MessageNotice extends Message {
 
@@ -25,6 +25,7 @@ public class MessageNotice extends Message {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

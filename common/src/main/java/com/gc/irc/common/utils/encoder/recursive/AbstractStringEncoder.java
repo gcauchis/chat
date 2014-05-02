@@ -7,6 +7,9 @@ import com.gc.irc.common.exception.utils.EncoderException;
 
 /**
  * The Class AbstractStringEncoder.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public abstract class AbstractStringEncoder implements IObjectEncoder, IStringEncoder {
 
@@ -19,6 +22,7 @@ public abstract class AbstractStringEncoder implements IObjectEncoder, IStringEn
      * com.gc.irc.common.utils.encoder.IObjectEncoder#encodeClass(java.lang.
      * Class)
      */
+    /** {@inheritDoc} */
     public boolean encodeClass(final Class<?> clazz) {
         return String.class.equals(clazz);
     }
@@ -30,6 +34,7 @@ public abstract class AbstractStringEncoder implements IObjectEncoder, IStringEn
      * com.gc.irc.common.utils.encoder.IObjectEncoder#encodeObject(java.lang
      * .Object, com.gc.irc.common.utils.encoder.IStringEncoder)
      */
+    /** {@inheritDoc} */
     public Object encodeObject(final Object value, final IStringEncoder stringEncoder) throws EncoderException {
         if (value == null) {
             getLog().debug("null entry");
@@ -43,6 +48,11 @@ public abstract class AbstractStringEncoder implements IObjectEncoder, IStringEn
         return encode((String) value);
     }
 
+    /**
+     * <p>getLog.</p>
+     *
+     * @return a {@link org.slf4j.Logger} object.
+     */
     public Logger getLog() {
         return LOGGER;
     }

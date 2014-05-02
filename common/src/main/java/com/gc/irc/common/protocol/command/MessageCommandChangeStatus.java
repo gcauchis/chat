@@ -4,6 +4,9 @@ import com.gc.irc.common.entity.UserStatus;
 
 /**
  * The Class IRCMessageCommandChangeStatus.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class MessageCommandChangeStatus extends MessageCommand {
 
@@ -15,7 +18,7 @@ public class MessageCommandChangeStatus extends MessageCommand {
 
     /**
      * Instantiates a new iRC message command change status.
-     * 
+     *
      * @param userId
      *            the user id
      * @param newStatus
@@ -28,7 +31,7 @@ public class MessageCommandChangeStatus extends MessageCommand {
 
     /**
      * Gets the new status.
-     * 
+     *
      * @return the new status
      */
     public UserStatus getNewStatus() {
@@ -40,6 +43,7 @@ public class MessageCommandChangeStatus extends MessageCommand {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

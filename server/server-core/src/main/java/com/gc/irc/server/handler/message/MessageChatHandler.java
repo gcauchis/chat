@@ -7,6 +7,9 @@ import com.gc.irc.common.protocol.chat.MessageChat;
 
 /**
  * The Class IRCMessageChatHandler.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 @Component
 public class MessageChatHandler extends AbstractServerMessageHandler<MessageChat> {
@@ -17,6 +20,7 @@ public class MessageChatHandler extends AbstractServerMessageHandler<MessageChat
      * @see com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler#
      * internalHandle(com.gc.irc.common.protocol.IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     protected void internalHandle(final MessageChat message) {
         final User sender = getSender(message);

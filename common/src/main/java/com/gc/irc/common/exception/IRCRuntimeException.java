@@ -2,6 +2,9 @@ package com.gc.irc.common.exception;
 
 /**
  * The Class IRCRuntimeException.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class IRCRuntimeException extends RuntimeException {
 
@@ -17,7 +20,7 @@ public class IRCRuntimeException extends RuntimeException {
 
     /**
      * Instantiates a new iRC runtime exception.
-     * 
+     *
      * @param message
      *            the message
      * @param cause
@@ -29,7 +32,7 @@ public class IRCRuntimeException extends RuntimeException {
 
     /**
      * Instantiates a new iRC runtime exception.
-     * 
+     *
      * @param message
      *            the message
      */
@@ -39,7 +42,7 @@ public class IRCRuntimeException extends RuntimeException {
 
     /**
      * Instantiates a new iRC runtime exception.
-     * 
+     *
      * @param cause
      *            the cause
      */

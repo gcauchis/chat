@@ -26,6 +26,9 @@ import com.gc.irc.common.utils.LoggerUtils;
 
 /**
  * The Class ReflectionEncoder.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public final class ReflectionEncoder implements IReflectionEncoder {
 
@@ -95,7 +98,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
 
     /**
      * Instantiates a new reflection stringEncoder.
-     * 
+     *
      * @param encoder
      *            the encoder
      */
@@ -110,7 +113,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
 
     /**
      * Instantiates a new reflection encoder.
-     * 
+     *
      * @param stringEncoder
      *            the string encoder
      * @param objectEncoders
@@ -123,7 +126,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
 
     /**
      * Instantiates a new reflection encoder.
-     * 
+     *
      * @param stringEncoder
      *            the string encoder
      * @param objectEncoders
@@ -144,6 +147,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * com.gc.common.encoder.IReflectionEncoder#addInterfacesToBlackList(java
      * .util.Collection)
      */
+    /** {@inheritDoc} */
     @Override
     @SuppressWarnings("unchecked")
     public void addInterfacesToBlackList(final Collection<Class> list) {
@@ -157,6 +161,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * com.gc.common.encoder.IReflectionEncoder#addToBlackList(java.util.Collection
      * )
      */
+    /** {@inheritDoc} */
     @Override
     @SuppressWarnings("unchecked")
     public void addToBlackList(final Collection<Class> list) {
@@ -188,6 +193,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * com.gc.common.encoder.IReflectionEncoder#encodeByReflection(java.lang
      * .Object)
      */
+    /** {@inheritDoc} */
     @Override
     public synchronized void encodeByReflection(final Object value) {
         try {
@@ -285,6 +291,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * @see
      * com.gc.common.encoder.IReflectionEncoder#encodeString(java.lang.String)
      */
+    /** {@inheritDoc} */
     @Override
     public String encodeString(final String value) {
         if (value != null) {
@@ -324,6 +331,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
      * 
      * @see com.gc.irc.common.api.ILoggable#getLog()
      */
+    /** {@inheritDoc} */
     @Override
     public Logger getLog() {
         return LOGGER;
@@ -331,7 +339,7 @@ public final class ReflectionEncoder implements IReflectionEncoder {
 
     /**
      * Gets the max deep.
-     * 
+     *
      * @return the max deep
      */
     public int getMaxDeep() {
@@ -452,10 +460,9 @@ public final class ReflectionEncoder implements IReflectionEncoder {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Sets the max deep. Must be > 5.
-     * 
-     * @param maxDeep
-     *            the new max deep
      */
     @Override
     public void setMaxDeep(final int maxDeep) {

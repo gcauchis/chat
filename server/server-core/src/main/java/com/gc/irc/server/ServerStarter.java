@@ -8,12 +8,15 @@ import com.gc.irc.server.core.ServerCore;
 
 /**
  * The Class ServerStarter.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class ServerStarter extends AbstractLoggable implements Runnable {
 
     /**
      * The main method.
-     * 
+     *
      * @param args
      *            the arguments
      */
@@ -27,8 +30,8 @@ public class ServerStarter extends AbstractLoggable implements Runnable {
 
     /**
      * Checks if is initialized.
-     * 
-     * @return true, if is initialized
+     *
+     * @return a boolean.
      */
     public boolean isInitialized() {
         return initialized;
@@ -39,6 +42,7 @@ public class ServerStarter extends AbstractLoggable implements Runnable {
      * 
      * @see java.lang.Runnable#run()
      */
+    /** {@inheritDoc} */
     @Override
     public void run() {
         startAndWaitForClient();

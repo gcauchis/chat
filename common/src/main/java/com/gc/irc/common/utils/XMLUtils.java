@@ -24,6 +24,9 @@ import com.gc.irc.common.exception.utils.XMLException;
 
 /**
  * The Class XMLUtils.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public final class XMLUtils {
 
@@ -36,7 +39,7 @@ public final class XMLUtils {
 
     /**
      * Extract element.
-     * 
+     *
      * @param xml
      *            the xml
      * @param name
@@ -52,12 +55,12 @@ public final class XMLUtils {
 
     /**
      * Checks for element.
-     * 
+     *
      * @param xml
      *            the xml
      * @param name
      *            the name
-     * @return true, if successful
+     * @return a boolean.
      */
     public static boolean hasElement(final String xml, final String name) {
         return StringUtils.isNotEmpty(extractElement(xml, name));
@@ -65,12 +68,12 @@ public final class XMLUtils {
 
     /**
      * Checks if is root element.
-     * 
+     *
      * @param xml
      *            the xml
      * @param name
      *            the name
-     * @return true, if is root element
+     * @return a boolean.
      */
     public static boolean isRootElement(final String xml, final String name) {
         if (StringUtils.isNotEmpty(xml) && StringUtils.isNotEmpty(name)) {
@@ -81,7 +84,7 @@ public final class XMLUtils {
 
     /**
      * Removes the element.
-     * 
+     *
      * @param xml
      *            the xml
      * @param name
@@ -98,7 +101,7 @@ public final class XMLUtils {
 
     /**
      * Removes the header.
-     * 
+     *
      * @param xml
      *            the xml
      * @return the string
@@ -112,11 +115,12 @@ public final class XMLUtils {
 
     /**
      * Format.
-     * 
+     *
      * @param unformattedXml
      *            the unformatted xml
      * @return the string
-     * @throws XSDException
+     * @throws XSDException if any.
+     * @throws com.gc.irc.common.exception.utils.XMLException if any.
      */
     public static String format(final String unformattedXml) throws XMLException {
         Transformer transformer;
@@ -141,11 +145,12 @@ public final class XMLUtils {
 
     /**
      * Parses the xml file.
-     * 
+     *
      * @param xml
      *            the in
      * @return the document
-     * @throws XSDException
+     * @throws XSDException if any.
+     * @throws com.gc.irc.common.exception.utils.XMLException if any.
      */
     public static Document parseXmlFile(final String xml) throws XMLException {
         try {

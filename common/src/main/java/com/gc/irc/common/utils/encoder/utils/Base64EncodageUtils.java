@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The Class Base64EncodageUtils.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public final class Base64EncodageUtils {
 
@@ -28,10 +31,10 @@ public final class Base64EncodageUtils {
 
     /**
      * Checks if is base64.
-     * 
+     *
      * @param value
      *            the value
-     * @return true, if is base64
+     * @return a boolean.
      */
     public static boolean isBase64(final String value) {
         return Base64.isBase64(value);
@@ -39,7 +42,7 @@ public final class Base64EncodageUtils {
 
     /**
      * Compress and encode base64.
-     * 
+     *
      * @param value
      *            the value
      * @return the string
@@ -55,11 +58,11 @@ public final class Base64EncodageUtils {
 
     /**
      * Compress.
-     * 
+     *
      * @param value
      *            the value
      * @return the byte[]
-     * @throws UnsupportedEncodingException
+     * @throws java.io.UnsupportedEncodingException
      *             the unsupported encoding exception
      */
     public static byte[] compress(final String value) throws UnsupportedEncodingException {
@@ -74,11 +77,11 @@ public final class Base64EncodageUtils {
 
     /**
      * Encode base64.
-     * 
+     *
      * @param value
      *            the value
      * @return the string
-     * @throws UnsupportedEncodingException
+     * @throws java.io.UnsupportedEncodingException
      *             the unsupported encoding exception
      */
     public static String encodeBase64(final byte[] value) throws UnsupportedEncodingException {
@@ -87,11 +90,11 @@ public final class Base64EncodageUtils {
 
     /**
      * Encode base64.
-     * 
+     *
      * @param value
      *            the value
      * @return the string
-     * @throws UnsupportedEncodingException
+     * @throws java.io.UnsupportedEncodingException
      *             the unsupported encoding exception
      */
     public static String encodeBase64(final String value) throws UnsupportedEncodingException {
@@ -100,7 +103,7 @@ public final class Base64EncodageUtils {
 
     /**
      * Decode base64 and decompress.
-     * 
+     *
      * @param value
      *            the value
      * @return the string
@@ -116,11 +119,11 @@ public final class Base64EncodageUtils {
 
     /**
      * Decode base64.
-     * 
+     *
      * @param value
      *            the value
      * @return the byte[]
-     * @throws UnsupportedEncodingException
+     * @throws java.io.UnsupportedEncodingException
      *             the unsupported encoding exception
      */
     public static byte[] decodeBase64(final String value) throws UnsupportedEncodingException {
@@ -132,11 +135,11 @@ public final class Base64EncodageUtils {
 
     /**
      * Decode base64.
-     * 
+     *
      * @param value
      *            the value
      * @return the byte[]
-     * @throws UnsupportedEncodingException
+     * @throws java.io.UnsupportedEncodingException
      *             the unsupported encoding exception
      */
     public static byte[] decodeBase64(final byte[] value) throws UnsupportedEncodingException {
@@ -145,7 +148,7 @@ public final class Base64EncodageUtils {
 
     /**
      * Decompress.
-     * 
+     *
      * @param value
      *            the value
      * @return the string

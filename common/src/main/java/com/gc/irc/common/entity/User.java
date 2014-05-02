@@ -6,6 +6,9 @@ import com.gc.irc.common.AbstractLoggable;
 
 /**
  * The Class IRCUser.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class User extends AbstractLoggable implements Serializable {
 
@@ -26,7 +29,7 @@ public class User extends AbstractLoggable implements Serializable {
 
     /**
      * Builder.
-     * 
+     *
      * @param id
      *            User's id.
      * @param nickName
@@ -41,7 +44,7 @@ public class User extends AbstractLoggable implements Serializable {
 
     /**
      * Builder.
-     * 
+     *
      * @param id
      *            User's id.
      * @param nickName
@@ -54,9 +57,9 @@ public class User extends AbstractLoggable implements Serializable {
         hasPictur = hasPicture;
     }
 
-	/**
+    /**
      * Get a copy of the user.
-     * 
+     *
      * @return A copy.
      */
     public User getCopy() {
@@ -68,7 +71,7 @@ public class User extends AbstractLoggable implements Serializable {
 
     /**
      * Gets the id.
-     * 
+     *
      * @return the id
      */
     public long getId() {
@@ -77,7 +80,7 @@ public class User extends AbstractLoggable implements Serializable {
 
     /**
      * Gets the nick name.
-     * 
+     *
      * @return the nick name
      */
     public String getNickName() {
@@ -86,7 +89,7 @@ public class User extends AbstractLoggable implements Serializable {
 
     /**
      * Gets the user status.
-     * 
+     *
      * @return the user status
      */
     public UserStatus getUserStatus() {
@@ -95,8 +98,8 @@ public class User extends AbstractLoggable implements Serializable {
 
     /**
      * Checks for pictur.
-     * 
-     * @return true, if successful
+     *
+     * @return a boolean.
      */
     public boolean hasPictur() {
         return hasPictur;
@@ -104,7 +107,7 @@ public class User extends AbstractLoggable implements Serializable {
 
     /**
      * Sets the checks for pictur.
-     * 
+     *
      * @param hasPictur
      *            the new checks for pictur
      */
@@ -114,7 +117,7 @@ public class User extends AbstractLoggable implements Serializable {
 
     /**
      * Sets the nick name.
-     * 
+     *
      * @param nickName
      *            the new nick name
      */
@@ -124,7 +127,7 @@ public class User extends AbstractLoggable implements Serializable {
 
     /**
      * Sets the user status.
-     * 
+     *
      * @param userStatus
      *            the new user status
      */
@@ -137,6 +140,7 @@ public class User extends AbstractLoggable implements Serializable {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "IRCUser(" + super.toString() + ") [id=" + id + ", nickName=" + nickName + ", userStatus=" + userStatus + "]";
@@ -144,7 +148,7 @@ public class User extends AbstractLoggable implements Serializable {
 
     /**
      * Generate xml.
-     * 
+     *
      * @param tab
      *            Indentation's level.
      * @return Xml in a String.

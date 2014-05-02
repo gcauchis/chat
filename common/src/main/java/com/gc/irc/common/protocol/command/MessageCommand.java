@@ -4,6 +4,9 @@ import com.gc.irc.common.protocol.Message;
 
 /**
  * The Class IRCMessageCommand.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class MessageCommand extends Message {
 
@@ -12,7 +15,7 @@ public class MessageCommand extends Message {
 
     /**
      * Instantiates a new iRC message command.
-     * 
+     *
      * @param userId
      *            the user id
      */
@@ -25,6 +28,7 @@ public class MessageCommand extends Message {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

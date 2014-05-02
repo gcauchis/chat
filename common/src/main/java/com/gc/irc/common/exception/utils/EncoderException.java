@@ -4,6 +4,9 @@ import com.gc.irc.common.exception.IRCException;
 
 /**
  * The Class EncoderException.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class EncoderException extends IRCException {
 
@@ -19,7 +22,7 @@ public class EncoderException extends IRCException {
 
     /**
      * Instantiates a new encryption exception.
-     * 
+     *
      * @param message
      *            the message
      * @param cause
@@ -31,7 +34,7 @@ public class EncoderException extends IRCException {
 
     /**
      * Instantiates a new encryption exception.
-     * 
+     *
      * @param message
      *            the message
      */
@@ -41,7 +44,7 @@ public class EncoderException extends IRCException {
 
     /**
      * Instantiates a new encryption exception.
-     * 
+     *
      * @param cause
      *            the cause
      */

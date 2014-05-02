@@ -8,9 +8,11 @@ import com.gc.irc.server.service.IUserPictureService;
 
 /**
  * The Class AbstractServerCommandMessageHandler.
- * 
+ *
  * @param <MSG>
  *            the generic type
+ * @author gcauchis
+ * @version 0.0.4
  */
 public abstract class AbstractServerCommandMessageHandler<MSG extends Message> extends AbstractServerMessageHandler<MSG> {
 
@@ -24,7 +26,7 @@ public abstract class AbstractServerCommandMessageHandler<MSG extends Message> e
 
     /**
      * Gets the authentication service.
-     * 
+     *
      * @return the authentication service
      */
     protected IAuthenticationService getAuthenticationService() {
@@ -33,7 +35,7 @@ public abstract class AbstractServerCommandMessageHandler<MSG extends Message> e
 
     /**
      * Gets the user picture service.
-     * 
+     *
      * @return the user picture service
      */
     protected IUserPictureService getUserPictureService() {
@@ -42,7 +44,7 @@ public abstract class AbstractServerCommandMessageHandler<MSG extends Message> e
 
     /**
      * Sets the authentication service.
-     * 
+     *
      * @param authenticationService
      *            the new authentication service
      */
@@ -52,7 +54,7 @@ public abstract class AbstractServerCommandMessageHandler<MSG extends Message> e
 
     /**
      * Sets the user picture service.
-     * 
+     *
      * @param userPictureService
      *            the new user picture service
      */

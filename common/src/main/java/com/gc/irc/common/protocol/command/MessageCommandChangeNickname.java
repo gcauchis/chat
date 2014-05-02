@@ -4,6 +4,9 @@ import com.gc.irc.common.entity.User;
 
 /**
  * The Class IRCMessageCommandChangeNickname.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class MessageCommandChangeNickname extends MessageCommand {
 
@@ -15,7 +18,7 @@ public class MessageCommandChangeNickname extends MessageCommand {
 
     /**
      * Instantiates a new iRC message command change nickname.
-     * 
+     *
      * @param user
      *            the user
      */
@@ -26,7 +29,7 @@ public class MessageCommandChangeNickname extends MessageCommand {
 
     /**
      * Gets the new nickname.
-     * 
+     *
      * @return the new nickname
      */
     public String getNewNickname() {
@@ -38,6 +41,7 @@ public class MessageCommandChangeNickname extends MessageCommand {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

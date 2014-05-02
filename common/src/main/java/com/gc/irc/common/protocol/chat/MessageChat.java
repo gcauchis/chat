@@ -7,8 +7,9 @@ import com.gc.irc.common.protocol.Message;
 
 /**
  * The seri.
- * 
+ *
  * @author Colin
+ * @version 0.0.4
  */
 public class MessageChat extends Message {
 
@@ -20,13 +21,11 @@ public class MessageChat extends Message {
 
     /**
      * Instantiates a new iRC message chat.
-     * 
+     *
      * @param userID
      *            the user id
      * @param lines
      *            the lines
-     * @param textColor
-     *            the text color
      */
     public MessageChat(final long userID, final List<IClientMessageLine> lines) {
         super(userID);
@@ -35,7 +34,7 @@ public class MessageChat extends Message {
 
     /**
      * Gets the lines.
-     * 
+     *
      * @return the lines
      */
     public List<IClientMessageLine> getLines() {
@@ -44,7 +43,7 @@ public class MessageChat extends Message {
 
     /**
      * Sets the lines.
-     * 
+     *
      * @param lines
      *            the new lines
      */
@@ -57,6 +56,7 @@ public class MessageChat extends Message {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

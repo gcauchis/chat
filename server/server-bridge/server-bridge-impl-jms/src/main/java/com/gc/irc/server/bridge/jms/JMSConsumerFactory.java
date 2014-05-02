@@ -13,6 +13,9 @@ import com.gc.irc.server.bridge.jms.utils.JMSConnectionUtils;
 
 /**
  * The Class JMSConsumerFactory.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 @Component
 @Scope("singleton")
@@ -27,6 +30,7 @@ public class JMSConsumerFactory extends AbstractLoggable implements IServerBridg
      * @see
      * com.gc.irc.server.bridge.api.IServerBridgeConsumerFactory#getInstance()
      */
+    /** {@inheritDoc} */
     @Override
     public IServerBridgeConsumer getInstance() {
         try {
@@ -39,6 +43,8 @@ public class JMSConsumerFactory extends AbstractLoggable implements IServerBridg
     }
 
     /**
+     * <p>Setter for the field <code>brokerUrl</code>.</p>
+     *
      * @param brokerUrl
      *            the brokerUrl to set
      */

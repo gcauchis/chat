@@ -14,9 +14,9 @@ import com.gc.irc.server.service.IUserPictureService;
 
 /**
  * Manage the Users's Pictures.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 @Service("userPictureManagement")
 public class UserPictureService extends AbstractLoggable implements IUserPictureService {
@@ -27,6 +27,7 @@ public class UserPictureService extends AbstractLoggable implements IUserPicture
      * @see
      * com.gc.irc.server.persistance.GestionPictureInterface#getPictureOf(int)
      */
+    /** {@inheritDoc} */
     @Override
     public synchronized MessageItemPicture getPictureOf(final long idUser) {
         getLog().debug("Get pictur of " + idUser);
@@ -59,6 +60,7 @@ public class UserPictureService extends AbstractLoggable implements IUserPicture
      * com.gc.irc.server.persistance.GestionPictureInterface#newPicture(int,
      * com.gc.irc.common.protocol.item.IRCMessageItemPicture)
      */
+    /** {@inheritDoc} */
     @Override
     public synchronized boolean newPicture(final long idUser, final MessageItemPicture image) {
         getLog().debug("Add pictur");

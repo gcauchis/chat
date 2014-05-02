@@ -4,9 +4,9 @@ import com.gc.irc.common.exception.IRCException;
 
 /**
  * Special Exception for the IRCServer.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public class ServerException extends IRCException {
 
@@ -22,7 +22,7 @@ public class ServerException extends IRCException {
 
     /**
      * Instantiates a new iRC server exception.
-     * 
+     *
      * @param message
      *            the message
      * @param cause
@@ -34,7 +34,7 @@ public class ServerException extends IRCException {
 
     /**
      * Instantiates a new iRC server exception.
-     * 
+     *
      * @param message
      *            the message
      */
@@ -44,7 +44,7 @@ public class ServerException extends IRCException {
 
     /**
      * Instantiates a new iRC server exception.
-     * 
+     *
      * @param cause
      *            the cause
      */

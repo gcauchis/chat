@@ -16,6 +16,9 @@ import com.gc.irc.server.service.neo4j.repository.UserInformationRepository;
 
 /**
  * The Class AuthenticationService.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 @Service("authenticationService")
 @Transactional
@@ -34,6 +37,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * com.gc.irc.server.service.api.IAuthenticationService#addNewUser(java.
      * lang.String, java.lang.String, java.lang.String)
      */
+    /** {@inheritDoc} */
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public boolean addNewUser(final String login, final String password, final String nickname) {
@@ -48,6 +52,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * 
      * @see com.gc.irc.server.service.api.IAuthenticationService#getUser(long)
      */
+    /** {@inheritDoc} */
     @Override
     public UserInformations getUser(final long id) {
         final UserInformationEntity userInformationEntity = getUserInfo(id);
@@ -75,6 +80,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * com.gc.irc.server.service.api.IAuthenticationService#logUser(java.lang
      * .String, java.lang.String)
      */
+    /** {@inheritDoc} */
     @Override
     public UserInformations logUser(final String login, final String password) {
     	UserInformationEntity user = userInformationRepository.findByPropertyValue("log", login);
@@ -84,6 +90,11 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
         return ModelConversionUtils.convert(user);
     }
 
+    /**
+     * <p>Setter for the field <code>userInformationRepository</code>.</p>
+     *
+     * @param userInformationRepository a {@link com.gc.irc.server.service.neo4j.repository.UserInformationRepository} object.
+     */
     @Autowired
     public void setUserInformationRepository(UserInformationRepository userInformationRepository) {
 		this.userInformationRepository = userInformationRepository;
@@ -96,6 +107,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * com.gc.irc.server.service.api.IAuthenticationService#update(com.gc.irc
      * .server.model.UserInformations)
      */
+    /** {@inheritDoc} */
     @Override
     public void update(final UserInformations userInformations) {
         final UserInformationEntity userInformationEntity = getUserInfo(userInformations.getId());
@@ -113,6 +125,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * com.gc.irc.server.service.api.IAuthenticationService#updateUserNickName
      * (long, java.lang.String)
      */
+    /** {@inheritDoc} */
     @Override
     public void updateUserNickName(final long id, final String nickname) {
         final UserInformationEntity userInformationEntity = getUserInfo(id);
@@ -129,6 +142,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * com.gc.irc.server.service.api.IAuthenticationService#updateUserPasword
      * (long, java.lang.String)
      */
+    /** {@inheritDoc} */
     @Override
     public void updateUserPasword(final long id, final String password) {
         final UserInformationEntity userInformationEntity = getUserInfo(id);
@@ -145,11 +159,13 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * com.gc.irc.server.service.api.IAuthenticationService#userLoginExist(java
      * .lang.String)
      */
+    /** {@inheritDoc} */
     @Override
     public boolean userLoginExist(final String login) {
         return userInformationRepository.findByPropertyValue("log", login) != null;
     }
 
+	/** {@inheritDoc} */
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void delete(long id) {

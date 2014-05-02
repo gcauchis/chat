@@ -17,9 +17,9 @@ import com.gc.irc.server.model.UserInformations;
 
 /**
  * A scanner to parse an identification xml file.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public final class UserInformationScanner extends AbstractLoggable {
 
@@ -34,7 +34,7 @@ public final class UserInformationScanner extends AbstractLoggable {
 
     /**
      * Instantiates a new user imformation scanner.
-     * 
+     *
      * @param document
      *            the document
      */
@@ -45,14 +45,14 @@ public final class UserInformationScanner extends AbstractLoggable {
 
     /**
      * Instantiates a new user imformation scanner.
-     * 
+     *
      * @param file
      *            the file
-     * @throws ParserConfigurationException
+     * @throws javax.xml.parsers.ParserConfigurationException
      *             the parser configuration exception
-     * @throws SAXException
+     * @throws org.xml.sax.SAXException
      *             the sAX exception
-     * @throws IOException
+     * @throws java.io.IOException
      *             Signals that an I/O exception has occurred.
      */
     public UserInformationScanner(final String file) throws ParserConfigurationException, SAXException, IOException {
@@ -64,7 +64,7 @@ public final class UserInformationScanner extends AbstractLoggable {
 
     /**
      * Gets the last id.
-     * 
+     *
      * @return the last id
      */
     public int getLastId() {
@@ -73,7 +73,7 @@ public final class UserInformationScanner extends AbstractLoggable {
 
     /**
      * Gets the list user infomation.
-     * 
+     *
      * @return the list user infomation
      */
     public Map<Long, UserInformations> getListUserInfomation() {

@@ -8,6 +8,9 @@ import com.gc.irc.common.protocol.notice.MessageNoticeContactInfo;
 
 /**
  * The Class IRCMessageCommandChangeStatusHandler.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 @Component
 public class MessageCommandChangeStatusHandler extends AbstractServerCommandMessageHandler<MessageCommandChangeStatus> {
@@ -17,6 +20,7 @@ public class MessageCommandChangeStatusHandler extends AbstractServerCommandMess
      * 
      * @see com.gc.irc.server.handler.message.abs.AbstractServerMessageHandler#internalHandle(com.gc.irc.common.protocol.IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     protected void internalHandle(MessageCommandChangeStatus message) {
         final User user = getSender(message);

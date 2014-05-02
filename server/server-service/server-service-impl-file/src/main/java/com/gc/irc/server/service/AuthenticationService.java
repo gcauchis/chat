@@ -18,9 +18,9 @@ import com.gc.irc.server.service.utils.UserInformationScanner;
 
 /**
  * Singleton class use for login and register all the users.
- * 
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 @Service("authenticationService")
 @Scope("singleton")
@@ -65,6 +65,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * com.gc.irc.server.auth.AuthentificationInterface#addUser(java.lang.String
      * , java.lang.String, java.lang.String)
      */
+    /** {@inheritDoc} */
     @Override
     public boolean addNewUser(final String login, final String password, final String nickname) {
         if (userLoginExist(login)) {
@@ -109,6 +110,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * 
      * @see com.gc.irc.server.auth.AuthentificationInterface#getUser(int)
      */
+    /** {@inheritDoc} */
     @Override
     public UserInformations getUser(final long id) {
         return users.get(id);
@@ -121,6 +123,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * com.gc.irc.server.auth.AuthentificationInterface#logUser(java.lang.String
      * , java.lang.String)
      */
+    /** {@inheritDoc} */
     @Override
     public UserInformations logUser(final String login, final String password) {
         for (final Map.Entry<Long, UserInformations> entry : users.entrySet()) {
@@ -144,6 +147,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
 	/* (non-Javadoc)
 	 * @see com.gc.irc.server.service.api.IAuthenticationService#update(com.gc.irc.server.model.UserInformations)
 	 */
+	/** {@inheritDoc} */
 	@Override
 	public void update(UserInformations userInformations) {
 		users.put(userInformations.getId(), userInformations);
@@ -166,6 +170,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * @see com.gc.irc.server.auth.AuthentificationInterface#changeNickUser(int,
      * java.lang.String)
      */
+    /** {@inheritDoc} */
     @Override
     public void updateUserNickName(final long id, final String nickname) {
         final UserInformations user = getUser(id);
@@ -182,6 +187,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * com.gc.irc.server.auth.AuthentificationInterface#changePasswordUser(int,
      * java.lang.String)
      */
+    /** {@inheritDoc} */
     @Override
     public void updateUserPasword(final long id, final String password) {
         final UserInformations user = getUser(id);
@@ -198,6 +204,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
      * com.gc.irc.server.auth.AuthentificationInterface#userLoginExist(java.
      * lang.String)
      */
+    /** {@inheritDoc} */
     @Override
     public boolean userLoginExist(final String login) {
         for (final Map.Entry<Long, UserInformations> entry : users.entrySet()) {
@@ -208,6 +215,7 @@ public class AuthenticationService extends AbstractLoggable implements IAuthenti
         return false;
     }
 
+	/** {@inheritDoc} */
 	@Override
 	public void delete(long id) {
 		users.remove(id);

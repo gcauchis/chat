@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 /**
  * Object used to communicate between the Client and the Server.
- * 
- * @author Colin, Gabriel
+ *
+ * @version 0.0.4
  */
 public class Message implements Serializable {
 
@@ -17,11 +17,9 @@ public class Message implements Serializable {
 
     /**
      * Instantiates a new iRC message.
-     * 
+     *
      * @param fromId
      *            the from id
-     * @param type
-     *            the type
      */
     public Message(final long fromId) {
         this.fromId = fromId;
@@ -29,7 +27,7 @@ public class Message implements Serializable {
 
     /**
      * Gets the from id.
-     * 
+     *
      * @return the from id
      */
     public long getFromId() {
@@ -38,7 +36,7 @@ public class Message implements Serializable {
 
     /**
      * Sets the from id.
-     * 
+     *
      * @param fromId
      *            the new from id
      */
@@ -51,6 +49,7 @@ public class Message implements Serializable {
      * 
      * @see java.lang.Object#toString()
      */
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();

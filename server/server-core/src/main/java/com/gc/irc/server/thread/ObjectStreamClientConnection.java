@@ -37,10 +37,10 @@ import com.gc.irc.server.service.IAuthenticationService;
 import com.gc.irc.server.service.IUserPictureService;
 
 /**
- * Communication between the Client and the server using an {@link ObjectOutputStream}.
- * 
+ * Communication between the Client and the server using an {@link java.io.ObjectOutputStream}.
+ *
  * @author gcauchis
- * 
+ * @version 0.0.4
  */
 public class ObjectStreamClientConnection extends AbstractRunnable implements ClientConnection, UserManagementAware {
 
@@ -49,7 +49,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
 
     /**
      * Gets the nb thread.
-     * 
+     *
      * @return the nb thread
      */
     protected static int getNbThread() {
@@ -95,7 +95,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
 
     /**
      * Builder who initialize the TCP connection.
-     * 
+     *
      * @param clientSocket
      *            Client's Socket.
      */
@@ -132,6 +132,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
      * 
      * @see com.gc.irc.server.thread.impl.IGestionClientBean#disconnectUser()
      */
+    /** {@inheritDoc} */
     @Override
     public void disconnectUser() {
         getLog().debug(id + " Finalize Thread");
@@ -186,6 +187,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
      * 
      * @see com.gc.irc.server.thread.impl.IGestionClientBean#getUser()
      */
+    /** {@inheritDoc} */
     @Override
     public User getUser() {
         return user;
@@ -410,6 +412,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
      * 
      * @see java.lang.Thread#run()
      */
+    /** {@inheritDoc} */
     @Override
     public void run() {
         getLog().info(id + " Start Thread.");
@@ -448,6 +451,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
      * com.gc.irc.server.thread.impl.IGestionClientBean#envoyerMessageObjetSocket
      * (com.gc.irc.common.protocol.IRCMessage)
      */
+    /** {@inheritDoc} */
     @Override
     public void send(final Message message) {
         try {
@@ -477,7 +481,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
 
     /**
      * Sets the authentication service.
-     * 
+     *
      * @param authenticationService
      *            the new authentication service
      */
@@ -487,7 +491,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
 
     /**
      * Sets the server bridge producer.
-     * 
+     *
      * @param serverBridgeProducer
      *            the server bridge producer
      */
@@ -496,6 +500,8 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
     }
 
     /**
+     * <p>Setter for the field <code>userPictureService</code>.</p>
+     *
      * @param userPictureService
      *            the userPictureService to set
      */
@@ -505,7 +511,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
 
     /**
      * Sets the users connections management.
-     * 
+     *
      * @param usersConnectionsManagement
      *            the new users connections management
      */
@@ -515,9 +521,8 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
 
     /**
      * Sets the users pictures management.
-     * 
-     * @param usersPicturesManagement
-     *            the new users pictures management
+     *
+     * @param userPicturesManagement a {@link com.gc.irc.server.core.user.management.IUserPicturesManagement} object.
      */
     public void setUserPicturesManagement(IUserPicturesManagement userPicturesManagement) {
 		this.userPicturesManagement = userPicturesManagement;
@@ -536,6 +541,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
         }
     }
 
+	/** {@inheritDoc} */
 	@Override
 	@Autowired
 	public void setUserManagement(IUserManagement userManagement) {
