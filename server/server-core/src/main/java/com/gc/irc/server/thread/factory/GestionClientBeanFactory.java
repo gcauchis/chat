@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.server.bridge.IServerBridgeProducer;
-import com.gc.irc.server.client.connecter.ClientConnection;
+import com.gc.irc.server.client.connector.ClientConnection;
 import com.gc.irc.server.core.user.management.IUserManagement;
 import com.gc.irc.server.core.user.management.IUserPicturesManagement;
 import com.gc.irc.server.core.user.management.IUsersConnectionsManagement;

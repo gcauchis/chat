@@ -10,7 +10,7 @@ import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.bridge.IServerBridgeConsumer;
 import com.gc.irc.server.bridge.IServerBridgeConsumerFactory;
 import com.gc.irc.server.bridge.ServerBridgeException;
-import com.gc.irc.server.client.connecter.ClientConnection;
+import com.gc.irc.server.client.connector.ClientConnection;
 import com.gc.irc.server.core.user.management.IUserManagement;
 import com.gc.irc.server.core.user.management.IUsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.UserManagementAware;

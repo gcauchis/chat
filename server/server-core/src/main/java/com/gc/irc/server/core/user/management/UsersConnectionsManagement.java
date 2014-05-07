@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.client.connecter.ClientConnection;
+import com.gc.irc.server.client.connector.ClientConnection;
 import com.gc.irc.server.service.IAuthenticationService;
 
 /**

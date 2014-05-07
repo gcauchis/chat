@@ -1,4 +1,4 @@
-package com.gc.irc.server.client.connecter;
+package com.gc.irc.server.client.connector;
 
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;

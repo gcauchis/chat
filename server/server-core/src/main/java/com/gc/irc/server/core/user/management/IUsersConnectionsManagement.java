@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.gc.irc.common.ILoggable;
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.client.connecter.ClientConnection;
+import com.gc.irc.server.client.connector.ClientConnection;
 
 /**
  * <p>IUsersConnectionsManagement interface.</p>

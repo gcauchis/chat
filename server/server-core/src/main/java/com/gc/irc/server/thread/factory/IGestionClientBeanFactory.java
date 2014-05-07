@@ -3,7 +3,7 @@ package com.gc.irc.server.thread.factory;
 import java.net.Socket;
 
 import com.gc.irc.common.ILoggable;
-import com.gc.irc.server.client.connecter.ClientConnection;
+import com.gc.irc.server.client.connector.ClientConnection;
 
 /**
  * A factory for creating IGestionClientBean objects.

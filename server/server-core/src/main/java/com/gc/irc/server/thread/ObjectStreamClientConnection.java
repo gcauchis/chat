@@ -25,7 +25,7 @@ import com.gc.irc.common.protocol.notice.MessageNoticeServerMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.server.bridge.IServerBridgeProducer;
 import com.gc.irc.server.bridge.ServerBridgeException;
-import com.gc.irc.server.client.connecter.ClientConnection;
+import com.gc.irc.server.client.connector.ClientConnection;
 import com.gc.irc.server.core.ServerCore;
 import com.gc.irc.server.core.user.management.IUserManagement;
 import com.gc.irc.server.core.user.management.IUserPicturesManagement;
@@ -214,7 +214,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
      * @throws ServerException
      *             the iRC server exception
      */
-    private void protocoleDAuthentification() throws ServerException {
+    private void authenticateProtocol() throws ServerException {
         getLog().debug("Start Login protocol");
         Message messageInit = new MessageNoticeServerMessage(ServerCore.getMessageAcceuil());
         /**
@@ -418,7 +418,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
         getLog().info(id + " Start Thread.");
 
         try {
-            protocoleDAuthentification();
+            authenticateProtocol();
         } catch (final ServerException e) {
             getLog().warn(id + " Fail to autentificate the Client : ", e);
         }
