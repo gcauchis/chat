@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
-import com.gc.irc.server.core.user.management.IUsersConnectionsManagement;
+import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.thread.IServeurMBean;
 import com.gc.irc.server.thread.factory.IGestionClientBeanFactory;
 import com.gc.irc.server.thread.factory.IServeurMBeanFactory;
@@ -30,8 +30,8 @@ import com.gc.irc.server.thread.factory.IServeurMBeanFactory;
 @Component("serverCore")
 public class ServerCore extends AbstractLoggable {
 
-    /** The message acceuil. */
-    private static String messageAcceuil = "Welcome on our server.";
+    /** The welcome message. */
+    private static String welcomeMessage = "Welcome on our server.";
 
     /** The server socket. */
     private static ServerSocket serverSocket = null;
@@ -41,18 +41,18 @@ public class ServerCore extends AbstractLoggable {
      *
      * @return The welcome message.
      */
-    public static String getMessageAcceuil() {
-        return messageAcceuil;
+    public static String getWelcomeMessage() {
+        return welcomeMessage;
     }
 
     /**
      * Used to change the welcoming message.
      *
-     * @param messageAcceuil
+     * @param welcomeMessage
      *            The new message.
      */
-    public static void setMessageAcceuil(final String messageAcceuil) {
-        ServerCore.messageAcceuil = messageAcceuil;
+    public static void setWelcomeMessage(final String welcomeMessage) {
+        ServerCore.welcomeMessage = welcomeMessage;
     }
 
     /** The gestion client bean factory. */
@@ -76,7 +76,7 @@ public class ServerCore extends AbstractLoggable {
 
     /** The users connections management. */
     @Autowired
-    private IUsersConnectionsManagement usersConnectionsManagement;
+    private UsersConnectionsManagement usersConnectionsManagement;
 
     /**
      * Instantiates a new server core.
@@ -186,7 +186,7 @@ public class ServerCore extends AbstractLoggable {
      * @param userConnectionsManagement
      *            the new user connections management
      */
-    public void setUserConnectionsManagement(final IUsersConnectionsManagement userConnectionsManagement) {
+    public void setUserConnectionsManagement(final UsersConnectionsManagement userConnectionsManagement) {
         usersConnectionsManagement = userConnectionsManagement;
     }
 
@@ -196,7 +196,7 @@ public class ServerCore extends AbstractLoggable {
      * @param usersConnectionsManagement
      *            the usersConnectionsManagement to set
      */
-    public void setUsersConnectionsManagement(final IUsersConnectionsManagement usersConnectionsManagement) {
+    public void setUsersConnectionsManagement(final UsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
 

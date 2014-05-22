@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.server.bridge.IServerBridgeProducer;
 import com.gc.irc.server.client.connector.ClientConnection;
-import com.gc.irc.server.core.user.management.IUserManagement;
-import com.gc.irc.server.core.user.management.IUserPicturesManagement;
-import com.gc.irc.server.core.user.management.IUsersConnectionsManagement;
+import com.gc.irc.server.core.user.management.UserManagement;
+import com.gc.irc.server.core.user.management.UserPicturesManagement;
+import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.UserManagementAware;
-import com.gc.irc.server.service.IAuthenticationService;
-import com.gc.irc.server.service.IUserPictureService;
+import com.gc.irc.server.service.AuthenticationService;
+import com.gc.irc.server.service.UserPictureService;
 import com.gc.irc.server.thread.ObjectStreamClientConnection;
 
 /**
@@ -29,7 +29,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
 
     /** The authentication service. */
     @Autowired
-    private IAuthenticationService authenticationService;
+    private AuthenticationService authenticationService;
 
     /** The jms producer. */
     @Autowired
@@ -37,18 +37,18 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
 
     /** The user picture service. */
     @Autowired
-    private IUserPictureService userPictureService;
+    private UserPictureService userPictureService;
 
     /** The users connections management. */
     @Autowired
-    private IUsersConnectionsManagement usersConnectionsManagement;
+    private UsersConnectionsManagement usersConnectionsManagement;
     
     /** The users pictures management. */
     @Autowired
-    private IUserPicturesManagement userPicturesManagement;
+    private UserPicturesManagement userPicturesManagement;
     
     /** The user management */
-    private IUserManagement userManagement;
+    private UserManagement userManagement;
 
     /*
      * (non-Javadoc)
@@ -75,7 +75,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      * @param authenticationService
      *            the new authentication service
      */
-    public void setAuthenticationService(final IAuthenticationService authenticationService) {
+    public void setAuthenticationService(final AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
@@ -95,7 +95,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      * @param userConnectionsManagement
      *            the new user connections management
      */
-    public void setUserConnectionsManagement(final IUsersConnectionsManagement userConnectionsManagement) {
+    public void setUserConnectionsManagement(final UsersConnectionsManagement userConnectionsManagement) {
         usersConnectionsManagement = userConnectionsManagement;
     }
 
@@ -105,7 +105,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      * @param userPictureService
      *            the userPictureService to set
      */
-    public void setUserPictureService(final IUserPictureService userPictureService) {
+    public void setUserPictureService(final UserPictureService userPictureService) {
         this.userPictureService = userPictureService;
     }
 
@@ -115,23 +115,23 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      * @param usersConnectionsManagement
      *            the new users connections management
      */
-    public void setUsersConnectionsManagement(final IUsersConnectionsManagement usersConnectionsManagement) {
+    public void setUsersConnectionsManagement(final UsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
     
     /** {@inheritDoc} */
     @Override
 	@Autowired
-	public void setUserManagement(IUserManagement userManagement) {
+	public void setUserManagement(UserManagement userManagement) {
 		this.userManagement = userManagement;
 	}
 
 	/**
 	 * <p>Setter for the field <code>userPicturesManagement</code>.</p>
 	 *
-	 * @param userPicturesManagement a {@link com.gc.irc.server.core.user.management.IUserPicturesManagement} object.
+	 * @param userPicturesManagement a {@link com.gc.irc.server.core.user.management.UserPicturesManagement} object.
 	 */
-	public void setUserPicturesManagement(IUserPicturesManagement userPicturesManagement) {
+	public void setUserPicturesManagement(UserPicturesManagement userPicturesManagement) {
 		this.userPicturesManagement = userPicturesManagement;
 	}
 

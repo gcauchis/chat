@@ -1,89 +1,68 @@
 package com.gc.irc.server.core.user.management;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.entity.User;
-import com.gc.irc.server.persistance.PersiteUsers;
 
 /**
- * <p>UserManagement class.</p>
+ * <p>IUserManagement interface.</p>
  *
  * @author gcauchis
  * @version 0.0.4
  */
-@Component("userManagement")
-@Scope("singleton")
-public class UserManagement extends AbstractLoggable implements IUserManagement {
+public interface UserManagement {
 
-    /** The list user by id. */
-    private final Map<Long, User> listUserById = new ConcurrentHashMap<Long, User>();
+    /**
+     * Delete the deconnected Client.
+     *
+     * @param id a long.
+     */
+    void disconnect(long id);
 
-    /** {@inheritDoc} */
-    @Override
-    public void disconnect(long id) {
-        getLog().info("disconnect id={}", id);
-        listUserById.remove(id);
-        persistStatus();
-    }
+    /**
+     * Get the users Connected list.
+     *
+     * @return The list of all the connected users.
+     */
+    List<User> getAllUsers();
 
-    private void persistStatus() {
-        //TODO: Asynchronous
-        /**
-         * Persist the change.
-         */
-        PersiteUsers.persistListUser(getAllUsers());
-    }
+    /**
+     * Get the user demand if he is connected.
+     *
+     * @param id
+     *            User's Id.
+     * @return The User selected or null if not find.
+     */
+    User getUser(final long id);
 
-    /** {@inheritDoc} */
-    @Override
-    public List<User> getAllUsers() {
-        List<User> list = null;
-        synchronized (listUserById) {
-            list = new ArrayList<User>(listUserById.values());
-        }
-        return list;
-    }
+    /**
+     * <p>newUserConnected.</p>
+     *
+     * @param user a {@link com.gc.irc.common.entity.User} object.
+     */
+    void newUserConnected(User user);
 
-    /** {@inheritDoc} */
-    @Override
-    public User getUser(final long id) {
-        return listUserById.get(id);
-    }
+    /**
+     * <p>changeUserNickname.</p>
+     *
+     * @param id a long.
+     * @param nickname a {@link java.lang.String} object.
+     * @return a {@link com.gc.irc.common.entity.User} object.
+     */
+    User changeUserNickname(long id, String nickname);
 
-    /** {@inheritDoc} */
-    @Override
-    public void newUserConnected(User user) {
-        listUserById.put(user.getId(), user);
-        persistStatus();
-    }
+    /**
+     * <p>isLogged.</p>
+     *
+     * @param id a long.
+     * @return a boolean.
+     */
+    boolean isLogged(long id);
 
-    /** {@inheritDoc} */
-    @Override
-    public User changeUserNickname(long id, String nickname) {
-        User user = getUser(id);
-        user.setNickName(nickname);
-        persistStatus();
-        return user;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean isLogged(long id) {
-        return getUser(id) != null;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void changeUserHasPicture(long id) {
-        User user = getUser(id);
-        user.setHasPictur(true);
-        persistStatus();
-    }
+    /**
+     * <p>changeUserHasPicture.</p>
+     *
+     * @param fromId a long.
+     */
+    void changeUserHasPicture(long fromId);
 }

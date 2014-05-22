@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.core.user.management.IUserManagement;
-import com.gc.irc.server.core.user.management.IUsersConnectionsManagement;
+import com.gc.irc.server.core.user.management.UserManagement;
+import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.UserManagementAware;
 
 /**
@@ -25,9 +25,9 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
 
     /** The users connections management. */
     @Autowired
-    private IUsersConnectionsManagement usersConnectionsManagement;
+    private UsersConnectionsManagement usersConnectionsManagement;
     
-    private IUserManagement userManagement;
+    private UserManagement userManagement;
 
     /**
      * Instantiates a new abstract server message handler.
@@ -125,23 +125,23 @@ public abstract class AbstractServerMessageHandler<MSG extends Message> extends 
      * @param usersConnectionsManagement
      *            the usersConnectionsManagement to set
      */
-    public final void setUsersConnectionsManagement(final IUsersConnectionsManagement usersConnectionsManagement) {
+    public final void setUsersConnectionsManagement(final UsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
     
     /** {@inheritDoc} */
     @Override
 	@Autowired
-	public void setUserManagement(IUserManagement userManagement) {
+	public void setUserManagement(UserManagement userManagement) {
 		this.userManagement = userManagement;
 	}
     
     /**
      * <p>Getter for the field <code>userManagement</code>.</p>
      *
-     * @return a {@link com.gc.irc.server.core.user.management.IUserManagement} object.
+     * @return a {@link com.gc.irc.server.core.user.management.UserManagement} object.
      */
-    protected IUserManagement getUserManagement() {
+    protected UserManagement getUserManagement() {
 		return userManagement;
 	}
 

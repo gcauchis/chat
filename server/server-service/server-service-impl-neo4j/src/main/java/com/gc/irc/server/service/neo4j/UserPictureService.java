@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gc.irc.common.protocol.item.MessageItemPicture;
-import com.gc.irc.server.service.IUserPictureService;
 import com.gc.irc.server.service.neo4j.model.UserInformationEntity;
 import com.gc.irc.server.service.neo4j.repository.UserInformationRepository;
 
@@ -21,7 +20,7 @@ import com.gc.irc.server.service.neo4j.repository.UserInformationRepository;
 @Service("userPictureManagement")
 @Transactional
 public class UserPictureService extends AbstractLoggable implements
-		IUserPictureService {
+		com.gc.irc.server.service.UserPictureService {
 
 	/** The repository. */
 	private UserInformationRepository userInformationRepository;

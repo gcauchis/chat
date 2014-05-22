@@ -8,7 +8,7 @@ import com.gc.irc.server.model.UserInformations;
  * @author gcauchis
  * @version 0.0.4
  */
-public interface IAuthenticationService {
+public interface AuthenticationService {
 
     /**
      * Add a new user.

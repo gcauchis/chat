@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.chat.MessageChat;
-import com.gc.irc.server.core.user.management.IUserManagement;
-import com.gc.irc.server.core.user.management.IUsersConnectionsManagement;
+import com.gc.irc.server.core.user.management.UserManagement;
+import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.handler.message.MessageChatHandler;
 import com.gc.irc.server.handler.message.test.AbstractMessageHandlerTest;
 
@@ -25,10 +25,10 @@ import com.gc.irc.server.handler.message.test.AbstractMessageHandlerTest;
 public class MessageChatHandlerTest extends AbstractMessageHandlerTest<MessageChatHandler, MessageChat> {
 
     /** The users connections management. */
-    private IUsersConnectionsManagement usersConnectionsManagement;
+    private UsersConnectionsManagement usersConnectionsManagement;
     
     /** The user management */
-    private IUserManagement userManagement;
+    private UserManagement userManagement;
 
     /*
      * (non-Javadoc)
@@ -81,9 +81,9 @@ public class MessageChatHandlerTest extends AbstractMessageHandlerTest<MessageCh
     @Before
     public void init() {
         MessageChatHandler ircMessageChatHandler = new MessageChatHandler();
-        usersConnectionsManagement = createMock(IUsersConnectionsManagement.class);
+        usersConnectionsManagement = createMock(UsersConnectionsManagement.class);
         ircMessageChatHandler.setUsersConnectionsManagement(usersConnectionsManagement);
-        userManagement = createMock(IUserManagement.class);
+        userManagement = createMock(UserManagement.class);
         ircMessageChatHandler.setUserManagement(userManagement);
         setMessageHandler(ircMessageChatHandler);
     }

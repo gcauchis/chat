@@ -13,8 +13,8 @@ import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.chat.MessageChatPrivate;
 import com.gc.irc.server.bridge.IServerBridgeProducer;
 import com.gc.irc.server.bridge.ServerBridgeException;
-import com.gc.irc.server.core.user.management.IUserManagement;
-import com.gc.irc.server.core.user.management.IUsersConnectionsManagement;
+import com.gc.irc.server.core.user.management.UserManagement;
+import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.handler.message.MessageChatPrivateHandler;
 import com.gc.irc.server.handler.message.test.AbstractMessageHandlerTest;
 
@@ -31,10 +31,10 @@ public class MessageChatPrivateHandlerTest extends AbstractMessageHandlerTest<Me
     private IServerBridgeProducer serverBridgeProducer;
 
     /** The users connections management. */
-    private IUsersConnectionsManagement usersConnectionsManagement;
+    private UsersConnectionsManagement usersConnectionsManagement;
     
     /** The user management */
-    private IUserManagement userManagement;
+    private UserManagement userManagement;
 
     /*
      * (non-Javadoc)
@@ -164,11 +164,11 @@ public class MessageChatPrivateHandlerTest extends AbstractMessageHandlerTest<Me
     @Before
     public void init() {
         final MessageChatPrivateHandler ircMessageChatPrivateHandler = new MessageChatPrivateHandler();
-        usersConnectionsManagement = createMock(IUsersConnectionsManagement.class);
+        usersConnectionsManagement = createMock(UsersConnectionsManagement.class);
         ircMessageChatPrivateHandler.setUsersConnectionsManagement(usersConnectionsManagement);
         serverBridgeProducer = createMock(IServerBridgeProducer.class);
         ircMessageChatPrivateHandler.setServerBridgeProducer(serverBridgeProducer);
-        userManagement = createMock(IUserManagement.class);
+        userManagement = createMock(UserManagement.class);
         ircMessageChatPrivateHandler.setUserManagement(userManagement);
         setMessageHandler(ircMessageChatPrivateHandler);
     }

@@ -3,8 +3,8 @@ package com.gc.irc.server.handler.message;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.service.IAuthenticationService;
-import com.gc.irc.server.service.IUserPictureService;
+import com.gc.irc.server.service.AuthenticationService;
+import com.gc.irc.server.service.UserPictureService;
 
 /**
  * The Class AbstractServerCommandMessageHandler.
@@ -18,18 +18,18 @@ public abstract class AbstractServerCommandMessageHandler<MSG extends Message> e
 
     /** The authentication service. */
     @Autowired
-    private IAuthenticationService authenticationService;
+    private AuthenticationService authenticationService;
 
     /** The user picture service. */
     @Autowired
-    private IUserPictureService userPictureService;
+    private UserPictureService userPictureService;
 
     /**
      * Gets the authentication service.
      *
      * @return the authentication service
      */
-    protected IAuthenticationService getAuthenticationService() {
+    protected AuthenticationService getAuthenticationService() {
         return authenticationService;
     }
 
@@ -38,7 +38,7 @@ public abstract class AbstractServerCommandMessageHandler<MSG extends Message> e
      *
      * @return the user picture service
      */
-    protected IUserPictureService getUserPictureService() {
+    protected UserPictureService getUserPictureService() {
         return userPictureService;
     }
 
@@ -48,7 +48,7 @@ public abstract class AbstractServerCommandMessageHandler<MSG extends Message> e
      * @param authenticationService
      *            the new authentication service
      */
-    public void setAuthenticationService(IAuthenticationService authenticationService) {
+    public void setAuthenticationService(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
@@ -58,7 +58,7 @@ public abstract class AbstractServerCommandMessageHandler<MSG extends Message> e
      * @param userPictureService
      *            the new user picture service
      */
-    public void setUserPictureService(IUserPictureService userPictureService) {
+    public void setUserPictureService(UserPictureService userPictureService) {
         this.userPictureService = userPictureService;
     }
 

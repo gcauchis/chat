@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.server.model.UserInformations;
-import com.gc.irc.server.service.IAuthenticationService;
 import com.gc.irc.server.service.neo4j.model.UserInformationEntity;
 import com.gc.irc.server.service.neo4j.model.utils.ModelConversionUtils;
 import com.gc.irc.server.service.neo4j.repository.UserInformationRepository;
@@ -22,7 +21,7 @@ import com.gc.irc.server.service.neo4j.repository.UserInformationRepository;
  */
 @Service("authenticationService")
 @Transactional
-public class AuthenticationService extends AbstractLoggable implements IAuthenticationService {
+public class AuthenticationService extends AbstractLoggable implements com.gc.irc.server.service.AuthenticationService {
 
     /** The repository. */
     private UserInformationRepository userInformationRepository;

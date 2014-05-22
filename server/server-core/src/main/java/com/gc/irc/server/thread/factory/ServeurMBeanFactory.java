@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.server.bridge.IServerBridgeConsumerFactory;
-import com.gc.irc.server.core.user.management.IUserManagement;
-import com.gc.irc.server.core.user.management.IUsersConnectionsManagement;
+import com.gc.irc.server.core.user.management.UserManagement;
+import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.UserManagementAware;
 import com.gc.irc.server.handler.message.IServerMessageHandler;
 import com.gc.irc.server.thread.IServeurMBean;
@@ -35,10 +35,10 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
 
     /** The users connections management. */
     @Autowired
-    private IUsersConnectionsManagement usersConnectionsManagement;
+    private UsersConnectionsManagement usersConnectionsManagement;
     
     /** The user management */
-    private IUserManagement userManagement;
+    private UserManagement userManagement;
 
     /*
      * (non-Javadoc)
@@ -84,14 +84,14 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
      * @param usersConnectionsManagement
      *            the new users connections management
      */
-    public void setUsersConnectionsManagement(final IUsersConnectionsManagement usersConnectionsManagement) {
+    public void setUsersConnectionsManagement(final UsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
     
     /** {@inheritDoc} */
     @Override
 	@Autowired
-	public void setUserManagement(IUserManagement userManagement) {
+	public void setUserManagement(UserManagement userManagement) {
 		this.userManagement = userManagement;
 	}
 

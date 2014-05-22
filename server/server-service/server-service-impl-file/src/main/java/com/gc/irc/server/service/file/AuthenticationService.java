@@ -1,4 +1,4 @@
-package com.gc.irc.server.service;
+package com.gc.irc.server.service.file;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,8 +13,8 @@ import org.xml.sax.SAXException;
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.utils.IOUtils;
 import com.gc.irc.server.model.UserInformations;
-import com.gc.irc.server.service.IAuthenticationService;
-import com.gc.irc.server.service.utils.UserInformationScanner;
+import com.gc.irc.server.service.file.AuthenticationService;
+import com.gc.irc.server.service.file.utils.UserInformationScanner;
 
 /**
  * Singleton class use for login and register all the users.
@@ -24,7 +24,7 @@ import com.gc.irc.server.service.utils.UserInformationScanner;
  */
 @Service("authenticationService")
 @Scope("singleton")
-public class AuthenticationService extends AbstractLoggable implements IAuthenticationService {
+public class AuthenticationService extends AbstractLoggable implements com.gc.irc.server.service.AuthenticationService {
 
     /** The last id. */
     private long lastId;

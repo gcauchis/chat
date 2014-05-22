@@ -16,6 +16,6 @@ public interface UserManagementAware {
 	 * @param userManagement the user management.
 	 */
 	@Autowired
-	void setUserManagement(IUserManagement userManagement);
+	void setUserManagement(UserManagement userManagement);
 
 }

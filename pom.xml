@@ -95,6 +95,11 @@
 			</dependency>
 			<dependency>
 				<groupId>com.gc.irc</groupId>
+				<artifactId>server-core-api</artifactId>
+				<version>${irc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.gc.irc</groupId>
 				<artifactId>server-service-api</artifactId>
 				<version>${irc.version}</version>
 			</dependency>

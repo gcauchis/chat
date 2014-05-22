@@ -204,7 +204,7 @@
 			<artifactId>server-service-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.gc.irc</groupId>
+		<groupId>com.gc.irc</groupId>
 			<artifactId>server-service-impl-${service.mode}</artifactId>
 			<scope>runtime</scope>
 		</dependency>

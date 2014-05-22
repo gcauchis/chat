@@ -11,8 +11,8 @@ import com.gc.irc.server.bridge.IServerBridgeConsumer;
 import com.gc.irc.server.bridge.IServerBridgeConsumerFactory;
 import com.gc.irc.server.bridge.ServerBridgeException;
 import com.gc.irc.server.client.connector.ClientConnection;
-import com.gc.irc.server.core.user.management.IUserManagement;
-import com.gc.irc.server.core.user.management.IUsersConnectionsManagement;
+import com.gc.irc.server.core.user.management.UserManagement;
+import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.UserManagementAware;
 import com.gc.irc.server.handler.message.IServerMessageHandler;
 
@@ -53,10 +53,10 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
     private List<IServerMessageHandler> serverMessageHandlers;
 
     /** The parent. */
-    private IUsersConnectionsManagement usersConnectionsManagement;
+    private UsersConnectionsManagement usersConnectionsManagement;
     
     /** The user management */
-    private IUserManagement userManagement;
+    private UserManagement userManagement;
 
     /**
      * Builds the message consumer.
@@ -235,7 +235,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
      * @param usersConnectionsManagement
      *            the new users connections management
      */
-    public void setUsersConnectionsManagement(final IUsersConnectionsManagement usersConnectionsManagement) {
+    public void setUsersConnectionsManagement(final UsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
 
@@ -260,7 +260,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
     /** {@inheritDoc} */
     @Override
 	@Autowired
-	public void setUserManagement(IUserManagement userManagement) {
+	public void setUserManagement(UserManagement userManagement) {
 		this.userManagement = userManagement;
 	}
 

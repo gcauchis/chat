@@ -27,14 +27,14 @@ import com.gc.irc.server.bridge.IServerBridgeProducer;
 import com.gc.irc.server.bridge.ServerBridgeException;
 import com.gc.irc.server.client.connector.ClientConnection;
 import com.gc.irc.server.core.ServerCore;
-import com.gc.irc.server.core.user.management.IUserManagement;
-import com.gc.irc.server.core.user.management.IUserPicturesManagement;
-import com.gc.irc.server.core.user.management.IUsersConnectionsManagement;
+import com.gc.irc.server.core.user.management.UserManagement;
+import com.gc.irc.server.core.user.management.UserPicturesManagement;
+import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.UserManagementAware;
 import com.gc.irc.server.exception.ServerException;
 import com.gc.irc.server.model.UserInformations;
-import com.gc.irc.server.service.IAuthenticationService;
-import com.gc.irc.server.service.IUserPictureService;
+import com.gc.irc.server.service.AuthenticationService;
+import com.gc.irc.server.service.UserPictureService;
 
 /**
  * Communication between the Client and the server using an {@link java.io.ObjectOutputStream}.
@@ -58,10 +58,10 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
     }
 
     /** The authentication service. */
-    private IAuthenticationService authenticationService;
+    private AuthenticationService authenticationService;
     
     /** The user management */
-    private IUserManagement userManagement;
+    private UserManagement userManagement;
 
     /** The client socket. */
     private final Socket clientSocket;
@@ -85,13 +85,13 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
     private User user;
 
     /** The user picture service. */
-    private IUserPictureService userPictureService;
+    private UserPictureService userPictureService;
 
     /** The users connections management. */
-    private IUsersConnectionsManagement usersConnectionsManagement;
+    private UsersConnectionsManagement usersConnectionsManagement;
     
     /** The users pictures management. */
-    private IUserPicturesManagement userPicturesManagement;
+    private UserPicturesManagement userPicturesManagement;
 
     /**
      * Builder who initialize the TCP connection.
@@ -216,7 +216,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
      */
     private void authenticateProtocol() throws ServerException {
         getLog().debug("Start Login protocol");
-        Message messageInit = new MessageNoticeServerMessage(ServerCore.getMessageAcceuil());
+        Message messageInit = new MessageNoticeServerMessage(ServerCore.getWelcomeMessage());
         /**
          * Send welcome message
          */
@@ -485,7 +485,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
      * @param authenticationService
      *            the new authentication service
      */
-    public void setAuthenticationService(final IAuthenticationService authenticationService) {
+    public void setAuthenticationService(final AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 
@@ -505,7 +505,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
      * @param userPictureService
      *            the userPictureService to set
      */
-    public void setUserPictureService(final IUserPictureService userPictureService) {
+    public void setUserPictureService(final UserPictureService userPictureService) {
         this.userPictureService = userPictureService;
     }
 
@@ -515,16 +515,16 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
      * @param usersConnectionsManagement
      *            the new users connections management
      */
-    public void setUsersConnectionsManagement(final IUsersConnectionsManagement usersConnectionsManagement) {
+    public void setUsersConnectionsManagement(final UsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
 
     /**
      * Sets the users pictures management.
      *
-     * @param userPicturesManagement a {@link com.gc.irc.server.core.user.management.IUserPicturesManagement} object.
+     * @param userPicturesManagement a {@link com.gc.irc.server.core.user.management.UserPicturesManagement} object.
      */
-    public void setUserPicturesManagement(IUserPicturesManagement userPicturesManagement) {
+    public void setUserPicturesManagement(UserPicturesManagement userPicturesManagement) {
 		this.userPicturesManagement = userPicturesManagement;
 	}
 
@@ -544,7 +544,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
 	/** {@inheritDoc} */
 	@Override
 	@Autowired
-	public void setUserManagement(IUserManagement userManagement) {
+	public void setUserManagement(UserManagement userManagement) {
 		this.userManagement = userManagement;
 	}
 }
