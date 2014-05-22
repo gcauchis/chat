@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.chat.MessageChatPrivate;
-import com.gc.irc.server.bridge.IServerBridgeProducer;
+import com.gc.irc.server.bridge.ServerBridgeProducer;
 import com.gc.irc.server.bridge.ServerBridgeException;
 import com.gc.irc.server.core.user.management.UserManagement;
 import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
@@ -28,7 +28,7 @@ import com.gc.irc.server.handler.message.test.AbstractMessageHandlerTest;
 public class MessageChatPrivateHandlerTest extends AbstractMessageHandlerTest<MessageChatPrivateHandler, MessageChatPrivate> {
 
     /** The server bridge producer. */
-    private IServerBridgeProducer serverBridgeProducer;
+    private ServerBridgeProducer serverBridgeProducer;
 
     /** The users connections management. */
     private UsersConnectionsManagement usersConnectionsManagement;
@@ -166,7 +166,7 @@ public class MessageChatPrivateHandlerTest extends AbstractMessageHandlerTest<Me
         final MessageChatPrivateHandler ircMessageChatPrivateHandler = new MessageChatPrivateHandler();
         usersConnectionsManagement = createMock(UsersConnectionsManagement.class);
         ircMessageChatPrivateHandler.setUsersConnectionsManagement(usersConnectionsManagement);
-        serverBridgeProducer = createMock(IServerBridgeProducer.class);
+        serverBridgeProducer = createMock(ServerBridgeProducer.class);
         ircMessageChatPrivateHandler.setServerBridgeProducer(serverBridgeProducer);
         userManagement = createMock(UserManagement.class);
         ircMessageChatPrivateHandler.setUserManagement(userManagement);

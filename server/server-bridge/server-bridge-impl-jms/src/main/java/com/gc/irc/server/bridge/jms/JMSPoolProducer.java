@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractObjectPool;
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.bridge.IServerBridgeProducer;
+import com.gc.irc.server.bridge.ServerBridgeProducer;
 import com.gc.irc.server.bridge.ServerBridgeException;
 
 /**
@@ -18,7 +18,7 @@ import com.gc.irc.server.bridge.ServerBridgeException;
  */
 @Component
 @Scope("singleton")
-public final class JMSPoolProducer extends AbstractObjectPool<IServerBridgeProducer> implements IServerBridgeProducer {
+public final class JMSPoolProducer extends AbstractObjectPool<ServerBridgeProducer> implements ServerBridgeProducer {
 
     /** The broker url. */
     @Value("${jms.server.url}")
@@ -42,7 +42,7 @@ public final class JMSPoolProducer extends AbstractObjectPool<IServerBridgeProdu
      */
     /** {@inheritDoc} */
     @Override
-    protected PoolableObjectFactory<IServerBridgeProducer> getPoolableObjectFactory() {
+    protected PoolableObjectFactory<ServerBridgeProducer> getPoolableObjectFactory() {
         return new PoolableJMSProducerFactory(brokerUrl);
     }
 
@@ -56,7 +56,7 @@ public final class JMSPoolProducer extends AbstractObjectPool<IServerBridgeProdu
     /** {@inheritDoc} */
     @Override
     public void post(final Message objectMessage) throws ServerBridgeException {
-        final IServerBridgeProducer messageProducer = getPooledObject();
+        final ServerBridgeProducer messageProducer = getPooledObject();
 
         if (messageProducer != null) {
             try {

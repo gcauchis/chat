@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.chat.MessageChatPrivate;
-import com.gc.irc.server.bridge.IServerBridgeProducer;
+import com.gc.irc.server.bridge.ServerBridgeProducer;
 import com.gc.irc.server.bridge.ServerBridgeException;
 
 /**
@@ -24,7 +24,7 @@ public class MessageChatPrivateHandler extends AbstractServerMessageHandler<Mess
 
     /** The ijms producer. */
     @Autowired
-    private IServerBridgeProducer serverBridgeProducer;
+    private ServerBridgeProducer serverBridgeProducer;
 
     /*
      * (non-Javadoc)
@@ -77,7 +77,7 @@ public class MessageChatPrivateHandler extends AbstractServerMessageHandler<Mess
      * @param serverBridgeProducer
      *            the new server bridge producer
      */
-    public void setServerBridgeProducer(IServerBridgeProducer serverBridgeProducer) {
+    public void setServerBridgeProducer(ServerBridgeProducer serverBridgeProducer) {
         this.serverBridgeProducer = serverBridgeProducer;
     }
 

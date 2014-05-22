@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
-import com.gc.irc.server.bridge.IServerBridgeProducer;
+import com.gc.irc.server.bridge.ServerBridgeProducer;
 import com.gc.irc.server.client.connector.ClientConnection;
 import com.gc.irc.server.core.user.management.UserManagement;
 import com.gc.irc.server.core.user.management.UserPicturesManagement;
@@ -33,7 +33,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
 
     /** The jms producer. */
     @Autowired
-    private IServerBridgeProducer serverBridgeProducer;
+    private ServerBridgeProducer serverBridgeProducer;
 
     /** The user picture service. */
     @Autowired
@@ -85,7 +85,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      * @param jmsProducer
      *            the new jms producer
      */
-    public void setJmsProducer(final IServerBridgeProducer jmsProducer) {
+    public void setJmsProducer(final ServerBridgeProducer jmsProducer) {
         this.serverBridgeProducer = jmsProducer;
     }
 

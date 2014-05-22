@@ -2,7 +2,7 @@ package com.gc.irc.server.bridge.jms;
 
 import org.apache.commons.pool.BasePoolableObjectFactory;
 
-import com.gc.irc.server.bridge.IServerBridgeProducer;
+import com.gc.irc.server.bridge.ServerBridgeProducer;
 
 /**
  * A factory for creating PoolableJMSProducer objects.
@@ -10,7 +10,7 @@ import com.gc.irc.server.bridge.IServerBridgeProducer;
  * @author gcauchis
  * @version 0.0.4
  */
-public class PoolableJMSProducerFactory extends BasePoolableObjectFactory<IServerBridgeProducer> {
+public class PoolableJMSProducerFactory extends BasePoolableObjectFactory<ServerBridgeProducer> {
 
     /** The broker url. */
     private String brokerUrl;
@@ -33,7 +33,7 @@ public class PoolableJMSProducerFactory extends BasePoolableObjectFactory<IServe
      */
     /** {@inheritDoc} */
     @Override
-    public IServerBridgeProducer makeObject() throws Exception {
+    public ServerBridgeProducer makeObject() throws Exception {
         return new JMSProducer(brokerUrl);
     }
 

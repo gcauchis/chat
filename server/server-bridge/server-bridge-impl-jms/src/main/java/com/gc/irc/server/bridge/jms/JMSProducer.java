@@ -7,7 +7,7 @@ import javax.jms.Session;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.bridge.IServerBridgeProducer;
+import com.gc.irc.server.bridge.ServerBridgeProducer;
 import com.gc.irc.server.bridge.ServerBridgeException;
 import com.gc.irc.server.bridge.jms.utils.JMSConnectionUtils;
 
@@ -17,7 +17,7 @@ import com.gc.irc.server.bridge.jms.utils.JMSConnectionUtils;
  * @author gcauchis
  * @version 0.0.4
  */
-public class JMSProducer extends AbstractLoggable implements IServerBridgeProducer {
+public class JMSProducer extends AbstractLoggable implements ServerBridgeProducer {
 
     /** The nb thread. */
     private static int nbThread = 0;

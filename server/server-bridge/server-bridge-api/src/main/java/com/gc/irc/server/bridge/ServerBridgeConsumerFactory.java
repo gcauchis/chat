@@ -8,7 +8,7 @@ import com.gc.irc.common.ILoggable;
  * @author gcauchis
  * @version 0.0.4
  */
-public interface IServerBridgeConsumerFactory extends ILoggable {
+public interface ServerBridgeConsumerFactory extends ILoggable {
 
     /**
      * Gets the instance.
@@ -16,6 +16,6 @@ public interface IServerBridgeConsumerFactory extends ILoggable {
      * @return the instance
      * @throws com.gc.irc.server.bridge.ServerBridgeException if any.
      */
-    IServerBridgeConsumer getInstance() throws ServerBridgeException;
+    ServerBridgeConsumer getInstance() throws ServerBridgeException;
 
 }

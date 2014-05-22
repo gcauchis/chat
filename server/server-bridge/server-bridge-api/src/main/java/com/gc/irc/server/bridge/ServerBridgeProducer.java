@@ -4,12 +4,12 @@ import com.gc.irc.common.ILoggable;
 import com.gc.irc.common.protocol.Message;
 
 /**
- * The Interface IServerBridgeConsumer.
+ * The Interface IServerBridgeProducer.
  *
  * @author gcauchis
  * @version 0.0.4
  */
-public interface IServerBridgeConsumer extends ILoggable {
+public interface ServerBridgeProducer extends ILoggable {
 
     /**
      * Close.
@@ -19,11 +19,12 @@ public interface IServerBridgeConsumer extends ILoggable {
     void close() throws ServerBridgeException;
 
     /**
-     * Receive.
+     * Post.
      *
-     * @return the IRC message
+     * @param objectMessage
+     *            the object message
      * @throws com.gc.irc.server.bridge.ServerBridgeException if any.
      */
-    Message receive() throws ServerBridgeException;
+    void post(final Message objectMessage) throws ServerBridgeException;
 
 }

@@ -23,7 +23,7 @@ import com.gc.irc.common.protocol.notice.MessageNoticeLogin;
 import com.gc.irc.common.protocol.notice.MessageNoticeRegister;
 import com.gc.irc.common.protocol.notice.MessageNoticeServerMessage;
 import com.gc.irc.common.utils.IOStreamUtils;
-import com.gc.irc.server.bridge.IServerBridgeProducer;
+import com.gc.irc.server.bridge.ServerBridgeProducer;
 import com.gc.irc.server.bridge.ServerBridgeException;
 import com.gc.irc.server.client.connector.ClientConnection;
 import com.gc.irc.server.core.ServerCore;
@@ -79,7 +79,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
     private ObjectOutputStream outObject;
 
     /** The jms producer. */
-    private IServerBridgeProducer serverBridgeProducer;
+    private ServerBridgeProducer serverBridgeProducer;
 
     /** The user. */
     private User user;
@@ -495,7 +495,7 @@ public class ObjectStreamClientConnection extends AbstractRunnable implements Cl
      * @param serverBridgeProducer
      *            the server bridge producer
      */
-    public void setServerBridgeProducer(final IServerBridgeProducer serverBridgeProducer) {
+    public void setServerBridgeProducer(final ServerBridgeProducer serverBridgeProducer) {
         this.serverBridgeProducer = serverBridgeProducer;
     }
 

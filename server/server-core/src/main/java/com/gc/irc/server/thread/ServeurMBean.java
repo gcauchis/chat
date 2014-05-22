@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.gc.irc.common.AbstractRunnable;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.bridge.IServerBridgeConsumer;
-import com.gc.irc.server.bridge.IServerBridgeConsumerFactory;
+import com.gc.irc.server.bridge.ServerBridgeConsumer;
+import com.gc.irc.server.bridge.ServerBridgeConsumerFactory;
 import com.gc.irc.server.bridge.ServerBridgeException;
 import com.gc.irc.server.client.connector.ClientConnection;
 import com.gc.irc.server.core.user.management.UserManagement;
@@ -44,10 +44,10 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
     private final int id = getNbThread();
 
     /** The server bridge consumer. */
-    private IServerBridgeConsumer serverBridgeConsumer;
+    private ServerBridgeConsumer serverBridgeConsumer;
 
     /** The server bridge consumer factory. */
-    private IServerBridgeConsumerFactory serverBridgeConsumerFactory;
+    private ServerBridgeConsumerFactory serverBridgeConsumerFactory;
 
     /** The server message handlers. */
     private List<IServerMessageHandler> serverMessageHandlers;
@@ -215,7 +215,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
      * @param serverBridgeConsumerFactory
      *            the serverBridgeConsumerFactory to set
      */
-    public void setServerBridgeConsumerFactory(final IServerBridgeConsumerFactory serverBridgeConsumerFactory) {
+    public void setServerBridgeConsumerFactory(final ServerBridgeConsumerFactory serverBridgeConsumerFactory) {
         this.serverBridgeConsumerFactory = serverBridgeConsumerFactory;
     }
 

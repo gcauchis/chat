@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
-import com.gc.irc.server.bridge.IServerBridgeConsumerFactory;
+import com.gc.irc.server.bridge.ServerBridgeConsumerFactory;
 import com.gc.irc.server.core.user.management.UserManagement;
 import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.UserManagementAware;
@@ -27,7 +27,7 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
 
     /** The server bridge consumer factory. */
     @Autowired
-    private IServerBridgeConsumerFactory serverBridgeConsumerFactory;
+    private ServerBridgeConsumerFactory serverBridgeConsumerFactory;
 
     /** The server message handlers. */
     @Autowired
@@ -64,7 +64,7 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
      * @param serverBridgeConsumerFactory
      *            the server bridge consumer factory
      */
-    public void setServerBridgeConsumerFactory(final IServerBridgeConsumerFactory serverBridgeConsumerFactory) {
+    public void setServerBridgeConsumerFactory(final ServerBridgeConsumerFactory serverBridgeConsumerFactory) {
         this.serverBridgeConsumerFactory = serverBridgeConsumerFactory;
     }
 

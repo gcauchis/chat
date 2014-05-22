@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
-import com.gc.irc.server.bridge.IServerBridgeConsumer;
-import com.gc.irc.server.bridge.IServerBridgeConsumerFactory;
+import com.gc.irc.server.bridge.ServerBridgeConsumer;
+import com.gc.irc.server.bridge.ServerBridgeConsumerFactory;
 import com.gc.irc.server.bridge.jms.utils.JMSConnectionUtils;
 
 /**
@@ -19,7 +19,7 @@ import com.gc.irc.server.bridge.jms.utils.JMSConnectionUtils;
  */
 @Component
 @Scope("singleton")
-public class JMSConsumerFactory extends AbstractLoggable implements IServerBridgeConsumerFactory {
+public class JMSConsumerFactory extends AbstractLoggable implements ServerBridgeConsumerFactory {
 
     @Value("${jms.server.url}")
     private String brokerUrl;
@@ -32,7 +32,7 @@ public class JMSConsumerFactory extends AbstractLoggable implements IServerBridg
      */
     /** {@inheritDoc} */
     @Override
-    public IServerBridgeConsumer getInstance() {
+    public ServerBridgeConsumer getInstance() {
         try {
             getLog().debug("Create JMS Consumer");
             return new JMSConsumer(JMSConnectionUtils.createConsumer(brokerUrl));

@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.bridge.IServerBridgeConsumer;
-import com.gc.irc.server.bridge.IServerBridgeConsumerFactory;
-import com.gc.irc.server.bridge.IServerBridgeProducer;
+import com.gc.irc.server.bridge.ServerBridgeConsumer;
+import com.gc.irc.server.bridge.ServerBridgeConsumerFactory;
+import com.gc.irc.server.bridge.ServerBridgeProducer;
 import com.gc.irc.server.bridge.ServerBridgeException;
 
 /**
@@ -21,7 +21,7 @@ import com.gc.irc.server.bridge.ServerBridgeException;
  */
 @Component
 @Scope("singleton")
-public class DirectServerBridge extends AbstractLoggable implements IServerBridgeProducer, IServerBridgeConsumer, IServerBridgeConsumerFactory {
+public class DirectServerBridge extends AbstractLoggable implements ServerBridgeProducer, ServerBridgeConsumer, ServerBridgeConsumerFactory {
 
     /** The messages queue. */
     private final BlockingQueue<Message> messagesQueue = new LinkedBlockingQueue<Message>();
@@ -44,7 +44,7 @@ public class DirectServerBridge extends AbstractLoggable implements IServerBridg
      */
     /** {@inheritDoc} */
     @Override
-    public IServerBridgeConsumer getInstance() throws ServerBridgeException {
+    public ServerBridgeConsumer getInstance() throws ServerBridgeException {
         return this;
     }
 

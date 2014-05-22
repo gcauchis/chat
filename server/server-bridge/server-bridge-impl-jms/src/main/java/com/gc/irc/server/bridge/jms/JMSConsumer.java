@@ -7,7 +7,7 @@ import javax.jms.ObjectMessage;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.bridge.IServerBridgeConsumer;
+import com.gc.irc.server.bridge.ServerBridgeConsumer;
 import com.gc.irc.server.bridge.ServerBridgeException;
 
 /**
@@ -16,7 +16,7 @@ import com.gc.irc.server.bridge.ServerBridgeException;
  * @author gcauchis
  * @version 0.0.4
  */
-public class JMSConsumer extends AbstractLoggable implements IServerBridgeConsumer {
+public class JMSConsumer extends AbstractLoggable implements ServerBridgeConsumer {
 
     /** The message consumer. */
     private MessageConsumer messageConsumer;
