@@ -10,14 +10,14 @@ import com.gc.irc.common.utils.LoggerUtils;
  * @author gcauchis
  * @version 0.0.4
  */
-public abstract class AbstractLoggable implements ILoggable {
+public abstract class AbstractLoggable implements Loggable {
 
     /** The log. */
     private Logger log = null;
 
     /**
      * {@inheritDoc}
-     * @see com.acp.acs.common.api.vision.service.ILoggable#getLog()
+     * @see com.Loggable.acs.common.api.vision.service.ILoggable#getLog()
      */
     @Override
     public Logger getLog() {

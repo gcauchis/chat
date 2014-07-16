@@ -1,6 +1,6 @@
 package com.gc.irc.server.bridge;
 
-import com.gc.irc.common.ILoggable;
+import com.gc.irc.common.Loggable;
 import com.gc.irc.common.protocol.Message;
 
 /**
@@ -9,7 +9,7 @@ import com.gc.irc.common.protocol.Message;
  * @author gcauchis
  * @version 0.0.4
  */
-public interface ServerBridgeConsumer extends ILoggable {
+public interface ServerBridgeConsumer extends Loggable {
 
     /**
      * Close.

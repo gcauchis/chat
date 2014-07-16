@@ -6,7 +6,7 @@ package com.gc.irc.common.utils.encoder.recursive;
  * @author gcauchis
  * @version 0.0.4
  */
-public interface IStringEncoder {
+public interface StringEncoder {
 
     /**
      * Encrypt.

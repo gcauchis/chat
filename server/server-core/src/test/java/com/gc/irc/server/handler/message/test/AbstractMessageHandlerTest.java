@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.handler.message.IServerMessageHandler;
+import com.gc.irc.server.handler.message.ServerMessageHandler;
 
 /**
  * The Class AbstractIRCMessageHandlerTest.
@@ -20,7 +20,7 @@ import com.gc.irc.server.handler.message.IServerMessageHandler;
  * @since 0.0.4
  */
 // @SpringApplicationContext("classpath*:spring-application-config.xml")
-public abstract class AbstractMessageHandlerTest<MSGH extends IServerMessageHandler, MSG extends Message> /* extends UnitilsJUnit4 */{
+public abstract class AbstractMessageHandlerTest<MSGH extends ServerMessageHandler, MSG extends Message> /* extends UnitilsJUnit4 */{
 
     /** The message handler. */
     private MSGH messageHandler;

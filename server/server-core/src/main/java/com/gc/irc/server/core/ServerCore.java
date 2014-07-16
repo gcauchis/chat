@@ -13,9 +13,9 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
-import com.gc.irc.server.thread.IServeurMBean;
-import com.gc.irc.server.thread.factory.IGestionClientBeanFactory;
-import com.gc.irc.server.thread.factory.IServeurMBeanFactory;
+import com.gc.irc.server.thread.ServeurManager;
+import com.gc.irc.server.thread.factory.ClientConnectionFactory;
+import com.gc.irc.server.thread.factory.ServeurManagerFactory;
 
 /**
  * Main class.
@@ -57,7 +57,7 @@ public class ServerCore extends AbstractLoggable {
 
     /** The gestion client bean factory. */
     @Autowired
-    private IGestionClientBeanFactory gestionClientBeanFactory;
+    private ClientConnectionFactory gestionClientBeanFactory;
 
     /** The nb thread serveur. */
     @Value("${nbConsumerThread}")
@@ -68,11 +68,11 @@ public class ServerCore extends AbstractLoggable {
     private int port = -1;
 
     /** The pull thread serveur. */
-    private final List<IServeurMBean> pullThreadServeur = Collections.synchronizedList(new ArrayList<IServeurMBean>());
+    private final List<ServeurManager> pullThreadServeur = Collections.synchronizedList(new ArrayList<ServeurManager>());
 
     /** The serveur m bean factory. */
     @Autowired
-    private IServeurMBeanFactory serveurMBeanFactory;
+    private ServeurManagerFactory serveurMBeanFactory;
 
     /** The users connections management. */
     @Autowired
@@ -100,7 +100,7 @@ public class ServerCore extends AbstractLoggable {
      * Finalize the Server.
      */
     public void close() {
-        for (final IServeurMBean thread : pullThreadServeur) {
+        for (final ServeurManager thread : pullThreadServeur) {
             thread.close();
         }
 
@@ -130,7 +130,7 @@ public class ServerCore extends AbstractLoggable {
 
         for (int i = 0; i < nbThreadServeur; i++) {
             getLog().info("Build serveurMBean {}", i);
-            final IServeurMBean serveurMBean = serveurMBeanFactory.getServeurMBean();
+            final ServeurManager serveurMBean = serveurMBeanFactory.getServeurManager();
             new Thread(serveurMBean).start();
             pullThreadServeur.add(serveurMBean);
         }
@@ -143,7 +143,7 @@ public class ServerCore extends AbstractLoggable {
      * @param gestionClientBeanFactory
      *            the new gestion client bean factory
      */
-    public void setGestionClientBeanFactory(final IGestionClientBeanFactory gestionClientBeanFactory) {
+    public void setGestionClientBeanFactory(final ClientConnectionFactory gestionClientBeanFactory) {
         this.gestionClientBeanFactory = gestionClientBeanFactory;
     }
 
@@ -176,7 +176,7 @@ public class ServerCore extends AbstractLoggable {
      * @param serveurMBeanFactory
      *            the new serveur m bean factory
      */
-    public void setServeurMBeanFactory(final IServeurMBeanFactory serveurMBeanFactory) {
+    public void setServeurMBeanFactory(final ServeurManagerFactory serveurMBeanFactory) {
         this.serveurMBeanFactory = serveurMBeanFactory;
     }
 
@@ -214,7 +214,7 @@ public class ServerCore extends AbstractLoggable {
             getLog().warn("Timeout or Connection error.", e);
             return;
         }
-        final Runnable gestionClient = gestionClientBeanFactory.getGestionClientBean(clientSocket);
+        final Runnable gestionClient = gestionClientBeanFactory.getClientConnection(clientSocket);
         getLog().debug("End Client's Thread Initialization.");
         new Thread(gestionClient).start();
     }

@@ -2,7 +2,7 @@ package com.gc.irc.server.test.utils.entity;
 
 import com.gc.irc.common.connector.ConnectionHandler;
 import com.gc.irc.common.entity.User;
-import com.gc.irc.server.test.handler.IMessageHandlerTester;
+import com.gc.irc.server.test.handler.MessageHandlerTester;
 
 /**
  * The Class UserContextEntity.
@@ -17,7 +17,7 @@ public class UserContextEntity {
     private ConnectionHandler connectionUser;
 
     /** The message handler user. */
-    private IMessageHandlerTester messageHandler;
+    private MessageHandlerTester messageHandler;
 
     /** The user. */
     private User user;
@@ -46,7 +46,7 @@ public class UserContextEntity {
      * @param messageHandler
      *            the message handler
      */
-    public UserContextEntity(final User user, final ConnectionHandler connectionUser, final IMessageHandlerTester messageHandler) {
+    public UserContextEntity(final User user, final ConnectionHandler connectionUser, final MessageHandlerTester messageHandler) {
         super();
         this.user = user;
         this.connectionUser = connectionUser;
@@ -81,7 +81,7 @@ public class UserContextEntity {
      *
      * @return the messageHandler
      */
-    public IMessageHandlerTester getMessageHandler() {
+    public MessageHandlerTester getMessageHandler() {
         return messageHandler;
     }
 
@@ -110,7 +110,7 @@ public class UserContextEntity {
      * @param messageHandler
      *            the messageHandler to set
      */
-    public final void setMessageHandler(final IMessageHandlerTester messageHandler) {
+    public final void setMessageHandler(final MessageHandlerTester messageHandler) {
         this.messageHandler = messageHandler;
         connectionUser.setMessageHandler(messageHandler);
     }

@@ -14,7 +14,7 @@ import com.gc.irc.server.client.connector.ClientConnection;
 import com.gc.irc.server.core.user.management.UserManagement;
 import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.UserManagementAware;
-import com.gc.irc.server.handler.message.IServerMessageHandler;
+import com.gc.irc.server.handler.message.ServerMessageHandler;
 
 /**
  * Thread manager.
@@ -22,7 +22,7 @@ import com.gc.irc.server.handler.message.IServerMessageHandler;
  * @author gcauchis
  * @version 0.0.4
  */
-public class ServeurMBean extends AbstractRunnable implements IServeurMBean,UserManagementAware {
+public class ServeurManagement extends AbstractRunnable implements ServeurManager,UserManagementAware {
 
     /** The nb message. */
     private static Long nbMessage = 0L;
@@ -50,7 +50,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
     private ServerBridgeConsumerFactory serverBridgeConsumerFactory;
 
     /** The server message handlers. */
-    private List<IServerMessageHandler> serverMessageHandlers;
+    private List<ServerMessageHandler> serverMessageHandlers;
 
     /** The parent. */
     private UsersConnectionsManagement usersConnectionsManagement;
@@ -155,7 +155,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
 
         getLog().debug("Handle {}", message);
 
-        for (final IServerMessageHandler serverMessageHandler : serverMessageHandlers) {
+        for (final ServerMessageHandler serverMessageHandler : serverMessageHandlers) {
             if (serverMessageHandler.isHandled(message)) {
                 serverMessageHandler.handle(message);
             }
@@ -225,7 +225,7 @@ public class ServeurMBean extends AbstractRunnable implements IServeurMBean,User
      * @param serverMessageHandlers
      *            the new server message handlers
      */
-    public void setServerMessageHandlers(final List<IServerMessageHandler> serverMessageHandlers) {
+    public void setServerMessageHandlers(final List<ServerMessageHandler> serverMessageHandlers) {
         this.serverMessageHandlers = serverMessageHandlers;
     }
 

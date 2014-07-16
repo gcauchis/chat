@@ -11,8 +11,8 @@ import java.net.UnknownHostException;
 import org.apache.commons.lang3.StringUtils;
 
 import com.gc.irc.common.AbstractRunnable;
-import com.gc.irc.common.message.IMessageHandler;
-import com.gc.irc.common.message.IMessageSender;
+import com.gc.irc.common.message.MessageHandler;
+import com.gc.irc.common.message.MessageSender;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.common.utils.IOStreamUtils;
 
@@ -24,7 +24,7 @@ import com.gc.irc.common.utils.IOStreamUtils;
  * @author gcauchis
  * @version 0.0.4
  */
-public class ConnectionHandler extends AbstractRunnable implements IMessageSender {
+public class ConnectionHandler extends AbstractRunnable implements MessageSender {
 
     /** The authenticated. */
     private boolean authenticated = false;
@@ -45,7 +45,7 @@ public class ConnectionHandler extends AbstractRunnable implements IMessageSende
     private boolean manualDisconnection = false;
 
     /** The message handler. */
-    private IMessageHandler messageHandler;
+    private MessageHandler messageHandler;
 
     /** The out object. */
     private ObjectOutputStream outObject;
@@ -359,7 +359,7 @@ public class ConnectionHandler extends AbstractRunnable implements IMessageSende
      * @param messageHandler
      *            the new message handler
      */
-    public void setMessageHandler(final IMessageHandler messageHandler) {
+    public void setMessageHandler(final MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 

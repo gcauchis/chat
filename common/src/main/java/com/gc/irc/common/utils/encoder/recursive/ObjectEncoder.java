@@ -1,6 +1,6 @@
 package com.gc.irc.common.utils.encoder.recursive;
 
-import com.gc.irc.common.ILoggable;
+import com.gc.irc.common.Loggable;
 import com.gc.irc.common.exception.utils.EncoderException;
 
 /**
@@ -9,7 +9,7 @@ import com.gc.irc.common.exception.utils.EncoderException;
  * @author gcauchis
  * @version 0.0.4
  */
-public interface IObjectEncoder extends ILoggable {
+public interface ObjectEncoder extends Loggable {
 
     /**
      * Check if the class is encodable by the current Encoder
@@ -31,5 +31,5 @@ public interface IObjectEncoder extends ILoggable {
      * @throws com.gc.irc.common.exception.utils.EncoderException
      *             throh if an error occur
      */
-    Object encodeObject(final Object value, final IStringEncoder stringEncoder) throws EncoderException;
+    Object encodeObject(final Object value, final StringEncoder stringEncoder) throws EncoderException;
 }

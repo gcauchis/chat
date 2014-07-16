@@ -23,9 +23,9 @@ import com.gc.irc.server.thread.ObjectStreamClientConnection;
  * @author gcauchis
  * @version 0.0.4
  */
-@Component("gestionClientBeanFactory")
+@Component("gestionClientBeanObjectStreamFactory")
 @Scope("singleton")
-public class GestionClientBeanFactory extends AbstractLoggable implements IGestionClientBeanFactory, UserManagementAware {
+public class GestionClientBeanObjectStreamFactory extends AbstractLoggable implements ClientConnectionFactory, UserManagementAware {
 
     /** The authentication service. */
     @Autowired
@@ -58,7 +58,7 @@ public class GestionClientBeanFactory extends AbstractLoggable implements IGesti
      */
     /** {@inheritDoc} */
     @Override
-    public ClientConnection getGestionClientBean(final Socket clientSocket) {
+    public ClientConnection getClientConnection(final Socket clientSocket) {
         final ObjectStreamClientConnection gestionClientBean = new ObjectStreamClientConnection(clientSocket);
         gestionClientBean.setUsersConnectionsManagement(usersConnectionsManagement);
         gestionClientBean.setServerBridgeProducer(serverBridgeProducer);

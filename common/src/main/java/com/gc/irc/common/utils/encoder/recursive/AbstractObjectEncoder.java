@@ -15,7 +15,7 @@ import com.gc.irc.common.exception.utils.EncoderException;
  * @author gcauchis
  * @version 0.0.4
  */
-public abstract class AbstractObjectEncoder<OBJ> implements IObjectEncoder {
+public abstract class AbstractObjectEncoder<OBJ> implements ObjectEncoder {
 
     /** The Constant LOGGER. */
     private static final transient Logger LOGGER = LoggerFactory.getLogger(AbstractObjectEncoder.class);
@@ -65,7 +65,7 @@ public abstract class AbstractObjectEncoder<OBJ> implements IObjectEncoder {
      */
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
-    public final Object encodeObject(final Object value, final IStringEncoder stringEncoder) throws EncoderException {
+    public final Object encodeObject(final Object value, final StringEncoder stringEncoder) throws EncoderException {
         if (value == null) {
             getLog().debug("Null entry");
             return null;
@@ -90,7 +90,7 @@ public abstract class AbstractObjectEncoder<OBJ> implements IObjectEncoder {
      * @throws com.gc.irc.common.exception.utils.EncoderException
      *             the encoder exception
      */
-    protected abstract OBJ internalEncodeObject(final OBJ obj, final IStringEncoder stringEncoder) throws EncoderException;
+    protected abstract OBJ internalEncodeObject(final OBJ obj, final StringEncoder stringEncoder) throws EncoderException;
 
     /*
      * (non-Javadoc)

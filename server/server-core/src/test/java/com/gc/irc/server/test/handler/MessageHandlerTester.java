@@ -1,6 +1,6 @@
 package com.gc.irc.server.test.handler;
 
-import com.gc.irc.common.message.IMessageHandler;
+import com.gc.irc.common.message.MessageHandler;
 import com.gc.irc.common.protocol.Message;
 
 /**
@@ -10,7 +10,7 @@ import com.gc.irc.common.protocol.Message;
  * @version 0.0.4
  * @since 0.0.4
  */
-public interface IMessageHandlerTester extends IMessageHandler {
+public interface MessageHandlerTester extends MessageHandler {
 
     /**
      * Gets the last received message.

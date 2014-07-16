@@ -7,7 +7,7 @@ package com.gc.irc.common.message;
  * @author gcauchis
  * @version 0.0.4
  */
-public class BasicClientMessageLine implements IClientMessageLine {
+public class BasicClientMessageLine implements ClientMessageLine {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 6741145004079482180L;

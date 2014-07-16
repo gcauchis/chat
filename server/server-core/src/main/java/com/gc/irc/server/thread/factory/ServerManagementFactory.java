@@ -11,9 +11,9 @@ import com.gc.irc.server.bridge.ServerBridgeConsumerFactory;
 import com.gc.irc.server.core.user.management.UserManagement;
 import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.UserManagementAware;
-import com.gc.irc.server.handler.message.IServerMessageHandler;
-import com.gc.irc.server.thread.IServeurMBean;
-import com.gc.irc.server.thread.ServeurMBean;
+import com.gc.irc.server.handler.message.ServerMessageHandler;
+import com.gc.irc.server.thread.ServeurManager;
+import com.gc.irc.server.thread.ServeurManagement;
 
 /**
  * A factory for creating ServeurMBean objects.
@@ -23,7 +23,7 @@ import com.gc.irc.server.thread.ServeurMBean;
  */
 @Component("ServeurMBeanFactory")
 @Scope("singleton")
-public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBeanFactory, UserManagementAware {
+public class ServerManagementFactory extends AbstractLoggable implements ServeurManagerFactory, UserManagementAware {
 
     /** The server bridge consumer factory. */
     @Autowired
@@ -31,7 +31,7 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
 
     /** The server message handlers. */
     @Autowired
-    private List<IServerMessageHandler> serverMessageHandlers;
+    private List<ServerMessageHandler> serverMessageHandlers;
 
     /** The users connections management. */
     @Autowired
@@ -49,8 +49,8 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
      */
     /** {@inheritDoc} */
     @Override
-    public IServeurMBean getServeurMBean() {
-        final ServeurMBean serveurMBean = new ServeurMBean();
+    public ServeurManager getServeurManager() {
+        final ServeurManagement serveurMBean = new ServeurManagement();
         serveurMBean.setUsersConnectionsManagement(usersConnectionsManagement);
         serveurMBean.setServerMessageHandlers(serverMessageHandlers);
         serveurMBean.setServerBridgeConsumerFactory(serverBridgeConsumerFactory);
@@ -74,7 +74,7 @@ public class ServeurMBeanFactory extends AbstractLoggable implements IServeurMBe
      * @param serverMessageHandlers
      *            the new server message handlers
      */
-    public void setServerMessageHandlers(final List<IServerMessageHandler> serverMessageHandlers) {
+    public void setServerMessageHandlers(final List<ServerMessageHandler> serverMessageHandlers) {
         this.serverMessageHandlers = serverMessageHandlers;
     }
 

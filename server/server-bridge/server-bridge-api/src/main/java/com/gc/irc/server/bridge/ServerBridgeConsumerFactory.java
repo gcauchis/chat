@@ -1,6 +1,6 @@
 package com.gc.irc.server.bridge;
 
-import com.gc.irc.common.ILoggable;
+import com.gc.irc.common.Loggable;
 
 /**
  * The Interface IServerBridgeConsumerFactory.
@@ -8,7 +8,7 @@ import com.gc.irc.common.ILoggable;
  * @author gcauchis
  * @version 0.0.4
  */
-public interface ServerBridgeConsumerFactory extends ILoggable {
+public interface ServerBridgeConsumerFactory extends Loggable {
 
     /**
      * Gets the instance.

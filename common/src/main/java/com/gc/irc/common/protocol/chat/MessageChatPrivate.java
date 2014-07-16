@@ -2,7 +2,7 @@ package com.gc.irc.common.protocol.chat;
 
 import java.util.List;
 
-import com.gc.irc.common.message.IClientMessageLine;
+import com.gc.irc.common.message.ClientMessageLine;
 
 /**
  * The Class IRCMessageChatPrivate.
@@ -29,7 +29,7 @@ public class MessageChatPrivate extends MessageChat {
      * @param lines
      *            the lines
      */
-    public MessageChatPrivate(final long userID, final List<IClientMessageLine> lines) {
+    public MessageChatPrivate(final long userID, final List<ClientMessageLine> lines) {
         super(userID, lines);
     }
 
@@ -43,7 +43,7 @@ public class MessageChatPrivate extends MessageChat {
      * @param toId
      *            the to id
      */
-    public MessageChatPrivate(final long userID, final List<IClientMessageLine> lines, final long toId) {
+    public MessageChatPrivate(final long userID, final List<ClientMessageLine> lines, final long toId) {
         this(userID, lines);
         this.toId = toId;
     }

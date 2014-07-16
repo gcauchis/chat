@@ -8,10 +8,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.slf4j.Logger;
 
-import com.gc.irc.common.ILoggable;
+import com.gc.irc.common.Loggable;
 import com.gc.irc.common.connector.ConnectionHandler;
 import com.gc.irc.common.entity.User;
-import com.gc.irc.common.message.IMessageSender;
+import com.gc.irc.common.message.MessageSender;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.common.protocol.command.MessageCommand;
 import com.gc.irc.common.protocol.command.MessageCommandLogin;
@@ -19,7 +19,7 @@ import com.gc.irc.common.protocol.command.MessageCommandRegister;
 import com.gc.irc.common.protocol.notice.MessageNoticeServerMessage;
 import com.gc.irc.common.utils.LoggerUtils;
 import com.gc.irc.server.ServerStarter;
-import com.gc.irc.server.test.handler.IMessageHandlerTester;
+import com.gc.irc.server.test.handler.MessageHandlerTester;
 import com.gc.irc.server.test.handler.LoginMessageHandler;
 import com.gc.irc.server.test.handler.SimpleMessageHandler;
 import com.gc.irc.server.test.protocol.command.MessageCommandTestDeleteUser;
@@ -32,7 +32,7 @@ import com.gc.irc.server.test.utils.entity.UserContextEntity;
  * @version 0.0.4
  * @since 0.0.4
  */
-public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements ILoggable {
+public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements Loggable {
 
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerUtils.getLogger(AbstractServerTest.class);
@@ -108,7 +108,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
      */
     protected final ConnectionHandler getConnectionToServer() throws InterruptedException {
         final ConnectionHandler connectionHandler = new ConnectionHandler(null, SERVER_PORT);
-        final IMessageHandlerTester messageHandler = new SimpleMessageHandler();
+        final MessageHandlerTester messageHandler = new SimpleMessageHandler();
         connectionHandler.setMessageHandler(messageHandler);
         new Thread(connectionHandler).start();
 
@@ -222,7 +222,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
      * @param message
      *            the message
      */
-    protected final void sendMessage(final IMessageSender messageSender, final Message message) {
+    protected final void sendMessage(final MessageSender messageSender, final Message message) {
         messageSender.send(message);
     }
 
@@ -234,7 +234,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
      * @throws java.lang.InterruptedException
      *             the interrupted exception
      */
-    protected final void waitForMessageInHandler(final IMessageHandlerTester messageHandler) throws InterruptedException {
+    protected final void waitForMessageInHandler(final MessageHandlerTester messageHandler) throws InterruptedException {
         while (!messageHandler.isMessageRecieved()) {
             Thread.sleep(300);
         }
@@ -243,15 +243,15 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
     /**
      * <p>sendAndWaitForMessageInHandler.</p>
      *
-     * @param messageHandler a {@link com.gc.irc.server.test.handler.IMessageHandlerTester} object.
-     * @param messageSender a {@link com.gc.irc.common.message.IMessageSender} object.
+     * @param messageHandler a {@link com.gc.irc.server.test.handler.MessageHandlerTester} object.
+     * @param messageSender a {@link com.gc.irc.common.message.MessageSender} object.
      * @param messageHandler
      * @param messageSender
      * @param message a {@link com.gc.irc.common.protocol.Message} object.
      * @throws java.lang.InterruptedException if any.
      * @return a {@link com.gc.irc.common.protocol.Message} object.
      */
-    protected final Message sendAndWaitForMessageInHandler(final IMessageHandlerTester messageHandler, final IMessageSender messageSender, final Message message) throws InterruptedException {
+    protected final Message sendAndWaitForMessageInHandler(final MessageHandlerTester messageHandler, final MessageSender messageSender, final Message message) throws InterruptedException {
     	sendMessage(messageSender, message);
         waitForMessageInHandler(messageHandler);
         return messageHandler.getLastReceivedMessage();
@@ -264,7 +264,7 @@ public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements I
      * @param contextEntity a {@link com.gc.irc.server.test.utils.entity.UserContextEntity} object.
      */
     protected final void removeTestUser(UserContextEntity contextEntity) throws InterruptedException {
-    	final IMessageHandlerTester messageHandler = new SimpleMessageHandler();
+    	final MessageHandlerTester messageHandler = new SimpleMessageHandler();
     	contextEntity.setMessageHandler(messageHandler);
     	Message message = sendAndWaitForMessageInHandler(contextEntity.getMessageHandler(), contextEntity.getConnectionUser(), new MessageCommandTestDeleteUser(contextEntity.getUser().getId()));
     	assertNotNull(message);

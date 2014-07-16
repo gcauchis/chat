@@ -11,7 +11,7 @@ import com.gc.irc.common.exception.utils.EncoderException;
  * @author gcauchis
  * @version 0.0.4
  */
-public abstract class AbstractStringEncoder implements IObjectEncoder, IStringEncoder {
+public abstract class AbstractStringEncoder implements ObjectEncoder, StringEncoder {
 
     private static final transient Logger LOGGER = LoggerFactory.getLogger(AbstractObjectEncoder.class);
 
@@ -35,7 +35,7 @@ public abstract class AbstractStringEncoder implements IObjectEncoder, IStringEn
      * .Object, com.gc.irc.common.utils.encoder.IStringEncoder)
      */
     /** {@inheritDoc} */
-    public Object encodeObject(final Object value, final IStringEncoder stringEncoder) throws EncoderException {
+    public Object encodeObject(final Object value, final StringEncoder stringEncoder) throws EncoderException {
         if (value == null) {
             getLog().debug("null entry");
             return null;

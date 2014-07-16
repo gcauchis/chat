@@ -22,7 +22,7 @@ import com.gc.irc.common.protocol.Message;
 import com.gc.irc.common.protocol.command.MessageCommandChangeNickname;
 import com.gc.irc.common.protocol.command.MessageCommandChangeStatus;
 import com.gc.irc.common.protocol.notice.MessageNoticeContactInfo;
-import com.gc.irc.server.test.handler.IMessageHandlerTester;
+import com.gc.irc.server.test.handler.MessageHandlerTester;
 import com.gc.irc.server.test.handler.LoginContactInfoMessageHandler;
 import com.gc.irc.server.test.handler.SimpleMessageHandler;
 import com.gc.irc.server.test.utils.entity.UserContextEntity;
@@ -188,8 +188,8 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
      *            the contexts
      * @return the message handlers
      */
-    private List<IMessageHandlerTester> getMessageHandlers(List<UserContextEntity> contexts) {
-        List<IMessageHandlerTester> result = new ArrayList<IMessageHandlerTester>();
+    private List<MessageHandlerTester> getMessageHandlers(List<UserContextEntity> contexts) {
+        List<MessageHandlerTester> result = new ArrayList<MessageHandlerTester>();
         for (UserContextEntity context : contexts) {
             result.add(context.getMessageHandler());
         }

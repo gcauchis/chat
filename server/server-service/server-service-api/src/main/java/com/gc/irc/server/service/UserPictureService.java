@@ -1,6 +1,6 @@
 package com.gc.irc.server.service;
 
-import com.gc.irc.common.ILoggable;
+import com.gc.irc.common.Loggable;
 import com.gc.irc.common.protocol.item.MessageItemPicture;
 
 /**
@@ -9,7 +9,7 @@ import com.gc.irc.common.protocol.item.MessageItemPicture;
  * @author gcauchis
  * @version 0.0.4
  */
-public interface UserPictureService extends ILoggable {
+public interface UserPictureService extends Loggable {
 
     /**
      * Add a picture for a designed User.

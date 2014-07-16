@@ -12,11 +12,11 @@ import java.util.List;
 import com.gc.irc.common.connector.ConnectionHandler;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.message.BasicClientMessageLine;
-import com.gc.irc.common.message.IClientMessageLine;
+import com.gc.irc.common.message.ClientMessageLine;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.common.protocol.chat.MessageChat;
 import com.gc.irc.common.protocol.chat.MessageChatPrivate;
-import com.gc.irc.server.test.handler.IMessageHandlerTester;
+import com.gc.irc.server.test.handler.MessageHandlerTester;
 import com.gc.irc.server.test.utils.entity.UserContextEntity;
 
 /**
@@ -38,7 +38,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      * @return the iRC message
      */
     protected final Message buildSimpleMessage(final User user, final String message) {
-        return new MessageChat(user.getId(), Arrays.asList((IClientMessageLine) new BasicClientMessageLine(message)));
+        return new MessageChat(user.getId(), Arrays.asList((ClientMessageLine) new BasicClientMessageLine(message)));
     }
 
     /**
@@ -53,7 +53,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      * @return the iRC message
      */
     protected final Message buildSimplePrivateMessage(final User user, final String message, final long toId) {
-        return new MessageChatPrivate(user.getId(), Arrays.asList((IClientMessageLine) new BasicClientMessageLine(message)), toId);
+        return new MessageChatPrivate(user.getId(), Arrays.asList((ClientMessageLine) new BasicClientMessageLine(message)), toId);
     }
 
     /**
@@ -85,7 +85,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
             assertEquals(userSources.getId(), receivedChatMessage.getFromId());
             assertNotNull(receivedChatMessage.getLines());
             assertEquals(1, receivedChatMessage.getLines().size());
-            final IClientMessageLine clientMessageLine = receivedChatMessage.getLines().get(0);
+            final ClientMessageLine clientMessageLine = receivedChatMessage.getLines().get(0);
             assertNotNull(clientMessageLine);
             assertTrue(clientMessageLine instanceof BasicClientMessageLine);
             final BasicClientMessageLine basicClientMessageLine = (BasicClientMessageLine) clientMessageLine;
@@ -99,9 +99,9 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      * @param messageHandlers
      *            the message handlers
      */
-    protected final void resetMessageHandlers(final List<IMessageHandlerTester> messageHandlers) {
+    protected final void resetMessageHandlers(final List<MessageHandlerTester> messageHandlers) {
         if (messageHandlers != null && !messageHandlers.isEmpty()) {
-            for (final IMessageHandlerTester messageHandler : messageHandlers) {
+            for (final MessageHandlerTester messageHandler : messageHandlers) {
                 messageHandler.reset();
             }
         }
@@ -121,7 +121,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      *             the interrupted exception
      */
     protected final Message sendMessageAndWaitForResponse(final ConnectionHandler connectionThreadSender,
-            final IMessageHandlerTester messageHandlerUserDestination, final Message sendedMessage) throws InterruptedException {
+            final MessageHandlerTester messageHandlerUserDestination, final Message sendedMessage) throws InterruptedException {
         return sendMessageAndWaitForResponse(connectionThreadSender, Arrays.asList(messageHandlerUserDestination), sendedMessage).get(0);
     }
 
@@ -139,7 +139,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      *             the interrupted exception
      */
     protected final List<Message> sendMessageAndWaitForResponse(final ConnectionHandler connectionThreadSender,
-            final List<IMessageHandlerTester> messageHandlerUserDestination, final Message sendedMessage) throws InterruptedException {
+            final List<MessageHandlerTester> messageHandlerUserDestination, final Message sendedMessage) throws InterruptedException {
 
         if (messageHandlerUserDestination == null || messageHandlerUserDestination.isEmpty()) {
             return null;
@@ -147,7 +147,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
         resetMessageHandlers(messageHandlerUserDestination);
         sendMessage(connectionThreadSender, sendedMessage);
         final List<Message> receivedMessages = new ArrayList<Message>();
-        for (final IMessageHandlerTester messageHandler : messageHandlerUserDestination) {
+        for (final MessageHandlerTester messageHandler : messageHandlerUserDestination) {
             waitForMessageInHandler(messageHandler);
             final Message receivedMessage = messageHandler.getLastReceivedMessage();
             assertNotNull(receivedMessage);
@@ -172,7 +172,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      *             the interrupted exception
      */
     protected final void sendMessageToGlobal(final User userSrc, final ConnectionHandler connectionThreadSrc, final String messageStr,
-            final List<IMessageHandlerTester> messageHandlerUserDest) throws InterruptedException {
+            final List<MessageHandlerTester> messageHandlerUserDest) throws InterruptedException {
         final Message currentSendedMessage = buildSimpleMessage(userSrc, messageStr);
         final List<Message> receivedMessages = sendMessageAndWaitForResponse(connectionThreadSrc, messageHandlerUserDest, currentSendedMessage);
         final List<MessageChat> receivedMessagesToCheck = new ArrayList<MessageChat>();
@@ -198,7 +198,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
     protected final void sendMessageToGlobal(final UserContextEntity contextSrc, final String messageStr, final List<UserContextEntity> contextsDest)
             throws InterruptedException {
 
-        final List<IMessageHandlerTester> messageHandlerUserDest = new ArrayList<IMessageHandlerTester>();
+        final List<MessageHandlerTester> messageHandlerUserDest = new ArrayList<MessageHandlerTester>();
         if (contextsDest != null && !contextsDest.isEmpty()) {
             for (final UserContextEntity contextEntity : contextsDest) {
                 messageHandlerUserDest.add(contextEntity.getMessageHandler());
@@ -227,8 +227,8 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      *             the interrupted exception
      */
     protected final void sendPrivateMessage(final User userSource, final ConnectionHandler connectionThreadSource, final String messageStr,
-            final IMessageHandlerTester messageHandlerUserDestination, final User userDestination,
-            final List<IMessageHandlerTester> otherUsersMessageHandlers) throws InterruptedException {
+            final MessageHandlerTester messageHandlerUserDestination, final User userDestination,
+            final List<MessageHandlerTester> otherUsersMessageHandlers) throws InterruptedException {
         final Message currentSendedMessage = buildSimplePrivateMessage(userSource, messageStr, userDestination.getId());
         resetMessageHandlers(otherUsersMessageHandlers);
         final Message receivedMessage = sendMessageAndWaitForResponse(connectionThreadSource, messageHandlerUserDestination, currentSendedMessage);
@@ -239,7 +239,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
         // wait and verify no private massage to other users
         Thread.sleep(500);
         if (otherUsersMessageHandlers != null && !otherUsersMessageHandlers.isEmpty()) {
-            for (final IMessageHandlerTester otherMessageHandler : otherUsersMessageHandlers) {
+            for (final MessageHandlerTester otherMessageHandler : otherUsersMessageHandlers) {
                 assertFalse(otherMessageHandler.isMessageRecieved());
             }
         }
@@ -261,7 +261,7 @@ public abstract class AbstractMultipleUserTest extends AbstractServerTest {
      */
     protected final void sendPrivateMessage(final UserContextEntity contextSrc, final String messageStr, final UserContextEntity contextDest,
             final List<UserContextEntity> otherUsersContexts) throws InterruptedException {
-        final List<IMessageHandlerTester> otherUsersMessageHandlers = new ArrayList<IMessageHandlerTester>();
+        final List<MessageHandlerTester> otherUsersMessageHandlers = new ArrayList<MessageHandlerTester>();
         if (otherUsersContexts != null && !otherUsersContexts.isEmpty()) {
             for (final UserContextEntity contextEntity : otherUsersContexts) {
                 otherUsersMessageHandlers.add(contextEntity.getMessageHandler());

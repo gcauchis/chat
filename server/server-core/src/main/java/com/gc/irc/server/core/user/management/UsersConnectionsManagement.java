@@ -2,7 +2,7 @@ package com.gc.irc.server.core.user.management;
 
 import java.util.List;
 
-import com.gc.irc.common.ILoggable;
+import com.gc.irc.common.Loggable;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.client.connector.ClientConnection;
 
@@ -12,7 +12,7 @@ import com.gc.irc.server.client.connector.ClientConnection;
  * @author gcauchis
  * @version 0.0.4
  */
-public interface UsersConnectionsManagement extends ILoggable {
+public interface UsersConnectionsManagement extends Loggable {
 
     /**
      * Close.

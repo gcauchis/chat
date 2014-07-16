@@ -2,7 +2,7 @@ package com.gc.irc.common.protocol.chat;
 
 import java.util.List;
 
-import com.gc.irc.common.message.IClientMessageLine;
+import com.gc.irc.common.message.ClientMessageLine;
 import com.gc.irc.common.protocol.Message;
 
 /**
@@ -17,7 +17,7 @@ public class MessageChat extends Message {
     private static final long serialVersionUID = 6599297905344621111L;
 
     /** The lines. */
-    private List<IClientMessageLine> lines;
+    private List<ClientMessageLine> lines;
 
     /**
      * Instantiates a new iRC message chat.
@@ -27,7 +27,7 @@ public class MessageChat extends Message {
      * @param lines
      *            the lines
      */
-    public MessageChat(final long userID, final List<IClientMessageLine> lines) {
+    public MessageChat(final long userID, final List<ClientMessageLine> lines) {
         super(userID);
         this.lines = lines;
     }
@@ -37,7 +37,7 @@ public class MessageChat extends Message {
      *
      * @return the lines
      */
-    public List<IClientMessageLine> getLines() {
+    public List<ClientMessageLine> getLines() {
         return lines;
     }
 
@@ -47,7 +47,7 @@ public class MessageChat extends Message {
      * @param lines
      *            the new lines
      */
-    public void setLines(final List<IClientMessageLine> lines) {
+    public void setLines(final List<ClientMessageLine> lines) {
         this.lines = lines;
     }
 

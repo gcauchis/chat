@@ -10,7 +10,7 @@ import com.gc.irc.common.protocol.Message;
  * @version 0.0.4
  * @since 0.0.4
  */
-public abstract class AbstractMessageHandlerTester extends AbstractLoggable implements IMessageHandlerTester {
+public abstract class AbstractMessageHandlerTester extends AbstractLoggable implements MessageHandlerTester {
 
     /** The last received message. */
     private Message lastReceivedMessage;
