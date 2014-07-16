@@ -10,6 +10,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gc.irc.common.utils.LoggerUtils;
+
 /**
  * The Class Base64EncodageUtils.
  *
@@ -20,7 +22,7 @@ public final class Base64EncodageUtils {
 
     private static final String ENCODAGE_UTF_8 = "UTF-8";
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(Base64EncodageUtils.class);
+    private static final Logger LOGGER = LoggerUtils.getLogger(Base64EncodageUtils.class);
 
     /**
      * Instantiates a new base64 encodage utils.

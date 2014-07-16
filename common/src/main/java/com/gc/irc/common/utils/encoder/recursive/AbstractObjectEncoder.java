@@ -5,6 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.exception.utils.EncoderException;
 
 /**
@@ -15,10 +16,7 @@ import com.gc.irc.common.exception.utils.EncoderException;
  * @author gcauchis
  * @version 0.0.4
  */
-public abstract class AbstractObjectEncoder<OBJ> implements ObjectEncoder {
-
-    /** The Constant LOGGER. */
-    private static final transient Logger LOGGER = LoggerFactory.getLogger(AbstractObjectEncoder.class);
+public abstract class AbstractObjectEncoder<OBJ> extends AbstractLoggable implements ObjectEncoder {
 
     /**
      * Gets the agg class.
@@ -91,19 +89,5 @@ public abstract class AbstractObjectEncoder<OBJ> implements ObjectEncoder {
      *             the encoder exception
      */
     protected abstract OBJ internalEncodeObject(final OBJ obj, final StringEncoder stringEncoder) throws EncoderException;
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gc.irc.common.api.ILoggable#getLog()
-     */
-    /**
-     * <p>getLog.</p>
-     *
-     * @return a {@link org.slf4j.Logger} object.
-     */
-    public Logger getLog() {
-        return LOGGER;
-    }
 
 }

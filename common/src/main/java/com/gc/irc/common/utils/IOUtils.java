@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public final class IOUtils {
 
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = LoggerFactory.getLogger(IOUtils.class);
+    private static final Logger LOGGER = LoggerUtils.getLogger(IOUtils.class);
 
     /**
      * Byte to char.

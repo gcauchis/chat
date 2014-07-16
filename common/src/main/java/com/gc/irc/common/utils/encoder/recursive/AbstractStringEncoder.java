@@ -3,6 +3,7 @@ package com.gc.irc.common.utils.encoder.recursive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.exception.utils.EncoderException;
 
 /**
@@ -11,9 +12,7 @@ import com.gc.irc.common.exception.utils.EncoderException;
  * @author gcauchis
  * @version 0.0.4
  */
-public abstract class AbstractStringEncoder implements ObjectEncoder, StringEncoder {
-
-    private static final transient Logger LOGGER = LoggerFactory.getLogger(AbstractObjectEncoder.class);
+public abstract class AbstractStringEncoder extends AbstractLoggable implements ObjectEncoder, StringEncoder {
 
     /*
      * (non-Javadoc)
@@ -46,15 +45,6 @@ public abstract class AbstractStringEncoder implements ObjectEncoder, StringEnco
             return stringEncoder.encode((String) value);
         }
         return encode((String) value);
-    }
-
-    /**
-     * <p>getLog.</p>
-     *
-     * @return a {@link org.slf4j.Logger} object.
-     */
-    public Logger getLog() {
-        return LOGGER;
     }
 
 }
