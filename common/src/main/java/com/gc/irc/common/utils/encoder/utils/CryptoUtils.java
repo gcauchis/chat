@@ -30,7 +30,9 @@ import com.gc.irc.common.utils.LoggerUtils;
  */
 public final class CryptoUtils {
 
-    /** The Constant LOGGER. */
+    private static final String PBE_WITH_MD5_AND_DES_ALGO = "PBEWithMD5AndDES";
+
+	/** The Constant LOGGER. */
     private static final transient Logger LOGGER = LoggerUtils.getLogger(CryptoUtils.class);
 
     /** The dcipher. */
@@ -48,98 +50,88 @@ public final class CryptoUtils {
     /** The Constant salt. */
     private static final byte[] SALT = { (byte) 0x5D, (byte) 0x59, (byte) 0xA7, (byte) 0x0F, (byte) 0x96, (byte) 0xE6, (byte) 0xB4, (byte) 0x6D };
 
+    private static void buildCipher() {
+		if (ecipher == null || dcipher == null) {
+			try {
+				final KeySpec keySpec = new PBEKeySpec(KEY_PASS.toCharArray(),
+						SALT, ITERATION_COUNT);
+				final SecretKey key = SecretKeyFactory.getInstance(PBE_WITH_MD5_AND_DES_ALGO).generateSecret(keySpec);
+
+				ecipher = Cipher.getInstance(key.getAlgorithm());
+				dcipher = Cipher.getInstance(key.getAlgorithm());
+
+				/* Prepare the parameters to the cipthers */
+				final AlgorithmParameterSpec paramSpec = new PBEParameterSpec(
+						SALT, ITERATION_COUNT);
+
+				ecipher.init(Cipher.ENCRYPT_MODE, key, paramSpec);
+				dcipher.init(Cipher.DECRYPT_MODE, key, paramSpec);
+
+			} catch (final InvalidAlgorithmParameterException e) {
+				LOGGER.error("ERROR: InvalidAlgorithmParameterException", e);
+			} catch (final InvalidKeySpecException e) {
+				LOGGER.error("ERROR: InvalidKeySpecException", e);
+			} catch (final NoSuchPaddingException e) {
+				LOGGER.error("ERROR: NoSuchPaddingException", e);
+			} catch (final NoSuchAlgorithmException e) {
+				LOGGER.error("ERROR: NoSuchAlgorithmException", e);
+			} catch (final InvalidKeyException e) {
+				LOGGER.error("ERROR: InvalidKeyException", e);
+			}
+		}
+	}
+    
     /**
      * {@inheritDoc}
      *
-     * @see com.gc.common.service.IPasswordCryptoService#decrypt(java.lang.String)
      * @param str a {@link java.lang.String} object.
      * @return a {@link java.lang.String} object.
      */
     public static String decrypt(final String str) {
 
-        try {
-            final KeySpec keySpec = new PBEKeySpec(KEY_PASS.toCharArray(), SALT, ITERATION_COUNT);
-            final SecretKey key = SecretKeyFactory.getInstance("PBEWithMD5AndDES").generateSecret(keySpec);
+        buildCipher();
 
-            ecipher = Cipher.getInstance(key.getAlgorithm());
-            dcipher = Cipher.getInstance(key.getAlgorithm());
+		if (dcipher != null) {
+			try {
+				// Decode base64 to get bytes
+				final byte[] dec = Base64.decodeBase64(str.getBytes("UTF-8"));
+				// Decode using utf-8
+				return new String(dcipher.doFinal(dec), "UTF8");
 
-            /* Prepare the parameters to the cipthers */
-            final AlgorithmParameterSpec paramSpec = new PBEParameterSpec(SALT, ITERATION_COUNT);
-
-            ecipher.init(Cipher.ENCRYPT_MODE, key, paramSpec);
-            dcipher.init(Cipher.DECRYPT_MODE, key, paramSpec);
-
-        } catch (final InvalidAlgorithmParameterException e) {
-            LOGGER.error("EXCEPTION: InvalidAlgorithmParameterException");
-        } catch (final InvalidKeySpecException e) {
-            LOGGER.error("EXCEPTION: InvalidKeySpecException");
-        } catch (final NoSuchPaddingException e) {
-            LOGGER.error("EXCEPTION: NoSuchPaddingException");
-        } catch (final NoSuchAlgorithmException e) {
-            LOGGER.error("EXCEPTION: NoSuchAlgorithmException");
-        } catch (final InvalidKeyException e) {
-            LOGGER.error("EXCEPTION: InvalidKeyException");
-        }
-
-        try {
-            // Decode base64 to get bytes
-            final byte[] dec = Base64.decodeBase64(str.getBytes("UTF-8"));
-            // Decode using utf-8
-            return new String(dcipher.doFinal(dec), "UTF8");
-
-        } catch (final BadPaddingException e) {
-        } catch (final IllegalBlockSizeException e) {
-        } catch (final UnsupportedEncodingException e) {
-        }
-        return null;
+			} catch (final BadPaddingException e) {
+			} catch (final IllegalBlockSizeException e) {
+			} catch (final UnsupportedEncodingException e) {
+			}
+		}
+		return null;
     }
+
+	
 
     /**
      * {@inheritDoc}
      *
-     * @see com.gc.common.service.IPasswordCryptoService#encrypt(java.lang.String)
      * @param str a {@link java.lang.String} object.
      * @return a {@link java.lang.String} object.
      */
     public static String encrypt(final String str) {
 
-        try {
-            final KeySpec keySpec = new PBEKeySpec(KEY_PASS.toCharArray(), SALT, ITERATION_COUNT);
-            final SecretKey key = SecretKeyFactory.getInstance("PBEWithMD5AndDES").generateSecret(keySpec);
+        buildCipher();
 
-            ecipher = Cipher.getInstance(key.getAlgorithm());
-            dcipher = Cipher.getInstance(key.getAlgorithm());
+		if (ecipher != null) {
+			try {
+				/* Encrypt */
+				final byte[] enc = ecipher.doFinal(str.getBytes("UTF8"));
 
-            final AlgorithmParameterSpec paramSpec = new PBEParameterSpec(SALT, ITERATION_COUNT);
+				/* Encode bytes to base64 to get a string */
+				return new String(Base64.encodeBase64(enc), "UTF-8");
 
-            ecipher.init(Cipher.ENCRYPT_MODE, key, paramSpec);
-            dcipher.init(Cipher.DECRYPT_MODE, key, paramSpec);
-
-        } catch (final InvalidAlgorithmParameterException e) {
-            LOGGER.error("EXCEPTION: InvalidAlgorithmParameterException");
-        } catch (final InvalidKeySpecException e) {
-            LOGGER.error("EXCEPTION: InvalidKeySpecException");
-        } catch (final NoSuchPaddingException e) {
-            LOGGER.error("EXCEPTION: NoSuchPaddingException");
-        } catch (final NoSuchAlgorithmException e) {
-            LOGGER.error("EXCEPTION: NoSuchAlgorithmException");
-        } catch (final InvalidKeyException e) {
-            LOGGER.error("EXCEPTION: InvalidKeyException");
-        }
-
-        try {
-            /* Encrypt */
-            final byte[] enc = ecipher.doFinal(str.getBytes("UTF8"));
-
-            /* Encode bytes to base64 to get a string */
-            return new String(Base64.encodeBase64(enc), "UTF-8");
-
-        } catch (final BadPaddingException e) {
-        } catch (final IllegalBlockSizeException e) {
-        } catch (final UnsupportedEncodingException e) {
-        }
-        return null;
+			} catch (final BadPaddingException e) {
+			} catch (final IllegalBlockSizeException e) {
+			} catch (final UnsupportedEncodingException e) {
+			}
+		}
+		return null;
     }
 
     /**
