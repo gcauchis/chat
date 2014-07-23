@@ -4,6 +4,9 @@ import com.gc.irc.server.client.connector.AbstractClientConnector;
 
 /**
  * The Class ObjectStreamClientConnector.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public class ObjectStreamClientConnector extends AbstractClientConnector {
 

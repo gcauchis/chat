@@ -4,6 +4,9 @@ import java.util.List;
 
 /**
  * The Interface ClientConnectorProvider.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public interface ClientConnectorProvider {
 	

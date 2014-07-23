@@ -15,6 +15,7 @@ public abstract class AbstractLoggable implements Loggable {
     /** The log. */
     private Logger log = null;
 
+    /** {@inheritDoc} */
     @Override
     public Logger getLog() {
         if (log == null) {

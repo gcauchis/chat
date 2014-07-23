@@ -4,6 +4,9 @@ import com.gc.irc.common.AbstractLoggable;
 
 /**
  * The Class AbstractClientConnector.
+ *
+ * @author gcauchis
+ * @version 0.0.4
  */
 public abstract class AbstractClientConnector extends AbstractLoggable
 		implements ClientConnector {
