@@ -1,4 +1,4 @@
-package com.gc.common.utils.test.entities;
+package com.gc.irc.common.utils.encoder.recursive.test.entities;
 
 /**
  * The Class ObjectToEncode.

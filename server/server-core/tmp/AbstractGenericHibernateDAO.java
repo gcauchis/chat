@@ -12,7 +12,6 @@ import org.hibernate.criterion.Projections;
 import org.springframework.orm.hibernate3.HibernateSystemException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import com.acp.common.api.IDataTransfertObject;
 import com.gc.common.dal.exception.DAOException;
 
 /**

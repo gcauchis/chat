@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 
-import com.acp.common.api.IDataTransfertObject;
 import com.gc.common.dal.exception.DAOException;
 import com.gc.common.service.ILoggable;
 

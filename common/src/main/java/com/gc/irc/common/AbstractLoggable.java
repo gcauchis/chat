@@ -15,10 +15,6 @@ public abstract class AbstractLoggable implements Loggable {
     /** The log. */
     private Logger log = null;
 
-    /**
-     * {@inheritDoc}
-     * @see com.Loggable.acs.common.api.vision.service.ILoggable#getLog()
-     */
     @Override
     public Logger getLog() {
         if (log == null) {

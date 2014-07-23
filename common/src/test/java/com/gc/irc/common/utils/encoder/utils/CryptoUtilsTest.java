@@ -1,4 +1,4 @@
-package com.gc.common.utils;
+package com.gc.irc.common.utils.encoder.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
@@ -59,30 +59,7 @@ public class CryptoUtilsTest {
     public void list() {
 
         final List < String > coll = new ArrayList < String >();
-        coll.add("visionuser");
-        coll.add("visionint");
-        coll.add("visionrct");
-        coll.add("andiamoint");
-        coll.add("andiamorct");
-        coll.add("visionsandbox");
-        coll.add("testmagali");
-        coll.add("testgael");
         coll.add("testgabriel");
-        coll.add("testsam");
-        coll.add("testimport");
-
-        coll.add("cryptouser");
-        coll.add("visionintcrypto");
-        coll.add("andiamointcrypto");
-        coll.add("cryptosandbox");
-
-        coll.add("pcard001");
-        coll.add("vision001");
-
-        coll.add("vision");
-        coll.add("vision2");
-        coll.add("vision3");
-        coll.add("vcrypto");
 
         for (final String current : coll) {
             encrypt(current);

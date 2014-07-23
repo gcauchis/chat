@@ -43,24 +43,11 @@ public abstract class AbstractObjectEncoder<OBJ> extends AbstractLoggable implem
         return clazz;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.acp.common.crypto.api.IObjectEncoder#encryptClass(java.lang.Class)
-     */
     /** {@inheritDoc} */
     public final boolean encodeClass(final Class<?> clazz) {
         return getGenericObjectClass().equals(clazz);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.acp.common.crypto.api.IObjectEncoder#encryptObject(java.lang.Object,
-     * com.acp.common.crypto.api.IStringEncoder)
-     */
     /** {@inheritDoc} */
     @SuppressWarnings("unchecked")
     public final Object encodeObject(final Object value, final StringEncoder stringEncoder) throws EncoderException {

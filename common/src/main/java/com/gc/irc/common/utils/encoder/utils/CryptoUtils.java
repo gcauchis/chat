@@ -46,7 +46,7 @@ public final class CryptoUtils {
     private static final String KEY_PASS = "GCiv01Azerty/";
 
     /** The Constant salt. */
-    private static final byte[] SALT = { (byte) 0xA9, (byte) 0x9B, (byte) 0xC8, (byte) 0x32, (byte) 0x56, (byte) 0x34, (byte) 0xE3, (byte) 0x03 };
+    private static final byte[] SALT = { (byte) 0x5D, (byte) 0x59, (byte) 0xA7, (byte) 0x0F, (byte) 0x96, (byte) 0xE6, (byte) 0xB4, (byte) 0x6D };
 
     /**
      * {@inheritDoc}
