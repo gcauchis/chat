@@ -8,7 +8,6 @@ import java.util.zip.Inflater;
 
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.gc.irc.common.utils.LoggerUtils;
 

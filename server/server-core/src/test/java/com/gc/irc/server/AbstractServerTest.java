@@ -1,8 +1,8 @@
 package com.gc.irc.server;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -18,9 +18,8 @@ import com.gc.irc.common.protocol.command.MessageCommandLogin;
 import com.gc.irc.common.protocol.command.MessageCommandRegister;
 import com.gc.irc.common.protocol.notice.MessageNoticeServerMessage;
 import com.gc.irc.common.utils.LoggerUtils;
-import com.gc.irc.server.ServerStarter;
-import com.gc.irc.server.test.handler.MessageHandlerTester;
 import com.gc.irc.server.test.handler.LoginMessageHandler;
+import com.gc.irc.server.test.handler.MessageHandlerTester;
 import com.gc.irc.server.test.handler.SimpleMessageHandler;
 import com.gc.irc.server.test.protocol.command.MessageCommandTestDeleteUser;
 import com.gc.irc.server.test.utils.entity.UserContextEntity;

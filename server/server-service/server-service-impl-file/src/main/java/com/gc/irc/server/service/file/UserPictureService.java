@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.protocol.item.MessageItemPicture;
-import com.gc.irc.server.service.file.UserPictureService;
 
 /**
  * Manage the Users's Pictures.

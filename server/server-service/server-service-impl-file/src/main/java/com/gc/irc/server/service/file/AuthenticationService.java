@@ -13,7 +13,6 @@ import org.xml.sax.SAXException;
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.utils.IOUtils;
 import com.gc.irc.server.model.UserInformations;
-import com.gc.irc.server.service.file.AuthenticationService;
 import com.gc.irc.server.service.file.utils.UserInformationScanner;
 
 /**

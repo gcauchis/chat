@@ -4,11 +4,12 @@
  */
 package com.gc.irc.server.service.neo4j.model;
 
-import com.gc.irc.server.model.UserInformations;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+
+import com.gc.irc.server.model.UserInformations;
 
 /**
  * <p>UserInformationEntity class.</p>

@@ -11,11 +11,10 @@ import org.junit.Test;
 
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.chat.MessageChatPrivate;
-import com.gc.irc.server.bridge.ServerBridgeProducer;
 import com.gc.irc.server.bridge.ServerBridgeException;
+import com.gc.irc.server.bridge.ServerBridgeProducer;
 import com.gc.irc.server.core.user.management.UserManagement;
 import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
-import com.gc.irc.server.handler.message.MessageChatPrivateHandler;
 import com.gc.irc.server.handler.message.test.AbstractMessageHandlerTest;
 
 /**

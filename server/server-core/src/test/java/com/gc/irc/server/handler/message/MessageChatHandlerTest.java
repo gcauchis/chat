@@ -12,7 +12,6 @@ import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.chat.MessageChat;
 import com.gc.irc.server.core.user.management.UserManagement;
 import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
-import com.gc.irc.server.handler.message.MessageChatHandler;
 import com.gc.irc.server.handler.message.test.AbstractMessageHandlerTest;
 
 /**

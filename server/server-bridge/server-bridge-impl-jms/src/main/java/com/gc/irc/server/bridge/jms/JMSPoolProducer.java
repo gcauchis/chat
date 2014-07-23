@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractObjectPool;
 import com.gc.irc.common.protocol.Message;
-import com.gc.irc.server.bridge.ServerBridgeProducer;
 import com.gc.irc.server.bridge.ServerBridgeException;
+import com.gc.irc.server.bridge.ServerBridgeProducer;
 
 /**
  * The Class IRCJMSPoolProducer.

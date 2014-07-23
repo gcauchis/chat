@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.server.bridge.ServerBridgeConsumerFactory;
 import com.gc.irc.server.core.user.management.UserManagement;
-import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.UserManagementAware;
+import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.handler.message.ServerMessageHandler;
-import com.gc.irc.server.thread.ServeurManager;
 import com.gc.irc.server.thread.ServeurManagement;
+import com.gc.irc.server.thread.ServeurManager;
 
 /**
  * A factory for creating ServeurMBean objects.

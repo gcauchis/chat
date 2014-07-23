@@ -10,7 +10,6 @@ import java.io.PrintStream;
 import java.io.StringWriter;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The Class IOUtils.

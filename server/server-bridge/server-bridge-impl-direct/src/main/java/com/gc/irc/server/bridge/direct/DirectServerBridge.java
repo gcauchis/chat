@@ -10,8 +10,8 @@ import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.bridge.ServerBridgeConsumer;
 import com.gc.irc.server.bridge.ServerBridgeConsumerFactory;
-import com.gc.irc.server.bridge.ServerBridgeProducer;
 import com.gc.irc.server.bridge.ServerBridgeException;
+import com.gc.irc.server.bridge.ServerBridgeProducer;
 
 /**
  * The Class DirectServerBridge.

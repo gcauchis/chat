@@ -1,12 +1,11 @@
 package com.gc.irc.server.service.neo4j;
 
-import com.gc.irc.common.AbstractLoggable;
-import com.gc.irc.common.entity.SerializableBufferedImage;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gc.irc.common.AbstractLoggable;
+import com.gc.irc.common.entity.SerializableBufferedImage;
 import com.gc.irc.common.protocol.item.MessageItemPicture;
 import com.gc.irc.server.service.neo4j.model.UserInformationEntity;
 import com.gc.irc.server.service.neo4j.repository.UserInformationRepository;

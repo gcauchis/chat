@@ -12,8 +12,8 @@ import com.gc.irc.server.bridge.ServerBridgeConsumerFactory;
 import com.gc.irc.server.bridge.ServerBridgeException;
 import com.gc.irc.server.client.connector.ClientConnection;
 import com.gc.irc.server.core.user.management.UserManagement;
-import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.core.user.management.UserManagementAware;
+import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
 import com.gc.irc.server.handler.message.ServerMessageHandler;
 
 /**

@@ -22,8 +22,8 @@ import com.gc.irc.common.protocol.Message;
 import com.gc.irc.common.protocol.command.MessageCommandChangeNickname;
 import com.gc.irc.common.protocol.command.MessageCommandChangeStatus;
 import com.gc.irc.common.protocol.notice.MessageNoticeContactInfo;
-import com.gc.irc.server.test.handler.MessageHandlerTester;
 import com.gc.irc.server.test.handler.LoginContactInfoMessageHandler;
+import com.gc.irc.server.test.handler.MessageHandlerTester;
 import com.gc.irc.server.test.handler.SimpleMessageHandler;
 import com.gc.irc.server.test.utils.entity.UserContextEntity;
 

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.protocol.chat.MessageChatPrivate;
-import com.gc.irc.server.bridge.ServerBridgeProducer;
 import com.gc.irc.server.bridge.ServerBridgeException;
+import com.gc.irc.server.bridge.ServerBridgeProducer;
 
 /**
  * The Class IRCMessageChatPrivateHandler.
