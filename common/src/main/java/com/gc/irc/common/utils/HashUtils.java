@@ -38,9 +38,7 @@ public final class HashUtils {
             final MessageDigest md = MessageDigest.getInstance(ENCODING_HASH_TYPE);
             final byte[] data = md.digest(String.valueOf(input + SALT).getBytes(CHARSET_NAME));
             return toHexString(data);
-        } catch (final UnsupportedEncodingException e) {
-            LOGGER.error("Error Hashing SHA-512", e);
-        } catch (final NoSuchAlgorithmException e) {
+        } catch (UnsupportedEncodingException | NoSuchAlgorithmException e) {
             LOGGER.error("Error Hashing SHA-512", e);
         }
         return null;

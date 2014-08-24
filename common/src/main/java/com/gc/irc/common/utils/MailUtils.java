@@ -84,9 +84,7 @@ public final class MailUtils {
             message.setSentDate(new Date());
 
             Transport.send(message);
-        } catch (final AddressException e) {
-            LOGGER.warn("Fail to send email", e);
-        } catch (final MessagingException e) {
+        } catch (MessagingException e) {
             LOGGER.warn("Fail to send email", e);
         }
         return result;

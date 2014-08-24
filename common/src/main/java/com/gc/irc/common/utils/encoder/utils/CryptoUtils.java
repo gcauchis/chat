@@ -67,16 +67,8 @@ public final class CryptoUtils {
 				ecipher.init(Cipher.ENCRYPT_MODE, key, paramSpec);
 				dcipher.init(Cipher.DECRYPT_MODE, key, paramSpec);
 
-			} catch (final InvalidAlgorithmParameterException e) {
-				LOGGER.error("ERROR: InvalidAlgorithmParameterException", e);
-			} catch (final InvalidKeySpecException e) {
-				LOGGER.error("ERROR: InvalidKeySpecException", e);
-			} catch (final NoSuchPaddingException e) {
-				LOGGER.error("ERROR: NoSuchPaddingException", e);
-			} catch (final NoSuchAlgorithmException e) {
-				LOGGER.error("ERROR: NoSuchAlgorithmException", e);
-			} catch (final InvalidKeyException e) {
-				LOGGER.error("ERROR: InvalidKeyException", e);
+			} catch (InvalidAlgorithmParameterException | InvalidKeySpecException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException e) {
+				LOGGER.error("Fail to build cipher", e);
 			}
 		}
 	}
@@ -98,9 +90,8 @@ public final class CryptoUtils {
 				// Decode using utf-8
 				return new String(dcipher.doFinal(dec), "UTF8");
 
-			} catch (final BadPaddingException e) {
-			} catch (final IllegalBlockSizeException e) {
-			} catch (final UnsupportedEncodingException e) {
+			} catch (final BadPaddingException | IllegalBlockSizeException | UnsupportedEncodingException e) {
+				LOGGER.error("Fail to decrypt", e);
 			}
 		}
 		return null;
@@ -126,9 +117,8 @@ public final class CryptoUtils {
 				/* Encode bytes to base64 to get a string */
 				return new String(Base64.encodeBase64(enc), "UTF-8");
 
-			} catch (final BadPaddingException e) {
-			} catch (final IllegalBlockSizeException e) {
-			} catch (final UnsupportedEncodingException e) {
+			} catch (final BadPaddingException | IllegalBlockSizeException | UnsupportedEncodingException e) {
+				LOGGER.error("Fail to encrypt", e);
 			}
 		}
 		return null;

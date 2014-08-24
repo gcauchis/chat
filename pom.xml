@@ -47,7 +47,7 @@
 		<activemq.version>5.7.0</activemq.version>
 		<easymock.version>3.1</easymock.version>
 
-		<java.build.version>1.6</java.build.version>
+		<java.build.version>1.7</java.build.version>
 	</properties>
 
 	<dependencyManagement>

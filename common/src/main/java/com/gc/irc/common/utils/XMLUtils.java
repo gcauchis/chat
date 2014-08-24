@@ -158,11 +158,7 @@ public final class XMLUtils {
             final DocumentBuilder db = dbf.newDocumentBuilder();
             final InputSource is = new InputSource(new StringReader(xml));
             return db.parse(is);
-        } catch (final ParserConfigurationException e) {
-            throw new XMLException("Fail to Parse xml", e);
-        } catch (final SAXException e) {
-            throw new XMLException("Fail to Parse xml", e);
-        } catch (final IOException e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             throw new XMLException("Fail to Parse xml", e);
         }
     }

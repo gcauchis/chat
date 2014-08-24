@@ -169,9 +169,7 @@ public final class Base64EncodageUtils {
             decompresser.end();
 
             resultValue = new String(result, 0, resultLength, ENCODAGE_UTF_8);
-        } catch (final UnsupportedEncodingException e) {
-            LOGGER.warn("fail to decodeBase64AndDecompress: {}", e.getMessage());
-        } catch (final DataFormatException e) {
+        } catch (UnsupportedEncodingException | DataFormatException e) {
             LOGGER.warn("fail to decodeBase64AndDecompress: {}", e.getMessage());
         }
         return resultValue;
