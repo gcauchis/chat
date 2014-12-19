@@ -52,7 +52,7 @@ public class PersiteUsers extends Thread {
 
     /**
      * Generat xml code.
-     * 
+     *
      * @return xml code in a String.
      */
     private String generateXML() {

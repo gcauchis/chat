@@ -24,9 +24,9 @@ public class UserPictureService extends AbstractLoggable implements
 	/** The repository. */
 	private UserInformationRepository userInformationRepository;
 	
-	/**
+    /**
      * Gets the user info.
-     * 
+     *
      * @param id
      *            the id
      * @return the user info

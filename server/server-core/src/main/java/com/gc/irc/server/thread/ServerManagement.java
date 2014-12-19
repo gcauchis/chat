@@ -34,7 +34,7 @@ public class ServerManagement extends AbstractRunnable implements ServerManager,
 
     /**
      * Gets the nb thread.
-     * 
+     *
      * @return the nb thread
      */
     private static synchronized int getNbThread() {
@@ -136,7 +136,7 @@ public class ServerManagement extends AbstractRunnable implements ServerManager,
 
     /**
      * Handle Message.
-     * 
+     *
      * @param message
      *            Message received.
      */
@@ -167,7 +167,7 @@ public class ServerManagement extends AbstractRunnable implements ServerManager,
 
     /**
      * Initialize Thread.
-     * 
+     *
      * Listening JMS Queue
      */
     private void init() {

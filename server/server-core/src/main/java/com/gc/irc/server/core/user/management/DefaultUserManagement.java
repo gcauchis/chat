@@ -34,6 +34,9 @@ public class DefaultUserManagement extends AbstractLoggable implements UserManag
         persistStatus();
     }
 
+    /**
+     * <p>persistStatus.</p>
+     */
     private void persistStatus() {
         //TODO: Asynchronous
         /**

@@ -79,7 +79,7 @@ public class AuthenticationService extends AbstractLoggable implements com.gc.ir
 
     /**
      * Generate xml code.
-     * 
+     *
      * @return xml code in a String.
      */
     private String generateXML() {
@@ -96,7 +96,7 @@ public class AuthenticationService extends AbstractLoggable implements com.gc.ir
 
     /**
      * Gets the new id.
-     * 
+     *
      * @return the new id
      */
     private long getNewId() {
@@ -155,7 +155,7 @@ public class AuthenticationService extends AbstractLoggable implements com.gc.ir
 
     /**
      * Sets the last id.
-     * 
+     *
      * @param lastId
      *            the new last id
      */

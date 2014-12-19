@@ -17,7 +17,7 @@ public abstract class AbstractObjectEncoder<OBJ> extends AbstractLoggable implem
 
     /**
      * Gets the agg class.
-     * 
+     *
      * @return the agg class
      */
     @SuppressWarnings("unchecked")
@@ -28,7 +28,7 @@ public abstract class AbstractObjectEncoder<OBJ> extends AbstractLoggable implem
 
     /**
      * Retreive direct sub class.
-     * 
+     *
      * @return the class
      */
     @SuppressWarnings("unchecked")

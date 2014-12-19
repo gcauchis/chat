@@ -134,7 +134,7 @@ public class ObjectStreamClientConnection extends AbstractClientConnection imple
         }
     }
 
-	/**
+    /**
      * Test if the socket is already open. If socket is closed or a problem is
      * remark the thread is finalize.
      */

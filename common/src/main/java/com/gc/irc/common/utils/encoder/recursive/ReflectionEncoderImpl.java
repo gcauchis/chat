@@ -54,10 +54,10 @@ public final class ReflectionEncoderImpl implements ReflectionEncoder {
 
     /**
      * Checks if is encodable.
-     * 
+     *
      * @param clazz
      *            the clazz
-     * @return true, if is encodable
+     * @return a boolean.
      */
     @SuppressWarnings("unchecked")
     private static boolean isEncodableField(final Class clazz) {
@@ -170,7 +170,7 @@ public final class ReflectionEncoderImpl implements ReflectionEncoder {
 
     /**
      * Encode array.
-     * 
+     *
      * @param values
      *            the values
      */
@@ -209,9 +209,7 @@ public final class ReflectionEncoderImpl implements ReflectionEncoder {
 
     /**
      * Encode class fields.
-     * 
-     * @param clazz
-     *            the clazz
+     *
      * @param value
      *            the value
      */
@@ -242,7 +240,7 @@ public final class ReflectionEncoderImpl implements ReflectionEncoder {
 
     /**
      * Encode collection.
-     * 
+     *
      * @param value
      *            the value
      */
@@ -268,7 +266,7 @@ public final class ReflectionEncoderImpl implements ReflectionEncoder {
 
     /**
      * Encode map.
-     * 
+     *
      * @param value
      *            the value
      */
@@ -307,7 +305,7 @@ public final class ReflectionEncoderImpl implements ReflectionEncoder {
 
     /**
      * Gets the stringEncoder.
-     * 
+     *
      * @param clazz
      *            the clazz
      * @return the stringEncoder
@@ -348,7 +346,7 @@ public final class ReflectionEncoderImpl implements ReflectionEncoder {
 
     /**
      * Internal encode by reflection.
-     * 
+     *
      * @param value
      *            the value
      */
@@ -390,8 +388,8 @@ public final class ReflectionEncoderImpl implements ReflectionEncoder {
 
     /**
      * Checks if is all string encoded.
-     * 
-     * @return true, if is all string encoded
+     *
+     * @return a boolean.
      */
     private boolean isAllStringEncoded() {
         return encodeAllString || getEncoder(String.class) != null;
@@ -399,12 +397,12 @@ public final class ReflectionEncoderImpl implements ReflectionEncoder {
 
     /**
      * Checks if is in class collection.
-     * 
+     *
      * @param clazz
      *            the clazz
      * @param classes
      *            the classes
-     * @return true, if is in class collection
+     * @return a boolean.
      */
     @SuppressWarnings("unchecked")
     private boolean isInClassCollection(Class clazz, final Collection<Class> classes) {
@@ -419,12 +417,14 @@ public final class ReflectionEncoderImpl implements ReflectionEncoder {
 
     /**
      * Checks if is in class collection.
-     * 
+     *
+     * @param classesTab
+     *            the classes tab
      * @param classesTab
      *            the classes tab
      * @param classes
      *            the classes
-     * @return true, if is in class collection
+     * @return a boolean.
      */
     @SuppressWarnings("unchecked")
     private boolean isInClassCollection(final Class[] classesTab, final Collection<Class> classes) {
@@ -439,10 +439,10 @@ public final class ReflectionEncoderImpl implements ReflectionEncoder {
 
     /**
      * Checks if is not an encodable type.
-     * 
+     *
      * @param clazz
      *            the clazz
-     * @return true, if is not an encodable type
+     * @return a boolean.
      */
     @SuppressWarnings("unchecked")
     private boolean isNotAnEncodableClass(final Class clazz) {

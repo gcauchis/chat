@@ -160,10 +160,10 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
 		return user;
 	}
 	
-	/**
+    /**
      * Identification protocol.
-     * 
-     * @throws ServerException
+     *
+     * @throws com.gc.irc.server.core.exception.ServerException
      *             the iRC server exception
      */
     private void authenticateProtocol() throws ServerException {
@@ -273,6 +273,12 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
         getLog().debug("End protocole.");
     }
     
+    /**
+     * <p>checkLogin.</p>
+     *
+     * @param messageLogin a {@link com.gc.irc.common.protocol.command.MessageCommandLogin} object.
+     * @return a {@link com.gc.irc.common.entity.User} object.
+     */
     private User checkLogin(final MessageCommandLogin messageLogin) {
     	User user = null;
 		UserInformations userInfo = authenticationService.logUser(messageLogin.getLogin(), messageLogin.getPassword());
@@ -285,7 +291,7 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
 		return user;
 	}
     
-    /**
+	/**
 	 * Send all users pictur
 	 */
 	private void sendAllUsersPicturs() {

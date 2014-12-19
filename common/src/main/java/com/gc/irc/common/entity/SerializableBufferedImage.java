@@ -52,7 +52,7 @@ public class SerializableBufferedImage implements Serializable {
 
     /**
      * From byte array.
-     * 
+     *
      * @param imagebytes
      *            the imagebytes
      * @return the buffered image
@@ -80,7 +80,7 @@ public class SerializableBufferedImage implements Serializable {
 
     /**
      * To byte array.
-     * 
+     *
      * @param bufferedImage
      *            the buffered image
      * @return the byte[]

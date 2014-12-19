@@ -92,7 +92,7 @@ public final class UserInformationScanner extends AbstractLoggable {
 
     /**
      * Visit element_ irc user info.
-     * 
+     *
      * @param element
      *            the element
      * @return the iRC user informations
@@ -141,7 +141,7 @@ public final class UserInformationScanner extends AbstractLoggable {
 
     /**
      * Visit element_ irc users.
-     * 
+     *
      * @param element
      *            the element
      */

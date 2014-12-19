@@ -19,6 +19,7 @@ import com.gc.irc.common.utils.LoggerUtils;
  */
 public final class Base64EncodageUtils {
 
+    /** Constant <code>ENCODAGE_UTF_8="UTF-8"</code> */
     private static final String ENCODAGE_UTF_8 = "UTF-8";
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerUtils.getLogger(Base64EncodageUtils.class);

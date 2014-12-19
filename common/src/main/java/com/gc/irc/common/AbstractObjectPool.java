@@ -32,7 +32,7 @@ public abstract class AbstractObjectPool<T> extends AbstractLoggable {
 
     /**
      * Gets the pool.
-     * 
+     *
      * @return the pool
      */
     private GenericObjectPool<T> getPool() {

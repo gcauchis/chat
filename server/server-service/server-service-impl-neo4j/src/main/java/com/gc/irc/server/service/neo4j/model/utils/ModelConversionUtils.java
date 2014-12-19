@@ -14,6 +14,9 @@ import com.gc.irc.server.service.neo4j.model.UserInformationEntity;
  * @version 0.0.4
  */
 public class ModelConversionUtils {
+    /**
+     * <p>Constructor for ModelConversionUtils.</p>
+     */
     private ModelConversionUtils(){};
     
     /**

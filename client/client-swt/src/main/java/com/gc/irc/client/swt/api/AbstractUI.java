@@ -49,7 +49,7 @@ public abstract class AbstractUI extends AbstractLoggable {
 
     /**
      * Manage display.
-     * 
+     *
      * @param display
      *            the display
      */

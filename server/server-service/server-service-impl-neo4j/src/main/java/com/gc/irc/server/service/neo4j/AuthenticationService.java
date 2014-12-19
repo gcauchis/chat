@@ -63,7 +63,7 @@ public class AuthenticationService extends AbstractLoggable implements com.gc.ir
 
     /**
      * Gets the user info.
-     * 
+     *
      * @param id
      *            the id
      * @return the user info

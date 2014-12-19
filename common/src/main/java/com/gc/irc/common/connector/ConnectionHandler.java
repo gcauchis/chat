@@ -335,7 +335,7 @@ public class ConnectionHandler extends AbstractRunnable implements MessageSender
 
     /**
      * Sets the authenticated.
-     * 
+     *
      * @param loggedIn
      *            the new authenticated
      */
@@ -345,7 +345,7 @@ public class ConnectionHandler extends AbstractRunnable implements MessageSender
 
     /**
      * Sets the connected to server.
-     * 
+     *
      * @param connectedToServer
      *            the new connected to server
      */

@@ -34,7 +34,7 @@ public final class XorString {
 
     /**
      * From hex.
-     * 
+     *
      * @param c
      *            the c
      * @return the int
@@ -54,7 +54,7 @@ public final class XorString {
 
     /**
      * To hex.
-     * 
+     *
      * @param nybble
      *            the nybble
      * @return the char
