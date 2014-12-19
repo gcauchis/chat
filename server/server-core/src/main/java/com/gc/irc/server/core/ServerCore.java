@@ -145,6 +145,11 @@ public class ServerCore extends AbstractLoggable {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
     
+    /**
+     * <p>Setter for the field <code>clientConnectorProviders</code>.</p>
+     *
+     * @param clientConnectorProviders a {@link java.util.List} object.
+     */
     @Autowired
     public void setClientConnectorProviders(
 			List<ClientConnectorProvider> clientConnectorProviders) {

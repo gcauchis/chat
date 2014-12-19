@@ -29,8 +29,9 @@ import com.gc.irc.server.service.UserPictureService;
 
 /**
  * An abstract client connection
- * @author gcauchis
  *
+ * @author gcauchis
+ * @version 0.0.5
  */
 public abstract class AbstractClientConnection extends AbstractRunnable implements
 		ClientConnection, UserManagementAware {
@@ -38,7 +39,7 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
 	/** The nb thread. */
     private static int nbThread = 0;
     
-	/**
+    /**
      * Gets the nb thread.
      *
      * @return the nb thread
@@ -148,11 +149,12 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
        
     }
 
-    /**
-     * Disconect the user properly.
-     */
+	/**
+	 * Disconect the user properly.
+	 */
 	protected abstract void disconnect();
 
+	/** {@inheritDoc} */
 	@Override
 	public final User getUser() {
 		return user;
@@ -291,6 +293,7 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
 		userPicturesManagement.sendUsersPictures(this);
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public final void post(Message message) {
 		getLog().debug("Send a message");
@@ -303,16 +306,16 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
 	
 	/**
 	 * An identifier for the connection.
-	 * 
+	 *
 	 * @return an identifier for the connection.
 	 */
 	public final String getId() {
 		return id + (user == null ? "" : user.getNickName());
 	}
 	
-	/**
+    /**
      * Check message.
-     * 
+     *
      * @param message
      *            the message
      */
@@ -376,7 +379,7 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
 		this.userPicturesManagement = userPicturesManagement;
 	}
     
-    /** {@inheritDoc} */
+	/** {@inheritDoc} */
 	@Override
 	@Autowired
 	public void setUserManagement(UserManagement userManagement) {

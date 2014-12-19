@@ -27,16 +27,16 @@ public interface ClientConnection extends Runnable, MessageSender {
     User getUser();
 
     /**
-     * Send message to client.
+     * {@inheritDoc}
      *
-     * @param message the message
+     * Send message to client.
      */
     @Override
     void send(final Message message);
     
     /**
      * Wait and Receive a message send by the client.
-     * 
+     *
      * @return Message received.
      */
     Message receiveMessage();

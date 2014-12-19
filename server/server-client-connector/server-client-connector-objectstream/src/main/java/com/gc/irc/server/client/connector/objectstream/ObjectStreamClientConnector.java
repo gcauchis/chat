@@ -101,7 +101,7 @@ public class ObjectStreamClientConnector extends AbstractClientConnector {
 
 	}
 	
-	 /**
+    /**
      * Sets the gestion client bean factory.
      *
      * @param gestionClientBeanFactory

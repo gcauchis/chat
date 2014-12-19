@@ -52,6 +52,7 @@ public class ObjectStreamClientConnection extends AbstractClientConnection imple
         getLog().debug(getId() + " end init");
     }
 
+    /** {@inheritDoc} */
     @Override
     protected void disconnect() {
     	 /**
@@ -79,7 +80,7 @@ public class ObjectStreamClientConnection extends AbstractClientConnection imple
 
     /**
      * Wait and Receive a message send by the client.
-     * 
+     *
      * @return Message received.
      */
     public Message receiveMessage() {

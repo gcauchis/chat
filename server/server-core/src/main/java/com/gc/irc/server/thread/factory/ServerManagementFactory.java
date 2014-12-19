@@ -43,6 +43,7 @@ public class ServerManagementFactory extends AbstractLoggable implements ServerM
         return applicationContext.getBean(ServerManagement.class);
     }
 
+	/** {@inheritDoc} */
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {

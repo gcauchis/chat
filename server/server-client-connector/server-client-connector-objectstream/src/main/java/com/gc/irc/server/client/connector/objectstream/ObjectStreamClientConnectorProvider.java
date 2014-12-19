@@ -40,6 +40,11 @@ public class ObjectStreamClientConnectorProvider implements
 		return Arrays.asList(getClientConnector());
 	}
 
+	/**
+	 * <p>Getter for the field <code>clientConnector</code>.</p>
+	 *
+	 * @return a {@link com.gc.irc.server.client.connector.ClientConnector} object.
+	 */
 	public ClientConnector getClientConnector() {
 		if (clientConnector == null)
 		{
@@ -48,6 +53,7 @@ public class ObjectStreamClientConnectorProvider implements
 		return clientConnector;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {
