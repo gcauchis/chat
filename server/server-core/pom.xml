@@ -241,6 +241,10 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>com.gc.irc</groupId>
+			<artifactId>server-core-api</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

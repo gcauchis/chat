@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
-import com.gc.irc.server.core.user.management.UsersConnectionsManagement;
+import com.gc.irc.server.client.connector.management.UsersConnectionsManagement;
 import com.gc.irc.server.thread.ServeurManager;
 import com.gc.irc.server.thread.factory.ClientConnectionFactory;
 import com.gc.irc.server.thread.factory.ServeurManagerFactory;

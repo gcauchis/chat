@@ -1,4 +1,4 @@
-package com.gc.irc.server.exception;
+package com.gc.irc.server.core.exception;
 
 import com.gc.irc.common.exception.IRCException;
 

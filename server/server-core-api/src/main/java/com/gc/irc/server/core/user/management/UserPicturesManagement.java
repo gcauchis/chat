@@ -1,6 +1,6 @@
 package com.gc.irc.server.core.user.management;
 
-import java.io.ObjectOutputStream;
+import com.gc.irc.common.message.MessageSender;
 
 /**
  * <p>IUserPicturesManagement interface.</p>
@@ -13,8 +13,8 @@ public interface UserPicturesManagement {
 	/**
 	 * <p>sendUsersPictures.</p>
 	 *
-	 * @param outObject a {@link java.io.ObjectOutputStream} object.
+	 * @param messageSender a {@link com.gc.irc.common.message.MessageSender} object.
 	 */
-	void sendUsersPictures(final ObjectOutputStream outObject);
+	void sendUsersPictures(final MessageSender messageSender);
 
 }

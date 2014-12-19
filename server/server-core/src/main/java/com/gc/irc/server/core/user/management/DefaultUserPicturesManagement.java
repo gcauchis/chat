@@ -1,15 +1,16 @@
 package com.gc.irc.server.core.user.management;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.entity.User;
+import com.gc.irc.common.message.MessageSender;
 import com.gc.irc.common.protocol.item.MessageItemPicture;
-import com.gc.irc.common.utils.IOStreamUtils;
+import com.gc.irc.server.core.user.management.UserManagement;
+import com.gc.irc.server.core.user.management.UserManagementAware;
+import com.gc.irc.server.core.user.management.UserPicturesManagement;
 import com.gc.irc.server.service.UserPictureService;
 
 /**
@@ -30,17 +31,13 @@ public class DefaultUserPicturesManagement extends AbstractLoggable implements U
 	
 	/** {@inheritDoc} */
 	@Override
-	public void sendUsersPictures(ObjectOutputStream outObject) {
+	public void sendUsersPictures(final MessageSender messageSender) {
 		 MessageItemPicture messagePicture;
 	        for (final User user : userManagement.getAllUsers()) {
 	            if (user.hasPictur()) {
 	                messagePicture = userPictureService.getPictureOf(user.getId());
 	                if (messagePicture != null) {
-	                    try {
-	                        IOStreamUtils.sendMessage(outObject, messagePicture);
-	                    } catch (final IOException e) {
-	                        getLog().warn("Fail to send the picture of " + user.getNickName() + " : ", e);
-	                    }
+	                	messageSender.send(messagePicture);
 	                } else {
 	                    getLog().warn("Fail to open the picture of {}", user.getNickName());
 	                }

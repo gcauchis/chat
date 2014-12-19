@@ -17,6 +17,11 @@ import com.gc.irc.server.client.connector.ClientConnectorProvider;
 @Component("objectStreamClientConnectorProvider")
 public class ObjectStreamClientConnectorProvider implements
 		ClientConnectorProvider {
+	
+	/**
+	 * The client connector.
+	 */
+	private ClientConnector clientConnector = new ObjectStreamClientConnector();
 
 	/**
 	 * <p>getClientConnectors.</p>
@@ -24,7 +29,7 @@ public class ObjectStreamClientConnectorProvider implements
 	 * @return a {@link java.util.List} object.
 	 */
 	public List<ClientConnector> getClientConnectors() {
-		ClientConnector clientConnector = new ObjectStreamClientConnector();
+		
 		return Arrays.asList(clientConnector);
 	}
 

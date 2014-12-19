@@ -3,28 +3,25 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>irc</artifactId>
+		<artifactId>server</artifactId>
 		<groupId>com.gc.irc</groupId>
 		<version>0.0.4-SNAPSHOT</version>
 	</parent>
-	<artifactId>server</artifactId>
-	<packaging>pom</packaging>
-	<name>server</name>
-	<url>http://maven.apache.org</url>
-
-	<modules>
-		<module>server-core-api</module>
-		<module>server-core</module>
-		<module>server-service</module>
-		<module>server-model</module>
-		<module>server-bridge</module>
-		<module>server-client-connector</module>
-	</modules>
+	<artifactId>server-core-api</artifactId>
+	<name>server-core-api</name>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.gc.irc</groupId>
 			<artifactId>common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.gc.irc</groupId>
+			<artifactId>server-bridge-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.gc.irc</groupId>
+			<artifactId>server-service-api</artifactId>
 		</dependency>
 	</dependencies>
 

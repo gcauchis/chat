@@ -1,4 +1,4 @@
-package com.gc.irc.server.core.user.management;
+package com.gc.irc.server.client.connector.management;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package com.gc.irc.server.client.connector;
 
 import com.gc.irc.common.AbstractLoggable;
+import com.gc.irc.common.AbstractRunnable;
 
 /**
  * The Class AbstractClientConnector.
@@ -8,7 +9,7 @@ import com.gc.irc.common.AbstractLoggable;
  * @author gcauchis
  * @version 0.0.4
  */
-public abstract class AbstractClientConnector extends AbstractLoggable
+public abstract class AbstractClientConnector extends AbstractRunnable
 		implements ClientConnector {
 	
 	/** The initialized. */

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.entity.User;
+import com.gc.irc.server.core.user.management.UserManagement;
 import com.gc.irc.server.persistance.PersiteUsers;
 
 /**

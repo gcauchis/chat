@@ -14,5 +14,9 @@
 			<groupId>com.gc.irc</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.gc.irc</groupId>
+			<artifactId>server-core-api</artifactId>
+		</dependency>
 	</dependencies>
 </project>
