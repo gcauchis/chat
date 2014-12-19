@@ -61,7 +61,6 @@ public class ServerStarter extends AbstractLoggable implements Runnable {
         initialized = true;
         getLog().info("Start Waiting for client");
         while (true) {
-            core.waitClient();
         }
     }
 

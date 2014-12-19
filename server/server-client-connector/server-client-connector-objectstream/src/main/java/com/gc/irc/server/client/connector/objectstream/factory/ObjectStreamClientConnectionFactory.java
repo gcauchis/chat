@@ -25,7 +25,7 @@ import com.gc.irc.server.service.UserPictureService;
  */
 @Component("gestionClientBeanObjectStreamFactory")
 @Scope("singleton")
-public class GestionClientBeanObjectStreamFactory extends AbstractLoggable implements ClientConnectionFactory, UserManagementAware {
+public class ObjectStreamClientConnectionFactory extends AbstractLoggable implements ClientConnectionFactory, UserManagementAware {
 
     /** The authentication service. */
     @Autowired

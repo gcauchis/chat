@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
+import com.gc.irc.server.client.connector.ClientConnector;
+import com.gc.irc.server.client.connector.ClientConnectorProvider;
 import com.gc.irc.server.client.connector.management.UsersConnectionsManagement;
 import com.gc.irc.server.client.connector.objectstream.factory.ClientConnectionFactory;
 import com.gc.irc.server.thread.ServeurManager;
@@ -33,9 +35,6 @@ public class ServerCore extends AbstractLoggable {
     /** The welcome message. */
     private static String welcomeMessage = "Welcome on our server.";
 
-    /** The server socket. */
-    private static ServerSocket serverSocket = null;
-
     /**
      * Get the welcome message.
      *
@@ -55,17 +54,9 @@ public class ServerCore extends AbstractLoggable {
         ServerCore.welcomeMessage = welcomeMessage;
     }
 
-    /** The gestion client bean factory. */
-    @Autowired
-    private ClientConnectionFactory gestionClientBeanFactory;
-
     /** The nb thread serveur. */
     @Value("${nbConsumerThread}")
     private int nbThreadServeur = 1;
-
-    /** The port. */
-    @Value("${server.port}")
-    private int port = -1;
 
     /** The pull thread serveur. */
     private final List<ServeurManager> pullThreadServeur = Collections.synchronizedList(new ArrayList<ServeurManager>());
@@ -77,23 +68,13 @@ public class ServerCore extends AbstractLoggable {
     /** The users connections management. */
     @Autowired
     private UsersConnectionsManagement usersConnectionsManagement;
+    
+    private List<ClientConnectorProvider> clientConnectorProviders;
 
     /**
      * Instantiates a new server core.
      */
     public ServerCore() {
-    }
-
-    /**
-     * Instantiates a new server core.
-     *
-     * @param port
-     *            the port
-     */
-    public ServerCore(final int port) {
-        if (this.port != port) {
-            setPort(port);
-        }
     }
 
     /**
@@ -111,22 +92,13 @@ public class ServerCore extends AbstractLoggable {
      * Initialize the server.
      */
     public void initServeur() {
-        getLog().info("Initialise server.");
-        if (port < 0) {
-            throw new IllegalArgumentException("Port should be set");
-        }
-
-        /**
-         * Listen the designed Port
-         */
-        try {
-            serverSocket = new ServerSocket(port);
-        } catch (final IOException e) {
-            getLog().error("Impossible to open the socket.", e);
-            System.exit(-1);
-        }
-        getLog().info("Server initialize. Listen port " + port);
-
+		getLog().info(
+				clientConnectorProviders.size() + " Providers of connector");
+		for (ClientConnectorProvider provider : clientConnectorProviders) {
+			for (ClientConnector connector : provider.getClientConnectors()) {
+				new Thread(connector).run();
+			}
+		}
 
         for (int i = 0; i < nbThreadServeur; i++) {
             getLog().info("Build serveurMBean {}", i);
@@ -138,16 +110,6 @@ public class ServerCore extends AbstractLoggable {
     }
 
     /**
-     * Sets the gestion client bean factory.
-     *
-     * @param gestionClientBeanFactory
-     *            the new gestion client bean factory
-     */
-    public void setGestionClientBeanFactory(final ClientConnectionFactory gestionClientBeanFactory) {
-        this.gestionClientBeanFactory = gestionClientBeanFactory;
-    }
-
-    /**
      * <p>Setter for the field <code>nbThreadServeur</code>.</p>
      *
      * @param nbThreadServeur
@@ -155,19 +117,6 @@ public class ServerCore extends AbstractLoggable {
      */
     public void setNbThreadServeur(final int nbThreadServeur) {
         this.nbThreadServeur = nbThreadServeur;
-    }
-
-    /**
-     * Change the listening port
-     *
-     * Don't forget to use initServer() after use this method.
-     *
-     * @param port
-     *            New Listening Port.
-     */
-    public void setPort(final int port) {
-        this.port = port;
-        getLog().debug("Nouveau port : " + port);
     }
 
     /**
@@ -199,24 +148,11 @@ public class ServerCore extends AbstractLoggable {
     public void setUsersConnectionsManagement(final UsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }
-
-    /**
-     * Wait for new client. When a client connect to the sever stat a Thred fot
-     * him.
-     */
-    public void waitClient() {
-        Socket clientSocket = null;
-        try {
-            getLog().debug("Wait for a client");
-            clientSocket = serverSocket.accept();
-            getLog().debug("Client " + clientSocket.getInetAddress() + " is connected");
-        } catch (final IOException e) {
-            getLog().warn("Timeout or Connection error.", e);
-            return;
-        }
-        final Runnable gestionClient = gestionClientBeanFactory.getClientConnection(clientSocket);
-        getLog().debug("End Client's Thread Initialization.");
-        new Thread(gestionClient).start();
-    }
+    
+    @Autowired
+    public void setClientConnectorProviders(
+			List<ClientConnectorProvider> clientConnectorProviders) {
+		this.clientConnectorProviders = clientConnectorProviders;
+	}
 
 }
