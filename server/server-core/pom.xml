@@ -224,7 +224,7 @@
 		<dependency>
 			<groupId>com.gc.irc</groupId>
 			<artifactId>server-client-connector-objectstream</artifactId>
-			<scope>runtime</scope>
+<!-- 			<scope>runtime</scope> -->
 		</dependency>
 		<dependency>
 			<groupId>com.wapmx.native</groupId>

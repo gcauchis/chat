@@ -1,4 +1,4 @@
-package com.gc.irc.server.thread.factory;
+package com.gc.irc.server.client.connector.objectstream.factory;
 
 import java.net.Socket;
 

@@ -1,4 +1,4 @@
-package com.gc.irc.server.thread.factory;
+package com.gc.irc.server.client.connector.objectstream.factory;
 
 import java.net.Socket;
 
@@ -10,12 +10,12 @@ import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.server.bridge.ServerBridgeProducer;
 import com.gc.irc.server.client.connector.ClientConnection;
 import com.gc.irc.server.client.connector.management.UsersConnectionsManagement;
+import com.gc.irc.server.client.connector.objectstream.ObjectStreamClientConnection;
 import com.gc.irc.server.core.user.management.UserManagement;
 import com.gc.irc.server.core.user.management.UserManagementAware;
 import com.gc.irc.server.core.user.management.UserPicturesManagement;
 import com.gc.irc.server.service.AuthenticationService;
 import com.gc.irc.server.service.UserPictureService;
-import com.gc.irc.server.thread.ObjectStreamClientConnection;
 
 /**
  * A factory for creating GestionClientBean objects.

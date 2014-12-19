@@ -301,8 +301,13 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
         }
 	}
 	
-	public int getId() {
-		return id;
+	/**
+	 * An identifier for the connection.
+	 * 
+	 * @return an identifier for the connection.
+	 */
+	public final String getId() {
+		return id + (user == null ? "" : user.getNickName());
 	}
 	
 	/**

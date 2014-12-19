@@ -1,5 +1,6 @@
-package com.gc.irc.server.thread;
+package com.gc.irc.server.client.connector.objectstream;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -87,6 +88,9 @@ public class ObjectStreamClientConnection extends AbstractClientConnection imple
             getLog().debug(getId() + " Wait for a message in the socket.");
             message = IOStreamUtils.receiveMessage(inObject);
             checkMessage(message);
+        } catch (final EOFException e) {
+            getLog().debug(getId() + " Stream seem to be closed by client.");
+            socketAlive();
         } catch (final ClassNotFoundException | IOException e) {
             getLog().info(getId() + " Fail to receive a message : ", e);
             socketAlive();
