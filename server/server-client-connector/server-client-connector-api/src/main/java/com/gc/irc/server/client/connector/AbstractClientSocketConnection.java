@@ -27,6 +27,12 @@ public abstract class AbstractClientSocketConnection<IN extends InputStream, OUT
 
 	/** The out object. */
 	private OUT outputStream;
+	
+	/**
+	 * Builder who initialize the TCP connection.
+	 */
+	public AbstractClientSocketConnection() {
+	}
 
 	/**
 	 * Builder who initialize the TCP connection.
@@ -39,9 +45,22 @@ public abstract class AbstractClientSocketConnection<IN extends InputStream, OUT
 	}
 
 	/**
+	 * <p>Setter for the field <code>clientSocket</code>.</p>
+	 *
+	 * @param clientSocket a {@link java.net.Socket} object.
+	 */
+	public void setClientSocket(Socket clientSocket) throws IllegalStateException {
+		if (this.clientSocket != null) {
+			throw new IllegalStateException(
+					"clientSocket already set and initialized.");
+		}
+		init(clientSocket);
+	}
+
+	/**
 	 * <p>
 	 * init.
-	 * </p>
+	 * </p>git 
 	 *
 	 * @param clientSocket
 	 *            a {@link java.net.Socket} object.

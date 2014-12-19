@@ -9,6 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.gc.irc.server.client.connector.factory.ClientSocketConnectionFactory;
 
 
+/**
+ * <p>Abstract AbstractClientSocketConnector class.</p>
+ *
+ * @author gcauchis
+ * @version 0.0.5
+ */
 public abstract class AbstractClientSocketConnector<FACT extends ClientSocketConnectionFactory> extends
 		AbstractClientConnector implements ClientSocketConnector {
 
@@ -41,12 +47,11 @@ public abstract class AbstractClientSocketConnector<FACT extends ClientSocketCon
     }
     
     /**
+     * {@inheritDoc}
+     *
      * Change the listening port
      *
      * Don't forget to use initServer() after use this method.
-     *
-     * @param port
-     *            New Listening Port.
      */
     @Override
     public void setPort(final int port) {
@@ -93,12 +98,11 @@ public abstract class AbstractClientSocketConnector<FACT extends ClientSocketCon
 
 	}
 	
-    /**
-     * Sets the gestion client bean factory.
-     *
-     * @param gestionClientBeanFactory
-     *            the new gestion client bean factory
-     */
+	/**
+	 * Sets the gestion client bean factory.
+	 *
+	 * @param clientConnectionFactory a FACT object.
+	 */
 	@Autowired
     public void setClientConnectionFactory(final FACT clientConnectionFactory) {
         this.clientConnectionFactory = clientConnectionFactory;

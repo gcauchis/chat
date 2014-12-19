@@ -5,7 +5,19 @@ import java.net.Socket;
 import com.gc.irc.common.Loggable;
 import com.gc.irc.server.client.connector.ClientConnection;
 
+/**
+ * <p>ClientSocketConnectionFactory interface.</p>
+ *
+ * @author gcauchis
+ * @version 0.0.5
+ */
 public interface ClientSocketConnectionFactory extends Loggable {
 
+	/**
+	 * <p>getClientConnection.</p>
+	 *
+	 * @param clientSocket a {@link java.net.Socket} object.
+	 * @return a {@link com.gc.irc.server.client.connector.ClientConnection} object.
+	 */
 	ClientConnection getClientConnection(final Socket clientSocket);
 }
