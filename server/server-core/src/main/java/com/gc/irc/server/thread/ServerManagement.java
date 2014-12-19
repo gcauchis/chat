@@ -3,6 +3,7 @@ package com.gc.irc.server.thread;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractRunnable;
 import com.gc.irc.common.entity.User;
@@ -22,7 +23,8 @@ import com.gc.irc.server.handler.message.ServerMessageHandler;
  * @author gcauchis
  * @version 0.0.4
  */
-public class ServeurManagement extends AbstractRunnable implements ServeurManager,UserManagementAware {
+@Component("serverManagement")
+public class ServerManagement extends AbstractRunnable implements ServerManager,UserManagementAware {
 
     /** The nb message. */
     private static Long nbMessage = 0L;
@@ -215,6 +217,7 @@ public class ServeurManagement extends AbstractRunnable implements ServeurManage
      * @param serverBridgeConsumerFactory
      *            the serverBridgeConsumerFactory to set
      */
+    @Autowired
     public void setServerBridgeConsumerFactory(final ServerBridgeConsumerFactory serverBridgeConsumerFactory) {
         this.serverBridgeConsumerFactory = serverBridgeConsumerFactory;
     }
@@ -225,6 +228,7 @@ public class ServeurManagement extends AbstractRunnable implements ServeurManage
      * @param serverMessageHandlers
      *            the new server message handlers
      */
+    @Autowired
     public void setServerMessageHandlers(final List<ServerMessageHandler> serverMessageHandlers) {
         this.serverMessageHandlers = serverMessageHandlers;
     }
@@ -235,6 +239,7 @@ public class ServeurManagement extends AbstractRunnable implements ServeurManage
      * @param usersConnectionsManagement
      *            the new users connections management
      */
+    @Autowired
     public void setUsersConnectionsManagement(final UsersConnectionsManagement usersConnectionsManagement) {
         this.usersConnectionsManagement = usersConnectionsManagement;
     }

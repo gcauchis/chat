@@ -58,10 +58,16 @@ public class ServerStarter extends AbstractLoggable implements Runnable {
         final ServerCore core = (ServerCore) context.getBean("serverCore");
         getLog().info("Init server");
         core.initServeur();
-        initialized = true;
-        getLog().info("Start Waiting for client");
-        while (true) {
-        }
-    }
+		initialized = true;
+		getLog().info("Start Waiting for client");
+		while (true)
+		{
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				getLog().error("Fail to wait", e);
+			}
+		}
+	}
 
 }

@@ -6,7 +6,7 @@ package com.gc.irc.server.thread;
  * @author gcauchis
  * @version 0.0.4
  */
-public interface ServeurManager extends Runnable {
+public interface ServerManager extends Runnable {
 
     /**
      * Close.

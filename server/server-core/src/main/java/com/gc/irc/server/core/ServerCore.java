@@ -1,8 +1,5 @@
 package com.gc.irc.server.core;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,9 +12,8 @@ import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.server.client.connector.ClientConnector;
 import com.gc.irc.server.client.connector.ClientConnectorProvider;
 import com.gc.irc.server.client.connector.management.UsersConnectionsManagement;
-import com.gc.irc.server.client.connector.objectstream.factory.ClientConnectionFactory;
-import com.gc.irc.server.thread.ServeurManager;
-import com.gc.irc.server.thread.factory.ServeurManagerFactory;
+import com.gc.irc.server.thread.ServerManager;
+import com.gc.irc.server.thread.factory.ServerManagerFactory;
 
 /**
  * Main class.
@@ -59,11 +55,11 @@ public class ServerCore extends AbstractLoggable {
     private int nbThreadServeur = 1;
 
     /** The pull thread serveur. */
-    private final List<ServeurManager> pullThreadServeur = Collections.synchronizedList(new ArrayList<ServeurManager>());
+    private final List<ServerManager> pullThreadServeur = Collections.synchronizedList(new ArrayList<ServerManager>());
 
     /** The serveur m bean factory. */
     @Autowired
-    private ServeurManagerFactory serveurMBeanFactory;
+    private ServerManagerFactory serveurMBeanFactory;
 
     /** The users connections management. */
     @Autowired
@@ -81,7 +77,7 @@ public class ServerCore extends AbstractLoggable {
      * Finalize the Server.
      */
     public void close() {
-        for (final ServeurManager thread : pullThreadServeur) {
+        for (final ServerManager thread : pullThreadServeur) {
             thread.close();
         }
 
@@ -102,7 +98,7 @@ public class ServerCore extends AbstractLoggable {
 
         for (int i = 0; i < nbThreadServeur; i++) {
             getLog().info("Build serveurMBean {}", i);
-            final ServeurManager serveurMBean = serveurMBeanFactory.getServeurManager();
+            final ServerManager serveurMBean = serveurMBeanFactory.getServeurManager();
             new Thread(serveurMBean).start();
             pullThreadServeur.add(serveurMBean);
         }
@@ -125,7 +121,7 @@ public class ServerCore extends AbstractLoggable {
      * @param serveurMBeanFactory
      *            the new serveur m bean factory
      */
-    public void setServeurMBeanFactory(final ServeurManagerFactory serveurMBeanFactory) {
+    public void setServeurMBeanFactory(final ServerManagerFactory serveurMBeanFactory) {
         this.serveurMBeanFactory = serveurMBeanFactory;
     }
 

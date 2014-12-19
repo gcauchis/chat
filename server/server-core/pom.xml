@@ -199,6 +199,7 @@
 	</profiles>
 
 	<dependencies>
+<!-- 	INTERNAL -->
 		<dependency>
 			<groupId>com.gc.irc</groupId>
 			<artifactId>server-service-api</artifactId>
@@ -221,11 +222,13 @@
 			<groupId>com.gc.irc</groupId>
 			<artifactId>server-client-connector-api</artifactId>
 		</dependency>
+<!-- 		CONNECTORS -->
 		<dependency>
 			<groupId>com.gc.irc</groupId>
 			<artifactId>server-client-connector-objectstream</artifactId>
-<!-- 			<scope>runtime</scope> -->
+			<scope>runtime</scope>
 		</dependency>
+<!-- 		EXTENAL -->
 		<dependency>
 			<groupId>com.wapmx.native</groupId>
 			<artifactId>mx-native-loader</artifactId>
