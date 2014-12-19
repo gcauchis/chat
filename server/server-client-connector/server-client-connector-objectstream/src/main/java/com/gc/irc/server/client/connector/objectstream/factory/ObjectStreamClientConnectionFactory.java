@@ -14,7 +14,7 @@ import com.gc.irc.server.client.connector.objectstream.ObjectStreamClientConnect
  * @author gcauchis
  * @version 0.0.4
  */
-@Component("gestionClientBeanObjectStreamFactory")
+@Component("objectStreamClientConnectionFactory")
 @Scope("singleton")
 public class ObjectStreamClientConnectionFactory extends AbstractClientSocketConnectionFactory<ObjectStreamClientConnection> {
 

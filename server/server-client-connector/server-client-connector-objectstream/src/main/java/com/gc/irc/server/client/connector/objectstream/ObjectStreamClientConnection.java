@@ -7,8 +7,6 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import org.springframework.stereotype.Component;
-
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.common.utils.IOStreamUtils;
 import com.gc.irc.server.client.connector.AbstractClientSocketConnection;
