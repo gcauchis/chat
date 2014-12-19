@@ -13,6 +13,7 @@
 	<modules>
 		<module>server-client-connector-api</module>
 		<module>server-client-connector-objectstream</module>
+		<module>server-client-connector-irc</module>
 	</modules>
 
 </project>

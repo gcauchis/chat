@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.server.bridge.ServerBridgeProducer;
 import com.gc.irc.server.client.connector.ClientConnection;
+import com.gc.irc.server.client.connector.factory.ClientSocketConnectionFactory;
 import com.gc.irc.server.client.connector.management.UsersConnectionsManagement;
 import com.gc.irc.server.client.connector.objectstream.ObjectStreamClientConnection;
 import com.gc.irc.server.core.user.management.UserManagement;
@@ -25,7 +26,7 @@ import com.gc.irc.server.service.UserPictureService;
  */
 @Component("gestionClientBeanObjectStreamFactory")
 @Scope("singleton")
-public class ObjectStreamClientConnectionFactory extends AbstractLoggable implements ClientConnectionFactory, UserManagementAware {
+public class ObjectStreamClientConnectionFactory extends AbstractLoggable implements ClientSocketConnectionFactory, UserManagementAware {
 
     /** The authentication service. */
     @Autowired
@@ -59,14 +60,14 @@ public class ObjectStreamClientConnectionFactory extends AbstractLoggable implem
     /** {@inheritDoc} */
     @Override
     public ClientConnection getClientConnection(final Socket clientSocket) {
-        final ObjectStreamClientConnection gestionClientBean = new ObjectStreamClientConnection(clientSocket);
-        gestionClientBean.setUsersConnectionsManagement(usersConnectionsManagement);
-        gestionClientBean.setServerBridgeProducer(serverBridgeProducer);
-        gestionClientBean.setAuthenticationService(authenticationService);
-        gestionClientBean.setUserPictureService(userPictureService);
-        gestionClientBean.setUserManagement(userManagement);
-        gestionClientBean.setUserPicturesManagement(userPicturesManagement);
-        return gestionClientBean;
+        final ObjectStreamClientConnection clientConnection = new ObjectStreamClientConnection(clientSocket);
+        clientConnection.setUsersConnectionsManagement(usersConnectionsManagement);
+        clientConnection.setServerBridgeProducer(serverBridgeProducer);
+        clientConnection.setAuthenticationService(authenticationService);
+        clientConnection.setUserPictureService(userPictureService);
+        clientConnection.setUserManagement(userManagement);
+        clientConnection.setUserPicturesManagement(userPicturesManagement);
+        return clientConnection;
     }
 
     /**

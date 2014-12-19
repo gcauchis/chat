@@ -422,6 +422,14 @@ public final class ReflectionEncoderImpl implements ReflectionEncoder {
      *            the classes tab
      * @param classesTab
      *            the classes tab
+     * @param classesTab
+     *            the classes tab
+     * @param classesTab
+     *            the classes tab
+     * @param classesTab
+     *            the classes tab
+     * @param classesTab
+     *            the classes tab
      * @param classes
      *            the classes
      * @return a boolean.

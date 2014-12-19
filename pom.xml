@@ -224,6 +224,11 @@
 				<version>1.6</version>
 			</dependency>
 			<dependency>
+			    <groupId>commons-io</groupId>
+			    <artifactId>commons-io</artifactId>
+			    <version>2.4</version>
+			</dependency>
+			<dependency>
 				<groupId>com.wapmx.native</groupId>
 				<artifactId>mx-native-loader</artifactId>
 				<version>1.8</version>
