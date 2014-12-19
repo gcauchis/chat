@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gc.irc</groupId>
 	<artifactId>irc</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.5</version>
 	<packaging>pom</packaging>
 	<name>irc</name>
 	<description>A chat application</description>

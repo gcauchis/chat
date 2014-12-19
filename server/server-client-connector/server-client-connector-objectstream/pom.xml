@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.gc.irc</groupId>
 		<artifactId>server-client-connector</artifactId>
-		<version>0.0.4-SNAPSHOT</version>
+		<version>0.0.5</version>
 	</parent>
 	<artifactId>server-client-connector-objectstream</artifactId>
 
