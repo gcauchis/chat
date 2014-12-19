@@ -96,7 +96,7 @@ public class ServerCore extends AbstractLoggable {
 				clientConnectorProviders.size() + " Providers of connector");
 		for (ClientConnectorProvider provider : clientConnectorProviders) {
 			for (ClientConnector connector : provider.getClientConnectors()) {
-				new Thread(connector).run();
+				new Thread(connector).start();
 			}
 		}
 
