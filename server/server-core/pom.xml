@@ -220,17 +220,17 @@
 		</dependency>
 		<dependency>
 			<groupId>com.gc.irc</groupId>
-			<artifactId>server-client-connector-api</artifactId>
+			<artifactId>server-connector-api</artifactId>
 		</dependency>
 <!-- 		CONNECTORS -->
 		<dependency>
 			<groupId>com.gc.irc</groupId>
-			<artifactId>server-client-connector-objectstream</artifactId>
+			<artifactId>server-connector-objectstream</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.gc.irc</groupId>
-			<artifactId>server-client-connector-irc</artifactId>
+			<artifactId>server-connector-irc</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 <!-- 		EXTENAL -->

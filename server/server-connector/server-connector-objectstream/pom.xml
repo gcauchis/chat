@@ -3,15 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.gc.irc</groupId>
-		<artifactId>server-client-connector</artifactId>
+		<artifactId>server-connector</artifactId>
 		<version>0.0.5</version>
 	</parent>
-	<artifactId>server-client-connector-objectstream</artifactId>
+	<artifactId>server-connector-objectstream</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.gc.irc</groupId>
-			<artifactId>server-client-connector-api</artifactId>
+			<artifactId>server-connector-api</artifactId>
 		</dependency>
 	</dependencies>
 </project>

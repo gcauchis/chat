@@ -40,7 +40,8 @@
 	</modules>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+		
 		<irc.version>${project.version}</irc.version>
 		<spring.version>4.1.3.RELEASE</spring.version>
 		<slf4j.version>1.7.7</slf4j.version>
@@ -140,17 +141,17 @@
 			</dependency>
 			<dependency>
 				<groupId>com.gc.irc</groupId>
-				<artifactId>server-client-connector-api</artifactId>
+				<artifactId>server-connector-api</artifactId>
 				<version>${irc.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.gc.irc</groupId>
-				<artifactId>server-client-connector-objectstream</artifactId>
+				<artifactId>server-connector-objectstream</artifactId>
 				<version>${irc.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.gc.irc</groupId>
-				<artifactId>server-client-connector-irc</artifactId>
+				<artifactId>server-connector-irc</artifactId>
 				<version>${irc.version}</version>
 			</dependency>
 			<dependency>

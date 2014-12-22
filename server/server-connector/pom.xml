@@ -6,14 +6,14 @@
 		<version>0.0.5</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>server-client-connector</artifactId>
-	<name>server-client-connector</name>
+	<artifactId>server-connector</artifactId>
+	<name>server-connector</name>
 	<packaging>pom</packaging>
 	
 	<modules>
-		<module>server-client-connector-api</module>
-		<module>server-client-connector-objectstream</module>
-		<module>server-client-connector-irc</module>
+		<module>server-connector-api</module>
+		<module>server-connector-objectstream</module>
+		<module>server-connector-irc</module>
 	</modules>
 
 </project>

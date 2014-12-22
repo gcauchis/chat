@@ -18,7 +18,7 @@
 		<module>server-service</module>
 		<module>server-model</module>
 		<module>server-bridge</module>
-		<module>server-client-connector</module>
+		<module>server-connector</module>
 	</modules>
 
 	<dependencies>

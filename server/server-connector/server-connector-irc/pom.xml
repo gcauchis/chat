@@ -3,16 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.gc.irc</groupId>
-		<artifactId>server-client-connector</artifactId>
+		<artifactId>server-connector</artifactId>
 		<version>0.0.5</version>
 	</parent>
-	<artifactId>server-client-connector-irc</artifactId>
+	<artifactId>server-connector-irc</artifactId>
 	<description>6667</description>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.gc.irc</groupId>
-			<artifactId>server-client-connector-api</artifactId>
+			<artifactId>server-connector-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
