@@ -9,7 +9,6 @@ public class WebSocketClientConnection extends AbstractClientConnection implemen
 	@Override
 	public void send(Message message) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -21,7 +20,6 @@ public class WebSocketClientConnection extends AbstractClientConnection implemen
 	@Override
 	protected void disconnect() {
 		// TODO Auto-generated method stub
-		
 	}
 
 
