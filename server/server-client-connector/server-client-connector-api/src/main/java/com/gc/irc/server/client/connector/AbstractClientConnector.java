@@ -1,6 +1,5 @@
 package com.gc.irc.server.client.connector;
 
-import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.common.AbstractRunnable;
 
 /**
