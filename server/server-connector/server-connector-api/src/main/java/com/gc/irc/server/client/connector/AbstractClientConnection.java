@@ -1,5 +1,7 @@
 package com.gc.irc.server.client.connector;
 
+import java.util.concurrent.CountDownLatch;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gc.irc.common.AbstractRunnable;
@@ -39,6 +41,8 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
 	/** The nb thread. */
     private static int nbThread = 0;
     
+    private static final int MAX_INVALID_MESSAGE = 10;
+    
     /**
      * Gets the nb thread.
      *
@@ -76,6 +80,10 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
     /** The user. */
     private User user;
     
+    private int cptInvalidMessage = 0;
+    
+    private final CountDownLatch initLatch = new CountDownLatch(1);
+    
     /*
      * (non-Javadoc)
      * 
@@ -85,6 +93,12 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
     @Override
     public void run() {
         getLog().info(getId() + " Start Thread.");
+        try {
+			initLatch.await();
+		} catch (InterruptedException e) {
+			getLog().error(getId() + " fail to wait init", e);
+		}
+        getLog().info(getId() + " End init.");
 
         try {
             authenticateProtocol();
@@ -316,7 +330,7 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
 	 * @return an identifier for the connection.
 	 */
 	public final String getId() {
-		return id + (user == null ? "" : user.getNickName());
+		return id +":"+getClass().getSimpleName() + (user == null ? "" : ":"+user.getNickName());
 	}
 	
     /**
@@ -325,10 +339,22 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
      * @param message
      *            the message
      */
-    protected void checkMessage(final Message message) {
+    protected final void checkMessage(final Message message) {
         if (user != null && message != null && user.getId() != message.getFromId()) {
             throw new InvalidSenderException("Message from " + message.getFromId() + " instead of " + user.getId());
         }
+        if (message == null) {
+        	cptInvalidMessage++;
+        	if (cptInvalidMessage <= MAX_INVALID_MESSAGE) {
+        		disconnect();
+        	}
+        } else {
+        	cptInvalidMessage = 0;
+        }
+    }
+    
+    protected final void endInit() {
+    	initLatch.countDown();
     }
     
     /**

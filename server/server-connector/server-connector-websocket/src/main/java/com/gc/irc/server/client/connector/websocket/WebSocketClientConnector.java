@@ -18,8 +18,8 @@ import com.gc.irc.server.client.connector.ClientConnector;
  * @see http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html
  *
  */
-@Configuration
-@EnableWebSocket
+//@Configuration
+//@EnableWebSocket
 public class WebSocketClientConnector extends AbstractClientConnector implements ClientConnector, WebSocketConfigurer, WebSocketHandler {
 
 	@Override

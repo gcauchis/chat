@@ -62,7 +62,7 @@ public abstract class AbstractClientSocketConnector<FACT extends ClientSocketCon
 	/** {@inheritDoc} */
 	@Override
 	public void initConnector() {
-		getLog().info("Initialise server.");
+		getLog().info(getClass().getSimpleName() + ": Initialise server.");
         if (port < 0) {
             throw new IllegalArgumentException("Port should be set");
         }
@@ -73,10 +73,10 @@ public abstract class AbstractClientSocketConnector<FACT extends ClientSocketCon
         try {
             serverSocket = new ServerSocket(port);
         } catch (final IOException e) {
-            getLog().error("Impossible to open the socket.", e);
+            getLog().error(getClass().getSimpleName() + ": Impossible to open the socket.", e);
             System.exit(-1);
         }
-        getLog().info("Connector initializes. Listening port " + port);
+        getLog().info(getClass().getSimpleName() + ": Connector initializes. Listening port " + port);
 
 	}
 
@@ -85,15 +85,15 @@ public abstract class AbstractClientSocketConnector<FACT extends ClientSocketCon
 	public void waitClient() {
 		Socket clientSocket = null;
         try {
-            getLog().debug("Wait for a client");
+            getLog().info(getClass().getSimpleName() + ": Wait for a client");
             clientSocket = serverSocket.accept();
-            getLog().debug("Client " + clientSocket.getInetAddress() + " is connected");
+            getLog().info(getClass().getSimpleName() + ": Client " + clientSocket.getInetAddress() + " is connected");
         } catch (final IOException e) {
-            getLog().warn("Timeout or Connection error.", e);
+            getLog().warn(getClass().getSimpleName() + ": Timeout or Connection error.", e);
             return;
         }
         final Runnable gestionClient = clientConnectionFactory.getClientConnection(clientSocket);
-        getLog().debug("End Client's Thread Initialization.");
+        getLog().debug(getClass().getSimpleName() + ": End Client's Thread Initialization.");
         new Thread(gestionClient).start();
 
 	}

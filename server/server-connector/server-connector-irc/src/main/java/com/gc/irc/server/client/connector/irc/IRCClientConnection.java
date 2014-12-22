@@ -1,15 +1,11 @@
 package com.gc.irc.server.client.connector.irc;
 
-import java.util.List;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.nio.charset.Charset;
-
-import org.apache.commons.io.IOUtils;
 
 import com.gc.irc.common.protocol.Message;
 import com.gc.irc.server.client.connector.AbstractClientSocketConnection;
@@ -21,7 +17,9 @@ import com.gc.irc.server.client.connector.AbstractClientSocketConnection;
  * @version 0.0.5
  */
 public class IRCClientConnection extends
-		AbstractClientSocketConnection<BufferedInputStream, BufferedOutputStream> {
+		AbstractClientSocketConnection<InputStream, OutputStream> {
+	
+	private BufferedReader bufferedReader;
 
 	/**
 	 * <p>Constructor for IRCClientConnection.</p>
@@ -34,30 +32,37 @@ public class IRCClientConnection extends
 
 	/** {@inheritDoc} */
 	@Override
-	protected BufferedInputStream build(InputStream inputStream)
+	protected InputStream build(InputStream inputStream)
 			throws IOException {
-		return new BufferedInputStream(inputStream);
+		bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+		return inputStream;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	protected BufferedOutputStream build(OutputStream outputStream)
+	protected OutputStream build(OutputStream outputStream)
 			throws IOException {
-		return new BufferedOutputStream(outputStream);
+		return outputStream;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	protected Message receiveMessage(BufferedInputStream inputStream)
+	protected Message receiveMessage(InputStream inputStream)
 			throws ClassNotFoundException, IOException {
-		List<String> lines = IOUtils.readLines(inputStream, Charset.defaultCharset());
-		getLog().info("lines: "+ lines);
+		getLog().debug(getId()+ " waiting message");
+		String line = bufferedReader.readLine();
+		Message message = parseLine(line);
+		return message;
+	}
+
+	private Message parseLine(String line) {
+		getLog().info("lines: "+ line);
 		return null;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	protected void send(BufferedOutputStream outputStream, Message message)
+	protected void send(OutputStream outputStream, Message message)
 			throws IOException {
 		getLog().info("send not yet implementted");
 		

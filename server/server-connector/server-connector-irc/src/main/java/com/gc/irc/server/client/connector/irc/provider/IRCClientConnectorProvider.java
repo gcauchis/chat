@@ -15,7 +15,7 @@ import com.gc.irc.server.client.connector.ClientSocketConnector;
 import com.gc.irc.server.client.connector.irc.IRCClientConnector;
 import com.gc.irc.server.client.connector.provider.ClientConnectorProvider;
 
-//@Component("ircClientConnectorProvider") Disable connector irc for now
+@Component("ircClientConnectorProvider")
 public class IRCClientConnectorProvider extends AbstractLoggable implements
 		ClientConnectorProvider, ApplicationContextAware {
 

@@ -81,6 +81,7 @@ public abstract class AbstractClientSocketConnection<IN extends InputStream, OUT
 							+ clientSocket.getInetAddress() + " : ", e);
 		}
 		getLog().debug(getId() + " end init");
+		endInit();
 	}
 
 	/** {@inheritDoc} */
