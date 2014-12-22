@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import com.gc.irc.common.AbstractLoggable;
 import com.gc.irc.server.client.connector.ClientConnector;
-import com.gc.irc.server.client.connector.ClientConnectorProvider;
 import com.gc.irc.server.client.connector.management.UsersConnectionsManagement;
+import com.gc.irc.server.client.connector.provider.ClientConnectorProvider;
 import com.gc.irc.server.thread.ServerManager;
 import com.gc.irc.server.thread.factory.ServerManagerFactory;
 

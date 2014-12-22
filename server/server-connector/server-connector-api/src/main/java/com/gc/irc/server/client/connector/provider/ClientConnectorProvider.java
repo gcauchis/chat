@@ -1,6 +1,8 @@
-package com.gc.irc.server.client.connector;
+package com.gc.irc.server.client.connector.provider;
 
 import java.util.List;
+
+import com.gc.irc.server.client.connector.ClientConnector;
 
 /**
  * The Interface ClientConnectorProvider.
