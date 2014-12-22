@@ -14,6 +14,7 @@
 		<module>server-connector-api</module>
 		<module>server-connector-objectstream</module>
 		<module>server-connector-irc</module>
+		<module>server-connector-websocket</module>
 	</modules>
 
 </project>

@@ -233,6 +233,11 @@
 			<artifactId>server-connector-irc</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.gc.irc</groupId>
+			<artifactId>server-connector-websocket</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 <!-- 		EXTENAL -->
 		<dependency>
 			<groupId>com.wapmx.native</groupId>
