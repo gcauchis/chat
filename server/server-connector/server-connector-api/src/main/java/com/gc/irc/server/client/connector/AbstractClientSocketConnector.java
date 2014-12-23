@@ -92,9 +92,9 @@ public abstract class AbstractClientSocketConnector<FACT extends ClientSocketCon
             getLog().warn(getClass().getSimpleName() + ": Timeout or Connection error.", e);
             return;
         }
-        final Runnable gestionClient = clientConnectionFactory.getClientConnection(clientSocket);
+        final ClientConnection gestionClient = clientConnectionFactory.getClientConnection(clientSocket);
         getLog().debug(getClass().getSimpleName() + ": End Client's Thread Initialization.");
-        new Thread(gestionClient).start();
+        new Thread(gestionClient, gestionClient.getId()).start();
 
 	}
 	

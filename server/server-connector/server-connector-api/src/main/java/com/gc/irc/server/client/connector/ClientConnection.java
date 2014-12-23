@@ -12,6 +12,13 @@ import com.gc.irc.common.protocol.Message;
  */
 public interface ClientConnection extends Runnable, MessageSender {
 
+	/**
+	 * An identifier for the connection.
+	 *
+	 * @return an identifier for the connection.
+	 */
+	String getId();
+	
     /**
      * Finalize Thread.
      *

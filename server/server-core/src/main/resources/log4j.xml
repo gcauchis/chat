@@ -3,18 +3,18 @@
 <log4j:configuration>
 	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-			<!-- <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %5p [%t] %c - %m%n" /> -->
+			<!-- <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %4p [%t] %c - %m%n" /> -->
 			<!-- good for information but bad for performance : -->
 			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %5p [%t] %c.%M (%F:%L) - %m%n" />
 		</layout>
 	</appender>
 	
-	<logger name="com.gc.irc.server.bridge.direct">
-		<level value="debug" />
-	</logger
+<!-- 	<logger name="com.gc.irc.server.bridge.direct"> -->
+<!-- 		<level value="debug" /> -->
+<!-- 	</logger> -->
 	
 	<root>
-		<priority value="warn" />
+		<priority value="info" />
 		<appender-ref ref="stdout" />
 	</root>
 </log4j:configuration>
