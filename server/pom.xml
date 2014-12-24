@@ -19,6 +19,7 @@
 		<module>server-model</module>
 		<module>server-bridge</module>
 		<module>server-connector</module>
+		<module>server-test</module>
 	</modules>
 
 	<dependencies>

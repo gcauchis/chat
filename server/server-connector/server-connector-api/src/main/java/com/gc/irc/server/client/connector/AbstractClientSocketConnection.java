@@ -79,6 +79,7 @@ public abstract class AbstractClientSocketConnection<IN extends InputStream, OUT
 			getLog().warn(
 					getId() + " Fail to open Client's Steams to "
 							+ clientSocket.getInetAddress() + " : ", e);
+			disconnect();
 		}
 		getLog().debug(getId() + " end init");
 		endInit();
@@ -94,11 +95,11 @@ public abstract class AbstractClientSocketConnection<IN extends InputStream, OUT
 			getLog().info(
 					getId() + " Closing Client's connection "
 							+ clientSocket.getInetAddress() + ".");
-			if (!clientSocket.isInputShutdown()) {
+			if (!clientSocket.isInputShutdown() && inputStream != null) {
 				getLog().debug(getId() + " Closing inObject");
 				inputStream.close();
 			}
-			if (!clientSocket.isOutputShutdown()) {
+			if (!clientSocket.isOutputShutdown() && outputStream != null) {
 				getLog().debug(getId() + " Closing outObject");
 				outputStream.close();
 			}

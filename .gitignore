@@ -7,4 +7,6 @@ activemq-data/
 mvn.log
 *.swp
 server/server-core/data/
+server/server-test/data/
+nb-configuration.xml
 
