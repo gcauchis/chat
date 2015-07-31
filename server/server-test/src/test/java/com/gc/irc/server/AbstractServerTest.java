@@ -31,7 +31,7 @@ import com.gc.irc.server.test.utils.entity.UserContextEntity;
  * @version 0.0.4
  * @since 0.0.4
  */
-public abstract class AbstractServerTest /* extends UnitilsJUnit4 */implements Loggable {
+public abstract class AbstractServerTest implements Loggable {
 
     /** The Constant LOGGER. */
     private static final Logger LOGGER = LoggerUtils.getLogger(AbstractServerTest.class);

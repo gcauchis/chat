@@ -8,6 +8,10 @@
 	<artifactId>server-bridge-impl-jms</artifactId>
 	<name>server-bridge-impl-jms</name>
 	
+	<properties>
+		<activemq.version>5.11.1</activemq.version>
+	</properties>
+	
 	<dependencies>
         <dependency>
             <groupId>com.gc.irc</groupId>

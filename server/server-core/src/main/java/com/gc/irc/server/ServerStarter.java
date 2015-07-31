@@ -25,7 +25,14 @@ public class ServerStarter extends AbstractLoggable implements Runnable {
         starter.startAndWaitForClient();
     }
 
-    /** The initialized. */
+    /**
+     * Instantiates a new server starter.
+     */
+    public ServerStarter() {
+		super();
+	}
+
+	/** The initialized. */
     private boolean initialized = false;
 
     /**

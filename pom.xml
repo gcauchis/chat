@@ -29,9 +29,9 @@
 		<url>https://github.com/gcauchis/irc.git</url>
 	</scm>
 
-	<!-- <prerequisites> -->
-	<!-- <maven>3.0.4</maven> -->
-	<!-- </prerequisites> -->
+<!-- 	<prerequisites> -->
+<!-- 	<maven>3.3.3</maven> -->
+<!-- 	</prerequisites> -->
 
 	<modules>
 		<module>common</module>
@@ -43,9 +43,8 @@
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 		
 		<irc.version>${project.version}</irc.version>
-		<spring.version>4.1.3.RELEASE</spring.version>
-		<slf4j.version>1.7.7</slf4j.version>
-		<activemq.version>5.7.0</activemq.version>
+		<spring.version>4.2.0.RELEASE</spring.version>
+		<slf4j.version>1.7.12</slf4j.version>
 		<easymock.version>3.2</easymock.version>
 
 		<java.build.version>1.7</java.build.version>
@@ -67,7 +66,6 @@
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.12</version>
-				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -87,7 +85,7 @@
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
-				<version>3.3.2</version>
+				<version>3.4</version>
 			</dependency>
 			<dependency>
 				<groupId>com.gc.irc</groupId>
@@ -227,7 +225,7 @@
 			<dependency>
 				<groupId>org.apache.xbean</groupId>
 				<artifactId>xbean-spring</artifactId>
-				<version>4.1</version>
+				<version>4.3</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-codec</groupId>
@@ -237,7 +235,7 @@
 			<dependency>
 				<groupId>javax.mail</groupId>
 				<artifactId>mail</artifactId>
-				<version>1.4.7</version>
+				<version>1.5.0-b01</version>
 			</dependency>
 			<dependency>
 				<groupId>bouncycastle</groupId>
@@ -408,12 +406,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9</version>
+				<version>2.9.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>2.7.1</version>
+				<version>3.0.1</version>
 				<configuration>
 					<targetJdk>${java.build.version}</targetJdk>
 				</configuration>
@@ -421,17 +419,17 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.9.1</version>
+				<version>2.11</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>2.5.2</version>
+				<version>2.5.3</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.5.2</version>
+				<version>2.6</version>
 				<configuration>
 					<check>
 						<haltOnFailure>false</haltOnFailure>
@@ -441,7 +439,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>versions-maven-plugin</artifactId>
-				<version>2.0</version>
+				<version>2.1</version>
 				<reportSets>
 					<reportSet>
 						<reports>
@@ -455,7 +453,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.13</version>
+				<version>2.16</version>
 			</plugin>
 		</plugins>
 	</reporting>

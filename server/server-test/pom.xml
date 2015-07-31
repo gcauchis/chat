@@ -10,26 +10,39 @@
 	<artifactId>server-test</artifactId>
 	<name>server-test</name>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+<!-- 					<reuseForks>true</reuseForks> -->
+<!-- 					<forkCount>1</forkCount> -->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymockclassextension</artifactId>
-			<scope>compile</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>junit</groupId> -->
+<!-- 			<artifactId>junit</artifactId> -->
+<!-- 			<scope>compile</scope> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.easymock</groupId> -->
+<!-- 			<artifactId>easymock</artifactId> -->
+<!-- 			<scope>compile</scope> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.easymock</groupId> -->
+<!-- 			<artifactId>easymockclassextension</artifactId> -->
+<!-- 			<scope>compile</scope> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>com.gc.irc</groupId>
 			<artifactId>server-core</artifactId>
-			<scope>compile</scope>
+			<scope>test</scope>
 			<exclusions>
 				<exclusion>
 					<artifactId>server-connector-websocket</artifactId>
