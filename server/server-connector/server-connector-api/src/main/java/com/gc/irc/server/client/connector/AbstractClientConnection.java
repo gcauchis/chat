@@ -106,20 +106,18 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
             getLog().warn(getId() + " Fail to autentificate the Client : ", e);
         }
 
-        Message messageClient;
         while (isIdentify) {
             /**
              * Wait for a Message
              */
-            messageClient = null;
-            messageClient = receiveMessage();
+            Message messageClient = receiveMessage();
             if (messageClient == null) {
                 getLog().info(getId() + " Empty message. Closing Connection.");
                 break;
             }
 
             /**
-             * Post Message in JMS
+             * Post Message bridge
              */
             post(messageClient);
 
@@ -182,28 +180,27 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
      */
     private void authenticateProtocol() throws ServerException {
         getLog().debug("Start Login protocol");
-        //TODO GCS: Search Welcome message
-        Message messageInit = new MessageNoticeServerMessage("Welcome");
         /**
          * Send welcome message
          */
         getLog().debug("Send Welcome Message.");
-        send(messageInit);
+        //TODO GCS: Search Welcome message
+        send(new MessageNoticeServerMessage("Welcome"));
 
         boolean isLogin = false;
         while (!isLogin) {
             /**
              * Wait for login/Registration Message
              */
-                getLog().debug("Wait for login/Registration Message");
-                messageInit = receiveMessage();
+            getLog().debug("Wait for login/Registration Message");
+            final Message message = receiveMessage();
 
             /**
              * Answer to the client
              */
-            getLog().debug("message : " + messageInit);
-            if (messageInit instanceof MessageCommand) {
-                final MessageCommand messagecmd = (MessageCommand) messageInit;
+            getLog().debug("message : " + message);
+            if (message instanceof MessageCommand) {
+                final MessageCommand messagecmd = (MessageCommand) message;
 
                 boolean registration = false;
 
@@ -227,14 +224,12 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
                      * User accepted
                      */
                     getLog().debug("User " + user.getNickName() + " just loggin");
-                    if (registration) {
-                        messageInit = new MessageNoticeRegister(user);
-                    } else {
-                        messageInit = new MessageNoticeLogin(user);
-                    }
-
                     getLog().debug("Send notice Login");
-                    send(messageInit);
+                    if (registration) {
+                    	send(new MessageNoticeRegister(user));
+                    } else {
+                    	send(new MessageNoticeLogin(user));
+                    }
 
                     /**
                      * init env
@@ -245,16 +240,13 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
                     /**
                      * Inform connected Users
                      */
-                    messageInit = new MessageNoticeContactInfo(user);
                     getLog().debug("Send notice ContactInfo");
-                    post(messageInit);
+                    post(new MessageNoticeContactInfo(user));
 
                     /**
                      * Send list connected users.
                      */
-                    messageInit = new MessageNoticeContactsList(userManagement.getAllUsers());
-
-                    send(messageInit);
+                    send(new MessageNoticeContactsList(userManagement.getAllUsers()));
 
                     /**
                      * Send user's pictur to all others Users
@@ -276,12 +268,14 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
                      * Fail to login
                      */
                     if (registration) {
-                        messageInit = new MessageNoticeRegister(null);
+                    	send(new MessageNoticeRegister(null));
                     } else {
-                        messageInit = new MessageNoticeLogin(null);
+                    	send(new MessageNoticeLogin(null));
                     }
-                    send(messageInit);
                 }
+            } else if (message != null){
+            	getLog().info("Client must ask for authentication to continue. Message: " + message);
+            	send(new MessageNoticeServerMessage("Please authenticate first (anonymous not yet implemented) !"));
             }
         }
         getLog().debug("End protocole.");
