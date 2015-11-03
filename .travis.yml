@@ -5,3 +5,8 @@ jdk:
   - oraclejdk8
   - oraclejdk7
   - openjdk7
+  
+# whitelist
+branches:
+  only:
+    - master
