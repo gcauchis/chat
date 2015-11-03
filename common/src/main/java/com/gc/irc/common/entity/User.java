@@ -10,7 +10,7 @@ import com.gc.irc.common.AbstractLoggable;
  * @author gcauchis
  * @version 0.0.4
  */
-public class User extends AbstractLoggable implements Serializable {
+public class User extends AbstractLoggable implements Serializable, Cloneable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -7180427709043943598L;
@@ -57,13 +57,12 @@ public class User extends AbstractLoggable implements Serializable {
         hasPictur = hasPicture;
     }
 
-    /**
-     * Get a copy of the user.
-     *
-     * @return A copy.
+    /* (non-Javadoc)
+     * @see java.lang.Object#clone()
      */
-    public User getCopy() {
-        getLog().debug("build copy");
+    @Override
+    public User clone() {
+    	getLog().debug("build copy");
         final User userCopy = new User(id, nickName, hasPictur);
         userCopy.setUserStatus(userStatus);
         return userCopy;

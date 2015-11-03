@@ -79,7 +79,7 @@ public abstract class AbstractClientSocketConnection<IN extends InputStream, OUT
 			getLog().warn(
 					getId() + " Fail to open Client's Steams to "
 							+ clientSocket.getInetAddress() + " : ", e);
-			disconnect();
+			closeConnection();
 		}
 		getLog().debug(getId() + " end init");
 		endInit();
@@ -87,7 +87,7 @@ public abstract class AbstractClientSocketConnection<IN extends InputStream, OUT
 
 	/** {@inheritDoc} */
 	@Override
-	protected void disconnect() {
+	protected void closeConnection() {
 		/**
 		 * Closing Socket.
 		 */

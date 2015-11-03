@@ -38,7 +38,14 @@ public class AuthenticationService extends AbstractLoggable implements com.gc.ir
      * Read the Users data.
      */
     private AuthenticationService() {
-        getLog().debug("Read the Users data.");
+        loadUsers();
+    }
+
+	/**
+	 * Load users.
+	 */
+	private void loadUsers() {
+		getLog().debug("Read the Users data.");
         try {
             final UserInformationScanner informationScanner = new UserInformationScanner(pathFichier);
             setLastId(informationScanner.getLastId());
@@ -54,8 +61,7 @@ public class AuthenticationService extends AbstractLoggable implements com.gc.ir
         if (users == null) {
         	users = new HashMap<Long, UserInformations>();
         }
-
-    }
+	}
 
     /*
      * (non-Javadoc)
@@ -219,6 +225,14 @@ public class AuthenticationService extends AbstractLoggable implements com.gc.ir
 	public void delete(long id) {
 		users.remove(id);
 		saveModification();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.gc.irc.server.service.AuthenticationService#buildAnonymousId()
+	 */
+	@Override
+	public long buildAnonymousId() {
+		return getNewId();
 	}
 
 }

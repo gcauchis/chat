@@ -263,7 +263,8 @@ public abstract class AbstractNUsersBasicTest extends AbstractMultipleUserTest {
             UserContextEntity context = getConnectedUser("User" + i + "Login" + testId, "User" + i + "Password" + testId);
             getLog().info("Wait for contact info");
             int cptWait = 0;
-            while (i != contactInfoMessageHandler.getNbContactInfoReceived()) {
+            //TODO: manage retreive contact infos...
+            while (i * 2 != contactInfoMessageHandler.getNbContactInfoReceived() /*&& ++cptWait < 15*/) {
                 Thread.sleep(1000);
                 getLog().info(i + " => " + contactInfoMessageHandler.getNbContactInfoReceived());
                 assertTrue("Too much time waiting to inform other users", ++cptWait < 15);

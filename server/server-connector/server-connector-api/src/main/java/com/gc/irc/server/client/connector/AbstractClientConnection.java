@@ -5,6 +5,7 @@ import java.util.concurrent.CountDownLatch;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gc.irc.common.AbstractRunnable;
+import com.gc.irc.common.entity.AnonymousUser;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.entity.UserStatus;
 import com.gc.irc.common.exception.security.InvalidSenderException;
@@ -74,8 +75,8 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
     /** The id. */
     private final int id = getNbThread();
     
-    /** The is identify. */
-    private boolean isIdentify = false;
+    /** The is connected. */
+    private boolean isConnected = true;
     
     /** The user. */
     private User user;
@@ -84,7 +85,7 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
     
     private final CountDownLatch initLatch = new CountDownLatch(1);
     
-    /*
+	/*
      * (non-Javadoc)
      * 
      * @see java.lang.Thread#run()
@@ -99,14 +100,10 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
 			getLog().error(getId() + " fail to wait init", e);
 		}
         getLog().info(getId() + " End init.");
+        
+        startLink();
 
-        try {
-            authenticateProtocol();
-        } catch (final ServerException e) {
-            getLog().warn(getId() + " Fail to autentificate the Client : ", e);
-        }
-
-        while (isIdentify) {
+        while (isConnected) {
             /**
              * Wait for a Message
              */
@@ -115,15 +112,49 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
                 getLog().info(getId() + " Empty message. Closing Connection.");
                 break;
             }
-
-            /**
-             * Post Message bridge
-             */
-            post(messageClient);
+            
+			if (!(!isAuthenticate() && isAuthenticationMessage(messageClient))) {
+				// Post Message bridge
+				post(messageClient);
+			} else {
+				try {
+					authenticateProtocol(messageClient);
+		        } catch (final ServerException e) {
+		            getLog().warn(getId() + " Fail to authenticate the Client : ", e);
+		        }
+			}
 
         }
         disconnectUser();
     }
+
+	/**
+	 * Start link.
+	 */
+	private void startLink() {
+		/**
+         * Send welcome message
+         */
+        getLog().debug("Send Welcome Message.");
+        //TODO GCS: Search Welcome message
+        send(new MessageNoticeServerMessage("Welcome"));
+        user = new AnonymousUser(authenticationService.buildAnonymousId());
+
+        loginUser();
+	}
+
+	private void loginUser() {
+		// init env
+        getLog().debug("Init env");
+        usersConnectionsManagement.newClientConnected(this);
+
+        // Inform connected Users
+        getLog().debug("Send notice ContactInfo");
+        post(new MessageNoticeContactInfo(user));
+        
+        // Send list connected users.
+        send(new MessageNoticeContactsList(userManagement.getAllUsers()));
+	}
 
 	/*
      * (non-Javadoc)
@@ -139,38 +170,131 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
             /**
              * stop the while in run()
              */
-            isIdentify = false;
+            isConnected = false;
 
-            /**
-             * Remove the client from server.
-             */
-            getLog().debug(getId() + " Delete Client " + user.getNickName() + " from list");
-            usersConnectionsManagement.disconnectClient(this);
-
-            /**
-             * Inform all the other client.
-             */
-            getLog().debug(getId() + " Inform all other client that the client " + user.getNickName() + " is deconnected.");
-            synchronized (user) {
-                user.setUserStatus(UserStatus.OFFLINE);
-                post(new MessageNoticeContactInfo(user.getCopy()));
-                userManagement.disconnect(user.getId());
-            }
+            loggoutUser();
         }
-        disconnect();
-       
+        closeConnection();
     }
+
+	/**
+	 * Loggout user.
+	 */
+	private void loggoutUser() {
+		/**
+		 * Remove the client from server.
+		 */
+		getLog().debug(getId() + " Delete Client " + user.getNickName() + " from list");
+		usersConnectionsManagement.disconnectClient(this);
+
+		/**
+		 * Inform all the other client.
+		 */
+		getLog().debug(getId() + " Inform all other client that the client " + user.getNickName() + " is deconnected.");
+		synchronized (user) {
+		    user.setUserStatus(UserStatus.OFFLINE);
+		    post(new MessageNoticeContactInfo(user.clone()));
+		    userManagement.disconnect(user.getId());
+		}
+	}
 
 	/**
 	 * Disconect the user properly.
 	 */
-	protected abstract void disconnect();
+	protected abstract void closeConnection();
 
 	/** {@inheritDoc} */
 	@Override
 	public final User getUser() {
 		return user;
 	}
+	
+	/**
+	 * Checks if is authenticate.
+	 *
+	 * @return true, if is authenticate
+	 */
+	private boolean isAuthenticate() {
+		return !(user instanceof AnonymousUser);
+	}
+	
+	/**
+	 * Checks if is authentication massage.
+	 *
+	 * @param message the message
+	 * @return true, if is authentication massage
+	 */
+	private boolean isAuthenticationMessage(Message message)
+	{
+		return message instanceof MessageCommandRegister || message instanceof MessageCommandLogin;
+	}
+	
+	/**
+     * Identification protocol.
+     *
+     * @throws com.gc.irc.server.core.exception.ServerException
+     *             the iRC server exception
+     */
+    private void authenticateProtocol(Message message) throws ServerException {
+    	getLog().debug("Check authenticate message");
+    	if (message instanceof MessageCommand) {
+            final MessageCommand messagecmd = (MessageCommand) message;
+            boolean registration = false;
+            User tmpUser = null;
+
+            if (messagecmd instanceof MessageCommandRegister) {
+                getLog().debug("Register Message receive");
+                registration = true;
+                final MessageCommandRegister messageRegister = (MessageCommandRegister) messagecmd;
+                if (authenticationService.userLoginExist(messageRegister.getLogin())) {
+                	getLog().warn("User {} already exist !", messageRegister.getLogin());
+                } else if (authenticationService.addNewUser(messageRegister.getLogin(), messageRegister.getPassword(), messageRegister.getLogin())) {
+                	tmpUser = checkLogin(messageRegister);
+                }
+            } else if (messagecmd instanceof MessageCommandLogin) {
+                getLog().debug("Login Message receive");
+                final MessageCommandLogin messageLogin = (MessageCommandLogin) messagecmd;
+                tmpUser = checkLogin(messageLogin);
+            }
+            
+            if (tmpUser != null) {
+            	//User accepted
+            	user = tmpUser;
+                getLog().debug("User " + user.getNickName() + " just loggin");
+                getLog().debug("Send notice Login");
+                if (registration) {
+                	send(new MessageNoticeRegister(user));
+                } else {
+                	send(new MessageNoticeLogin(user));
+                }
+
+                loginUser();
+
+                /**
+                 * Send user's pictur to all others Users
+                 */
+                if (user.hasPictur()) {
+                    getLog().debug("Send user's pictur to all others Users");
+                    final MessageItemPicture picture = userPictureService.getPictureOf(user.getId());
+                    if (picture != null) {
+                        post(picture);
+                    }
+                }
+
+                sendAllUsersPicturs();
+
+            } else {
+                /**
+                 * Fail to login
+                 */
+                if (registration) {
+                	send(new MessageNoticeRegister(null));
+                } else {
+                	send(new MessageNoticeLogin(null));
+                }
+            }
+        }
+    }
 	
     /**
      * Identification protocol.
@@ -180,12 +304,6 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
      */
     private void authenticateProtocol() throws ServerException {
         getLog().debug("Start Login protocol");
-        /**
-         * Send welcome message
-         */
-        getLog().debug("Send Welcome Message.");
-        //TODO GCS: Search Welcome message
-        send(new MessageNoticeServerMessage("Welcome"));
 
         boolean isLogin = false;
         while (!isLogin) {
@@ -231,17 +349,7 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
                     	send(new MessageNoticeLogin(user));
                     }
 
-                    /**
-                     * init env
-                     */
-                    getLog().debug("Init env");
-                    usersConnectionsManagement.newClientConnected(this);
-
-                    /**
-                     * Inform connected Users
-                     */
-                    getLog().debug("Send notice ContactInfo");
-                    post(new MessageNoticeContactInfo(user));
+                    loginUser();
 
                     /**
                      * Send list connected users.
@@ -262,7 +370,6 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
                     sendAllUsersPicturs();
 
                     isLogin = true;
-                    isIdentify = true;
                 } else {
                     /**
                      * Fail to login
@@ -292,7 +399,7 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
 		UserInformations userInfo = authenticationService.logUser(messageLogin.getLogin(), messageLogin.getPassword());
 		if (userInfo != null) {
 			if (!userManagement.isLogged(userInfo.getId())) {
-				user = new User(userInfo.getId(), userInfo.getNickname(), userInfo.hasPictur());
+				user = userInfo.buildUser();
 				userManagement.newUserConnected(user);
 			}
 		}
@@ -334,13 +441,13 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
      *            the message
      */
     protected final void checkMessage(final Message message) {
-        if (user != null && message != null && user.getId() != message.getFromId()) {
+        if (!isAuthenticationMessage(message) && user != null && message != null && user.getId() != message.getFromId()) {
             throw new InvalidSenderException("Message from " + message.getFromId() + " instead of " + user.getId());
         }
         if (message == null) {
         	cptInvalidMessage++;
         	if (cptInvalidMessage <= MAX_INVALID_MESSAGE) {
-        		disconnect();
+        		closeConnection();
         	}
         } else {
         	cptInvalidMessage = 0;
@@ -411,5 +518,5 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
 	public void setUserManagement(UserManagement userManagement) {
 		this.userManagement = userManagement;
 	}
-
+	
 }

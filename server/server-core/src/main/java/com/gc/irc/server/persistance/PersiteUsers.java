@@ -2,6 +2,7 @@ package com.gc.irc.server.persistance;
 
 import java.util.List;
 
+import com.gc.irc.common.entity.AnonymousUser;
 import com.gc.irc.common.entity.User;
 import com.gc.irc.common.utils.IOUtils;
 
@@ -59,7 +60,9 @@ public class PersiteUsers extends Thread {
         String result = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\" ?>\n\n";
         result += "<listeUsers>\n";
         for (final User user : listUsers) {
-            result += user.toStringXML("\t");
+        	if (!(user instanceof AnonymousUser)) {
+        		result += user.toStringXML("\t");
+        	}
         }
 
         result += "</listeUsers>\n";

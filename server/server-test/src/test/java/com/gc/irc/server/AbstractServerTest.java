@@ -16,6 +16,7 @@ import com.gc.irc.common.protocol.Message;
 import com.gc.irc.common.protocol.command.MessageCommand;
 import com.gc.irc.common.protocol.command.MessageCommandLogin;
 import com.gc.irc.common.protocol.command.MessageCommandRegister;
+import com.gc.irc.common.protocol.notice.MessageNoticeContactsList;
 import com.gc.irc.common.protocol.notice.MessageNoticeServerMessage;
 import com.gc.irc.common.utils.LoggerUtils;
 import com.gc.irc.server.test.handler.LoginMessageHandler;
@@ -118,7 +119,8 @@ public abstract class AbstractServerTest implements Loggable {
 
         getLog().info("connectionHandler up");
         waitForMessageInHandler(messageHandler);
-        assertTrue("" + messageHandler.getLastReceivedMessage(), messageHandler.getLastReceivedMessage() instanceof MessageNoticeServerMessage);
+        Message lastReceivedMessage = messageHandler.getLastReceivedMessage();
+		assertTrue("" + lastReceivedMessage, lastReceivedMessage instanceof MessageNoticeServerMessage || lastReceivedMessage instanceof MessageNoticeContactsList);
 
         return connectionHandler;
     }

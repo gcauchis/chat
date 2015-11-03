@@ -1,6 +1,7 @@
 package com.gc.irc.server.model;
 
 import com.gc.irc.common.AbstractLoggable;
+import com.gc.irc.common.entity.User;
 
 /**
  * Represent a Client.
@@ -207,6 +208,15 @@ public class UserInformations extends AbstractLoggable {
      */
     public void setId(int id) {
         this.id = id;
+    }
+    
+    /**
+     * Builds the user.
+     *
+     * @return the user
+     */
+    public User buildUser() {
+    	return new User(getId(), getNickname(), hasPictur());
     }
 
     /**

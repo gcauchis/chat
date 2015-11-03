@@ -18,7 +18,7 @@ public class WebSocketClientConnection extends AbstractClientConnection implemen
 	}
 
 	@Override
-	protected void disconnect() {
+	protected void closeConnection() {
 		// TODO Auto-generated method stub
 	}
 

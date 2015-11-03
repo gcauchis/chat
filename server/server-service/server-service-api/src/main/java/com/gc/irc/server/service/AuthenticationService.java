@@ -85,4 +85,11 @@ public interface AuthenticationService {
      * @return True if login already exist, else false.
      */
     boolean userLoginExist(String login);
+    
+    /**
+     * Builds the anonymous id.
+     *
+     * @return the long
+     */
+    long buildAnonymousId();
 }

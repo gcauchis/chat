@@ -39,7 +39,7 @@ public abstract class AbstractMessageHandlerTester extends AbstractLoggable impl
      */
     /** {@inheritDoc} */
     @Override
-    public void handle(final Message message) {
+    public final void handle(final Message message) {
         getLog().info("Message recived: " + message);
         lastReceivedMessage = message;
         handleInternal(message);

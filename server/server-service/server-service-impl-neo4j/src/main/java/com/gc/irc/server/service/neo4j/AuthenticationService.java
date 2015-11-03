@@ -171,4 +171,10 @@ public class AuthenticationService extends AbstractLoggable implements com.gc.ir
 		userInformationRepository.delete(id);
 	}
 
+	@Override
+	public long buildAnonymousId() {
+		//TODO: improve anonymous managment
+		return 0;
+	}
+
 }
