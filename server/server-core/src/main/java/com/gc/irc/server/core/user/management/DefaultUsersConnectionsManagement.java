@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javolution.util.FastList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -88,7 +90,7 @@ public class DefaultUsersConnectionsManagement extends AbstractLoggable implemen
     /** {@inheritDoc} */
     @Override
     public List<ClientConnection> getClientConnected() {
-        return clientConnected;
+        return new FastList<ClientConnection>(clientConnected);
     }
 
     /*
