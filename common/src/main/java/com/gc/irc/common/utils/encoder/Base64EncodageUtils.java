@@ -1,4 +1,4 @@
-package com.gc.irc.common.utils.encoder.utils;
+package com.gc.irc.common.utils.encoder;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;

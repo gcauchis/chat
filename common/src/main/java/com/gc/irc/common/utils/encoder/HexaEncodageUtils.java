@@ -1,4 +1,4 @@
-package com.gc.irc.common.utils.encoder.utils;
+package com.gc.irc.common.utils.encoder;
 
 import org.apache.commons.lang3.StringUtils;
 
