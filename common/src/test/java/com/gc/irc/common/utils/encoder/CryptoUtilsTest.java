@@ -1,4 +1,4 @@
-package com.gc.irc.common.utils.encoder.utils;
+package com.gc.irc.common.utils.encoder;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+
+import com.gc.irc.common.utils.encoder.CryptoUtils;
 
 /**
  * The Class CryptoUtilsTest.
