@@ -6,8 +6,8 @@ import com.gc.irc.common.entity.User;
  * Notification used to inform the success or the failed of the client
  * registration.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class MessageNoticeRegister extends MessageNoticeLogin {
 

@@ -9,8 +9,8 @@ import com.gc.irc.server.client.connector.ClientConnection;
 /**
  * <p>IUsersConnectionsManagement interface.</p>
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public interface UsersConnectionsManagement extends Loggable {
 

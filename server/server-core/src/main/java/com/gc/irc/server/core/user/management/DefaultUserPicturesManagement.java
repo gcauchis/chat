@@ -16,8 +16,8 @@ import com.gc.irc.server.service.UserPictureService;
 /**
  * <p>UserPicturesManagement class.</p>
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component("userPicturesManagement")
 public class DefaultUserPicturesManagement extends AbstractLoggable implements UserPicturesManagement, UserManagementAware {

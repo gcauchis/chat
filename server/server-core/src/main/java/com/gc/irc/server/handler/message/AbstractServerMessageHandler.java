@@ -15,8 +15,8 @@ import com.gc.irc.server.core.user.management.UserManagementAware;
 /**
  * The Class AbstractServerMessageHandler.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public abstract class AbstractServerMessageHandler<MSG extends Message> extends AbstractLoggable implements ServerMessageHandler, UserManagementAware {
 

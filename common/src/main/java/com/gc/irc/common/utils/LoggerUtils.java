@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class LoggerUtils.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public final class LoggerUtils {
 

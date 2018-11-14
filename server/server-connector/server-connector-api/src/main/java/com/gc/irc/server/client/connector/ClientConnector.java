@@ -3,8 +3,8 @@ package com.gc.irc.server.client.connector;
 /**
  * The Interface ClientConnector.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public interface ClientConnector extends Runnable {
 

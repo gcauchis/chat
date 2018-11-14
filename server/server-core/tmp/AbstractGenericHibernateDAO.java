@@ -19,7 +19,6 @@ import com.gc.common.dal.exception.DAOException;
  * 
  * @param <DTO> the DTO
  * @param <ID> the ID
- * @author g.migliorini
  */
 public abstract class AbstractGenericHibernateDAO<DTO extends IDataTransfertObject, ID extends Serializable> extends HibernateDaoSupport
     implements IGenericDAO<DTO, ID> {

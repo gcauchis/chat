@@ -7,8 +7,8 @@ import com.gc.irc.common.message.ClientMessageLine;
 /**
  * The Class IRCMessageChatPrivate.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class MessageChatPrivate extends MessageChat {
 

@@ -8,8 +8,8 @@ import org.apache.commons.pool.impl.GenericObjectPool;
  *
  * @param <T>
  *            the generic type
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public abstract class AbstractObjectPool<T> extends AbstractLoggable {
 

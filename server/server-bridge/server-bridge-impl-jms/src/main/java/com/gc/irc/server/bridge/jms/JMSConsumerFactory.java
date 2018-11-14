@@ -14,8 +14,8 @@ import com.gc.irc.server.bridge.jms.utils.JMSConnectionUtils;
 /**
  * The Class JMSConsumerFactory.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component
 @Scope("singleton")

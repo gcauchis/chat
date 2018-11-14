@@ -14,8 +14,8 @@ import org.slf4j.Logger;
 /**
  * The Class IOUtils.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public final class IOUtils {
 

@@ -6,8 +6,8 @@ import com.gc.irc.common.exception.utils.EncoderException;
 /**
  * The Class AbstractStringEncoder.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public abstract class AbstractStringEncoder extends AbstractLoggable implements ObjectEncoder, StringEncoder {
 

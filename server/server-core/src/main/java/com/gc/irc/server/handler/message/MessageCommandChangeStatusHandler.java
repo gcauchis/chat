@@ -9,8 +9,8 @@ import com.gc.irc.common.protocol.notice.MessageNoticeContactInfo;
 /**
  * The Class IRCMessageCommandChangeStatusHandler.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component
 public class MessageCommandChangeStatusHandler extends AbstractServerCommandMessageHandler<MessageCommandChangeStatus> {

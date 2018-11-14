@@ -20,8 +20,8 @@ import com.gc.irc.server.service.AuthenticationService;
 /**
  * The Class UserManagement.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component("usersConnectionsManagement")
 @Scope("singleton")

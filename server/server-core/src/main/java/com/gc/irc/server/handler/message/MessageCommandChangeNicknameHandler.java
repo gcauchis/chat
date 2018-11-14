@@ -9,8 +9,8 @@ import com.gc.irc.common.protocol.notice.MessageNoticeContactInfo;
 /**
  * The Class IRCMessageCommandChangeNicknameHandler.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component
 public class MessageCommandChangeNicknameHandler extends AbstractServerCommandMessageHandler<MessageCommandChangeNickname> {

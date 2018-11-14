@@ -13,32 +13,37 @@ import com.gc.irc.server.client.connector.AbstractClientConnector;
 import com.gc.irc.server.client.connector.ClientConnector;
 
 /**
- * 
- * @author gcauchis
- * @see http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html
+ * <p>WebSocketClientConnector class.</p>
  *
+ * @see http://docs.spring.io/spring/docs/current/spring-framework-reference/html/websocket.html
+ * @author x472511
+ * @version 0.0.4
  */
 //@Configuration
 //@EnableWebSocket
 public class WebSocketClientConnector extends AbstractClientConnector implements ClientConnector, WebSocketConfigurer, WebSocketHandler {
 
+	/** {@inheritDoc} */
 	@Override
 	public void initConnector() {
 		// TODO Auto-generated method stub
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void waitClient() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		registry.addHandler(this, "/");
 		
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session)
 			throws Exception {
@@ -46,24 +51,28 @@ public class WebSocketClientConnector extends AbstractClientConnector implements
 		
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public boolean supportsPartialMessages() {
 		// TODO Auto-generated method stub

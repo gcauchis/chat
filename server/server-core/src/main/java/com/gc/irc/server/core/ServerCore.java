@@ -22,8 +22,8 @@ import com.gc.irc.server.thread.factory.ServerManagerFactory;
  *
  * When a Client is connected a Thread is start to discuss with.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component("serverCore")
 public class ServerCore extends AbstractLoggable {

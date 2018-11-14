@@ -5,7 +5,6 @@ import com.gc.irc.server.AbstractNUsersBasicTest;
 /**
  * The Class TenUsersBasicTest.
  *
- * @author gcauchis
  * @version 0.0.4
  * @since 0.0.4
  */

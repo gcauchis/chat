@@ -7,8 +7,8 @@ import com.gc.irc.common.AbstractLoggable;
 /**
  * The Class IRCUser.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class User extends AbstractLoggable implements Serializable {
 

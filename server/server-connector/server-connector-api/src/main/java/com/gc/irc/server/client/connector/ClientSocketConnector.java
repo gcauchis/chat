@@ -3,8 +3,8 @@ package com.gc.irc.server.client.connector;
 /**
  * <p>ClientSocketConnector interface.</p>
  *
- * @author gcauchis
  * @version 0.0.5
+ * @author x472511
  */
 public interface ClientSocketConnector extends ClientConnector {
 	/**

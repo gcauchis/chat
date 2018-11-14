@@ -5,6 +5,12 @@ import org.springframework.stereotype.Component;
 import com.gc.irc.server.client.connector.AbstractClientSocketConnector;
 import com.gc.irc.server.client.connector.irc.factory.IRCClientConnectionFactory;
 
+/**
+ * <p>IRCClientConnector class.</p>
+ *
+ * @author x472511
+ * @version 0.0.4
+ */
 @Component("ircClientConnector")
 public class IRCClientConnector extends AbstractClientSocketConnector<IRCClientConnectionFactory> {
 

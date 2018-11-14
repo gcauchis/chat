@@ -14,8 +14,8 @@ import com.gc.irc.server.bridge.jms.utils.JMSConnectionUtils;
 /**
  * Contain a JMSProducer to send a message in the JMS Queue.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class JMSProducer extends AbstractLoggable implements ServerBridgeProducer {
 

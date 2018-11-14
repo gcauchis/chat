@@ -18,8 +18,8 @@ import com.gc.irc.server.model.UserInformations;
 /**
  * A scanner to parse an identification xml file.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public final class UserInformationScanner extends AbstractLoggable {
 

@@ -5,8 +5,8 @@ import com.gc.irc.server.model.UserInformations;
 /**
  * Interface use for the login of the users.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public interface AuthenticationService {
 

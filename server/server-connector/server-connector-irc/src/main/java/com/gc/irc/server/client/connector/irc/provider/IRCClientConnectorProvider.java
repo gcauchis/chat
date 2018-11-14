@@ -15,6 +15,12 @@ import com.gc.irc.server.client.connector.ClientSocketConnector;
 import com.gc.irc.server.client.connector.irc.IRCClientConnector;
 import com.gc.irc.server.client.connector.provider.ClientConnectorProvider;
 
+/**
+ * <p>IRCClientConnectorProvider class.</p>
+ *
+ * @author x472511
+ * @version 0.0.4
+ */
 @Component("ircClientConnectorProvider")
 public class IRCClientConnectorProvider extends AbstractLoggable implements
 		ClientConnectorProvider, ApplicationContextAware {

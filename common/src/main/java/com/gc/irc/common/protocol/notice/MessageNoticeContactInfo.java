@@ -5,8 +5,8 @@ import com.gc.irc.common.entity.User;
 /**
  * Notification use to send the information of an user.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class MessageNoticeContactInfo extends MessageNotice {
 

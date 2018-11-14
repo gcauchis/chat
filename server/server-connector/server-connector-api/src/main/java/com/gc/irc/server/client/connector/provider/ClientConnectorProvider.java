@@ -7,8 +7,8 @@ import com.gc.irc.server.client.connector.ClientConnector;
 /**
  * The Interface ClientConnectorProvider.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public interface ClientConnectorProvider {
 	

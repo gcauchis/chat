@@ -9,8 +9,8 @@ import com.gc.irc.server.core.ServerCore;
 /**
  * The Class ServerStarter.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class ServerStarter extends AbstractLoggable implements Runnable {
 
@@ -44,11 +44,6 @@ public class ServerStarter extends AbstractLoggable implements Runnable {
         return initialized;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Runnable#run()
-     */
     /** {@inheritDoc} */
     @Override
     public void run() {

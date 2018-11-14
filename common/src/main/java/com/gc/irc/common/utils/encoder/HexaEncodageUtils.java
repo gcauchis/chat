@@ -5,8 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * The Class HexaEncodageUtils.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public final class HexaEncodageUtils {
 

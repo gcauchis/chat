@@ -16,8 +16,8 @@ import com.gc.irc.server.service.neo4j.repository.UserInformationRepository;
 /**
  * The Class AuthenticationService.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Service("authenticationService")
 @Transactional

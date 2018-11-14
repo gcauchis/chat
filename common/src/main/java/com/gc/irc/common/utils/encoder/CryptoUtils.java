@@ -25,8 +25,8 @@ import com.gc.irc.common.utils.LoggerUtils;
 /**
  * The Class CryptoUtils.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public final class CryptoUtils {
 

@@ -10,8 +10,8 @@ import com.gc.irc.server.service.neo4j.model.UserInformationEntity;
 /**
  * <p>UserInformationRepository interface.</p>
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public interface UserInformationRepository extends GraphRepository<UserInformationEntity> {
 

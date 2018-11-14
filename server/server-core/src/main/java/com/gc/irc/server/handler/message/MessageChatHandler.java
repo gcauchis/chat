@@ -8,8 +8,8 @@ import com.gc.irc.common.protocol.chat.MessageChat;
 /**
  * The Class IRCMessageChatHandler.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component
 public class MessageChatHandler extends AbstractServerMessageHandler<MessageChat> {

@@ -5,8 +5,8 @@ import com.gc.irc.common.entity.User;
 /**
  * Notification used to inform the success or the failed of the client login.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class MessageNoticeLogin extends MessageNotice {
 

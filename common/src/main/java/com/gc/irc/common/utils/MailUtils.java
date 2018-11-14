@@ -17,8 +17,8 @@ import org.slf4j.Logger;
 /**
  * The Class MailUtils.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public final class MailUtils {
 

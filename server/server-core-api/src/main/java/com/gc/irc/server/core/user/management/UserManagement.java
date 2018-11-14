@@ -7,8 +7,8 @@ import com.gc.irc.common.entity.User;
 /**
  * <p>IUserManagement interface.</p>
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public interface UserManagement {
 

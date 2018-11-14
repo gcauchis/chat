@@ -14,7 +14,6 @@ import com.gc.common.service.ILoggable;
  * 
  * @param <DTO> the DTO
  * @param <ID> the ID
- * @author g.migliorini
  */
 public interface IGenericDAO<DTO extends IDataTransfertObject, ID extends Serializable> extends ILoggable {
 

@@ -14,8 +14,8 @@ import com.gc.irc.common.protocol.item.MessageItemPicture;
 /**
  * Manage the Users's Pictures.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Service("userPictureManagement")
 public class UserPictureService extends AbstractLoggable implements com.gc.irc.server.service.UserPictureService {

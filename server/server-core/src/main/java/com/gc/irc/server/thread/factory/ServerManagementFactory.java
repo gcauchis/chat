@@ -13,8 +13,8 @@ import com.gc.irc.server.thread.ServerManager;
 /**
  * A factory for creating ServeurMBean objects.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component("ServeurMBeanFactory")
 @Scope("singleton")

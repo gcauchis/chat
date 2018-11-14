@@ -11,13 +11,14 @@ import com.gc.irc.server.client.connector.objectstream.ObjectStreamClientConnect
 /**
  * A factory for creating GestionClientBean objects.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component("objectStreamClientConnectionFactory")
 @Scope("singleton")
 public class ObjectStreamClientConnectionFactory extends AbstractClientSocketConnectionFactory<ObjectStreamClientConnection> {
 
+	/** {@inheritDoc} */
 	@Override
 	protected ObjectStreamClientConnection build(Socket clientSocket) {
 		return new ObjectStreamClientConnection(clientSocket);

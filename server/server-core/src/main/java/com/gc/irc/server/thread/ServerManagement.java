@@ -20,8 +20,8 @@ import com.gc.irc.server.handler.message.ServerMessageHandler;
 /**
  * Thread manager.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component("serverManagement")
 public class ServerManagement extends AbstractRunnable implements ServerManager,UserManagementAware {

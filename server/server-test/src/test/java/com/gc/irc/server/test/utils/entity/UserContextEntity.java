@@ -7,7 +7,6 @@ import com.gc.irc.server.test.handler.MessageHandlerTester;
 /**
  * The Class UserContextEntity.
  *
- * @author gcauchis
  * @version 0.0.4
  * @since 0.0.4
  */

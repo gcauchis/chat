@@ -22,7 +22,6 @@ import com.gc.irc.server.test.utils.entity.UserContextEntity;
 /**
  * <p>Abstract AbstractMultipleUserTest class.</p>
  *
- * @author gcauchis
  * @version 0.0.4
  * @since 0.0.4
  */

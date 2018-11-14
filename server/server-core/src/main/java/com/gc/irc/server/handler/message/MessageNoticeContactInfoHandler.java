@@ -8,8 +8,8 @@ import com.gc.irc.common.protocol.notice.MessageNoticeContactInfo;
 /**
  * The Class IRCMessageNoticeContactInfoHandler.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component
 public class MessageNoticeContactInfoHandler extends AbstractServerMessageHandler<MessageNoticeContactInfo> {

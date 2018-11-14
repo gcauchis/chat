@@ -5,6 +5,12 @@ import java.net.Socket;
 import com.gc.irc.server.client.connector.AbstractClientSocketConnection;
 import com.gc.irc.server.client.connector.ClientConnection;
 
+/**
+ * <p>Abstract AbstractClientSocketConnectionFactory class.</p>
+ *
+ * @author x472511
+ * @version 0.0.4
+ */
 public abstract class AbstractClientSocketConnectionFactory <CC extends AbstractClientSocketConnection<?, ?>> extends AbstractClientConnectionFactory implements ClientSocketConnectionFactory{
 
     /*
@@ -21,6 +27,12 @@ public abstract class AbstractClientSocketConnectionFactory <CC extends Abstract
         return clientConnection;
     }
 
+    /**
+     * <p>build.</p>
+     *
+     * @param clientSocket a {@link java.net.Socket} object.
+     * @return a CC object.
+     */
     protected abstract CC build(Socket clientSocket);
 
 

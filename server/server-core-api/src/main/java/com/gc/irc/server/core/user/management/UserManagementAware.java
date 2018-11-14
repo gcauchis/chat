@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * <p>UserManagementAware interface.</p>
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public interface UserManagementAware {
 	

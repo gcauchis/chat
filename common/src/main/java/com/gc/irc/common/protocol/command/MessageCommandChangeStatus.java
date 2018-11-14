@@ -5,8 +5,8 @@ import com.gc.irc.common.entity.UserStatus;
 /**
  * The Class IRCMessageCommandChangeStatus.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class MessageCommandChangeStatus extends MessageCommand {
 

@@ -19,8 +19,8 @@ import com.gc.irc.client.swt.utils.SWTUtils;
 /**
  * The Class LoginUI.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class LoginUI extends AbstractUI {
 

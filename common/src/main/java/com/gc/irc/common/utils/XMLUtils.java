@@ -25,8 +25,8 @@ import com.gc.irc.common.exception.utils.XMLException;
 /**
  * The Class XMLUtils.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public final class XMLUtils {
 

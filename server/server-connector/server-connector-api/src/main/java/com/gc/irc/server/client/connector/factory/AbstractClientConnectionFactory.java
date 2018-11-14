@@ -12,6 +12,12 @@ import com.gc.irc.server.core.user.management.UserPicturesManagement;
 import com.gc.irc.server.service.AuthenticationService;
 import com.gc.irc.server.service.UserPictureService;
 
+/**
+ * <p>Abstract AbstractClientConnectionFactory class.</p>
+ *
+ * @author x472511
+ * @version 0.0.4
+ */
 public abstract class AbstractClientConnectionFactory extends AbstractLoggable implements UserManagementAware {
 
     /** The authentication service. */
@@ -37,6 +43,11 @@ public abstract class AbstractClientConnectionFactory extends AbstractLoggable i
     /** The user management */
     private UserManagement userManagement;
 
+	/**
+	 * <p>fillDependency.</p>
+	 *
+	 * @param clientConnection a {@link com.gc.irc.server.client.connector.AbstractClientConnection} object.
+	 */
 	protected final void fillDependency(final AbstractClientConnection clientConnection) {
 		clientConnection.setUsersConnectionsManagement(usersConnectionsManagement);
         clientConnection.setServerBridgeProducer(serverBridgeProducer);
@@ -46,7 +57,7 @@ public abstract class AbstractClientConnectionFactory extends AbstractLoggable i
         clientConnection.setUserPicturesManagement(userPicturesManagement);
 	}
 
-	/**
+    /**
      * Sets the authentication service.
      *
      * @param authenticationService

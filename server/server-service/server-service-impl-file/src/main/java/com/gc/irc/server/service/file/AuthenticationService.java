@@ -18,8 +18,8 @@ import com.gc.irc.server.service.file.utils.UserInformationScanner;
 /**
  * Singleton class use for login and register all the users.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Service("authenticationService")
 @Scope("singleton")

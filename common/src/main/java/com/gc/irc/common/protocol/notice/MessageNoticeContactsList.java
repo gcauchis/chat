@@ -7,8 +7,8 @@ import com.gc.irc.common.entity.User;
 /**
  * Notification used to send the list of all the connected client.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class MessageNoticeContactsList extends MessageNotice {
 

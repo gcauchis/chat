@@ -5,7 +5,6 @@ import com.gc.irc.common.protocol.command.MessageCommand;
 /**
  * <p>MessageCommandTestDeleteUser class.</p>
  *
- * @author gcauchis
  * @version 0.0.4
  * @since 0.0.4
  */

@@ -10,8 +10,8 @@ import com.gc.irc.common.exception.utils.EncoderException;
  *
  * @param <OBJ>
  *            the generic type
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public abstract class AbstractObjectEncoder<OBJ> extends AbstractLoggable implements ObjectEncoder {
 

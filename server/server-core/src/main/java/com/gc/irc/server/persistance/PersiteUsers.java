@@ -8,8 +8,8 @@ import com.gc.irc.common.utils.IOUtils;
 /**
  * Persit the list of Connected users.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class PersiteUsers extends Thread {
 

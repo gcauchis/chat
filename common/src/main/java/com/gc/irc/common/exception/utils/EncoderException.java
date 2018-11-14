@@ -5,8 +5,8 @@ import com.gc.irc.common.exception.IRCException;
 /**
  * The Class EncoderException.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class EncoderException extends IRCException {
 

@@ -13,8 +13,8 @@ import com.gc.irc.server.bridge.ServerBridgeException;
 /**
  * The Class JMSConsumer.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class JMSConsumer extends AbstractLoggable implements ServerBridgeConsumer {
 

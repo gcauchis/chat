@@ -13,8 +13,8 @@ import com.gc.irc.server.client.connector.AbstractClientSocketConnection;
 /**
  * <p>IRCClientConnection class.</p>
  *
- * @author gcauchis
  * @version 0.0.5
+ * @author x472511
  */
 public class IRCClientConnection extends
 		AbstractClientSocketConnection<InputStream, OutputStream> {

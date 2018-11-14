@@ -8,8 +8,8 @@ import com.gc.irc.common.protocol.Message;
 /**
  * The seri.
  *
- * @author Colin
  * @version 0.0.4
+ * @author x472511
  */
 public class MessageChat extends Message {
 

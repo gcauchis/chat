@@ -12,8 +12,8 @@ import com.gc.irc.server.client.connector.factory.ClientSocketConnectionFactory;
 /**
  * <p>Abstract AbstractClientSocketConnector class.</p>
  *
- * @author gcauchis
  * @version 0.0.5
+ * @author x472511
  */
 public abstract class AbstractClientSocketConnector<FACT extends ClientSocketConnectionFactory> extends
 		AbstractClientConnector implements ClientSocketConnector {

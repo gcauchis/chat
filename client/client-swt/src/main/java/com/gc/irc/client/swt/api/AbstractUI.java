@@ -12,8 +12,8 @@ import com.gc.irc.common.AbstractLoggable;
 /**
  * The Class AbstractUI.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public abstract class AbstractUI extends AbstractLoggable {
 

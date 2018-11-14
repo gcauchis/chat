@@ -32,8 +32,8 @@ import com.gc.irc.server.service.UserPictureService;
 /**
  * An abstract client connection
  *
- * @author gcauchis
  * @version 0.0.5
+ * @author x472511
  */
 public abstract class AbstractClientConnection extends AbstractRunnable implements
 		ClientConnection, UserManagementAware {
@@ -347,6 +347,9 @@ public abstract class AbstractClientConnection extends AbstractRunnable implemen
         }
     }
     
+    /**
+     * <p>endInit.</p>
+     */
     protected final void endInit() {
     	initLatch.countDown();
     }

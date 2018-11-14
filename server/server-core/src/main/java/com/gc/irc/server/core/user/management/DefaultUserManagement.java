@@ -16,8 +16,8 @@ import com.gc.irc.server.persistance.PersiteUsers;
 /**
  * <p>UserManagement class.</p>
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component("userManagement")
 @Scope("singleton")

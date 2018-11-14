@@ -7,8 +7,8 @@ import com.gc.irc.server.bridge.ServerBridgeProducer;
 /**
  * A factory for creating PoolableJMSProducer objects.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class PoolableJMSProducerFactory extends BasePoolableObjectFactory<ServerBridgeProducer> {
 

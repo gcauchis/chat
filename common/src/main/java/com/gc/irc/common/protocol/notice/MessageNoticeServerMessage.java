@@ -3,8 +3,8 @@ package com.gc.irc.common.protocol.notice;
 /**
  * Notification used to send a message from the server.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class MessageNoticeServerMessage extends MessageNotice {
 

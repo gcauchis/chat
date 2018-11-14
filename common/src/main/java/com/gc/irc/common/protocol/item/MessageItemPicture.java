@@ -8,8 +8,8 @@ import com.gc.irc.common.protocol.Message;
 /**
  * Message use to send picture.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class MessageItemPicture extends Message {
 

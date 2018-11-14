@@ -3,8 +3,8 @@ package com.gc.irc.common.exception;
 /**
  * The Class IRCException.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class IRCException extends Exception {
 

@@ -6,8 +6,8 @@ import com.gc.irc.common.protocol.Message;
 /**
  * The Interface IServerBridgeConsumer.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public interface ServerBridgeConsumer extends Loggable {
 

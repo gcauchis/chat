@@ -3,8 +3,8 @@ package com.gc.irc.server.thread;
 /**
  * The Interface IServeurMBean.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public interface ServerManager extends Runnable {
 

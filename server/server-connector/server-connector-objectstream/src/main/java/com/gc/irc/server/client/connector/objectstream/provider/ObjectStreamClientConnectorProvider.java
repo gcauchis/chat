@@ -18,8 +18,8 @@ import com.gc.irc.server.client.connector.provider.ClientConnectorProvider;
 /**
  * <p>ObjectStreamClientConnectorProvider class.</p>
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component("objectStreamClientConnectorProvider")
 public class ObjectStreamClientConnectorProvider extends AbstractLoggable implements

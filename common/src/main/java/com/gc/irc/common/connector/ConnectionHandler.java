@@ -21,8 +21,8 @@ import com.gc.irc.common.utils.IOStreamUtils;
  * objects wich are transmitted (they are defined in the com.irc.share.protocol
  * package)
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class ConnectionHandler extends AbstractRunnable implements MessageSender {
 

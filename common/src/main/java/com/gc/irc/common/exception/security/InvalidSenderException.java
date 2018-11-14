@@ -3,8 +3,8 @@ package com.gc.irc.common.exception.security;
 /**
  * The Class IRCInvalideSenderException.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class InvalidSenderException extends SecurityException {
 

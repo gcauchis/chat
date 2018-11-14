@@ -12,8 +12,8 @@ import com.gc.irc.server.bridge.ServerBridgeProducer;
 /**
  * The Class IRCMessageChatPrivateHandler.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component
 public class MessageChatPrivateHandler extends AbstractServerMessageHandler<MessageChatPrivate> {

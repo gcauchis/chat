@@ -14,8 +14,8 @@ import com.gc.irc.server.model.UserInformations;
 /**
  * <p>UserInformationEntity class.</p>
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @NodeEntity
 @TypeAlias("usr")

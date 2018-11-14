@@ -13,8 +13,8 @@ import com.gc.irc.server.service.neo4j.repository.UserInformationRepository;
 /**
  * <p>UserPictureService class.</p>
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Service("userPictureManagement")
 @Transactional

@@ -14,8 +14,8 @@ import com.gc.irc.common.utils.LoggerUtils;
 /**
  * The Class Base64EncodageUtils.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public final class Base64EncodageUtils {
 

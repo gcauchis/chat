@@ -6,7 +6,6 @@ import com.gc.irc.common.protocol.Message;
 /**
  * The Class AbstractMessageHandler.
  *
- * @author gcauchis
  * @version 0.0.4
  * @since 0.0.4
  */

@@ -15,8 +15,8 @@ import com.gc.irc.client.swt.utils.SWTUtils;
 /**
  * The Class ClientUI.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class ClientUI extends AbstractUI {
 

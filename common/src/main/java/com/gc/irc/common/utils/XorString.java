@@ -3,8 +3,8 @@ package com.gc.irc.common.utils;
 /**
  * The Class XorString.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public final class XorString {
 

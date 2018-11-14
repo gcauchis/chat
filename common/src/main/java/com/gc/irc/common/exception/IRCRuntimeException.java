@@ -3,8 +3,8 @@ package com.gc.irc.common.exception;
 /**
  * The Class IRCRuntimeException.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class IRCRuntimeException extends RuntimeException {
 

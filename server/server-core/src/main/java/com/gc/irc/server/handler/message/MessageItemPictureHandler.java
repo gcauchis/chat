@@ -8,8 +8,8 @@ import com.gc.irc.server.model.UserInformations;
 /**
  * The Class IRCMessageItemPictureHandler.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component
 public class MessageItemPictureHandler extends AbstractServerCommandMessageHandler<MessageItemPicture> {

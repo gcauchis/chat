@@ -3,8 +3,8 @@ package com.gc.irc.common.protocol.command;
 /**
  * The Class IRCMessageCommandRegister.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class MessageCommandRegister extends MessageCommandLogin {
 

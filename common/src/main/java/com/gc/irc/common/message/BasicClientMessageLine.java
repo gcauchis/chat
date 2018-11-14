@@ -4,8 +4,8 @@ package com.gc.irc.common.message;
 /**
  * The Class BasicClientMessage.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class BasicClientMessageLine implements ClientMessageLine {
 

@@ -5,8 +5,8 @@ import com.gc.irc.common.AbstractRunnable;
 /**
  * The Class AbstractClientConnector.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public abstract class AbstractClientConnector extends AbstractRunnable
 		implements ClientConnector {

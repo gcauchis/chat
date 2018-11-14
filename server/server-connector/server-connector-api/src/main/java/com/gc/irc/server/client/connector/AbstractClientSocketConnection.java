@@ -12,8 +12,8 @@ import com.gc.irc.server.core.user.management.UserManagementAware;
 /**
  * <p>Abstract AbstractClientSocketConnection class.</p>
  *
- * @author gcauchis
  * @version 0.0.5
+ * @author x472511
  */
 public abstract class AbstractClientSocketConnection<IN extends InputStream, OUT extends OutputStream> extends
 		AbstractClientConnection implements ClientConnection,
@@ -48,6 +48,7 @@ public abstract class AbstractClientSocketConnection<IN extends InputStream, OUT
 	 * <p>Setter for the field <code>clientSocket</code>.</p>
 	 *
 	 * @param clientSocket a {@link java.net.Socket} object.
+	 * @throws java.lang.IllegalStateException if any.
 	 */
 	public void setClientSocket(Socket clientSocket) throws IllegalStateException {
 		if (this.clientSocket != null) {

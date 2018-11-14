@@ -20,7 +20,6 @@ import com.gc.irc.server.handler.message.test.AbstractMessageHandlerTest;
 /**
  * The Class IRCMessageChatPrivateHandlerTest.
  *
- * @author gcauchis
  * @version 0.0.4
  * @since 0.0.4
  */

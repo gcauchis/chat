@@ -5,8 +5,8 @@ import com.gc.irc.common.exception.IRCRuntimeException;
 /**
  * The Class IRCSecurityException.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class SecurityException extends IRCRuntimeException {
 

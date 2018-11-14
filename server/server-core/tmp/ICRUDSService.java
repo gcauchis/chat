@@ -18,7 +18,6 @@ import com.gc.common.service.IService;
  * 
  * @param <ID> The ID
  * @param <ID_TYPE> The ID Type
- * @author g.migliorini
  */
 public interface ICRUDSService<ID extends IID<ID_TYPE>, ID_TYPE extends Serializable> extends IService {
 

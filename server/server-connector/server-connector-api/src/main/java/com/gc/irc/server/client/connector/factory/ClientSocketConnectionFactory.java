@@ -8,8 +8,8 @@ import com.gc.irc.server.client.connector.ClientConnection;
 /**
  * <p>ClientSocketConnectionFactory interface.</p>
  *
- * @author gcauchis
  * @version 0.0.5
+ * @author x472511
  */
 public interface ClientSocketConnectionFactory extends Loggable {
 

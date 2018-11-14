@@ -16,7 +16,6 @@ import com.gc.irc.server.test.utils.entity.UserContextEntity;
 /**
  * The Class TwoUserBasicTestIT.
  *
- * @author gcauchis
  * @version 0.0.4
  * @since 0.0.4
  */

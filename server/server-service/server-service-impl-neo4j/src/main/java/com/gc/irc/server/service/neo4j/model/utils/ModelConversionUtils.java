@@ -10,8 +10,8 @@ import com.gc.irc.server.service.neo4j.model.UserInformationEntity;
 /**
  * <p>ModelConversionUtils class.</p>
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class ModelConversionUtils {
     /**

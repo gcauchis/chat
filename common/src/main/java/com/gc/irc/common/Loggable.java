@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 /**
  * The Interface ILoggable.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public interface Loggable {
 

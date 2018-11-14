@@ -9,8 +9,8 @@ import com.gc.irc.server.client.connector.objectstream.factory.ObjectStreamClien
 /**
  * The Class ObjectStreamClientConnector.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 @Component("ObjectStreamClientConnector")
 public class ObjectStreamClientConnector extends AbstractClientSocketConnector<ObjectStreamClientConnectionFactory> {

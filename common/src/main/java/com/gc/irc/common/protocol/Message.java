@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Object used to communicate between the Client and the Server.
  *
  * @version 0.0.4
- * @author a870560
+ * @author x472511
  */
 public class Message implements Serializable {
 

@@ -6,8 +6,8 @@ import com.gc.irc.common.protocol.item.MessageItemPicture;
 /**
  * Inteface to use Picture.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public interface UserPictureService extends Loggable {
 

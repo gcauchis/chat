@@ -15,7 +15,6 @@ import com.gc.irc.server.handler.message.ServerMessageHandler;
  *            the generic type
  * @param <MSG>
  *            the generic type
- * @author gcauchis
  * @version 0.0.4
  * @since 0.0.4
  */

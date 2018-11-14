@@ -14,8 +14,8 @@ import com.gc.irc.server.client.connector.AbstractClientSocketConnection;
 /**
  * Communication between the Client and the server using an {@link java.io.ObjectOutputStream}.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class ObjectStreamClientConnection extends AbstractClientSocketConnection<ObjectInputStream, ObjectOutputStream> {
 

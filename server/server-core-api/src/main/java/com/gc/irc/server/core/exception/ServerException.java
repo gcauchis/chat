@@ -5,8 +5,8 @@ import com.gc.irc.common.exception.IRCException;
 /**
  * Special Exception for the IRCServer.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class ServerException extends IRCException {
 

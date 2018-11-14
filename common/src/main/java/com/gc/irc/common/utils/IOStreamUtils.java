@@ -11,8 +11,8 @@ import com.gc.irc.common.protocol.Message;
 /**
  * <p>IOStreamUtils class.</p>
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public final class IOStreamUtils {
 

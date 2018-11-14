@@ -9,7 +9,6 @@ import com.gc.irc.common.protocol.notice.MessageNoticeContactInfo;
 /**
  * The Class ContactInfoMessageHandler.
  *
- * @author gcauchis
  * @version 0.0.4
  * @since 0.0.4
  */

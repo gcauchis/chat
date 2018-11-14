@@ -5,7 +5,6 @@ import com.gc.irc.common.protocol.Message;
 /**
  * The Class SimpleMessageHandler.
  *
- * @author gcauchis
  * @version 0.0.4
  * @since 0.0.4
  */

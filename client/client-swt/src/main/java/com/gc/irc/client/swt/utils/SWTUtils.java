@@ -11,8 +11,8 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * The Class SWTUtils.
  *
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public class SWTUtils {
 

@@ -11,8 +11,8 @@ import com.gc.irc.server.service.UserPictureService;
  *
  * @param <MSG>
  *            the generic type
- * @author gcauchis
  * @version 0.0.4
+ * @author x472511
  */
 public abstract class AbstractServerCommandMessageHandler<MSG extends Message> extends AbstractServerMessageHandler<MSG> {
 
