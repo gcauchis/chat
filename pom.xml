@@ -462,11 +462,11 @@
 		<repository>
 			<id>repository.jboss.org</id>
 			<name>JBoss.org Maven repository</name>
-			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+			<url>https://repository.jboss.org/nexus/content/groups/public-jboss/</url>
 		</repository>
 		<repository>
 			<id>opensource.mxtelecom.com</id>
-			<url>http://opensource.mxtelecom.com/maven/repo</url>
+			<url>https://opensource.mxtelecom.com/maven/repo</url>
 		</repository>
 		<repository>
 			<id>JBoss_Thirdparty_Releases</id>
@@ -481,12 +481,12 @@
 		<repository>
 			<id>Ibiblio</id>
 			<name>Ibiblio</name>
-			<url>http://www.ibiblio.org/maven/</url>
+			<url>https://www.ibiblio.org/maven/</url>
 		</repository>
 		<repository>
 			<id>springsource-repo</id>
 			<name>SpringSource Repository</name>
-			<url>http://repo.springsource.org/release</url>
+			<url>https://repo.springsource.org/release</url>
 		</repository>
 		<repository>
 			<id>apache-activemq</id>
@@ -495,7 +495,7 @@
 		</repository>
 		<repository>
 			<id>neo4j</id>
-			<url>http://m2.neo4j.org/content/repositories/releases/</url>
+			<url>https://m2.neo4j.org/content/repositories/releases/</url>
 		</repository>
 	</repositories>
 
