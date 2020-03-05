@@ -466,7 +466,7 @@
 		</repository>
 		<repository>
 			<id>opensource.mxtelecom.com</id>
-			<url>https://opensource.mxtelecom.com/maven/repo</url>
+			<url>http://opensource.mxtelecom.com/maven/repo</url>
 		</repository>
 		<repository>
 			<id>JBoss_Thirdparty_Releases</id>
