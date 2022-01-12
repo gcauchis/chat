@@ -43,7 +43,7 @@
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 		
 		<irc.version>${project.version}</irc.version>
-		<spring.version>5.2.4.RELEASE</spring.version>
+		<spring.version>5.3.14</spring.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<easymock.version>3.2</easymock.version>
 
